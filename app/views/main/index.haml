@@ -96,9 +96,9 @@
                     %strong Comments:
                     =course.comments
                 -if course.prereqs
-                  %p.info
+                  .info
                     %strong Prerequisites:
-                    =raw course.formatted_prereqs
+                    =formatted_prereqs(course)
                 -if course.cross_listed
                   %p.info
                     %strong Cross Listed:

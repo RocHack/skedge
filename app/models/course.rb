@@ -12,10 +12,6 @@ class Course < ActiveRecord::Base
 		"danger"
 	end
 
-	def formatted_prereqs
-		prereqs.gsub(/([A-Za-z]*\s+\d+[A-Za-z]*)/, '<a>\1</a>')
-	end
-
 	def format_time(time)
 		if time.size == 3
 			hour = time[0].to_i
@@ -45,5 +41,9 @@ class Course < ActiveRecord::Base
 
 	def formatted_cross_listed
 		cross_listed.gsub(/([A-Za-z]*\s+\d+[A-Za-z]*)/, '<a>\1</a>')
+	end
+
+	def time_tba?
+		days == "TBA"
 	end
 end

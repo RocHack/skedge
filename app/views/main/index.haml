@@ -82,17 +82,15 @@
                   %button.btn.btn-success.enroll{type:"button"} Add Course
                 %p.info
                   %strong Time:
-                  =course.days
-                  =course.start_time
-                  ="-"
-                  =course.end_time
+                  =course.formatted_time
                   %span.sp2
                   %strong Place:
                   %a= course.building
                   =course.room
-                %p.info
-                  %strong Instructors:
-                  %a=course.instructors
+                -if course.instructors
+                  %p.info
+                    %strong Instructors:
+                    =raw course.formatted_instructors
                 -if course.comments
                   %p.info
                     %strong Comments:
@@ -101,6 +99,10 @@
                   %p.info
                     %strong Prerequisites:
                     =raw course.formatted_prereqs
+                -if course.cross_listed
+                  %p.info
+                    %strong Cross Listed:
+                    =raw course.formatted_cross_listed
                 %p.desc
                   =course.desc
 

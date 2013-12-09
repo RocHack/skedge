@@ -16,6 +16,7 @@ class Scraper
     enroll:"lblTotEnroll",
     cap:"lblTotalCap",
     prereqs:"lblPrerequisites",
+    cross_listed:"lblCrossListed",
     credits:"lblCredits",
     comments:"lblComments",
     crn:"lblCRN",

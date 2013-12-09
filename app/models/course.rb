@@ -15,4 +15,35 @@ class Course < ActiveRecord::Base
 	def formatted_prereqs
 		prereqs.gsub(/([A-Za-z]*\s+\d+[A-Za-z]*)/, '<a>\1</a>')
 	end
+
+	def format_time(time)
+		if time.size == 3
+			hour = time[0].to_i
+			mins = time[1..2]
+		else
+			hour = time[0..1].to_i
+			mins = time[2..3]
+		end
+		am = true
+		if hour > 12
+			hour = "#{hour - 12}"
+			am = false
+		end
+		"#{hour}:#{mins}#{am ? "am" : "pm"}"
+	end
+
+	def formatted_time
+		d = days.split("").map {|d| {"M" => "Mon", "T" => "Tues", "W" => "Wed", "R" => "Thurs", "F" => "Fri"}[d] }.join("/")
+		s = format_time(start_time.to_s)
+		e = format_time(end_time.to_s)
+		"#{d} #{s}-#{e}"
+	end
+
+	def formatted_instructors
+		instructors.split("; ").map {|i| "<a>#{i}</a>"}.join("; ")
+	end
+
+	def formatted_cross_listed
+		cross_listed.gsub(/([A-Za-z]*\s+\d+[A-Za-z]*)/, '<a>\1</a>')
+	end
 end

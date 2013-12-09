@@ -10,66 +10,89 @@
               %small
                 %p.sub better better cdcs
           .col-md-9
-            %input.form-control#search{type:"search", placeholder:"CSC 172 / CSC / Science of Programming"}
+            =form_tag("/", method:"post", id:"form") do 
+              .input-group#search
+                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC 172 / CSC / Science of Programming"}
+                .input-group-addon
+                  %span.glyphicon.glyphicon-search
             .row
               .col-md-10
-                %p.filter Filter
+
+                %table#filter-table
+                  %tr
+                    %td.middle
+                      %h5 Filter:
+                    %td.middle
+                      Start time:
+                      .btn-group
+                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+                          All
+                          %span.caret
+                        %ul.dropdown-menu{role:"menu"}
+                          %li
+                            %a Action0
+                            %a Action1
+
+                      %span.filter-label Class size:
+                      .btn-group
+                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+                          Any
+                          %span.caret
+                        %ul.dropdown-menu{role:"menu"}
+                          %li
+                            %a Small (0-15)
+                            %a Medium (16-40)
+                            %a Large (41-80)
+
+                      %span.filter-label Fits in my schedule
+                      .btn-group.filter.filter-dd
+                        %input{type:"checkbox"}
+                  %tr
+                    %td.middle
+                      %h5 Sort:
+                    %td.middle
+                      By:
+                      .btn-group
+                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+                          Course number
+                          %span.caret
+                        %ul.dropdown-menu{role:"menu"}
+                          %li
+                            %a Start time
+                            %a Students enrolled
+
+                      %span.filter-label
+                      %button.btn.btn-link.btn-xs Dependency Graph™
+
+            %hr.hr-filter
+
         .row
           .col-md-12
-            .box
-              %p.lead
-                =surround "CSC", ": The Science of Programming" do
-                  %span.cnum 171
-                %button.btn.btn-success.enroll{type:"button"} Add Course
-              %p.info
-                %strong Time:
-                M/W 2:30 - 4:30pm
-                %span.sp2
-                %strong Place:
-                %a MEL
-                203
-              %p.info
-                %strong Instructors:
-                %a Pawlicki, T
-              %p.desc
-                An introduction to the technology, design and science of web programming. This course will cover the base material needed to create and deploy secure, usable database-driven web applications - including topics selected from programming, networking, databases, security, and usability. Specific technologies and languages covered will include HTML, Javascript, Document Object Model (DOM), PHP, MySQL, Ruby on Rails, XML, AJAX, and Flash.
+            -@courses.each do |course|
+              .box
+                %p.lead
+                  =surround "CSC", ": #{course}" do
+                    %span.cnum 171
+                  %button.btn.btn-success.enroll{type:"button"} Add Course
+                %p.info
+                  %strong Time:
+                  M/W 2:30 - 4:30pm
+                  %span.sp2
+                  %strong Place:
+                  %a MEL
+                  203
+                %p.info
+                  %strong Instructors:
+                  %a Pawlicki, T
+                %p.desc
+                  An introduction to the technology, design and science of web programming. This course will cover the base material needed to create and deploy secure, usable database-driven web applications - including topics selected from programming, networking, databases, security, and usability. Specific technologies and languages covered will include HTML, Javascript, Document Object Model (DOM), PHP, MySQL, Ruby on Rails, XML, AJAX, and Flash.
 
-              .num-enrolled
-                .progress
-                  .progress-bar.progress-bar-success{role:"progressbar", style:"width: 20%"}
-          
-              .progress-num
-                %small 20/100 enrolled
-
-            .box
-              %p.lead
-                =surround "CSC", ": The Science of Programming" do
-                  %span.cnum 171
-                %button.btn.btn-warning.enroll{type:"button"} Conflict – MTH 165
-              %p.info
-                %strong Time:
-                M/W 2:30 - 4:30pm
-                %span.sp2
-                %strong Place:
-                %a MEL
-                203
-              %p.info
-                %strong Instructors:
-                %a Pawlicki, T
-              %p.info
-                %strong Prerequisites:
-                %a CSC 172
-                ,
-                %a MTH 150
-              %p.desc
-                Discovering, formulating, and exploiting the structure of problems to aid in their solution by computer. An introduction to algorithmic problem solving and computer programming.
-
-              .num-enrolled
-                .progress
-                  .progress-bar.progress-bar-danger{role:"progressbar", style:"width: 80%"}
-          
-              .progress-num
-                %small 80/100 enrolled
+                .num-enrolled
+                  .progress
+                    .progress-bar.progress-bar-success{role:"progressbar", style:"width: 20%"}
+            
+                .progress-num
+                  %small 20/100 enrolled
       .col-md-4
         #schedule
         

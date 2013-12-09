@@ -11,4 +11,8 @@ class Course < ActiveRecord::Base
 		return "warning" if enroll_percent < 90
 		"danger"
 	end
+
+	def formatted_prereqs
+		prereqs.gsub(/([A-Za-z]*\s+\d+[A-Za-z]*)/, '<a>\1</a>')
+	end
 end

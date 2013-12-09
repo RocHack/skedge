@@ -93,6 +93,14 @@
                 %p.info
                   %strong Instructors:
                   %a=course.instructors
+                -if course.comments
+                  %p.info
+                    %strong Comments:
+                    =course.comments
+                -if course.prereqs
+                  %p.info
+                    %strong Prerequisites:
+                    =raw course.formatted_prereqs
                 %p.desc
                   =course.desc
 

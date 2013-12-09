@@ -14,7 +14,12 @@ class Scraper
     building:LabelSchedule+"lblBuilding", 
     room:LabelSchedule+"lblRoom",
     enroll:"lblTotEnroll",
-    cap:"lblTotalCap"}
+    cap:"lblTotalCap",
+    prereqs:"lblPrerequisites",
+    credits:"lblCredits",
+    comments:"lblComments",
+    crn:"lblCRN",
+    restrictions:"lblRestrictions"}
 
   ASE = "1"
 
@@ -40,7 +45,7 @@ class Scraper
           if sym == :num && val
             c.num = val.text.split.last.to_i
           else
-            if (sym == :enroll || sym == :cap)
+            if (sym == :enroll || sym == :cap || sym == :credits || sym == :crn)
               val = (val ? val.text.to_i : 0)
             elsif val
               val = val.text
@@ -95,6 +100,7 @@ class Scraper
 end
 
 task :scrape => :environment do
+  Course.destroy_all
   Scraper.scrape do |s|
     s.term = "Spring 2014"
     s.course_class = Course

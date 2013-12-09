@@ -1,4 +1,5 @@
 #- rank courses by how important they are to you (value), so it can generate skedges
+#- progress bar for how filled the course is (w/color coding)
 
 require 'rubygems'
 require 'mechanize'
@@ -14,6 +15,7 @@ end
 class Course
 	attr_accessor :dept, :num, :name, :desc, :instructors
 	attr_accessor :building, :room, :days, :start_time, :end_time
+	attr_accessor :enroll, :cap
 end
 
 class Scraper
@@ -27,10 +29,16 @@ class Scraper
 		start_time:LabelSchedule+"lblStartTime", 
 		end_time:LabelSchedule+"lblEndTime",
 		building:LabelSchedule+"lblBuilding", 
-		room:LabelSchedule+"lblRoom"}
+		room:LabelSchedule+"lblRoom",
+		enroll:"lblTotEnroll",
+		cap:"lblTotalCap"}
+
+	ASE = "1"
+
+	attr_accessor :course_class, :dept_class, :school, :term, :num
 
 	def get_dept(dept)
-	    @form.field_with(:name => "ddlTerm").option_with(:text => "Spring 2014").click
+	    @form.field_with(:name => "ddlTerm").option_with(:text => @term).click
 	    @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
 	    @form.field_with(:name => "ddlTypes").option_with(:value => "0").click #main course
 	    @form.field_with(:name => "ddlStatus").option_with(:value => "OP").click #open courses
@@ -41,9 +49,9 @@ class Scraper
 	    results = @form.click_button
 	    num = 1
 	    results.search("//table[@cellpadding='3']").each do |e|
-	    	c = Course.new
+	    	c = @course_class.new
 	    	c.dept = dept
-	    	c.dept.courses << c	
+	    	#c.dept.courses << c	
 	    	Labels.each do |sym, label|
 		    	xpath = "//span[@id='rpResults_ctl#{sprintf '%02d', num}_#{label}']"
 		    	val = e.search(xpath).first
@@ -54,21 +62,21 @@ class Scraper
 	    end
 	end
 
-	def run(num)
+	def run
 		depts = []
 
 		a = Mechanize.new
 		a.get('https://cdcs.ur.rochester.edu/') do |page|
 			form = page.form("form1")
-		    form.field_with(:name => "ddlSchool").option_with(:value => "1").click
+		    form.field_with(:name => "ddlSchool").option_with(:value => @school).click
 		    results = form.click_button
 			@form = results.form("form1")
 
 			@form.field_with(:name => "ddlDept").options.each do |dept|
-				d = Department.new
+				d = @dept_class.new
 				d.name = dept.text.split(" - ", 2).last
 				d.short = dept.value
-				depts << d if depts.size < num && d.name && d.short
+				depts << d if depts.size < @num && d.name && d.short
 			end
 
 			depts.each do |dept|
@@ -78,7 +86,20 @@ class Scraper
 
 		depts
 	end
+
+	def self.scrape
+		s = Scraper.new
+		yield s
+		s.run
+	end
 end
 
-depts = Scraper.new.run(1)
+depts = Scraper.scrape do |s|
+	s.term = "Spring 2014"
+	s.course_class = Course
+	s.dept_class = Department
+	s.school = Scraper::ASE
+	s.num = 1
+end
 pp depts
+

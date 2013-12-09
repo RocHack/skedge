@@ -71,28 +71,34 @@
             -@courses.each do |course|
               .box
                 %p.lead
-                  =surround "CSC", ": #{course}" do
-                    %span.cnum 171
+                  =surround "#{course.department.short}", ": #{course.name.upcase}" do
+                    %span.cnum= course.num
                   %button.btn.btn-success.enroll{type:"button"} Add Course
                 %p.info
                   %strong Time:
-                  M/W 2:30 - 4:30pm
+                  =course.days
+                  =course.start_time
+                  ="-"
+                  =course.end_time
                   %span.sp2
                   %strong Place:
-                  %a MEL
-                  203
+                  %a= course.building
+                  =course.room
                 %p.info
                   %strong Instructors:
-                  %a Pawlicki, T
+                  %a=course.instructors
                 %p.desc
-                  An introduction to the technology, design and science of web programming. This course will cover the base material needed to create and deploy secure, usable database-driven web applications - including topics selected from programming, networking, databases, security, and usability. Specific technologies and languages covered will include HTML, Javascript, Document Object Model (DOM), PHP, MySQL, Ruby on Rails, XML, AJAX, and Flash.
+                  =course.desc
 
                 .num-enrolled
                   .progress
-                    .progress-bar.progress-bar-success{role:"progressbar", style:"width: 20%"}
+                    %div{role:"progressbar", style:"width: #{course.enroll_percent}%", class:"progress-bar progress-bar-#{course.bar_style}"}
             
                 .progress-num
-                  %small 20/100 enrolled
+                  %small
+                    =surround "#{course.enroll}", "#{course.cap == 0 ? "∞" : course.cap}" do
+                      ="/"
+                    enrolled
       .col-md-4
         #schedule
         

@@ -12,46 +12,44 @@ class Department
 end
 
 class Course
-	attr_accessor :dept, :num, :name
+	attr_accessor :dept, :num, :name, :desc, :instructors
+	attr_accessor :building, :room, :days, :start_time, :end_time
 end
 
 class Scraper
-	LabelNum = "lblCNum"
-	LabelTitle = "lblTitle"
-	LabelInstructors = "lblInstructors"
-	LabelDesc = "lblDesc"
-
 	LabelSchedule = "rpSchedule_ctl01_"
-	LabelScheduleDays = LabelSchedule+"lblDay"
-	LabelScheduleStartTime = LabelSchedule+"lblStartTime"
-	LabelScheduleBuilding = LabelSchedule+"lblBuilding"
-	LabelScheduleRoom = LabelSchedule+"lblRoom"
+	Labels = {
+		num:"lblCNum", 
+		name:"lblTitle", 
+		instructors:"lblInstructors", 
+		desc:"lblDesc",
+		days:LabelSchedule+"lblDay", 
+		start_time:LabelSchedule+"lblStartTime", 
+		end_time:LabelSchedule+"lblEndTime",
+		building:LabelSchedule+"lblBuilding", 
+		room:LabelSchedule+"lblRoom"}
 
 	def get_dept(dept)
 	    @form.field_with(:name => "ddlTerm").option_with(:text => "Spring 2014").click
-	    @form.field_with(:name => "ddlDept").option_with(:value => "CSC").click
+	    @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
 	    @form.field_with(:name => "ddlTypes").option_with(:value => "0").click #main course
 	    @form.field_with(:name => "ddlStatus").option_with(:value => "OP").click #open courses
 
 	    @form.field_with(:name => "ddlCreditFrom").option_with(:value => " 00.1").click
 	    @form.field_with(:name => "ddlCreditTo").option_with(:value => " 16.0").click
 
-	    get_attr = lambda do |e, num, lbl|
-	    	xpath = "//span[@id='rpResults_ctl#{sprintf '%02d', num}_#{lbl}']"
-	    	e.search(xpath).first.text
-	    end
-
 	    results = @form.click_button
 	    num = 1
 	    results.search("//table[@cellpadding='3']").each do |e|
-	    	cnum = get_attr.call(e, num, LabelNum)
-	    	if cnum
-	    		c = Course.new
-	    		c.dept = dept
-	    		c.dept.courses << c
-	    		c.num = cnum.split(" ").last
-	    		c.name = get_attr.call(e, num, LabelTitle)
+	    	c = Course.new
+	    	c.dept = dept
+	    	c.dept.courses << c	
+	    	Labels.each do |sym, label|
+		    	xpath = "//span[@id='rpResults_ctl#{sprintf '%02d', num}_#{label}']"
+		    	val = e.search(xpath).first
+		    	c.send((sym.to_s + "=").to_sym, val ? val.text : nil)
 	    	end
+	    	c.num = c.num.split.last
 	    	num += 2
 	    end
 	end

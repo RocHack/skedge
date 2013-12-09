@@ -12,7 +12,7 @@
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
               .input-group#search
-                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC 172 / CSC / Science of Programming"}
+                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC 172 / CSC / Science of Programming", value:"#{params[:query]}"}
                 .input-group-addon
                   %span.glyphicon.glyphicon-search
             .row
@@ -44,7 +44,13 @@
                             %a Medium (16-40)
                             %a Large (41-80)
 
-                      %span.filter-label Fits in my schedule
+                      %br
+
+                      Hide conflicts
+                      .btn-group.filter.filter-dd
+                        %input{type:"checkbox"}
+
+                      %span.filter-label Show fall courses
                       .btn-group.filter.filter-dd
                         %input{type:"checkbox"}
                   %tr

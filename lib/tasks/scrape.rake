@@ -66,7 +66,7 @@ class Scraper
       @form = results.form("form1")
 
       @form.field_with(:name => "ddlDept").options.each do |dept|
-        next if depts.size >= @num
+        next if depts.size >= @num && @num > 0
         d = @dept_class.where({short:dept.value}).first
         if !d
           d = @dept_class.new
@@ -77,7 +77,9 @@ class Scraper
         depts << d if d.name && d.short
       end
 
+      puts "found #{depts.size} departments"
       depts.each do |dept|
+        puts "scraping #{dept.short} - #{dept.name}"
         get_dept(dept)
       end
     end
@@ -98,6 +100,6 @@ task :scrape => :environment do
     s.course_class = Course
     s.dept_class = Department
     s.school = Scraper::ASE
-    s.num = 1
+    s.num = 10
   end
 end

@@ -88,13 +88,14 @@ strong
 
 #schedule
 {
-  margin-left:5px;
-  width: 32%;
-  height: 450px;
+  margin-left:20px;
+  width: 30%;
+  height: 88%;
   position: fixed;
   margin-top:35px;
-  background-color: silver;
+  /*background-color: silver;*/
   border-radius: 5px;
+  text-align: center;
 }
 
 .filter
@@ -139,6 +140,12 @@ p.desc
 {
   margin-top:5px;
   margin-bottom: 5px;
+}
+
+th
+{
+  text-align: center;
+  height: 10px;
 }
 
 .box

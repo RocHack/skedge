@@ -1,0 +1,3426 @@
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:50:53 -0500
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/railties-4.0.1/lib/rails/templates/rails/welcome/index.html.erb (1.9ms)
+Completed 200 OK in 46ms (Views: 29.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:51:01 -0500
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/railties-4.0.1/lib/rails/templates/rails/welcome/index.html.erb (0.1ms)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:53:00 -0500
+
+AbstractController::ActionNotFound (The action 'index' could not be found for MainController):
+  actionpack (4.0.1) lib/abstract_controller/base.rb:131:in `process'
+  actionpack (4.0.1) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:680:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.1) lib/active_record/migration.rb:369:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:373:in `_run__1551326126941388269__call__callbacks'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.1) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:53:12 -0500
+Processing by MainController#index as HTML
+Completed 500 Internal Server Error in 19ms
+
+ActionView::MissingTemplate (Missing template main/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in:
+  * "/Users/dan/projects/skedge/app/views"
+):
+  actionpack (4.0.1) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.1) lib/action_view/lookup_context.rb:115:in `find'
+  actionpack (4.0.1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.1) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.1) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.1) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.1) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.1) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.1) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.1) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/benchmark.rb:296:in `realtime'
+  activesupport (4.0.1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.1) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:403:in `_run__287754644755794271__process_action__callbacks'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.1) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.1) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+  activerecord (4.0.1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.1) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.1) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.1) lib/action_dispatch/routing/route_set.rb:680:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.1) lib/active_record/migration.rb:369:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:373:in `_run__3455439276364347941__call__callbacks'
+  activesupport (4.0.1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.1) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /Users/dan/.rvm/rubies/ruby-2.0.0-p247/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (1.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:53:47 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.4ms)
+Completed 500 Internal Server Error in 1521ms
+
+ActionView::Template::Error (["ok","(function() {\n  var CSRFToken, anchoredLink, browserCompatibleDocumentParser, browserIsntBuggy, browserSupportsPushState, browserSupportsTurbolinks, cacheCurrentPage, cacheSize, changePage, constrainPageCacheTo, createDocument, crossOriginLink, currentState, executeScriptTags, extractLink, extractTitleAndBody, fetchHistory, fetchReplacement, handleClick, ignoreClick, initializeTurbolinks, installClickHandlerLast, installDocumentReadyPageEventTriggers, installHistoryChangeHandler, installJqueryAjaxSuccessPageUpdateTrigger, loadedAssets, noTurbolink, nonHtmlLink, nonStandardClick, pageCache, pageChangePrevented, pagesCached, popCookie, processResponse, recallScrollPosition, referer, reflectNewUrl, reflectRedirectedUrl, rememberCurrentState, rememberCurrentUrl, rememberReferer, removeHash, removeHashForIE10compatiblity, removeNoscriptTags, requestMethodIsSafe, resetScrollPosition, targetLink, triggerEvent, visit, xhr, _ref,\n    __hasProp = {}.hasOwnProperty,\n    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };\n\n  pageCache = {};\n\n  cacheSize = 10;\n\n  currentState = null;\n\n  loadedAssets = null;\n\n  referer = null;\n\n  createDocument = null;\n\n  xhr = null;\n\n  fetchReplacement = function(url) {\n    rememberReferer();\n    cacheCurrentPage();\n    triggerEvent('page:fetch', {\n      url: url\n    });\n    if (xhr != null) {\n      xhr.abort();\n    }\n    xhr = new XMLHttpRequest;\n    xhr.open('GET', removeHashForIE10compatiblity(url), true);\n    xhr.setRequestHeader('Accept', 'text/html, application/xhtml+xml, application/xml');\n    xhr.setRequestHeader('X-XHR-Referer', referer);\n    xhr.onload = function() {\n      var doc;\n      triggerEvent('page:receive');\n      if (doc = processResponse()) {\n        reflectNewUrl(url);\n        changePage.apply(null, extractTitleAndBody(doc));\n        reflectRedirectedUrl();\n        resetScrollPosition();\n        return triggerEvent('page:load');\n      } else {\n        return document.location.href = url;\n      }\n    };\n    xhr.onloadend = function() {\n      return xhr = null;\n    };\n    xhr.onabort = function() {\n      return rememberCurrentUrl();\n    };\n    xhr.onerror = function() {\n      return document.location.href = url;\n    };\n    return xhr.send();\n  };\n\n  fetchHistory = function(cachedPage) {\n    cacheCurrentPage();\n    if (xhr != null) {\n      xhr.abort();\n    }\n    changePage(cachedPage.title, cachedPage.body);\n    recallScrollPosition(cachedPage);\n    return triggerEvent('page:restore');\n  };\n\n  cacheCurrentPage = function() {\n    pageCache[currentState.position] = {\n      url: document.location.href,\n      body: document.body,\n      title: document.title,\n      positionY: window.pageYOffset,\n      positionX: window.pageXOffset\n    };\n    return constrainPageCacheTo(cacheSize);\n  };\n\n  pagesCached = function(size) {\n    if (size == null) {\n      size = cacheSize;\n    }\n    if (/^[\\d]+$/.test(size)) {\n      return cacheSize = parseInt(size);\n    }\n  };\n\n  constrainPageCacheTo = function(limit) {\n    var key, value;\n    for (key in pageCache) {\n      if (!__hasProp.call(pageCache, key)) continue;\n      value = pageCache[key];\n      if (key <= currentState.position - limit) {\n        pageCache[key] = null;\n      }\n    }\n  };\n\n  changePage = function(title, body, csrfToken, runScripts) {\n    document.title = title;\n    document.documentElement.replaceChild(body, document.body);\n    if (csrfToken != null) {\n      CSRFToken.update(csrfToken);\n    }\n    removeNoscriptTags();\n    if (runScripts) {\n      executeScriptTags();\n    }\n    currentState = window.history.state;\n    triggerEvent('page:change');\n    return triggerEvent('page:update');\n  };\n\n  executeScriptTags = function() {\n    var attr, copy, nextSibling, parentNode, script, scripts, _i, _j, _len, _len1, _ref, _ref1;\n    scripts = Array.prototype.slice.call(document.body.querySelectorAll('script:not([data-turbolinks-eval=\"false\"])'));\n    for (_i = 0, _len = scripts.length; _i < _len; _i++) {\n      script = scripts[_i];\n      if (!((_ref = script.type) === '' || _ref === 'text/javascript')) {\n        continue;\n      }\n      copy = document.createElement('script');\n      _ref1 = script.attributes;\n      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {\n        attr = _ref1[_j];\n        copy.setAttribute(attr.name, attr.value);\n      }\n      copy.appendChild(document.createTextNode(script.innerHTML));\n      parentNode = script.parentNode, nextSibling = script.nextSibling;\n      parentNode.removeChild(script);\n      parentNode.insertBefore(copy, nextSibling);\n    }\n  };\n\n  removeNoscriptTags = function() {\n    var noscript, noscriptTags, _i, _len;\n    noscriptTags = Array.prototype.slice.call(document.body.getElementsByTagName('noscript'));\n    for (_i = 0, _len = noscriptTags.length; _i < _len; _i++) {\n      noscript = noscriptTags[_i];\n      noscript.parentNode.removeChild(noscript);\n    }\n  };\n\n  reflectNewUrl = function(url) {\n    if (url !== referer) {\n      return window.history.pushState({\n        turbolinks: true,\n        position: currentState.position + 1\n      }, '', url);\n    }\n  };\n\n  reflectRedirectedUrl = function() {\n    var location, preservedHash;\n    if (location = xhr.getResponseHeader('X-XHR-Redirected-To')) {\n      preservedHash = removeHash(location) === location ? document.location.hash : '';\n      return window.history.replaceState(currentState, '', location + preservedHash);\n    }\n  };\n\n  rememberReferer = function() {\n    return referer = document.location.href;\n  };\n\n  rememberCurrentUrl = function() {\n    return window.history.replaceState({\n      turbolinks: true,\n      position: Date.now()\n    }, '', document.location.href);\n  };\n\n  rememberCurrentState = function() {\n    return currentState = window.history.state;\n  };\n\n  recallScrollPosition = function(page) {\n    return window.scrollTo(page.positionX, page.positionY);\n  };\n\n  resetScrollPosition = function() {\n    if (document.location.hash) {\n      return document.location.href = document.location.href;\n    } else {\n      return window.scrollTo(0, 0);\n    }\n  };\n\n  removeHashForIE10compatiblity = function(url) {\n    return removeHash(url);\n  };\n\n  removeHash = function(url) {\n    var link;\n    link = url;\n    if (url.href == null) {\n      link = document.createElement('A');\n      link.href = url;\n    }\n    return link.href.replace(link.hash, '');\n  };\n\n  popCookie = function(name) {\n    var value, _ref;\n    value = ((_ref = document.cookie.match(new RegExp(name + \"=(\\\\w+)\"))) != null ? _ref[1].toUpperCase() : void 0) || '';\n    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';\n    return value;\n  };\n\n  triggerEvent = function(name, data) {\n    var event;\n    event = document.createEvent('Events');\n    if (data) {\n      event.data = data;\n    }\n    event.initEvent(name, true, true);\n    return document.dispatchEvent(event);\n  };\n\n  pageChangePrevented = function() {\n    return !triggerEvent('page:before-change');\n  };\n\n  processResponse = function() {\n    var assetsChanged, clientOrServerError, doc, extractTrackAssets, intersection, validContent;\n    clientOrServerError = function() {\n      var _ref;\n      return (400 <= (_ref = xhr.status) && _ref < 600);\n    };\n    validContent = function() {\n      return xhr.getResponseHeader('Content-Type').match(/^(?:text\\/html|application\\/xhtml\\+xml|application\\/xml)(?:;|$)/);\n    };\n    extractTrackAssets = function(doc) {\n      var node, _i, _len, _ref, _results;\n      _ref = doc.head.childNodes;\n      _results = [];\n      for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n        node = _ref[_i];\n        if ((typeof node.getAttribute === \"function\" ? node.getAttribute('data-turbolinks-track') : void 0) != null) {\n          _results.push(node.getAttribute('src') || node.getAttribute('href'));\n        }\n      }\n      return _results;\n    };\n    assetsChanged = function(doc) {\n      var fetchedAssets;\n      loadedAssets || (loadedAssets = extractTrackAssets(document));\n      fetchedAssets = extractTrackAssets(doc);\n      return fetchedAssets.length !== loadedAssets.length || intersection(fetchedAssets, loadedAssets).length !== loadedAssets.length;\n    };\n    intersection = function(a, b) {\n      var value, _i, _len, _ref, _results;\n      if (a.length > b.length) {\n        _ref = [b, a], a = _ref[0], b = _ref[1];\n      }\n      _results = [];\n      for (_i = 0, _len = a.length; _i < _len; _i++) {\n        value = a[_i];\n        if (__indexOf.call(b, value) >= 0) {\n          _results.push(value);\n        }\n      }\n      return _results;\n    };\n    if (!clientOrServerError() && validContent()) {\n      doc = createDocument(xhr.responseText);\n      if (doc && !assetsChanged(doc)) {\n        return doc;\n      }\n    }\n  };\n\n  extractTitleAndBody = function(doc) {\n    var title;\n    title = doc.querySelector('title');\n    return [title != null ? title.textContent : void 0, doc.body, CSRFToken.get(doc).token, 'runScripts'];\n  };\n\n  CSRFToken = {\n    get: function(doc) {\n      var tag;\n      if (doc == null) {\n        doc = document;\n      }\n      return {\n        node: tag = doc.querySelector('meta[name=\"csrf-token\"]'),\n        token: tag != null ? typeof tag.getAttribute === \"function\" ? tag.getAttribute('content') : void 0 : void 0\n      };\n    },\n    update: function(latest) {\n      var current;\n      current = this.get();\n      if ((current.token != null) && (latest != null) && current.token !== latest) {\n        return current.node.setAttribute('content', latest);\n      }\n    }\n  };\n\n  browserCompatibleDocumentParser = function() {\n    var createDocumentUsingDOM, createDocumentUsingParser, createDocumentUsingWrite, e, testDoc, _ref;\n    createDocumentUsingParser = function(html) {\n      return (new DOMParser).parseFromString(html, 'text/html');\n    };\n    createDocumentUsingDOM = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.documentElement.innerHTML = html;\n      return doc;\n    };\n    createDocumentUsingWrite = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.open('replace');\n      doc.write(html);\n      doc.close();\n      return doc;\n    };\n    try {\n      if (window.DOMParser) {\n        testDoc = createDocumentUsingParser('<html><body><p>test');\n        return createDocumentUsingParser;\n      }\n    } catch (_error) {\n      e = _error;\n      testDoc = createDocumentUsingDOM('<html><body><p>test');\n      return createDocumentUsingDOM;\n    } finally {\n      if ((testDoc != null ? (_ref = testDoc.body) != null ? _ref.childNodes.length : void 0 : void 0) !== 1) {\n        return createDocumentUsingWrite;\n      }\n    }\n  };\n\n  installClickHandlerLast = function(event) {\n    if (!event.defaultPrevented) {\n      document.removeEventListener('click', handleClick, false);\n      return document.addEventListener('click', handleClick, false);\n    }\n  };\n\n  handleClick = function(event) {\n    var link;\n    if (!event.defaultPrevented) {\n      link = extractLink(event);\n      if (link.nodeName === 'A' && !ignoreClick(event, link)) {\n        if (!pageChangePrevented()) {\n          visit(link.href);\n        }\n        return event.preventDefault();\n      }\n    }\n  };\n\n  extractLink = function(event) {\n    var link;\n    link = event.target;\n    while (!(!link.parentNode || link.nodeName === 'A')) {\n      link = link.parentNode;\n    }\n    return link;\n  };\n\n  crossOriginLink = function(link) {\n    return location.protocol !== link.protocol || location.host !== link.host;\n  };\n\n  anchoredLink = function(link) {\n    return ((link.hash && removeHash(link)) === removeHash(location)) || (link.href === location.href + '#');\n  };\n\n  nonHtmlLink = function(link) {\n    var url;\n    url = removeHash(link);\n    return url.match(/\\.[a-z]+(\\?.*)?$/g) && !url.match(/\\.html?(\\?.*)?$/g);\n  };\n\n  noTurbolink = function(link) {\n    var ignore;\n    while (!(ignore || link === document)) {\n      ignore = link.getAttribute('data-no-turbolink') != null;\n      link = link.parentNode;\n    }\n    return ignore;\n  };\n\n  targetLink = function(link) {\n    return link.target.length !== 0;\n  };\n\n  nonStandardClick = function(event) {\n    return event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;\n  };\n\n  ignoreClick = function(event, link) {\n    return crossOriginLink(link) || anchoredLink(link) || nonHtmlLink(link) || noTurbolink(link) || targetLink(link) || nonStandardClick(event);\n  };\n\n  installDocumentReadyPageEventTriggers = function() {\n    return document.addEventListener('DOMContentLoaded', (function() {\n      triggerEvent('page:change');\n      return triggerEvent('page:update');\n    }), true);\n  };\n\n  installJqueryAjaxSuccessPageUpdateTrigger = function() {\n    if (typeof jQuery !== 'undefined') {\n      return jQuery(document).on('ajaxSuccess', function(event, xhr, settings) {\n        if (!jQuery.trim(xhr.responseText)) {\n          return;\n        }\n        return triggerEvent('page:update');\n      });\n    }\n  };\n\n  installHistoryChangeHandler = function(event) {\n    var cachedPage, _ref;\n    if ((_ref = event.state) != null ? _ref.turbolinks : void 0) {\n      if (cachedPage = pageCache[event.state.position]) {\n        return fetchHistory(cachedPage);\n      } else {\n        return visit(event.target.location.href);\n      }\n    }\n  };\n\n  initializeTurbolinks = function() {\n    rememberCurrentUrl();\n    rememberCurrentState();\n    createDocument = browserCompatibleDocumentParser();\n    document.addEventListener('click', installClickHandlerLast, true);\n    return window.addEventListener('popstate', installHistoryChangeHandler, false);\n  };\n\n  browserSupportsPushState = window.history && window.history.pushState && window.history.replaceState && window.history.state !== void 0;\n\n  browserIsntBuggy = !navigator.userAgent.match(/CriOS\\//);\n\n  requestMethodIsSafe = (_ref = popCookie('request_method')) === 'GET' || _ref === '';\n\n  browserSupportsTurbolinks = browserSupportsPushState && browserIsntBuggy && requestMethodIsSafe;\n\n  installDocumentReadyPageEventTriggers();\n\n  installJqueryAjaxSuccessPageUpdateTrigger();\n\n  if (browserSupportsTurbolinks) {\n    visit = fetchReplacement;\n    initializeTurbolinks();\n  } else {\n    visit = function(url) {\n      return document.location.href = url;\n    };\n  }\n\n  this.Turbolinks = {\n    visit: visit,\n    pagesCached: pagesCached,\n    supported: browserSupportsTurbolinks\n  };\n\n}).call(this);\n"]
+  (in /Users/dan/.rvm/gems/ruby-2.0.0-p247/gems/turbolinks-2.0.0/lib/assets/javascripts/turbolinks.js.coffee)):
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+    9: <body>
+  app/views/layouts/application.html.erb:6:in `_app_views_layouts_application_html_erb__728244900547117997_70181006968460'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.4ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (19.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:54:50 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.3ms)
+Completed 500 Internal Server Error in 755ms
+
+ActionView::Template::Error (["ok","(function() {\n  var CSRFToken, anchoredLink, browserCompatibleDocumentParser, browserIsntBuggy, browserSupportsPushState, browserSupportsTurbolinks, cacheCurrentPage, cacheSize, changePage, constrainPageCacheTo, createDocument, crossOriginLink, currentState, executeScriptTags, extractLink, extractTitleAndBody, fetchHistory, fetchReplacement, handleClick, ignoreClick, initializeTurbolinks, installClickHandlerLast, installDocumentReadyPageEventTriggers, installHistoryChangeHandler, installJqueryAjaxSuccessPageUpdateTrigger, loadedAssets, noTurbolink, nonHtmlLink, nonStandardClick, pageCache, pageChangePrevented, pagesCached, popCookie, processResponse, recallScrollPosition, referer, reflectNewUrl, reflectRedirectedUrl, rememberCurrentState, rememberCurrentUrl, rememberReferer, removeHash, removeHashForIE10compatiblity, removeNoscriptTags, requestMethodIsSafe, resetScrollPosition, targetLink, triggerEvent, visit, xhr, _ref,\n    __hasProp = {}.hasOwnProperty,\n    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };\n\n  pageCache = {};\n\n  cacheSize = 10;\n\n  currentState = null;\n\n  loadedAssets = null;\n\n  referer = null;\n\n  createDocument = null;\n\n  xhr = null;\n\n  fetchReplacement = function(url) {\n    rememberReferer();\n    cacheCurrentPage();\n    triggerEvent('page:fetch', {\n      url: url\n    });\n    if (xhr != null) {\n      xhr.abort();\n    }\n    xhr = new XMLHttpRequest;\n    xhr.open('GET', removeHashForIE10compatiblity(url), true);\n    xhr.setRequestHeader('Accept', 'text/html, application/xhtml+xml, application/xml');\n    xhr.setRequestHeader('X-XHR-Referer', referer);\n    xhr.onload = function() {\n      var doc;\n      triggerEvent('page:receive');\n      if (doc = processResponse()) {\n        reflectNewUrl(url);\n        changePage.apply(null, extractTitleAndBody(doc));\n        reflectRedirectedUrl();\n        resetScrollPosition();\n        return triggerEvent('page:load');\n      } else {\n        return document.location.href = url;\n      }\n    };\n    xhr.onloadend = function() {\n      return xhr = null;\n    };\n    xhr.onabort = function() {\n      return rememberCurrentUrl();\n    };\n    xhr.onerror = function() {\n      return document.location.href = url;\n    };\n    return xhr.send();\n  };\n\n  fetchHistory = function(cachedPage) {\n    cacheCurrentPage();\n    if (xhr != null) {\n      xhr.abort();\n    }\n    changePage(cachedPage.title, cachedPage.body);\n    recallScrollPosition(cachedPage);\n    return triggerEvent('page:restore');\n  };\n\n  cacheCurrentPage = function() {\n    pageCache[currentState.position] = {\n      url: document.location.href,\n      body: document.body,\n      title: document.title,\n      positionY: window.pageYOffset,\n      positionX: window.pageXOffset\n    };\n    return constrainPageCacheTo(cacheSize);\n  };\n\n  pagesCached = function(size) {\n    if (size == null) {\n      size = cacheSize;\n    }\n    if (/^[\\d]+$/.test(size)) {\n      return cacheSize = parseInt(size);\n    }\n  };\n\n  constrainPageCacheTo = function(limit) {\n    var key, value;\n    for (key in pageCache) {\n      if (!__hasProp.call(pageCache, key)) continue;\n      value = pageCache[key];\n      if (key <= currentState.position - limit) {\n        pageCache[key] = null;\n      }\n    }\n  };\n\n  changePage = function(title, body, csrfToken, runScripts) {\n    document.title = title;\n    document.documentElement.replaceChild(body, document.body);\n    if (csrfToken != null) {\n      CSRFToken.update(csrfToken);\n    }\n    removeNoscriptTags();\n    if (runScripts) {\n      executeScriptTags();\n    }\n    currentState = window.history.state;\n    triggerEvent('page:change');\n    return triggerEvent('page:update');\n  };\n\n  executeScriptTags = function() {\n    var attr, copy, nextSibling, parentNode, script, scripts, _i, _j, _len, _len1, _ref, _ref1;\n    scripts = Array.prototype.slice.call(document.body.querySelectorAll('script:not([data-turbolinks-eval=\"false\"])'));\n    for (_i = 0, _len = scripts.length; _i < _len; _i++) {\n      script = scripts[_i];\n      if (!((_ref = script.type) === '' || _ref === 'text/javascript')) {\n        continue;\n      }\n      copy = document.createElement('script');\n      _ref1 = script.attributes;\n      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {\n        attr = _ref1[_j];\n        copy.setAttribute(attr.name, attr.value);\n      }\n      copy.appendChild(document.createTextNode(script.innerHTML));\n      parentNode = script.parentNode, nextSibling = script.nextSibling;\n      parentNode.removeChild(script);\n      parentNode.insertBefore(copy, nextSibling);\n    }\n  };\n\n  removeNoscriptTags = function() {\n    var noscript, noscriptTags, _i, _len;\n    noscriptTags = Array.prototype.slice.call(document.body.getElementsByTagName('noscript'));\n    for (_i = 0, _len = noscriptTags.length; _i < _len; _i++) {\n      noscript = noscriptTags[_i];\n      noscript.parentNode.removeChild(noscript);\n    }\n  };\n\n  reflectNewUrl = function(url) {\n    if (url !== referer) {\n      return window.history.pushState({\n        turbolinks: true,\n        position: currentState.position + 1\n      }, '', url);\n    }\n  };\n\n  reflectRedirectedUrl = function() {\n    var location, preservedHash;\n    if (location = xhr.getResponseHeader('X-XHR-Redirected-To')) {\n      preservedHash = removeHash(location) === location ? document.location.hash : '';\n      return window.history.replaceState(currentState, '', location + preservedHash);\n    }\n  };\n\n  rememberReferer = function() {\n    return referer = document.location.href;\n  };\n\n  rememberCurrentUrl = function() {\n    return window.history.replaceState({\n      turbolinks: true,\n      position: Date.now()\n    }, '', document.location.href);\n  };\n\n  rememberCurrentState = function() {\n    return currentState = window.history.state;\n  };\n\n  recallScrollPosition = function(page) {\n    return window.scrollTo(page.positionX, page.positionY);\n  };\n\n  resetScrollPosition = function() {\n    if (document.location.hash) {\n      return document.location.href = document.location.href;\n    } else {\n      return window.scrollTo(0, 0);\n    }\n  };\n\n  removeHashForIE10compatiblity = function(url) {\n    return removeHash(url);\n  };\n\n  removeHash = function(url) {\n    var link;\n    link = url;\n    if (url.href == null) {\n      link = document.createElement('A');\n      link.href = url;\n    }\n    return link.href.replace(link.hash, '');\n  };\n\n  popCookie = function(name) {\n    var value, _ref;\n    value = ((_ref = document.cookie.match(new RegExp(name + \"=(\\\\w+)\"))) != null ? _ref[1].toUpperCase() : void 0) || '';\n    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';\n    return value;\n  };\n\n  triggerEvent = function(name, data) {\n    var event;\n    event = document.createEvent('Events');\n    if (data) {\n      event.data = data;\n    }\n    event.initEvent(name, true, true);\n    return document.dispatchEvent(event);\n  };\n\n  pageChangePrevented = function() {\n    return !triggerEvent('page:before-change');\n  };\n\n  processResponse = function() {\n    var assetsChanged, clientOrServerError, doc, extractTrackAssets, intersection, validContent;\n    clientOrServerError = function() {\n      var _ref;\n      return (400 <= (_ref = xhr.status) && _ref < 600);\n    };\n    validContent = function() {\n      return xhr.getResponseHeader('Content-Type').match(/^(?:text\\/html|application\\/xhtml\\+xml|application\\/xml)(?:;|$)/);\n    };\n    extractTrackAssets = function(doc) {\n      var node, _i, _len, _ref, _results;\n      _ref = doc.head.childNodes;\n      _results = [];\n      for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n        node = _ref[_i];\n        if ((typeof node.getAttribute === \"function\" ? node.getAttribute('data-turbolinks-track') : void 0) != null) {\n          _results.push(node.getAttribute('src') || node.getAttribute('href'));\n        }\n      }\n      return _results;\n    };\n    assetsChanged = function(doc) {\n      var fetchedAssets;\n      loadedAssets || (loadedAssets = extractTrackAssets(document));\n      fetchedAssets = extractTrackAssets(doc);\n      return fetchedAssets.length !== loadedAssets.length || intersection(fetchedAssets, loadedAssets).length !== loadedAssets.length;\n    };\n    intersection = function(a, b) {\n      var value, _i, _len, _ref, _results;\n      if (a.length > b.length) {\n        _ref = [b, a], a = _ref[0], b = _ref[1];\n      }\n      _results = [];\n      for (_i = 0, _len = a.length; _i < _len; _i++) {\n        value = a[_i];\n        if (__indexOf.call(b, value) >= 0) {\n          _results.push(value);\n        }\n      }\n      return _results;\n    };\n    if (!clientOrServerError() && validContent()) {\n      doc = createDocument(xhr.responseText);\n      if (doc && !assetsChanged(doc)) {\n        return doc;\n      }\n    }\n  };\n\n  extractTitleAndBody = function(doc) {\n    var title;\n    title = doc.querySelector('title');\n    return [title != null ? title.textContent : void 0, doc.body, CSRFToken.get(doc).token, 'runScripts'];\n  };\n\n  CSRFToken = {\n    get: function(doc) {\n      var tag;\n      if (doc == null) {\n        doc = document;\n      }\n      return {\n        node: tag = doc.querySelector('meta[name=\"csrf-token\"]'),\n        token: tag != null ? typeof tag.getAttribute === \"function\" ? tag.getAttribute('content') : void 0 : void 0\n      };\n    },\n    update: function(latest) {\n      var current;\n      current = this.get();\n      if ((current.token != null) && (latest != null) && current.token !== latest) {\n        return current.node.setAttribute('content', latest);\n      }\n    }\n  };\n\n  browserCompatibleDocumentParser = function() {\n    var createDocumentUsingDOM, createDocumentUsingParser, createDocumentUsingWrite, e, testDoc, _ref;\n    createDocumentUsingParser = function(html) {\n      return (new DOMParser).parseFromString(html, 'text/html');\n    };\n    createDocumentUsingDOM = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.documentElement.innerHTML = html;\n      return doc;\n    };\n    createDocumentUsingWrite = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.open('replace');\n      doc.write(html);\n      doc.close();\n      return doc;\n    };\n    try {\n      if (window.DOMParser) {\n        testDoc = createDocumentUsingParser('<html><body><p>test');\n        return createDocumentUsingParser;\n      }\n    } catch (_error) {\n      e = _error;\n      testDoc = createDocumentUsingDOM('<html><body><p>test');\n      return createDocumentUsingDOM;\n    } finally {\n      if ((testDoc != null ? (_ref = testDoc.body) != null ? _ref.childNodes.length : void 0 : void 0) !== 1) {\n        return createDocumentUsingWrite;\n      }\n    }\n  };\n\n  installClickHandlerLast = function(event) {\n    if (!event.defaultPrevented) {\n      document.removeEventListener('click', handleClick, false);\n      return document.addEventListener('click', handleClick, false);\n    }\n  };\n\n  handleClick = function(event) {\n    var link;\n    if (!event.defaultPrevented) {\n      link = extractLink(event);\n      if (link.nodeName === 'A' && !ignoreClick(event, link)) {\n        if (!pageChangePrevented()) {\n          visit(link.href);\n        }\n        return event.preventDefault();\n      }\n    }\n  };\n\n  extractLink = function(event) {\n    var link;\n    link = event.target;\n    while (!(!link.parentNode || link.nodeName === 'A')) {\n      link = link.parentNode;\n    }\n    return link;\n  };\n\n  crossOriginLink = function(link) {\n    return location.protocol !== link.protocol || location.host !== link.host;\n  };\n\n  anchoredLink = function(link) {\n    return ((link.hash && removeHash(link)) === removeHash(location)) || (link.href === location.href + '#');\n  };\n\n  nonHtmlLink = function(link) {\n    var url;\n    url = removeHash(link);\n    return url.match(/\\.[a-z]+(\\?.*)?$/g) && !url.match(/\\.html?(\\?.*)?$/g);\n  };\n\n  noTurbolink = function(link) {\n    var ignore;\n    while (!(ignore || link === document)) {\n      ignore = link.getAttribute('data-no-turbolink') != null;\n      link = link.parentNode;\n    }\n    return ignore;\n  };\n\n  targetLink = function(link) {\n    return link.target.length !== 0;\n  };\n\n  nonStandardClick = function(event) {\n    return event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;\n  };\n\n  ignoreClick = function(event, link) {\n    return crossOriginLink(link) || anchoredLink(link) || nonHtmlLink(link) || noTurbolink(link) || targetLink(link) || nonStandardClick(event);\n  };\n\n  installDocumentReadyPageEventTriggers = function() {\n    return document.addEventListener('DOMContentLoaded', (function() {\n      triggerEvent('page:change');\n      return triggerEvent('page:update');\n    }), true);\n  };\n\n  installJqueryAjaxSuccessPageUpdateTrigger = function() {\n    if (typeof jQuery !== 'undefined') {\n      return jQuery(document).on('ajaxSuccess', function(event, xhr, settings) {\n        if (!jQuery.trim(xhr.responseText)) {\n          return;\n        }\n        return triggerEvent('page:update');\n      });\n    }\n  };\n\n  installHistoryChangeHandler = function(event) {\n    var cachedPage, _ref;\n    if ((_ref = event.state) != null ? _ref.turbolinks : void 0) {\n      if (cachedPage = pageCache[event.state.position]) {\n        return fetchHistory(cachedPage);\n      } else {\n        return visit(event.target.location.href);\n      }\n    }\n  };\n\n  initializeTurbolinks = function() {\n    rememberCurrentUrl();\n    rememberCurrentState();\n    createDocument = browserCompatibleDocumentParser();\n    document.addEventListener('click', installClickHandlerLast, true);\n    return window.addEventListener('popstate', installHistoryChangeHandler, false);\n  };\n\n  browserSupportsPushState = window.history && window.history.pushState && window.history.replaceState && window.history.state !== void 0;\n\n  browserIsntBuggy = !navigator.userAgent.match(/CriOS\\//);\n\n  requestMethodIsSafe = (_ref = popCookie('request_method')) === 'GET' || _ref === '';\n\n  browserSupportsTurbolinks = browserSupportsPushState && browserIsntBuggy && requestMethodIsSafe;\n\n  installDocumentReadyPageEventTriggers();\n\n  installJqueryAjaxSuccessPageUpdateTrigger();\n\n  if (browserSupportsTurbolinks) {\n    visit = fetchReplacement;\n    initializeTurbolinks();\n  } else {\n    visit = function(url) {\n      return document.location.href = url;\n    };\n  }\n\n  this.Turbolinks = {\n    visit: visit,\n    pagesCached: pagesCached,\n    supported: browserSupportsTurbolinks\n  };\n\n}).call(this);\n"]
+  (in /Users/dan/.rvm/gems/ruby-2.0.0-p247/gems/turbolinks-2.0.0/lib/assets/javascripts/turbolinks.js.coffee)):
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+    9: <body>
+  app/views/layouts/application.html.erb:6:in `_app_views_layouts_application_html_erb___4475436540215865242_70153003239180'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.3ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (17.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:54:52 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.2ms)
+Completed 500 Internal Server Error in 548ms
+
+ActionView::Template::Error (["ok","(function() {\n  var CSRFToken, anchoredLink, browserCompatibleDocumentParser, browserIsntBuggy, browserSupportsPushState, browserSupportsTurbolinks, cacheCurrentPage, cacheSize, changePage, constrainPageCacheTo, createDocument, crossOriginLink, currentState, executeScriptTags, extractLink, extractTitleAndBody, fetchHistory, fetchReplacement, handleClick, ignoreClick, initializeTurbolinks, installClickHandlerLast, installDocumentReadyPageEventTriggers, installHistoryChangeHandler, installJqueryAjaxSuccessPageUpdateTrigger, loadedAssets, noTurbolink, nonHtmlLink, nonStandardClick, pageCache, pageChangePrevented, pagesCached, popCookie, processResponse, recallScrollPosition, referer, reflectNewUrl, reflectRedirectedUrl, rememberCurrentState, rememberCurrentUrl, rememberReferer, removeHash, removeHashForIE10compatiblity, removeNoscriptTags, requestMethodIsSafe, resetScrollPosition, targetLink, triggerEvent, visit, xhr, _ref,\n    __hasProp = {}.hasOwnProperty,\n    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };\n\n  pageCache = {};\n\n  cacheSize = 10;\n\n  currentState = null;\n\n  loadedAssets = null;\n\n  referer = null;\n\n  createDocument = null;\n\n  xhr = null;\n\n  fetchReplacement = function(url) {\n    rememberReferer();\n    cacheCurrentPage();\n    triggerEvent('page:fetch', {\n      url: url\n    });\n    if (xhr != null) {\n      xhr.abort();\n    }\n    xhr = new XMLHttpRequest;\n    xhr.open('GET', removeHashForIE10compatiblity(url), true);\n    xhr.setRequestHeader('Accept', 'text/html, application/xhtml+xml, application/xml');\n    xhr.setRequestHeader('X-XHR-Referer', referer);\n    xhr.onload = function() {\n      var doc;\n      triggerEvent('page:receive');\n      if (doc = processResponse()) {\n        reflectNewUrl(url);\n        changePage.apply(null, extractTitleAndBody(doc));\n        reflectRedirectedUrl();\n        resetScrollPosition();\n        return triggerEvent('page:load');\n      } else {\n        return document.location.href = url;\n      }\n    };\n    xhr.onloadend = function() {\n      return xhr = null;\n    };\n    xhr.onabort = function() {\n      return rememberCurrentUrl();\n    };\n    xhr.onerror = function() {\n      return document.location.href = url;\n    };\n    return xhr.send();\n  };\n\n  fetchHistory = function(cachedPage) {\n    cacheCurrentPage();\n    if (xhr != null) {\n      xhr.abort();\n    }\n    changePage(cachedPage.title, cachedPage.body);\n    recallScrollPosition(cachedPage);\n    return triggerEvent('page:restore');\n  };\n\n  cacheCurrentPage = function() {\n    pageCache[currentState.position] = {\n      url: document.location.href,\n      body: document.body,\n      title: document.title,\n      positionY: window.pageYOffset,\n      positionX: window.pageXOffset\n    };\n    return constrainPageCacheTo(cacheSize);\n  };\n\n  pagesCached = function(size) {\n    if (size == null) {\n      size = cacheSize;\n    }\n    if (/^[\\d]+$/.test(size)) {\n      return cacheSize = parseInt(size);\n    }\n  };\n\n  constrainPageCacheTo = function(limit) {\n    var key, value;\n    for (key in pageCache) {\n      if (!__hasProp.call(pageCache, key)) continue;\n      value = pageCache[key];\n      if (key <= currentState.position - limit) {\n        pageCache[key] = null;\n      }\n    }\n  };\n\n  changePage = function(title, body, csrfToken, runScripts) {\n    document.title = title;\n    document.documentElement.replaceChild(body, document.body);\n    if (csrfToken != null) {\n      CSRFToken.update(csrfToken);\n    }\n    removeNoscriptTags();\n    if (runScripts) {\n      executeScriptTags();\n    }\n    currentState = window.history.state;\n    triggerEvent('page:change');\n    return triggerEvent('page:update');\n  };\n\n  executeScriptTags = function() {\n    var attr, copy, nextSibling, parentNode, script, scripts, _i, _j, _len, _len1, _ref, _ref1;\n    scripts = Array.prototype.slice.call(document.body.querySelectorAll('script:not([data-turbolinks-eval=\"false\"])'));\n    for (_i = 0, _len = scripts.length; _i < _len; _i++) {\n      script = scripts[_i];\n      if (!((_ref = script.type) === '' || _ref === 'text/javascript')) {\n        continue;\n      }\n      copy = document.createElement('script');\n      _ref1 = script.attributes;\n      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {\n        attr = _ref1[_j];\n        copy.setAttribute(attr.name, attr.value);\n      }\n      copy.appendChild(document.createTextNode(script.innerHTML));\n      parentNode = script.parentNode, nextSibling = script.nextSibling;\n      parentNode.removeChild(script);\n      parentNode.insertBefore(copy, nextSibling);\n    }\n  };\n\n  removeNoscriptTags = function() {\n    var noscript, noscriptTags, _i, _len;\n    noscriptTags = Array.prototype.slice.call(document.body.getElementsByTagName('noscript'));\n    for (_i = 0, _len = noscriptTags.length; _i < _len; _i++) {\n      noscript = noscriptTags[_i];\n      noscript.parentNode.removeChild(noscript);\n    }\n  };\n\n  reflectNewUrl = function(url) {\n    if (url !== referer) {\n      return window.history.pushState({\n        turbolinks: true,\n        position: currentState.position + 1\n      }, '', url);\n    }\n  };\n\n  reflectRedirectedUrl = function() {\n    var location, preservedHash;\n    if (location = xhr.getResponseHeader('X-XHR-Redirected-To')) {\n      preservedHash = removeHash(location) === location ? document.location.hash : '';\n      return window.history.replaceState(currentState, '', location + preservedHash);\n    }\n  };\n\n  rememberReferer = function() {\n    return referer = document.location.href;\n  };\n\n  rememberCurrentUrl = function() {\n    return window.history.replaceState({\n      turbolinks: true,\n      position: Date.now()\n    }, '', document.location.href);\n  };\n\n  rememberCurrentState = function() {\n    return currentState = window.history.state;\n  };\n\n  recallScrollPosition = function(page) {\n    return window.scrollTo(page.positionX, page.positionY);\n  };\n\n  resetScrollPosition = function() {\n    if (document.location.hash) {\n      return document.location.href = document.location.href;\n    } else {\n      return window.scrollTo(0, 0);\n    }\n  };\n\n  removeHashForIE10compatiblity = function(url) {\n    return removeHash(url);\n  };\n\n  removeHash = function(url) {\n    var link;\n    link = url;\n    if (url.href == null) {\n      link = document.createElement('A');\n      link.href = url;\n    }\n    return link.href.replace(link.hash, '');\n  };\n\n  popCookie = function(name) {\n    var value, _ref;\n    value = ((_ref = document.cookie.match(new RegExp(name + \"=(\\\\w+)\"))) != null ? _ref[1].toUpperCase() : void 0) || '';\n    document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';\n    return value;\n  };\n\n  triggerEvent = function(name, data) {\n    var event;\n    event = document.createEvent('Events');\n    if (data) {\n      event.data = data;\n    }\n    event.initEvent(name, true, true);\n    return document.dispatchEvent(event);\n  };\n\n  pageChangePrevented = function() {\n    return !triggerEvent('page:before-change');\n  };\n\n  processResponse = function() {\n    var assetsChanged, clientOrServerError, doc, extractTrackAssets, intersection, validContent;\n    clientOrServerError = function() {\n      var _ref;\n      return (400 <= (_ref = xhr.status) && _ref < 600);\n    };\n    validContent = function() {\n      return xhr.getResponseHeader('Content-Type').match(/^(?:text\\/html|application\\/xhtml\\+xml|application\\/xml)(?:;|$)/);\n    };\n    extractTrackAssets = function(doc) {\n      var node, _i, _len, _ref, _results;\n      _ref = doc.head.childNodes;\n      _results = [];\n      for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n        node = _ref[_i];\n        if ((typeof node.getAttribute === \"function\" ? node.getAttribute('data-turbolinks-track') : void 0) != null) {\n          _results.push(node.getAttribute('src') || node.getAttribute('href'));\n        }\n      }\n      return _results;\n    };\n    assetsChanged = function(doc) {\n      var fetchedAssets;\n      loadedAssets || (loadedAssets = extractTrackAssets(document));\n      fetchedAssets = extractTrackAssets(doc);\n      return fetchedAssets.length !== loadedAssets.length || intersection(fetchedAssets, loadedAssets).length !== loadedAssets.length;\n    };\n    intersection = function(a, b) {\n      var value, _i, _len, _ref, _results;\n      if (a.length > b.length) {\n        _ref = [b, a], a = _ref[0], b = _ref[1];\n      }\n      _results = [];\n      for (_i = 0, _len = a.length; _i < _len; _i++) {\n        value = a[_i];\n        if (__indexOf.call(b, value) >= 0) {\n          _results.push(value);\n        }\n      }\n      return _results;\n    };\n    if (!clientOrServerError() && validContent()) {\n      doc = createDocument(xhr.responseText);\n      if (doc && !assetsChanged(doc)) {\n        return doc;\n      }\n    }\n  };\n\n  extractTitleAndBody = function(doc) {\n    var title;\n    title = doc.querySelector('title');\n    return [title != null ? title.textContent : void 0, doc.body, CSRFToken.get(doc).token, 'runScripts'];\n  };\n\n  CSRFToken = {\n    get: function(doc) {\n      var tag;\n      if (doc == null) {\n        doc = document;\n      }\n      return {\n        node: tag = doc.querySelector('meta[name=\"csrf-token\"]'),\n        token: tag != null ? typeof tag.getAttribute === \"function\" ? tag.getAttribute('content') : void 0 : void 0\n      };\n    },\n    update: function(latest) {\n      var current;\n      current = this.get();\n      if ((current.token != null) && (latest != null) && current.token !== latest) {\n        return current.node.setAttribute('content', latest);\n      }\n    }\n  };\n\n  browserCompatibleDocumentParser = function() {\n    var createDocumentUsingDOM, createDocumentUsingParser, createDocumentUsingWrite, e, testDoc, _ref;\n    createDocumentUsingParser = function(html) {\n      return (new DOMParser).parseFromString(html, 'text/html');\n    };\n    createDocumentUsingDOM = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.documentElement.innerHTML = html;\n      return doc;\n    };\n    createDocumentUsingWrite = function(html) {\n      var doc;\n      doc = document.implementation.createHTMLDocument('');\n      doc.open('replace');\n      doc.write(html);\n      doc.close();\n      return doc;\n    };\n    try {\n      if (window.DOMParser) {\n        testDoc = createDocumentUsingParser('<html><body><p>test');\n        return createDocumentUsingParser;\n      }\n    } catch (_error) {\n      e = _error;\n      testDoc = createDocumentUsingDOM('<html><body><p>test');\n      return createDocumentUsingDOM;\n    } finally {\n      if ((testDoc != null ? (_ref = testDoc.body) != null ? _ref.childNodes.length : void 0 : void 0) !== 1) {\n        return createDocumentUsingWrite;\n      }\n    }\n  };\n\n  installClickHandlerLast = function(event) {\n    if (!event.defaultPrevented) {\n      document.removeEventListener('click', handleClick, false);\n      return document.addEventListener('click', handleClick, false);\n    }\n  };\n\n  handleClick = function(event) {\n    var link;\n    if (!event.defaultPrevented) {\n      link = extractLink(event);\n      if (link.nodeName === 'A' && !ignoreClick(event, link)) {\n        if (!pageChangePrevented()) {\n          visit(link.href);\n        }\n        return event.preventDefault();\n      }\n    }\n  };\n\n  extractLink = function(event) {\n    var link;\n    link = event.target;\n    while (!(!link.parentNode || link.nodeName === 'A')) {\n      link = link.parentNode;\n    }\n    return link;\n  };\n\n  crossOriginLink = function(link) {\n    return location.protocol !== link.protocol || location.host !== link.host;\n  };\n\n  anchoredLink = function(link) {\n    return ((link.hash && removeHash(link)) === removeHash(location)) || (link.href === location.href + '#');\n  };\n\n  nonHtmlLink = function(link) {\n    var url;\n    url = removeHash(link);\n    return url.match(/\\.[a-z]+(\\?.*)?$/g) && !url.match(/\\.html?(\\?.*)?$/g);\n  };\n\n  noTurbolink = function(link) {\n    var ignore;\n    while (!(ignore || link === document)) {\n      ignore = link.getAttribute('data-no-turbolink') != null;\n      link = link.parentNode;\n    }\n    return ignore;\n  };\n\n  targetLink = function(link) {\n    return link.target.length !== 0;\n  };\n\n  nonStandardClick = function(event) {\n    return event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;\n  };\n\n  ignoreClick = function(event, link) {\n    return crossOriginLink(link) || anchoredLink(link) || nonHtmlLink(link) || noTurbolink(link) || targetLink(link) || nonStandardClick(event);\n  };\n\n  installDocumentReadyPageEventTriggers = function() {\n    return document.addEventListener('DOMContentLoaded', (function() {\n      triggerEvent('page:change');\n      return triggerEvent('page:update');\n    }), true);\n  };\n\n  installJqueryAjaxSuccessPageUpdateTrigger = function() {\n    if (typeof jQuery !== 'undefined') {\n      return jQuery(document).on('ajaxSuccess', function(event, xhr, settings) {\n        if (!jQuery.trim(xhr.responseText)) {\n          return;\n        }\n        return triggerEvent('page:update');\n      });\n    }\n  };\n\n  installHistoryChangeHandler = function(event) {\n    var cachedPage, _ref;\n    if ((_ref = event.state) != null ? _ref.turbolinks : void 0) {\n      if (cachedPage = pageCache[event.state.position]) {\n        return fetchHistory(cachedPage);\n      } else {\n        return visit(event.target.location.href);\n      }\n    }\n  };\n\n  initializeTurbolinks = function() {\n    rememberCurrentUrl();\n    rememberCurrentState();\n    createDocument = browserCompatibleDocumentParser();\n    document.addEventListener('click', installClickHandlerLast, true);\n    return window.addEventListener('popstate', installHistoryChangeHandler, false);\n  };\n\n  browserSupportsPushState = window.history && window.history.pushState && window.history.replaceState && window.history.state !== void 0;\n\n  browserIsntBuggy = !navigator.userAgent.match(/CriOS\\//);\n\n  requestMethodIsSafe = (_ref = popCookie('request_method')) === 'GET' || _ref === '';\n\n  browserSupportsTurbolinks = browserSupportsPushState && browserIsntBuggy && requestMethodIsSafe;\n\n  installDocumentReadyPageEventTriggers();\n\n  installJqueryAjaxSuccessPageUpdateTrigger();\n\n  if (browserSupportsTurbolinks) {\n    visit = fetchReplacement;\n    initializeTurbolinks();\n  } else {\n    visit = function(url) {\n      return document.location.href = url;\n    };\n  }\n\n  this.Turbolinks = {\n    visit: visit,\n    pagesCached: pagesCached,\n    supported: browserSupportsTurbolinks\n  };\n\n}).call(this);\n"]
+  (in /Users/dan/.rvm/gems/ruby-2.0.0-p247/gems/turbolinks-2.0.0/lib/assets/javascripts/turbolinks.js.coffee)):
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+    9: <body>
+  app/views/layouts/application.html.erb:6:in `_app_views_layouts_application_html_erb___4475436540215865242_70153003239180'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (18.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:55:04 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.7ms)
+Completed 200 OK in 95ms (Views: 80.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 04:55:04 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 04:55:05 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 04:55:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 04:55:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 04:55:05 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:57:07 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (2.4ms)
+Completed 500 Internal Server Error in 46ms
+
+ActionView::Template::Error (couldn't find file 'bootstrap'
+  (in /Users/dan/projects/skedge/app/assets/stylesheets/application.css:13)):
+    2: <html>
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+  app/views/layouts/application.html.erb:5:in `_app_views_layouts_application_html_erb___3161797213046307865_70205833550300'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (14.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:57:19 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.1ms)
+Completed 500 Internal Server Error in 8ms
+
+ActionView::Template::Error (couldn't find file 'bootstrap'
+  (in /Users/dan/projects/skedge/app/assets/stylesheets/application.css:13)):
+    2: <html>
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+  app/views/layouts/application.html.erb:5:in `_app_views_layouts_application_html_erb___3161797213046307865_70205833550300'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (12.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:57:20 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.1ms)
+Completed 500 Internal Server Error in 9ms
+
+ActionView::Template::Error (couldn't find file 'bootstrap'
+  (in /Users/dan/projects/skedge/app/assets/stylesheets/application.css:13)):
+    2: <html>
+    3: <head>
+    4:   <title>Skedge</title>
+    5:   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    6:   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+  app/views/layouts/application.html.erb:5:in `_app_views_layouts_application_html_erb___3161797213046307865_70205833550300'
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (28.5ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (39.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.1ms)
+Completed 200 OK in 66ms (Views: 65.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 04:58:57 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:08:09 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.2ms)
+Completed 500 Internal Server Error in 4ms
+
+ActionView::Template::Error (Illegal nesting: content can't be both given on the same line as %div and nested within it.):
+     9:       .col-md-6
+    10:         %input.form-control#search{type:"search", placeholder:"CSC 172 / CSC / Science of Programming"}
+    11:       .col-md-4"
+    12:         spring 2013
+    13:      
+    14:   .container
+    15:     .box
+  app/views/main/index.haml:12
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (11.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:08:15 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.5ms)
+Completed 500 Internal Server Error in 5ms
+
+ActionView::Template::Error (Illegal nesting: content can't be both given on the same line as %p and nested within it.):
+    14:   .container
+    15:     .box
+    16:       %p.lead CSC
+    17:         %sp
+    18:         %strong 171
+    19:         : The Science of Programming
+    20:         %button.btn.btn-success.enroll{type:"button"} Add Course
+  app/views/main/index.haml:17
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (11.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:08:30 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.3ms)
+Completed 500 Internal Server Error in 3ms
+
+ActionView::Template::Error (Invalid filter name ": the science of programming".):
+    17:         CSC
+    18:         %sp
+    19:         %strong 171
+    20:         : The Science of Programming
+    21:         %button.btn.btn-success.enroll{type:"button"} Add Course
+    22:       %p
+    23:         %strong Time:
+  app/views/main/index.haml:20
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (11.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:08:39 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (3.6ms)
+Completed 500 Internal Server Error in 7ms
+
+ActionView::Template::Error (Invalid filter name ": the science of data structures".):
+    46:         CSC
+    47:         %sp
+    48:         %strong 172
+    49:         : The Science of Data Structures
+    50:         %button.btn.btn-warning.enroll{type:"button"} Conflict – MTH 165
+    51:       %p
+    52:         %strong Time:
+  app/views/main/index.haml:49
+
+
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.8ms)
+  Rendered /Users/dan/.rvm/gems/ruby-2.0.0-p247@global/gems/actionpack-4.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (12.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (40.5ms)
+Completed 200 OK in 69ms (Views: 68.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:08:45 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 28ms (Views: 26.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:05 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.7ms)
+Completed 200 OK in 74ms (Views: 59.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:20 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:21 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 14ms (Views: 13.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:51 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:52 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 5ms (Views: 4.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:09:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 12ms (Views: 11.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:10:11 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:10:26 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:10:29 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.1ms)
+Completed 200 OK in 11ms (Views: 10.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:39 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 5ms (Views: 3.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:40 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.7ms)
+Completed 200 OK in 24ms (Views: 23.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:11:57 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.1ms)
+Completed 200 OK in 166ms (Views: 111.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:02 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 25ms (Views: 24.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:11 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 53ms (Views: 22.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:18 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 25ms (Views: 24.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:23 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:12:51 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (8.0ms)
+Completed 200 OK in 34ms (Views: 32.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:12:52 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.4ms)
+Completed 200 OK in 12ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:22 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 55ms (Views: 54.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:29 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:30 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 23ms (Views: 22.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:39 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 54ms (Views: 53.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:44 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 25ms (Views: 24.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:56 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 65ms (Views: 64.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:58 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:58 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:58 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:13:58 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:13:58 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 23ms (Views: 22.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:00 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 61ms (Views: 60.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:05 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.9ms)
+Completed 200 OK in 30ms (Views: 29.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:33 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 22ms (Views: 21.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:42 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 22ms (Views: 21.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:44 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:51 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 33ms (Views: 31.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:52 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.9ms)
+Completed 200 OK in 11ms (Views: 10.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:14:59 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:00 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:04 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.7ms)
+Completed 200 OK in 73ms (Views: 71.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:36 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:37 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 27ms (Views: 26.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 55ms (Views: 54.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:15:58 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.5ms)
+Completed 200 OK in 11ms (Views: 9.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:58 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:15:59 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 26ms (Views: 25.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:15 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 7ms (Views: 4.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:16 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.4ms)
+Completed 200 OK in 29ms (Views: 28.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:31 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:32 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.6ms)
+Completed 200 OK in 12ms (Views: 11.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:16:36 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.5ms)
+Completed 200 OK in 65ms (Views: 64.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.3ms)
+Completed 200 OK in 11ms (Views: 10.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:30 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.5ms)
+Completed 200 OK in 33ms (Views: 32.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:37 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 26ms (Views: 25.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:17:44 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.4ms)
+Completed 200 OK in 22ms (Views: 21.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:17:45 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.9ms)
+Completed 200 OK in 10ms (Views: 9.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:48 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.2ms)
+Completed 200 OK in 10ms (Views: 9.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:19:54 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.4ms)
+Completed 200 OK in 30ms (Views: 29.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:10 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 57ms (Views: 56.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:13 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 25ms (Views: 24.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:18 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.0ms)
+Completed 200 OK in 11ms (Views: 10.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:24 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.9ms)
+Completed 200 OK in 11ms (Views: 9.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:43 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 31ms (Views: 29.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:49 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 24ms (Views: 22.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 27ms (Views: 26.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:55 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:20:56 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 10ms (Views: 9.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:16 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.7ms)
+Completed 200 OK in 68ms (Views: 67.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:21:54 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 32ms (Views: 30.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:09 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:10 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 59ms (Views: 57.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:13 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 24ms (Views: 23.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:15 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 59ms (Views: 58.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 22ms (Views: 21.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:25 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 60ms (Views: 59.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:33 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 24ms (Views: 23.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:22:58 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.8ms)
+Completed 200 OK in 58ms (Views: 57.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:05 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 23ms (Views: 22.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:09 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:15 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 55ms (Views: 54.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:16 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:36 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 24ms (Views: 23.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:37 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 58ms (Views: 57.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:46 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 5ms (Views: 4.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:47 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 24ms (Views: 23.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:53 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 59ms (Views: 57.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:23:57 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 24ms (Views: 23.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:02 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 51ms (Views: 50.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:05 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.9ms)
+Completed 200 OK in 25ms (Views: 23.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:22 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.8ms)
+Completed 200 OK in 55ms (Views: 54.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:33 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 23ms (Views: 22.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:38 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 53ms (Views: 52.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.0ms)
+Completed 200 OK in 31ms (Views: 30.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:24:52 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 60ms (Views: 59.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:01 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 29ms (Views: 28.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:06 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 56ms (Views: 54.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:19 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 28ms (Views: 26.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:27 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:37 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 57ms (Views: 56.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:38 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.8ms)
+Completed 200 OK in 30ms (Views: 28.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:40 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (1.0ms)
+Completed 200 OK in 74ms (Views: 73.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:50 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 25ms (Views: 24.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:25:56 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.5ms)
+Completed 200 OK in 56ms (Views: 55.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:18 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (8.4ms)
+Completed 200 OK in 36ms (Views: 35.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 11ms (Views: 10.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:26:49 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (49.0ms)
+Completed 200 OK in 55ms (Views: 54.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:10 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.7ms)
+Completed 200 OK in 12ms (Views: 11.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:27:49 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.7ms)
+Completed 200 OK in 12ms (Views: 11.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:01 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.4ms)
+Completed 200 OK in 12ms (Views: 10.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:21 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:22 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (5.8ms)
+Completed 200 OK in 10ms (Views: 9.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:24 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:28:32 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.0ms)
+Completed 200 OK in 11ms (Views: 10.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:33 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.7ms)
+Completed 200 OK in 68ms (Views: 67.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:28:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (6.8ms)
+Completed 200 OK in 12ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:42 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.0ms)
+Completed 200 OK in 11ms (Views: 10.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:29:48 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.2ms)
+Completed 200 OK in 13ms (Views: 11.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:17 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (8.5ms)
+Completed 200 OK in 14ms (Views: 13.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:28 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:30:51 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (41.6ms)
+Completed 200 OK in 47ms (Views: 46.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:51 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:51 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:30:51 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:51 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:52 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:52 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:30:52 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:31:03 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (10.1ms)
+Completed 200 OK in 15ms (Views: 14.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:04 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.3ms)
+Completed 200 OK in 12ms (Views: 11.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:31:41 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.3ms)
+Completed 200 OK in 12ms (Views: 11.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:30 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (7.1ms)
+Completed 200 OK in 12ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:32:34 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (0.6ms)
+Completed 200 OK in 49ms (Views: 48.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:18 -0500
+
+
+Started GET "/" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+Processing by MainController#index as HTML
+  Rendered main/index.haml within layouts/application (10.9ms)
+Completed 200 OK in 19ms (Views: 17.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-12-09 05:33:24 -0500

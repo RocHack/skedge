@@ -1,0 +1,102 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.cnum
+{
+  font-weight: 500;
+  margin-left: 2px;
+}
+
+.sp2
+{
+  margin-left:20px;
+}
+
+.progress-num
+{
+  display: inline-block;
+  width:20%;
+}
+.progress
+{
+  margin-top: 10px;
+  margin-right: 10px;
+  display: inline-block;
+  height:2px;
+  width: 95%;
+  float:left;
+}
+
+.num-enrolled
+{
+  width:80%;
+}
+
+.enroll
+{
+  margin-left: 15px;
+}
+
+p
+{
+	margin-bottom:0px;  
+}
+
+p.info
+{
+}
+
+p.lead
+{
+  margin-bottom: 4px;
+}
+
+body
+{
+  font-weight: 200;
+}
+
+strong
+{
+  font-weight: 500;
+}
+
+#search
+{
+  margin-top:25px;
+  display: inline-block;
+  height: 50px;
+  font-size: 20px;
+}
+
+h1 > small
+{
+  line-height:18px;
+}
+
+#main
+{
+  margin: 15px;
+}
+
+p.desc
+{
+  margin-top:5px;
+  margin-bottom: 5px;
+}
+.box
+{
+  float:clear;
+  margin: 20px;
+  width: 100%;
+
+  margin-top: 60px;
+}
+
+footer
+{
+  text-align:right;
+  margin:20px;
+  padding-right:20px;
+}

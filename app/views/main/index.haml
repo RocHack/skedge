@@ -81,16 +81,17 @@
                     %span.cnum= course.num
                   %button.btn.btn-success.enroll{type:"button"} Add Course
                 %p.info
-                  %strong Time:
-                  =course.formatted_time
-                  %span.sp2
+                  -if !course.time_tba?
+                    %strong Time:
+                    =formatted_time_and_day(course)
+                    %span.sp2
                   %strong Place:
                   %a= course.building
                   =course.room
                 -if course.instructors
-                  %p.info
+                  .info
                     %strong Instructors:
-                    =raw course.formatted_instructors
+                    =format_instructors(course.instructors)
                 -if course.comments
                   %p.info
                     %strong Comments:
@@ -98,21 +99,21 @@
                 -if course.prereqs
                   .info
                     %strong Prerequisites:
-                    =formatted_prereqs(course)
+                    =format_courselist(course.prereqs)
                 -if course.cross_listed
-                  %p.info
+                  .info
                     %strong Cross Listed:
-                    =raw course.formatted_cross_listed
+                    =format_courselist(course.cross_listed)
                 %p.desc
                   =course.desc
 
                 .num-enrolled
                   .progress
-                    %div{role:"progressbar", style:"width: #{course.enroll_percent}%", class:"progress-bar progress-bar-#{course.bar_style}"}
+                    %div{role:"progressbar", style:"width: #{enroll_bar_precentage(course)}%", class:"progress-bar progress-bar-#{enroll_bar_style(course)}"}
             
                 .progress-num
                   %small
-                    =surround "#{course.enroll}", "#{course.cap == 0 ? "∞" : course.cap}" do
+                    =surround "#{course.enroll}", "#{course.no_cap? ? "∞" : course.cap}" do
                       ="/"
                     enrolled
       .col-md-4 

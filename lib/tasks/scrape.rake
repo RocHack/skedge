@@ -2,7 +2,7 @@ require 'rubygems'
 require 'mechanize'
 
 class Scraper
-  #the resulting HTML is stuck in tables, and each info is kept in a span with its respective name...
+  #the resulting HTML is stuck in tables, and each field is kept in a tag, with the field name as id...
   LabelSchedule = "rpSchedule_ctl01_"
   Labels = {
     num:"lblCNum", 
@@ -21,11 +21,40 @@ class Scraper
     credits:"lblCredits",
     comments:"lblComments",
     crn:"lblCRN",
-    restrictions:"lblRestrictions"}
+    restrictions:"lblRestrictions",
+    term:"lblTerm",
+    year:"lblTerm"}
+
+  IntFields = [:num, :enroll, :cap, :credits, :crn, :year]
 
   ASE = "1"
 
   attr_accessor :school, :term, :num
+
+  def pad_with_zero(num)
+    num.to_s.rjust(2,"0")
+  end
+
+  def parse_course(e, num)
+    c = Course.new
+
+    #for each label, ie, attribute, parse thru html and assign to the course obj
+    Labels.each do |sym, label|
+      xpath = "//span[@id='rpResults_ctl#{pad_with_zero(num)}_#{label}']" #=> rpResults_ctl03_lblTitle
+      val = e.search(xpath).first.try(:text)
+      if val
+        val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
+        val = val.split.first if sym == :term  #"Spring 2013" => "Spring"
+        val = val.to_i if IntFields.include? sym #convert to int in some cases
+        #call the setter method (ie :num=), with the val as the parameter
+        c.send :"#{sym}=", val
+      end
+    end
+
+    return nil if c.num == 0 || c.num == nil
+
+    c
+  end
 
   def get_dept(dept)
     #make all the CDCS choices
@@ -39,31 +68,15 @@ class Scraper
 
     #go!
     results = @form.click_button
+    
     num = 1
-
-    #so the courses are each in a table with cellpadding 3. convenient i guess
     results.search("//table[@cellpadding='3']").each do |e|
-      c = Course.new
-      c.department = dept
-      #for each label, ie, attribute, parse thru html and assign to the course obj
-      Labels.each do |sym, label|
-        xpath = "//span[@id='rpResults_ctl#{sprintf '%02d', num}_#{label}']" #=> rpResults_ctl03_lblTitle
-        val = e.search(xpath).first
-        if sym == :num && val
-          c.num = val.text.split.last.to_i #cnum (ie, 171 in csc171 comes as "csc 171", so split it to get the last part)
-        else
-          if (sym == :enroll || sym == :cap || sym == :credits || sym == :crn) #all these are numbers
-            val = (val ? val.text.to_i : 0)
-          elsif val
-            val = val.text
-          end
-          c.send((sym.to_s + "=").to_sym, val) #sym is :num, so we want to send num= with the val to the course
-        end
-      end
-      if c.num != 0 && c.num
+      c = parse_course(e, num)
+      if c
+        c.department = dept
         c.save
       end
-      num += 2 #for some reason they go up by twos...?
+      num += 2 #for some reason the number in the div id's go up by two
     end
   end
 
@@ -116,11 +129,11 @@ task :scrape => :environment do
   Scraper.scrape do |s|
     s.term = "Spring 2014"
     s.school = Scraper::ASE
-    s.num = 15
+    s.num = 2
   end
-  # Scraper.scrape do |s|
-  #   s.term = "Fall 2013"
-  #   s.school = Scraper::ASE
-  #   s.num = -1
-  # end
+  Scraper.scrape do |s|
+    s.term = "Fall 2013"
+    s.school = Scraper::ASE
+    s.num = 2
+  end
 end

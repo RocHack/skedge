@@ -101,12 +101,19 @@ class Scraper
 end
 
 task :scrape => :environment do
-  Course.destroy_all
+  # Course.destroy_all
+  # Scraper.scrape do |s|
+  #   s.term = "Spring 2014"
+  #   s.course_class = Course
+  #   s.dept_class = Department
+  #   s.school = Scraper::ASE
+  #   s.num = -1
+  # end
   Scraper.scrape do |s|
-    s.term = "Spring 2014"
+    s.term = "Fall 2013"
     s.course_class = Course
     s.dept_class = Department
     s.school = Scraper::ASE
-    s.num = 10
+    s.num = -1
   end
 end

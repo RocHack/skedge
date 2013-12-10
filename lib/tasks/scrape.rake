@@ -29,7 +29,7 @@ class Scraper
 
   ASE = "1"
 
-  attr_accessor :school, :term, :num
+  attr_accessor :school, :terms, :num
 
   def pad_with_zero(num)
     num.to_s.rjust(2,"0")
@@ -56,9 +56,9 @@ class Scraper
     c
   end
 
-  def get_dept(dept)
+  def get_dept(dept, term)
     #make all the CDCS choices
-    @form.field_with(:name => "ddlTerm").option_with(:text => @term).click
+    @form.field_with(:name => "ddlTerm").option_with(:text => term).click
     @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
     @form.field_with(:name => "ddlTypes").option_with(:value => "0").click #main course
     @form.field_with(:name => "ddlStatus").option_with(:value => "OP").click #open courses
@@ -109,10 +109,12 @@ class Scraper
       @form = results.form("form1")
       depts = get_dept_list
 
-      puts "found #{depts.size} departments"
-      depts.each do |dept|
-        puts "scraping #{dept.short} - #{dept.name}"
-        get_dept(dept)
+      @terms.each do |term|
+        puts "Starting scrape of #{term} (#{depts.size} departments)"
+        depts.each_with_index do |dept,i|
+          puts "#{i+1}. #{dept.short} - #{dept.name}"
+          get_dept(dept, term)
+        end
       end
     end
   end
@@ -125,15 +127,9 @@ class Scraper
 end
 
 task :scrape => :environment do
-  Course.destroy_all
   Scraper.scrape do |s|
-    s.term = "Spring 2014"
+    s.terms = ["Spring 2014", "Fall 2013"]
     s.school = Scraper::ASE
-    s.num = 2
-  end
-  Scraper.scrape do |s|
-    s.term = "Fall 2013"
-    s.school = Scraper::ASE
-    s.num = 2
+    s.num = -1
   end
 end

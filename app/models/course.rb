@@ -1,8 +1,9 @@
 class Course < ActiveRecord::Base
+	validates :crn, uniqueness: true
 	belongs_to :department
 
 	def no_cap?
-		cap == 0
+		cap == 0 || cap == nil
 	end
 
 	def enroll_percent

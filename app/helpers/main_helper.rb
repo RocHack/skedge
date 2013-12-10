@@ -17,7 +17,8 @@ module MainHelper
 	end
 
 	def enroll_bar_style(course)
-		return "success" if course.enroll_percent < 75 || course.no_cap?
+		return "info" if course.no_cap?
+		return "success" if course.enroll_percent < 75
 		return "warning" if course.enroll_percent < 90
 		return "danger"
 	end

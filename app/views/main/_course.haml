@@ -2,7 +2,7 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.name.upcase}" do
       %span.cnum= course.num
-    %button.btn.btn-success.left-margin-20{type:"button"} Add Course
+    %button.btn.btn-success.left-margin-10{type:"button"} Add Course
   %p.info
     -if !course.time_tba?
       %span.right-margin-20

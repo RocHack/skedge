@@ -20,6 +20,11 @@
   margin-left:5px;
 }
 
+.left-margin-10
+{
+  margin-left:10px;
+}
+
 .left-margin-20
 {
   margin-left:20px;
@@ -57,7 +62,7 @@ strong
 
 #main
 {
-  margin: 15px;
+  margin-top:35px;
 }
 
 
@@ -72,13 +77,14 @@ small.subtitle
 .rochack
 {
   font-size: 10pt;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
-h1
+h1.logo
 {
-  line-height:0.87em;
+  line-height:0.9em;
   font-size: 3.2em;
+  margin: 0 0 8px 0;
 }
 
 a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
@@ -140,7 +146,6 @@ h5
   width: 30%;
   height: 88%;
   position: fixed;
-  margin-top:35px;
   border-radius: 5px;
   text-align: center;
 }
@@ -154,8 +159,7 @@ th
 /* COURSE BOXES */
 .box
 {
-  float:clear;
-  margin-left: 20px;
+  margin-left: 15px;
   width: 100%;
 
   margin-bottom: 60px;

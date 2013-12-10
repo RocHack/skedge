@@ -7,9 +7,8 @@
 
             -#LOGO
             %a.logo{href:"/"}
-              %h1
+              %h1.logo
                 skedge
-                %br
               %small.subtitle
                 better better cdcs
             %p.rochack
@@ -20,8 +19,8 @@
           -#SEARCHBAR
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
-              .input-group.top-margin-35
-                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC 172 / CSC / Science of Programming", value:"#{params[:query]}"}
+              .input-group
+                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{params[:query]}"}
                 .input-group-addon
                   %span.glyphicon.glyphicon-search
             .row

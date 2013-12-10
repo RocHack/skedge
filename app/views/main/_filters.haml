@@ -1,0 +1,53 @@
+%table#filter-table
+  %tr
+    %td.middle
+      %h5 Filter:
+    %td.middle
+      Start time:
+      .btn-group
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+          All
+          %span.caret
+        %ul.dropdown-menu{role:"menu"}
+          %li
+            %a Action0
+            %a Action1
+
+      %span.left-margin-20 Class size:
+      .btn-group
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+          Any
+          %span.caret
+        %ul.dropdown-menu{role:"menu"}
+          %li
+            %a Small (0-15)
+            %a Medium (16-40)
+            %a Large (41-80)
+
+      %br
+
+      Hide conflicts
+      .btn-group.left-margin-5
+        %input{type:"checkbox"}
+
+      %span.left-margin-20 Show fall courses
+      .btn-group.left-margin-5
+        %input{type:"checkbox"}
+  %tr
+    %td.middle
+      %h5 Sort:
+    %td.middle
+      By:
+      .btn-group
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+          Course number
+          %span.caret
+        %ul.dropdown-menu{role:"menu"}
+          %li
+            %a Start time
+            %a Students enrolled
+
+      %span.left-margin-20
+      %button.btn.btn-link.btn-xs Dependency Graph™
+
+%hr.hr-filter

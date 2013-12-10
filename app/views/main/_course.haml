@@ -1,0 +1,40 @@
+.box
+  %p.lead
+    =surround "#{course.department.short}", ": #{course.name.upcase}" do
+      %span.cnum= course.num
+    %button.btn.btn-success.left-margin-20{type:"button"} Add Course
+  %p.info
+    -if !course.time_tba?
+      %span.right-margin-20
+        %strong Time:
+        =formatted_time_and_day(course)
+    %strong Place:
+    %a= course.building
+    =course.room
+  -if course.instructors
+    .info
+      %strong Instructors:
+      =format_instructors(course.instructors)
+  -if course.comments
+    %p.info
+      %strong Comments:
+      =course.comments
+  -if course.prereqs
+    .info
+      %strong Prerequisites:
+      =format_courselist(course.prereqs)
+  -if course.cross_listed
+    .info
+      %strong Cross Listed:
+      =format_courselist(course.cross_listed)
+  %p.desc
+    =course.desc
+
+  .progress
+    %div{style:"width: #{enroll_bar_precentage(course)}%", class:"progress-bar progress-bar-#{enroll_bar_style(course)}"}
+
+  .progress-num
+    %small
+      =surround "#{course.enroll}", "#{course.no_cap? ? "∞" : course.cap}" do
+        ="/"
+      enrolled

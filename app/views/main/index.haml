@@ -4,11 +4,16 @@
       .col-md-8
         .row
           .col-md-3
-            %h1
-              skedge
-              %br
-              %small
-                %p.sub better better cdcs
+            %a.logo{href:"/"}
+              %h1
+                skedge
+                %br
+              %small.subtitle
+                better better cdcs
+            %p.rochack
+              a
+              %a{href:"http://rochack.org"} rochack
+              project
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
               .input-group.top-margin-35
@@ -17,127 +22,17 @@
                   %span.glyphicon.glyphicon-search
             .row
               .col-md-10
-
-                %table#filter-table
-                  %tr
-                    %td.middle
-                      %h5 Filter:
-                    %td.middle
-                      Start time:
-                      .btn-group
-                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
-                          All
-                          %span.caret
-                        %ul.dropdown-menu{role:"menu"}
-                          %li
-                            %a Action0
-                            %a Action1
-
-                      %span.left-margin-20 Class size:
-                      .btn-group
-                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
-                          Any
-                          %span.caret
-                        %ul.dropdown-menu{role:"menu"}
-                          %li
-                            %a Small (0-15)
-                            %a Medium (16-40)
-                            %a Large (41-80)
-
-                      %br
-
-                      Hide conflicts
-                      .btn-group.left-margin-5
-                        %input{type:"checkbox"}
-
-                      %span.left-margin-20 Show fall courses
-                      .btn-group.left-margin-5
-                        %input{type:"checkbox"}
-                  %tr
-                    %td.middle
-                      %h5 Sort:
-                    %td.middle
-                      By:
-                      .btn-group
-                        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
-                          Course number
-                          %span.caret
-                        %ul.dropdown-menu{role:"menu"}
-                          %li
-                            %a Start time
-                            %a Students enrolled
-
-                      %span.left-margin-20
-                      %button.btn.btn-link.btn-xs Dependency Graph™
-
-            %hr.hr-filter
-
+                =render partial:"filters"
         .row
           .col-md-12
             -@courses.each do |course|
-              .box
-                %p.lead
-                  =surround "#{course.department.short}", ": #{course.name.upcase}" do
-                    %span.cnum= course.num
-                  %button.btn.btn-success.left-margin-20{type:"button"} Add Course
-                %p.info
-                  -if !course.time_tba?
-                    %span.right-margin-20
-                      %strong Time:
-                      =formatted_time_and_day(course)
-                  %strong Place:
-                  %a= course.building
-                  =course.room
-                -if course.instructors
-                  .info
-                    %strong Instructors:
-                    =format_instructors(course.instructors)
-                -if course.comments
-                  %p.info
-                    %strong Comments:
-                    =course.comments
-                -if course.prereqs
-                  .info
-                    %strong Prerequisites:
-                    =format_courselist(course.prereqs)
-                -if course.cross_listed
-                  .info
-                    %strong Cross Listed:
-                    =format_courselist(course.cross_listed)
-                %p.desc
-                  =course.desc
-
-                .progress
-                  %div{style:"width: #{enroll_bar_precentage(course)}%", class:"progress-bar progress-bar-#{enroll_bar_style(course)}"}
-            
-                .progress-num
-                  %small
-                    =surround "#{course.enroll}", "#{course.no_cap? ? "∞" : course.cap}" do
-                      ="/"
-                    enrolled
+              =render partial:"course", locals: {course: course}
+              
       .col-md-4 
-        %table.table.table-striped.table-condensed.table-bordered#schedule
-          %thead
-            %tr
-              %th M
-              %th T
-              %th W
-              %th R
-              %th F
-          %tbody
-            -20.times do
-              %tr
-                %td
-                %td
-                %td
-                %td
-                %td
+        =render partial:"schedule"
         
      
-  .row
-    .col-md-2.col-md-offset-10
-      -#%footer
-        %p
-        a
-        %a rochack
-        project
+    .row
+      .col-md-2.col-md-offset-10
+        %footer
+          

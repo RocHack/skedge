@@ -120,8 +120,6 @@ task :scrape => :environment do
   end
   # Scraper.scrape do |s|
   #   s.term = "Fall 2013"
-  #   s.course_class = Course
-  #   s.dept_class = Department
   #   s.school = Scraper::ASE
   #   s.num = -1
   # end

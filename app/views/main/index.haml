@@ -4,6 +4,8 @@
       .col-md-8
         .row
           .col-md-3
+
+            -#LOGO
             %a.logo{href:"/"}
               %h1
                 skedge
@@ -14,6 +16,8 @@
               a
               %a{href:"http://rochack.org"} rochack
               project
+
+          -#SEARCHBAR
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
               .input-group.top-margin-35
@@ -23,16 +27,13 @@
             .row
               .col-md-10
                 =render partial:"filters"
+
+        -#RESULTS
         .row
           .col-md-12
             -@courses.each do |course|
               =render partial:"course", locals: {course: course}
-              
+           
+      -#SCHEDULE   
       .col-md-4 
         =render partial:"schedule"
-        
-     
-    .row
-      .col-md-2.col-md-offset-10
-        %footer
-          

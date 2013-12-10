@@ -4,51 +4,30 @@
 
 @import "bootstrap";
 
-.cnum
-{
-  font-weight: 500;
-  margin-left: 3px;
-}
-
+/* General */
 .inline
 {
   display:inline;
 }
 
-.sp2
+.right-margin-20
+{
+  margin-right:20px;
+}
+
+.left-margin-5
+{
+  margin-left:5px;
+}
+
+.left-margin-20
 {
   margin-left:20px;
 }
 
-.filter-label
+.top-margin-35
 {
-  margin-left:10px;
-}
-
-.progress-num
-{
-  display: inline-block;
-  width:20%;
-}
-.progress
-{
-  margin-top: 10px;
-  margin-right: 10px;
-  display: inline-block;
-  height:2px;
-  width: 95%;
-  float:left;
-}
-
-#filter-table
-{
-  width:100%;
-  margin-top: 15px;
-}
-
-hr.hr-filter
-{
-  margin-bottom: 45px;
+  margin-top:35px;
 }
 
 .middle
@@ -56,24 +35,9 @@ hr.hr-filter
   vertical-align: middle;
 }
 
-.num-enrolled
-{
-  width:80%;
-}
-
-.enroll
-{
-  margin-left: 15px;
-}
-
 p
 {
-	margin-bottom:0px;  
-}
-
-p.filter
-{
-  margin-top: 20px;
+  margin-bottom:0px;  
 }
 
 p.lead
@@ -91,21 +55,55 @@ strong
   font-weight: 500;
 }
 
-#schedule
+footer
 {
-  margin-left:20px;
-  width: 30%;
-  height: 88%;
-  position: fixed;
-  margin-top:35px;
-  /*background-color: silver;*/
-  border-radius: 5px;
-  text-align: center;
+  text-align:right;
+  margin:20px;
+  padding-right:20px;
 }
 
-.filter
+#main
+{
+  margin: 15px;
+}
+
+/* for the "logo" */
+h1 > small
+{
+  line-height:18px;
+}
+
+
+/* PROGRESS BAR */
+
+/* enroll progress bar */
+.progress
+{
+  margin-top: 10px;
+  margin-right: 10px;
+  height:2px;
+  width: 75%;
+  float:left;
+}
+
+/* the number (5/20 enrolled) */
+.progress-num
 {
   display: inline-block;
+  width:20%;
+}
+
+/* FILTER STUFF */
+
+#filter-table
+{
+  width:100%;
+  margin-top: 15px;
+}
+
+hr.hr-filter
+{
+  margin-bottom: 45px;
 }
 
 h5
@@ -114,37 +112,23 @@ h5
   padding-bottom: 4px;
 }
 
-.filter-dd
-{
-  margin-left: 5px;
-}
-
-#search
-{
-  margin-top:35px;
-  height: 50px;
-}
-
 #search-input
 {
   font-size: 20px;
-    height: 50px;
+  height: 50px;
 }
 
-h1 > small
-{
-  line-height:18px;
-}
+/* SCHEDULE */
 
-#main
+#schedule
 {
-  margin: 15px;
-}
-
-p.desc
-{
-  margin-top:5px;
-  margin-bottom: 5px;
+  margin-left:20px;
+  width: 30%;
+  height: 88%;
+  position: fixed;
+  margin-top:35px;
+  border-radius: 5px;
+  text-align: center;
 }
 
 th
@@ -153,6 +137,7 @@ th
   height: 10px;
 }
 
+/* COURSE BOXES */
 .box
 {
   float:clear;
@@ -162,9 +147,15 @@ th
   margin-bottom: 60px;
 }
 
-footer
+p.desc
 {
-  text-align:right;
-  margin:20px;
-  padding-right:20px;
+  margin-top:5px;
+  margin-bottom: 5px;
+}
+
+/* Course num, like in CSC **173** */
+.cnum
+{
+  font-weight: 500;
+  margin-left: 3px;
 }

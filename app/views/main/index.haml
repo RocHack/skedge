@@ -11,7 +11,7 @@
                 %p.sub better better cdcs
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
-              .input-group#search
+              .input-group.top-margin-35
                 %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC 172 / CSC / Science of Programming", value:"#{params[:query]}"}
                 .input-group-addon
                   %span.glyphicon.glyphicon-search
@@ -33,7 +33,7 @@
                             %a Action0
                             %a Action1
 
-                      %span.filter-label Class size:
+                      %span.left-margin-20 Class size:
                       .btn-group
                         %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
                           Any
@@ -47,11 +47,11 @@
                       %br
 
                       Hide conflicts
-                      .btn-group.filter.filter-dd
+                      .btn-group.left-margin-5
                         %input{type:"checkbox"}
 
-                      %span.filter-label Show fall courses
-                      .btn-group.filter.filter-dd
+                      %span.left-margin-20 Show fall courses
+                      .btn-group.left-margin-5
                         %input{type:"checkbox"}
                   %tr
                     %td.middle
@@ -67,7 +67,7 @@
                             %a Start time
                             %a Students enrolled
 
-                      %span.filter-label
+                      %span.left-margin-20
                       %button.btn.btn-link.btn-xs Dependency Graph™
 
             %hr.hr-filter
@@ -79,12 +79,12 @@
                 %p.lead
                   =surround "#{course.department.short}", ": #{course.name.upcase}" do
                     %span.cnum= course.num
-                  %button.btn.btn-success.enroll{type:"button"} Add Course
+                  %button.btn.btn-success.left-margin-20{type:"button"} Add Course
                 %p.info
                   -if !course.time_tba?
-                    %strong Time:
-                    =formatted_time_and_day(course)
-                    %span.sp2
+                    %span.right-margin-20
+                      %strong Time:
+                      =formatted_time_and_day(course)
                   %strong Place:
                   %a= course.building
                   =course.room
@@ -107,9 +107,8 @@
                 %p.desc
                   =course.desc
 
-                .num-enrolled
-                  .progress
-                    %div{role:"progressbar", style:"width: #{enroll_bar_precentage(course)}%", class:"progress-bar progress-bar-#{enroll_bar_style(course)}"}
+                .progress
+                  %div{style:"width: #{enroll_bar_precentage(course)}%", class:"progress-bar progress-bar-#{enroll_bar_style(course)}"}
             
                 .progress-num
                   %small

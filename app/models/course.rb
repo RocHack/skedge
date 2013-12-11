@@ -20,6 +20,14 @@ class Course < ActiveRecord::Base
 		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
 	end
 
+	def cap
+		tot_cap || sec_cap
+	end
+
+	def enroll
+		tot_enroll || sec_enroll
+	end
+
 	def no_cap?
 		cap == 0 || cap == nil
 	end

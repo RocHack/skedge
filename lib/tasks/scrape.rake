@@ -14,8 +14,10 @@ class Scraper
     end_time:LabelSchedule+"lblEndTime",
     building:LabelSchedule+"lblBuilding", 
     room:LabelSchedule+"lblRoom",
-    enroll:"lblTotEnroll",
-    cap:"lblTotalCap",
+    sec_enroll:"lblSectionEnroll",
+    sec_cap:"lblSectionCap",
+    tot_enroll:"lblTotEnroll",
+    tot_cap:"lblTotalCap",
     prereqs:"lblPrerequisites",
     cross_listed:"lblCrossListed",
     credits:"lblCredits",
@@ -26,13 +28,14 @@ class Scraper
     term:"lblTerm",
     year:"lblTerm",
     clusters:"lblClusters",
-    status:"lblStatus"}
+    status:"lblStatus"
+  }
 
-  IntFields = [:num, :enroll, :cap, :credits, :crn, :year]
+  IntFields = [:num, :sec_enroll, :sec_cap, :tot_enroll, :tot_cap, :credits, :crn, :year]
 
   ASE = "1"
 
-  attr_accessor :school, :terms, :num
+  attr_accessor :school, :terms, :num, :depts
 
   def pad_with_zero(num)
     num.to_s.rjust(2,"0")
@@ -119,8 +122,8 @@ class Scraper
       results = form.click_button
       
       @form = results.form("form1")
-      depts = get_dept_list
-
+      depts = @depts ? @depts.map {|d| Department.lookup(d)} : get_dept_list
+      
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"
         depts.each_with_index do |dept,i|
@@ -144,5 +147,6 @@ task :scrape => :environment do
     s.terms = ["Spring 2014", "Fall 2013"]
     s.school = Scraper::ASE
     s.num = num.to_i
+    s.depts = ENV['depts'].split(",") if ENV['depts']
   end
 end

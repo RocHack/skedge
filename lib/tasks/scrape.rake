@@ -86,9 +86,10 @@ class Scraper
     Course.where do
       (term == c.term) &
       (year == c.year) &
-      (num == c.num) &
+      (num =~ c.num.to_i.to_s) &
       (department_id == c.department_id) &
-      (course_type == Course::Type::Course)
+      (course_type == Course::Type::Course) &
+      (main_course_id == nil)
     end.first
   end
 
@@ -106,7 +107,14 @@ class Scraper
       if c
         c.department = dept
 
-        if c.course_type == 
+        #check if this is a lab in CDCS as a course
+        if c.course_type == Course::Type::Course && c.name.downcase["lab"]
+          mc = Scraper.find_main_course(c)
+          if mc
+            c.main_course = mc
+            c.course_type = Course::Type::Lab
+          end
+        end
 
         c.save
       end

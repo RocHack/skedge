@@ -1,7 +1,5 @@
 class MainController < ApplicationController
 	def search_for_courses(query)
-		return [] if !query
-
 		query.strip!
 
 		type_search = Course::Type::Course
@@ -16,7 +14,7 @@ class MainController < ApplicationController
 		end
 
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
-		if match
+		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
 			dept_search = match[1] if !match[1].empty?
 			num_search = match[2] if !match[2].empty?
 		else
@@ -35,6 +33,11 @@ class MainController < ApplicationController
 	end
 
 	def index
-		@courses = search_for_courses(params[:query])
+		@query = params[:query]
+		if @query
+			@courses = search_for_courses(@query)
+		else
+			@depts = Department.all
+		end
 	end
 end

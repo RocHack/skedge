@@ -20,7 +20,7 @@
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
               .input-group
-                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{params[:query]}"}
+                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
                 .input-group-addon
                   %span.glyphicon.glyphicon-search
             .row
@@ -30,8 +30,21 @@
         -#RESULTS
         .row
           .col-md-12
-            -@courses.each do |course|
-              =render partial:"course", locals: {course: course}
+            -if !@query
+              %p.lead
+                Use the search above, or explore departments:
+              .depts
+                -@depts.each do |dept|
+                  -if !dept.courses.empty?
+                    .dept
+                      %a
+                        %strong
+                          =inline_form(dept.short)
+                      ="-"
+                      =dept.name
+            -else
+              -@courses.each do |course|
+                =render partial:"course", locals: {course: course}
            
       -#SCHEDULE   
       .col-md-4 

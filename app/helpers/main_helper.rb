@@ -1,5 +1,5 @@
 module MainHelper
-	def inline_form(link_text, query)
+	def inline_form(link_text, query=link_text)
 		form_tag("/", method:"post", class:"form-inline inline") do
 			hidden = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
 			link = link_to link_text, "#", :onclick => "$(this).closest('form').submit()" #submit the closest form
@@ -9,7 +9,7 @@ module MainHelper
 
 	def format_courselist(txt)
 		#matches any strings that are like "ABC 123", and replaces them with inline_form
-		raw txt.gsub(/([A-Za-z]*\s*\d+[A-Za-z]*)/, inline_form('\1','\1').strip) #strip off some whitespace that seems to come w the form
+		raw txt.gsub(/([A-Za-z]*\s*\d+[A-Za-z]*)/, inline_form('\1').strip) #strip off some whitespace that seems to come w the form
 	end
 
 	def format_instructors(txt)

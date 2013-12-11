@@ -1,6 +1,6 @@
 .box
   %p.lead
-    =surround "#{course.department.short}", ": #{course.name.upcase}" do
+    =surround "#{course.department.short}", ": #{course.formatted_name}" do
       %span.cnum= course.num
     %button.btn.btn-success.left-margin-10{type:"button"} Add Course
   %p.info
@@ -22,7 +22,7 @@
     .info
       %strong Comments:
       =format_courselist(course.comments)
-  -if course.prereqs
+  -if course.has_prereqs?
     .info
       %strong Prerequisites:
       =format_courselist(course.prereqs)

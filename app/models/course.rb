@@ -39,4 +39,26 @@ class Course < ActiveRecord::Base
 	def time_tba?
 		days == "TBA"
 	end
+
+	def has_prereqs?
+		prereqs && prereqs.downcase != "none"
+	end
+
+	def formatted_name
+		little = %w(and of or the to the a an in but)
+		big = %(HIV GPU)
+		name.gsub!(/(\w|\.|-|')*/) do |w|
+			if little.include?(w.downcase)
+				w.downcase
+			elsif big.include?(w.upcase)
+				w.upcase
+			elsif w =~ /^I*([A-D]|V|)$/ || w =~ /^([A-Z]\.)*$/
+				w
+			else
+				w.capitalize
+			end
+		end
+		name[0] = name[0].upcase #in case it starts w little word
+		name
+	end
 end

@@ -65,6 +65,19 @@ strong
   margin-top:35px;
 }
 
+.depts
+{
+  -moz-column-count:2; /* Firefox */
+  -webkit-column-count:2; /* Safari and Chrome */
+  column-count:2;
+
+  -moz-column-gap:5px; /* Firefox */
+  -webkit-column-gap:5px; /* Safari and Chrome */
+  column-gap:5px;
+
+  padding-bottom: 30px;
+  padding-top: 10px;
+}
 
 /* "Logo" */
 small.subtitle

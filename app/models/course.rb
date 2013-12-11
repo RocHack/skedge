@@ -87,12 +87,12 @@ class Course < ActiveRecord::Base
 		little = %w(and of or the to the in but)
 		big = %(HIV AIDS GPU HCI)
 		prev = nil
-		name.gsub(/(\w|\.|-|'|:)*/) do |w|
+		name.gsub(/(\w|\.|'|:)*/) do |w|
 			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
 				w.downcase
 			elsif big.include?(w.upcase)
 				w.upcase
-			elsif w =~ /^I*([A-D]|V|)$/ || w =~ /^([A-Z]\.)*$/
+			elsif w =~ /^I*([A-D]|V|)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^(M|)(T|)(W|)(R|)(F|)$/
 				w
 			else
 				w.capitalize

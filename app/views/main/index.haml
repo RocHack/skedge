@@ -6,7 +6,7 @@
           
       -#SEARCHBAR
       .col-md-9
-        =form_tag("/", method:"post", id:"form") do 
+        =form_tag(".", method:"post", id:"form") do 
           .input-group
             %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
             %span.input-group-btn

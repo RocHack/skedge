@@ -8,7 +8,7 @@ module MainHelper
 	def inline_form(link_text, query=link_text, params={})
 		sets = ""
 		
-		form_tag("/", method:"post", class:"form-inline inline") do
+		form_tag(".", method:"post", class:"form-inline inline") do
 			hiddens = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
 			params.each do |k, v|
 				hiddens += hidden_field_tag k, v #filters & stuff (from params arg)

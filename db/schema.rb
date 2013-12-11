@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210215417) do
+ActiveRecord::Schema.define(version: 20131210235845) do
 
   create_table "courses", force: true do |t|
     t.integer  "department_id"
@@ -36,6 +36,9 @@ ActiveRecord::Schema.define(version: 20131210215417) do
     t.string   "cross_listed"
     t.integer  "year"
     t.string   "term"
+    t.integer  "course_type"
+    t.integer  "status"
+    t.string   "clusters"
   end
 
   create_table "departments", force: true do |t|

@@ -19,11 +19,14 @@ class Scraper
     prereqs:"lblPrerequisites",
     cross_listed:"lblCrossListed",
     credits:"lblCredits",
+    course_type:"lblCredits",
     comments:"lblComments",
     crn:"lblCRN",
     restrictions:"lblRestrictions",
     term:"lblTerm",
-    year:"lblTerm"}
+    year:"lblTerm",
+    clusters:"lblClusters",
+    status:"lblStatus"}
 
   IntFields = [:num, :enroll, :cap, :credits, :crn, :year]
 
@@ -43,16 +46,23 @@ class Scraper
       xpath = "//span[@id='rpResults_ctl#{pad_with_zero(num)}_#{label}']" #=> rpResults_ctl03_lblTitle
       val = e.search(xpath).first.try(:text)
       if val
+        val.strip!
+
         val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
-        val = val.split.first if sym == :term  #"Spring 2013" => "Spring"
-        val = val.to_i if IntFields.include? sym #convert to int in some cases
+        val = val.split.first if sym == :term  #"Spring 2013" => "Spring" => 1
+        val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
+        val = Course::Status::Statuses[val] if sym == :status
+
+        #convert to int for some fields
+        val = val.to_i if IntFields.include? sym
+
         #call the setter method (ie :num=), with the val as the parameter
         c.send :"#{sym}=", val
       end
     end
 
-    return nil if c.num == 0 || c.num == nil
-
+    return nil if (c.num == 0 || c.num == nil || (c.course_type == Course::Type::Course && c.credits == 0))
+    
     c
   end
 
@@ -60,11 +70,7 @@ class Scraper
     #make all the CDCS choices
     @form.field_with(:name => "ddlTerm").option_with(:text => term).click
     @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
-    @form.field_with(:name => "ddlTypes").option_with(:value => "0").click #main course
     @form.field_with(:name => "ddlStatus").option_with(:value => "OP").click #open courses
-
-    @form.field_with(:name => "ddlCreditFrom").option_with(:value => " 00.1").click
-    @form.field_with(:name => "ddlCreditTo").option_with(:value => " 16.0").click
 
     #go!
     results = @form.click_button
@@ -127,9 +133,10 @@ class Scraper
 end
 
 task :scrape => :environment do
+  num = ENV['num'] || -1
   Scraper.scrape do |s|
     s.terms = ["Spring 2014", "Fall 2013"]
     s.school = Scraper::ASE
-    s.num = -1
+    s.num = num.to_i
   end
 end

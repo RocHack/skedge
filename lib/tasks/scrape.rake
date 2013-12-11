@@ -31,7 +31,7 @@ class Scraper
     status:"lblStatus"
   }
 
-  IntFields = [:num, :sec_enroll, :sec_cap, :tot_enroll, :tot_cap, :credits, :crn, :year]
+  IntFields = [:sec_enroll, :sec_cap, :tot_enroll, :tot_cap, :credits, :crn, :year]
 
   ASE = "1"
 
@@ -104,7 +104,10 @@ class Scraper
     results.search("//table[@cellpadding='3']").each do |e|
       c = parse_course(e, num)
       if c
-        c.department = dept        
+        c.department = dept
+
+        if c.course_type == 
+
         c.save
       end
       num += 2 #for some reason the number in the div id's go up by two

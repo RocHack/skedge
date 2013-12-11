@@ -72,8 +72,9 @@ class Course < ActiveRecord::Base
 	def formatted_name
 		little = %w(and of or the to the a an in but)
 		big = %(HIV GPU)
-		name.gsub!(/(\w|\.|-|')*/) do |w|
-			if little.include?(w.downcase)
+		prev = nil
+		name.gsub(/(\w|\.|-|'|:)*/) do |w|
+			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
 				w.downcase
 			elsif big.include?(w.upcase)
 				w.upcase
@@ -82,8 +83,8 @@ class Course < ActiveRecord::Base
 			else
 				w.capitalize
 			end
+			prev = w2 if !w2.strip.empty?
+			w2
 		end
-		name[0] = name[0].upcase #in case it starts w little word
-		name
 	end
 end

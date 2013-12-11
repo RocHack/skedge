@@ -2,8 +2,8 @@ class MainController < ApplicationController
 	def search_for_courses(query)
 		type_search = Course::Type::Course
 		status_search = Course::Status::Open
-		name_search = ""
-		dept_search = ""
+		name_search = nil
+		dept_search = nil
 		num_search = nil
 		instructor_search = nil
 
@@ -23,7 +23,7 @@ class MainController < ApplicationController
 
 		Course.joins{department}.where do
 			[
-				num_search.presence && num == num_search,
+				num_search.presence && num =~ "#{num_search}%",
 				name_search.presence && name =~ "%#{name_search}%",
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
 				type_search.presence && course_type == type_search,

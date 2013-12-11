@@ -35,6 +35,7 @@ end
 
 gem 'mechanize'
 gem 'haml'
+gem 'squeel' #for nice activerecord lookups
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

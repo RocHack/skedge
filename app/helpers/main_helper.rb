@@ -1,19 +1,19 @@
 module MainHelper
-	def inline_form
+	def inline_form(link_text, query)
 		form_tag("/", method:"post", class:"form-inline inline") do
-			hidden = hidden_field_tag 'query', '\1' #implicit field that will send the query (ie, query will go into \1)
-			link = link_to '\1', "#", :onclick => "$(this).closest('form').submit()" #submit the closest form
+			hidden = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
+			link = link_to link_text, "#", :onclick => "$(this).closest('form').submit()" #submit the closest form
 			hidden + link
 		end
 	end
 
 	def format_courselist(txt)
 		#matches any strings that are like "ABC 123", and replaces them with inline_form
-		raw txt.gsub(/([A-Za-z]*\s*\d+[A-Za-z]*)/, inline_form.strip) #strip off some whitespace that seems to come w the form
+		raw txt.gsub(/([A-Za-z]*\s*\d+[A-Za-z]*)/, inline_form('\1','\1').strip) #strip off some whitespace that seems to come w the form
 	end
 
 	def format_instructors(txt)
-		raw txt.split("; ").map {|i| "<a>#{i}</a>"}.join("; ")
+		raw txt.split("; ").map {|i| inline_form(i, "instructor:#{i.split.first.downcase}") }.join("; ")
 	end
 
 	def enroll_bar_style(course)

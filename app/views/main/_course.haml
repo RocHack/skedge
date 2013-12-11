@@ -4,21 +4,24 @@
       %span.cnum= course.num
     %button.btn.btn-success.left-margin-10{type:"button"} Add Course
   %p.info
-    -if !course.time_tba?
+    -if course.time_tba?
+      %strong Time and place:
+      TBA
+    -else
       %span.right-margin-20
         %strong Time:
         =formatted_time_and_day(course)
-    %strong Place:
-    %a= course.building
-    =course.room
+      %strong Place:
+      =course.building
+      =course.room
   -if course.instructors
     .info
       %strong Instructors:
       =format_instructors(course.instructors)
   -if course.comments
-    %p.info
+    .info
       %strong Comments:
-      =course.comments
+      =format_courselist(course.comments)
   -if course.prereqs
     .info
       %strong Prerequisites:

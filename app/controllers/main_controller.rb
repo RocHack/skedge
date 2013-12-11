@@ -4,30 +4,33 @@ class MainController < ApplicationController
 
 		query.strip!
 
-		course_type = Course::Type::Course
+		type_search = Course::Type::Course
+		name_search = ""
+		dept_search = ""
+		num_search = nil
+		instructor_search = nil
 
-		# check for a dept, (case insensitive)
-		if query.size <= 3
-			dept = Department.lookup(query)
-			return dept.courses.where({course_type:course_type}) if dept
+		if (match = query.match /instructor:\s*([A-Za-z'-_]*).*/i)
+			instructor_search = match[1]
+			query = query.gsub(/instructor:\s*([A-Za-z'-_]*)/,"") #remove from the query
 		end
 
-		# check for a specific course (CSC 171)
-		if (match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*)/)
-			if match[1].empty?
-				#just "172"
-				Course.where({num:match[2].to_i, course_type:course_type})
-			else
-				dept = Department.lookup(match[1])
-				if dept
-					Course.where({num:match[2].to_i, department:dept, course_type:course_type})
-				else
-					[] #department wasn't found
-				end
-			end
+		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
+		if match
+			dept_search = match[1] if !match[1].empty?
+			num_search = match[2] if !match[2].empty?
 		else
-			# otherwise just search titles
-			Course.where("(lower(name) LIKE ?) AND (course_type = ?)", "%#{query.downcase}%", course_type)
+			name_search = query
+		end
+
+		Course.joins{department}.where do
+			[
+				name_search.presence && name =~ "%#{name_search}%",
+				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
+				instructors.presence && instructors =~ "%#{instructor_search}%",
+				num_search.presence  && num == num_search,
+				course_type.presence && course_type == type_search
+			].compact.reduce(:&)
 		end
 	end
 

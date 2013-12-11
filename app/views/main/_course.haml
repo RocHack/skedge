@@ -38,30 +38,10 @@
   %p.desc
     =course.desc
 
-  -if course.has_labs?
-    .show
-      %a{href:"#", onclick:"$(this).parent().parent().find('.labs').show(); $(this).hide(); return false;"} 
-        %strong
-          Show
-          =course.labs.size
-          lab sections
-    .labs
-      %p
-        %strong Lab sections:
-      %table
-        -course.labs.each do |lab|
-          %tr
-            %td.middle
-              %button.btn.btn-sm.btn-primary.lab-btn{type:"button"}
-                Add Lab
-            %td.lab-info
-              .info
-                =succeed "," do
-                  =formatted_time_and_day(lab)
-                =lab.building
-              .info
-                =enroll_ratio(lab)
-                students enrolled
+  =render partial:"subcourse", locals: {subcourses:course.labs, name:"lab"}
+  =render partial:"subcourse", locals: {subcourses:course.lab_lectures, name:"lab lecture"}
+  =render partial:"subcourse", locals: {subcourses:course.recitations, name:"recitation"}
+  =render partial:"subcourse", locals: {subcourses:course.workshops, name:"workshop"}
 
   .progress
     %div.progress-bar{style:"width: #{enroll_bar_precentage(course)}%", :class => "progress-bar-#{enroll_bar_style(course)}"}

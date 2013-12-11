@@ -1,0 +1,32 @@
+%span
+  -if !subcourses.empty?
+    .subcourse-show
+      %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"} 
+        %strong
+          Show
+          =subcourses.size
+          =name
+          sections
+    %div.subcourse-data{:style=>"display:none"}
+      %p
+        %strong
+          =name.capitalize
+          sections:
+        %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
+          (hide)
+      %table
+        -subcourses.each do |lab|
+          %tr
+            %td.middle
+              %button.btn.btn-sm.btn-primary.lab-btn{type:"button"}
+                Add
+                =name
+            %td.lab-info
+              .info
+                =succeed "," do
+                  =formatted_time_and_day(lab)
+                =lab.building
+                =lab.room
+              .info
+                =enroll_ratio(lab)
+                students enrolled

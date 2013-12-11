@@ -1,16 +1,15 @@
 class MainController < ApplicationController
 	def search_for_courses(query)
-		query.strip!
-
 		type_search = Course::Type::Course
 		name_search = ""
 		dept_search = ""
 		num_search = nil
 		instructor_search = nil
 
-		if (match = query.match /instructor:\s*([A-Za-z'-_]*).*/i)
+		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
+		if (match = query.match instructor_regex)
 			instructor_search = match[1]
-			query = query.gsub(/instructor:\s*([A-Za-z'-_]*)/,"") #remove from the query
+			query = query.gsub(instructor_regex,"") #remove from the query
 		end
 
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
@@ -33,7 +32,8 @@ class MainController < ApplicationController
 	end
 
 	def index
-		@query = params[:query]
+		@query = params[:query].try(:strip)
+		@query = nil if @query && @query.empty?
 		if @query
 			@courses = search_for_courses(@query)
 		else

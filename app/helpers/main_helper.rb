@@ -44,11 +44,15 @@ module MainHelper
 	end
 
 	def formatted_time_and_day(course)
-		days_of_week = {"M" => "Mon", "T" => "Tues", "W" => "Wed", "R" => "Thurs", "F" => "Fri"}
+		days_of_week = {"M" => "Mon", "T" => "Tues", "W" => "Wed", "R" => "Thurs", "F" => "Fri", "S" => "Sat", "U" => "Sun"}
 		# days is like "MWF". split into chars, map each one to the longer version, join with /, so Mon/Wed/Fri
 		d = course.days.split("").map {|d| days_of_week[d]}.join("/")
 		s = format_time(course.start_time.to_s)
 		e = format_time(course.end_time.to_s)
 		"#{d} #{s}-#{e}"
+	end
+
+	def enroll_ratio(course)
+		"#{course.enroll}/#{course.no_cap? ? "∞" : course.cap}"
 	end
 end

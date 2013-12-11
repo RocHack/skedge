@@ -20,11 +20,6 @@
   margin-left:5px;
 }
 
-.left-margin-10
-{
-  margin-left:10px;
-}
-
 .left-margin-20
 {
   margin-left:20px;
@@ -182,6 +177,27 @@ p.desc
 {
   margin-top:5px;
   margin-bottom: 5px;
+}
+
+.add-course-btn
+{
+  margin-left:10px;
+  margin-top: -2px;
+}
+
+.lab-btn
+{
+  margin-right: 7px;
+}
+
+.labs
+{
+  display:none;
+}
+
+.lab-info
+{
+  height: 50px;
 }
 
 /* Course num, like in CSC **173** */

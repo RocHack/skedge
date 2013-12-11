@@ -20,6 +20,20 @@ class Course < ActiveRecord::Base
 		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
 	end
 
+	def has_labs?
+		labs.size > 0
+	end
+
+	def labs
+		@labs ||= Course.where do
+			(term == my{term}) &
+			(year == my{year}) &
+			(num == my{num}) &
+			(department_id == my{department_id}) &
+			(course_type == Course::Type::Lab)
+		end.to_a
+	end
+
 	def cap
 		tot_cap || sec_cap
 	end

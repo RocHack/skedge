@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 	def search_for_courses(query)
 		type_search = Course::Type::Course
-		status_search = Course::Status::Open
+		status_search = nil
 		name_search = nil
 		dept_search = nil
 		num_search = nil

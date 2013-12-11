@@ -57,6 +57,20 @@ class Course < ActiveRecord::Base
 		cap == 0 || cap == nil
 	end
 
+	def can_enroll?
+		term == "Spring" && status == Status::Open
+	end
+
+	def old?
+		term != "Spring" && year != 2014
+	end
+
+	def status_string
+		return "Open" if status == Status::Open
+		return "Closed" if status == Status::Closed
+		return "Cancelled" if status == Status::Cancelled
+	end
+
 	def enroll_percent
 		enroll*100.0/cap
 	end
@@ -70,8 +84,8 @@ class Course < ActiveRecord::Base
 	end
 
 	def formatted_name
-		little = %w(and of or the to the a an in but)
-		big = %(HIV AIDS GPU)
+		little = %w(and of or the to the in but)
+		big = %(HIV AIDS GPU HCI)
 		prev = nil
 		name.gsub(/(\w|\.|-|'|:)*/) do |w|
 			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)

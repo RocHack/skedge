@@ -55,4 +55,18 @@ module MainHelper
 	def enroll_ratio(course)
 		"#{course.enroll}/#{course.no_cap? ? "∞" : course.cap}"
 	end
+
+	def should_split_cols(subcourses)
+		subcourses.size > 3
+	end
+
+	def course_button_text(course, name)
+		if course.can_enroll?
+        	"Add #{name}"
+      	elsif course.old?
+      		"#{course.term} #{course.year}"
+        else
+        	course.status_string
+        end
+	end
 end

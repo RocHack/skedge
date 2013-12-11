@@ -2,12 +2,8 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.formatted_name}" do
       %span.cnum= course.num
-    %button.btn.add-course-btn{type:"button", :class => "#{course.term == "Spring" ? "btn-success" : "disabled"}"}
-      -if course.term == "Spring"
-        Add Course
-      -else
-        =course.term
-        =course.year 
+    %button.btn.add-course-btn{type:"button", :class => "#{course.can_enroll? ? "btn-success" : "disabled"}"}
+      =course_button_text(course, "Course")
   %p.info
     -if course.time_tba?
       %strong Time and place:

@@ -38,13 +38,18 @@ class Scraper
     num.to_s.rjust(2,"0")
   end
 
+  def extract_attribute(e, num, label)
+      xpath = "//span[@id='rpResults_ctl#{pad_with_zero(num)}_#{label}']" #=> rpResults_ctl03_lblTitle
+      e.search(xpath).first.try(:text)
+  end
+
   def parse_course(e, num)
-    c = Course.new
+    crn = extract_attribute(e, num, Labels[:crn])
+    c = Course.find_or_create_by(crn:crn)
 
     #for each label, ie, attribute, parse thru html and assign to the course obj
     Labels.each do |sym, label|
-      xpath = "//span[@id='rpResults_ctl#{pad_with_zero(num)}_#{label}']" #=> rpResults_ctl03_lblTitle
-      val = e.search(xpath).first.try(:text)
+      val = extract_attribute(e, num, label)
       if val
         val.strip!
 
@@ -61,7 +66,8 @@ class Scraper
       end
     end
 
-    return nil if (c.num == 0 || c.num == nil || (c.course_type == Course::Type::Course && c.credits == 0))
+    #ignore course classes w/0 credits (they are like "independent study" etc)
+    return nil if (c.course_type == Course::Type::Course && c.credits == 0)
     
     c
   end

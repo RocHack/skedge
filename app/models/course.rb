@@ -1,10 +1,4 @@
 class Course < ActiveRecord::Base
-	validates :crn, uniqueness: true
-	belongs_to :department
-
-	belongs_to :main_course, class_name:"Course"
-	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
-
 	module Type
 		Course = 0
 		Lab = 1
@@ -22,6 +16,19 @@ class Course < ActiveRecord::Base
 
 		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
 	end
+
+	module Term
+		Fall = 0
+		Spring = 1
+
+		Terms = {"Fall" => Fall, "Spring" => Spring}
+	end
+
+	validates :crn, uniqueness: true
+	belongs_to :department
+
+	belongs_to :main_course, class_name:"Course"
+	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
 
 	def filter_subcourses(type)
 		subcourses.select do |course|
@@ -58,11 +65,16 @@ class Course < ActiveRecord::Base
 	end
 
 	def can_enroll?
-		term == "Spring" && status == Status::Open
+		term == Course::Term::Spring && status == Status::Open
 	end
 
 	def old?
-		term != "Spring" && year != 2014
+		term != Course::Term::Spring && year != 2014
+	end
+
+	def term_string
+		return "Fall" if status == Term::Fall
+		return "Spring" if status == Term::Spring
 	end
 
 	def status_string

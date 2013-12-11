@@ -64,7 +64,7 @@ module MainHelper
 		if course.can_enroll?
         	"Add #{name}"
       	elsif course.old?
-      		"#{course.term} #{course.year}"
+      		"#{course.term_string} #{course.year}"
         else
         	course.status_string
         end

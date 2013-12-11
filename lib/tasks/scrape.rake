@@ -57,7 +57,7 @@ class Scraper
         val.strip!
 
         val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
-        val = val.split.first if sym == :term  #"Spring 2013" => "Spring" => 1
+        val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
         val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
         val = Course::Status::Statuses[val] if sym == :status
 

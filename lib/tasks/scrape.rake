@@ -75,11 +75,27 @@ class Scraper
     c
   end
 
+  def self.link_subcourses
+    Course.where {course_type != Course::Type::Course}.each do |c|
+      c.main_course = find_main_course(c)
+      c.save
+    end
+  end
+
+  def self.find_main_course(c)
+    Course.where do
+      (term == c.term) &
+      (year == c.year) &
+      (num == c.num) &
+      (department_id == c.department_id) &
+      (course_type == Course::Type::Course)
+    end.first
+  end
+
   def get_dept(dept, term)
     #make all the CDCS choices
     @form.field_with(:name => "ddlTerm").option_with(:text => term).click
     @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
-    @form.field_with(:name => "ddlStatus").option_with(:value => "OP").click #open courses
 
     #go!
     results = @form.click_button
@@ -88,7 +104,7 @@ class Scraper
     results.search("//table[@cellpadding='3']").each do |e|
       c = parse_course(e, num)
       if c
-        c.department = dept
+        c.department = dept        
         c.save
       end
       num += 2 #for some reason the number in the div id's go up by two
@@ -149,4 +165,12 @@ task :scrape => :environment do
     s.num = num.to_i
     s.depts = ENV['depts'].split(",") if ENV['depts']
   end
+  puts "Linking labs/lectures/recitations/workshops to their main courses..."
+  Scraper.link_subcourses
 end
+
+# namespace :scrape do
+#   task :subcourses => :environment do
+#     Scraper.link_subcourses
+#   end
+# end

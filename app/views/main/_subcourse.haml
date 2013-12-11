@@ -6,7 +6,7 @@
           Show
           =subcourses.size
           =name
-          sections
+          =subcourses.size == 1 ? "section" : "sections"
     %div.subcourse-data{:style=>"display:none"}
       %p
         %strong
@@ -20,7 +20,7 @@
             %td.middle
               %button.btn.btn-sm.btn-primary.lab-btn{type:"button"}
                 Add
-                =name
+                =name.titleize
             %td.lab-info
               .info
                 =succeed "," do

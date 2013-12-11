@@ -2,6 +2,9 @@ class Course < ActiveRecord::Base
 	validates :crn, uniqueness: true
 	belongs_to :department
 
+	belongs_to :main_course, class_name:"Course"
+	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
+
 	module Type
 		Course = 0
 		Lab = 1
@@ -20,30 +23,26 @@ class Course < ActiveRecord::Base
 		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
 	end
 
-	def subcourses(type)
-		Course.where do
-			(term == my{term}) &
-			(year == my{year}) &
-			(num == my{num}) &
-			(department_id == my{department_id}) &
-			(course_type == type)
-		end.to_a
+	def filter_subcourses(type)
+		subcourses.select do |course|
+			course.course_type == type
+		end
 	end
 
 	def labs
-		subcourses(Course::Type::Lab)
+		filter_subcourses(Course::Type::Lab)
 	end
 
 	def recitations
-		subcourses(Course::Type::Recitation)
+		filter_subcourses(Course::Type::Recitation)
 	end
 
 	def lab_lectures
-		subcourses(Course::Type::LabLecture)
+		filter_subcourses(Course::Type::LabLecture)
 	end
 
 	def workshops
-		subcourses(Course::Type::Workshop)
+		filter_subcourses(Course::Type::Workshop)
 	end
 
 	def cap

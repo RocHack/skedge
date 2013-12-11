@@ -14,19 +14,20 @@
           sections:
         %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
           (hide)
-      %table
-        -subcourses.each do |lab|
-          %tr
-            %td.middle
-              %button.btn.btn-sm.btn-primary.lab-btn{type:"button"}
-                Add
-                =name.titleize
-            %td.lab-info
-              .info
-                =succeed "," do
-                  =formatted_time_and_day(lab)
-                =lab.building
-                =lab.room
-              .info
-                =enroll_ratio(lab)
-                students enrolled
+      %div{:class => subcourses.size > 4 ? "cols" : ""}
+        %table
+          -subcourses.each do |lab|
+            %tr
+              %td.middle
+                %button.btn.btn-sm.btn-primary.lab-btn{type:"button"}
+                  Add
+                  =name.titleize
+              %td.lab-info
+                .info
+                  =succeed "," do
+                    =formatted_time_and_day(lab)
+                  =lab.building
+                  =lab.room
+                .info
+                  =enroll_ratio(lab)
+                  students are enrolled

@@ -71,7 +71,7 @@ class Course < ActiveRecord::Base
 
 	def formatted_name
 		little = %w(and of or the to the a an in but)
-		big = %(HIV GPU)
+		big = %(HIV AIDS GPU)
 		prev = nil
 		name.gsub(/(\w|\.|-|'|:)*/) do |w|
 			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)

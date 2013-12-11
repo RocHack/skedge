@@ -23,7 +23,7 @@ class MainController < ApplicationController
 
 		Course.joins{department}.where do
 			[
-				num_search.presence && num =~ "#{num_search}%",
+				num_search.presence && num =~ "#{num_search.to_i.to_s}%",
 				name_search.presence && name =~ "%#{name_search}%",
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
 				type_search.presence && course_type == type_search,

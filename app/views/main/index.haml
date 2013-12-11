@@ -33,7 +33,7 @@
             -if !@query
               %p.lead
                 Use the search above, or explore departments:
-              .depts
+              .cols.depts
                 -@depts.each do |dept|
                   -if !dept.courses.empty?
                     .dept

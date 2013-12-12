@@ -90,13 +90,13 @@ class CourseDecorator < Draper::Decorator
 			dept = match[2].strip
 			num = match[3].strip
 			if dept.empty? || dept == "or" || dept == "of" || dept == "and"
-				not_link = dept
+				not_link = " "+dept
 				w = num
 				link = last_dept+" "+num
 			else
 				last_dept = dept
 			end
-			not_link + " " + helpers.inline_form(w.strip,link).strip #strip off some whitespace that seems to come w the form
+			not_link + " " + helpers.inline_form(w,link).strip #strip off some whitespace that seems to come w the form
 		end
 		h.raw str
 	end

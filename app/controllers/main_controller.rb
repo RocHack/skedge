@@ -1,4 +1,19 @@
 class MainController < ApplicationController
+	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search)
+		Course.joins{department}.where do
+			[
+				num =~ "#{num_search}%",
+				term_search.presence && term == term_search,
+				name_search.presence && name =~ "%#{name_search}%",
+				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
+				type_search.presence && course_type == type_search,
+				status_search.presence && status == status_search,
+				status != Course::Status::Cancelled,
+				instructor_search.presence && instructors =~ "%#{instructor_search}%"
+			].compact.reduce(:&)
+		end.to_a
+	end
+
 	def search_for_courses(query)
 		if match = (query.match /rand\((\d*)\)/)
 			num = [match[1].to_i, 1].max
@@ -35,18 +50,7 @@ class MainController < ApplicationController
 			name_search = query
 		end
 
-		Course.joins{department}.where do
-			[
-				num_search.presence && num =~ "#{num_search.to_i.to_s}%",
-				term_search.presence && term == term_search,
-				name_search.presence && name =~ "%#{name_search}%",
-				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
-				type_search.presence && course_type == type_search,
-				status_search.presence && status == status_search,
-				status != Course::Status::Cancelled,
-				instructor_search.presence && instructors =~ "%#{instructor_search}%"
-			].compact.reduce(:&)
-		end.to_a
+		do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search)
 	end
 
 	def filter(courses)

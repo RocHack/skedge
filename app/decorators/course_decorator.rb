@@ -109,6 +109,7 @@ class CourseDecorator < Draper::Decorator
         else
         	status
         end
+        #"Conflict – CSC 172"
 	end
 
 	def enroll_bar_style
@@ -142,13 +143,14 @@ class CourseDecorator < Draper::Decorator
 
 	def add_button_class
 		if object.course_type == Course::Type::Course
-			object.can_enroll? ? "btn-success" : "disabled"
+			object.can_enroll? ? "btn-success" : "disabled" #:"btn-danger"
 		else
 			object.can_enroll? ? "btn-primary" : "disabled full"
 		end
 	end
 
 	def add_button_tooltip
+		# "Replace CSC 172?"
 		object.requires_code? ? "Instructor's permission is required." : ""
 	end
 end

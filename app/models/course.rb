@@ -58,15 +58,14 @@ class Course < ActiveRecord::Base
 	end
 
 	def sections
-		#TODO optimize!
-	    Course.where do
-	      (term == my{term}) &
-	      (year == my{year}) &
-	      (num == my{num}) &
-	      (department_id == my{department_id}) &
-	      (course_type == my{course_type}) &
-	      (status != Course::Status::Cancelled) &
-	      (name == my{name})
+        Course.where do
+            (term == my{term}) &
+            (year == my{year}) &
+            (num == my{num}) &
+            (department_id == my{department_id}) &
+            (course_type == my{course_type}) &
+            (status != Course::Status::Cancelled) &
+            (name == my{name})
 	    end.order("start_time")
 	end
 

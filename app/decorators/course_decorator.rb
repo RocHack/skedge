@@ -58,12 +58,12 @@ class CourseDecorator < Draper::Decorator
 		little = %w(and of or the to the in but)
 		big = %(HIV AIDS GPU HCI)
 		prev = nil
-		object.name.gsub(/(\w|\.|'|:)*/) do |w|
+		object.name.gsub(/(\w|\.|')*/) do |w|
 			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
 				w.downcase
 			elsif big.include?(w.upcase)
 				w.upcase
-			elsif w =~ /^I*([A-D]|V|)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^(M|)(T|)(W|)(R|)(F|)$/
+			elsif w =~ /^(I*|\d)([A-D]|V|)((:|\b)?)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^M?T?W?R?F?$/
 				w
 			else
 				w.capitalize
@@ -82,7 +82,7 @@ class CourseDecorator < Draper::Decorator
 
 		#matches any strings that are like "ABC 123", and replaces them with inline_form
 		last_dept = object.department.short #default to course's dept (ie if just "291")
-		regex = /(\A|\s)([A-Za-z]*)\s*(\d+[A-Za-z]*)/
+		regex = /(\A|\s)([A-Za-z]{0,3})\s*(\d{3}[A-Za-z]*)/
 		str = object.send(attribute).gsub(regex) do |w|
 			match = w.match regex
 			link = w

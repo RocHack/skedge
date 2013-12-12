@@ -22,7 +22,7 @@
     .info
       %strong Comments:
       =course.linkify(:comments)
-  -if course.restrictions && !course.requires_code?
+  -if course.restrictions
     .info
       %strong Restrictions:
       =course.restrictions

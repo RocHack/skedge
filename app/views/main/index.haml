@@ -12,22 +12,20 @@
                   skedge
                 %small.subtitle
                   better better cdcs
-                  .project-info
-                    %a{href:"#", onclick:"$(this).hide(); $('.credits').fadeIn(); return false;"}
+                  %span
+                    %a.project-info{href:"#", onclick:"$('.credits').fadeToggle(); return false;"}
                       info
               .credits{style:"display:none"}
                 %p
                   a
                   %a{href:"http://rochack.org"} rochack
-                  project
+                  %a{href:"https://github.com/RocHack/skedge"} project
                 %p
                   made by
                   %a{href:"http://danhassin.com"} dan
                 %p
-                  running
-                  %a{href:"https://github.com/RocHack/skedge"} this code
-                  =surround "(",")" do
-                    %a{href:"#", data:{toggle:"modal", target:"#bug-modal"}} bug?
+                  =surround "[","]" do
+                    %a{href:"#", data:{toggle:"modal", target:"#bug-modal"}} give feedback
                   =render partial:"modal"
 
           -#SEARCHBAR

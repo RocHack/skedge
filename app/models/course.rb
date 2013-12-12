@@ -24,7 +24,10 @@ class Course < ActiveRecord::Base
 		Terms = {"Fall" => Fall, "Spring" => Spring}
 	end
 
-	validates :crn, uniqueness: true
+	validates :crn, presence: true, uniqueness: true
+	validates :num, presence: true
+	validates :name, presence: true
+	
 	belongs_to :department
 
 	belongs_to :main_course, class_name:"Course"

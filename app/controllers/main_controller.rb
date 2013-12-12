@@ -1,5 +1,11 @@
 class MainController < ApplicationController
 	def search_for_courses(query)
+		if match = (query.match /rand\((\d*)\)/)
+			num = [match[1].to_i, 1].max
+			offset = rand(Course.count)
+			return Course.limit(num).where {course_type == Course::Type::Course}.order("RANDOM()").to_a
+		end
+
 		type_search = Course::Type::Course
 		status_search = nil
 		name_search = nil

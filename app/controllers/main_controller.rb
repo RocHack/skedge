@@ -43,15 +43,26 @@ class MainController < ApplicationController
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
 				type_search.presence && course_type == type_search,
 				status_search.presence && status == status_search,
+				status != Course::Status::Cancelled,
 				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
 		end.to_a
 	end
 
-	def filter_sister_courses(courses)
+	def filter(courses)
+		#TODO optimize!
 		courses.delete_if do |c|
 			sister = c.sister_course
 			sister && courses.include?(sister) && (c.year < sister.year || (c.year == sister.year && c.term > sister.term))
+		end
+		courses.each do |c|
+			courses.delete_if do |c2|
+				c2 != c &&
+				c2.num == c.num &&
+				c2.department_id == c.department_id &&
+				c2.term == c.term &&
+				c2.year == c.year
+			end
 		end
 	end
 
@@ -59,7 +70,7 @@ class MainController < ApplicationController
 		@query = params[:query].try(:strip)
 		@query = nil if @query && @query.empty?
 		if @query
-			@courses = filter_sister_courses(search_for_courses(@query))
+			@courses = filter(search_for_courses(@query))
 		else
 			@depts = Department.all
 		end

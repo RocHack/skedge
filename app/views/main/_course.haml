@@ -2,38 +2,53 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.name}" do
       %span.cnum= course.num
-    %button.btn.add-course-btn{type:"button", :id => "#{course.crn}", :class => course.add_button_class, :data => {toggle:"tooltip"}, :title => course.add_button_tooltip}
-      =course.button_text("Course")
-      -if course.requires_code?
-        %span.left-margin-5.glyphicon.glyphicon-lock
-  %p.info
-    %strong Time and place:
-    =course.time_and_place
-  -if course.instructors
-    .info
-      %strong Instructors:
-      =course.linkify(:instructors)
-  -if course.sister_course
-    -sister = course.sister_course.decorate
-    .info
-      %strong Also offered: 
-      =inline_form sister.term_and_year, sister.dept_and_cnum+" term:#{sister.term.downcase}"
-  -if course.comments
-    .info
-      %strong Comments:
-      =course.linkify(:comments)
-  -if course.restrictions
-    .info
-      %strong Restrictions:
-      =course.restrictions
-  -if course.has_prereqs?
-    .info
-      %strong Prerequisites:
-      =course.linkify(:prereqs)
-  -if course.cross_listed
-    .info
-      %strong Cross listed:
-      =course.linkify(:cross_listed)
+  .course-details
+    -if course.sister_course
+      -sister = course.sister_course.decorate
+      .info
+        %strong Also offered: 
+        =inline_form sister.term_and_year, sister.dept_and_cnum+" term:#{sister.term.downcase}"
+    -if course.comments
+      .info
+        %strong Comments:
+        =course.linkify(:comments)
+    -if course.restrictions
+      .info
+        %strong Restrictions:
+        =course.restrictions
+    -if course.has_prereqs?
+      .info
+        %strong Prerequisites:
+        =course.linkify(:prereqs)
+    -if course.cross_listed
+      .info
+        %strong Cross listed:
+        =course.linkify(:cross_listed)
+  %table.wide
+    -course.sections.each do |section|
+      -section = section.decorate
+      %tr
+        %td.course-btn
+          %button.btn.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class, :data => {toggle:"tooltip"}, :title => section.add_button_tooltip}
+            =section.button_text("Section")
+            -if section.requires_code?
+              %span.left-margin-5.glyphicon.glyphicon-lock
+        %td.course-info
+          %p.info
+            %strong Time & Place:
+            =section.time_and_place
+          -if section.instructors
+            .info
+              %strong
+                ="Instructor#{section.multiple_instructors? ? "s" : ""}:"
+              =section.linkify(:instructors)
+          .progress
+            %div.progress-bar{style:"width: #{section.enroll_bar_precentage}%", :class => "progress-bar-#{section.enroll_bar_style}"}
+
+          .progress-num
+            %small
+              =section.enroll_ratio
+              enrolled
   %p.desc
     =course.desc
 
@@ -42,10 +57,4 @@
   =render partial:"subcourse", locals: {subcourses:course.recitations, name:"recitation"}
   =render partial:"subcourse", locals: {subcourses:course.workshops, name:"workshop"}
 
-  .progress
-    %div.progress-bar{style:"width: #{course.enroll_bar_precentage}%", :class => "progress-bar-#{course.enroll_bar_style}"}
-
-  .progress-num
-    %small
-      =course.enroll_ratio
-      enrolled
+%hr

@@ -104,7 +104,7 @@ class Scraper
     t = (c.term + 1) % 2
     Course.where do
       (term == t) &
-#      (year == c.year) &
+#      (year == c.year) & #if we only keep track of one semester behind, commented out is ok, otherwise has to be +/-
       (num == c.num) &
       (department_id == c.department_id) &
       (course_type == Course::Type::Course)
@@ -188,7 +188,6 @@ class Scraper
 end
 
 namespace :scrape do
-
   task :fetch => :environment do
     num = ENV['num'] || -1
     Scraper.scrape do |s|

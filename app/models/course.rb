@@ -57,6 +57,19 @@ class Course < ActiveRecord::Base
 		filter_subcourses(Course::Type::Workshop)
 	end
 
+	def sections
+		#TODO optimize!
+	    Course.where do
+	      (term == my{term}) &
+	      (year == my{year}) &
+	      (num == my{num}) &
+	      (department_id == my{department_id}) &
+	      (course_type == my{course_type}) &
+	      (status != Course::Status::Cancelled) &
+	      (name == my{name})
+	    end.order("start_time")
+	end
+
 	def cap
 		tot_cap || sec_cap
 	end
@@ -91,5 +104,9 @@ class Course < ActiveRecord::Base
 
 	def requires_code?
 		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
+	end
+
+	def multiple_instructors?
+		instructors[";"]
 	end
 end

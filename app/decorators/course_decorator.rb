@@ -30,7 +30,7 @@ class CourseDecorator < Draper::Decorator
 		if object.time_tba?
 			"TBA"
 		else
-			"#{time_and_day}, #{object.building} #{object.room}"
+			time_and_day + (!object.building.empty? ? ", #{object.building} #{object.room}" : "")
 		end
 	end
 
@@ -55,8 +55,8 @@ class CourseDecorator < Draper::Decorator
 	end
 
 	def name
-		little = %w(and of or the to the in but)
-		big = %(HIV AIDS GPU HCI)
+		little = %w(and of or the to the in but as is for)
+		big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP)
 		prev = nil
 		object.name.gsub(/(\w|\.|')*/) do |w|
 			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
@@ -75,9 +75,9 @@ class CourseDecorator < Draper::Decorator
 
 	def linkify(attribute)
 		if attribute == :instructors
-			return h.raw(instructors.split("; ").map do |i|
-							helpers.inline_form(i, "instructor:#{i.split.first.downcase}")
-						end.join("; "))
+			return h.raw(instructors.split(";").map do |i|
+							helpers.inline_form(i.titleize, "instructor:#{i.split.first.downcase}")
+						end.join(", "))
 		end
 
 		#matches any strings that are like "ABC 123", and replaces them with inline_form

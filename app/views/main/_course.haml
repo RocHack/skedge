@@ -26,15 +26,19 @@
   -if course.comments
     .info
       %strong Comments:
-      =format_courselist(course.comments)
+      =format_courselist(course.comments, course)
+  -if course.restrictions
+    .info
+      %strong Restrictions:
+      =course.formatted_restrictions
   -if course.has_prereqs?
     .info
       %strong Prerequisites:
-      =format_courselist(course.prereqs)
+      =format_courselist(course.prereqs, course)
   -if course.cross_listed
     .info
       %strong Cross listed:
-      =format_courselist(course.cross_listed)
+      =format_courselist(course.cross_listed, course)
   %p.desc
     =course.desc
 

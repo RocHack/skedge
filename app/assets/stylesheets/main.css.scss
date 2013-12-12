@@ -87,6 +87,14 @@ strong
   text-align: center;
 }
 
+.search-results
+{
+  text-align: right;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+
+
 /* "Logo" */
 small.subtitle
 {
@@ -140,11 +148,6 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
 {
   width:100%;
   margin-top: 15px;
-}
-
-hr.hr-filter
-{
-  margin-bottom: 45px;
 }
 
 h5

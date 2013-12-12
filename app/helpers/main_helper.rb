@@ -7,9 +7,24 @@ module MainHelper
 		end
 	end
 
-	def format_courselist(txt)
+	def format_courselist(txt, course)
 		#matches any strings that are like "ABC 123", and replaces them with inline_form
-		raw txt.gsub(/([A-Za-z]*\s*\d+[A-Za-z]*)/, inline_form('\1').strip) #strip off some whitespace that seems to come w the form
+		last_dept = course.department.short #default to course's dept (ie if just "291")
+		regex = /([A-Za-z]*)\s*(\d+[A-Za-z]*)/
+		str = txt.gsub(regex) do |w|
+			match = w.match regex
+			link = w
+			not_link = ""
+			if match[1].empty? || match[1].strip == "or" || match[1].strip == "of" || match[1].strip == "and"
+				not_link = match[1] + " "
+				w = match[2]
+				link = last_dept+" "+match[2].strip
+			else
+				last_dept = match[1]
+			end
+			not_link + inline_form(w,link).strip #strip off some whitespace that seems to come w the form
+		end
+		raw str
 	end
 
 	def format_instructors(txt)

@@ -105,6 +105,10 @@ class Course < ActiveRecord::Base
 		prereqs && prereqs.downcase != "none"
 	end
 
+	def formatted_restrictions
+		restrictions.gsub(/\[.*\]\s*/,"")
+	end
+
 	def formatted_name
 		little = %w(and of or the to the in but)
 		big = %(HIV AIDS GPU HCI)

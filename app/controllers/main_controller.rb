@@ -39,6 +39,13 @@ class MainController < ApplicationController
 				status_search.presence && status == status_search,
 				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
+		end.to_a
+	end
+
+	def filter_sister_courses(courses)
+		courses.delete_if do |c|
+			sister = c.sister_course
+			sister && courses.include?(sister) && (c.year < sister.year || (c.year == sister.year && c.term > sister.term))
 		end
 	end
 
@@ -46,7 +53,7 @@ class MainController < ApplicationController
 		@query = params[:query].try(:strip)
 		@query = nil if @query && @query.empty?
 		if @query
-			@courses = search_for_courses(@query)
+			@courses = filter_sister_courses(search_for_courses(@query))
 		else
 			@depts = Department.all
 		end

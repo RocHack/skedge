@@ -43,6 +43,13 @@
                       ="-"
                       =dept.name
             -else
+              .search-results
+                Found
+                =@courses.size
+                unique
+                ="course#{@courses.size == 1 ? "" : "s"}"
+                in
+                ="#{(Time.now-@start_time).round(3)} seconds."
               -@courses.each do |course|
                 =render partial:"course", locals: {course: course}
            

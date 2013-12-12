@@ -74,25 +74,6 @@ class Course < ActiveRecord::Base
 		!(term == Course::Term::Spring && year == 2014)
 	end
 
-	def term_and_year
-		"#{term_string} #{year}"
-	end
-
-	def dept_and_cnum
-		"#{department.short} #{num}"
-	end
-
-	def term_string
-		return "Fall" if term == Term::Fall
-		return "Spring" if term == Term::Spring
-	end
-
-	def status_string
-		return "Open" if status == Status::Open
-		return "Closed" if status == Status::Closed
-		return "Cancelled" if status == Status::Cancelled
-	end
-
 	def enroll_percent
 		enroll*100.0/cap
 	end
@@ -105,30 +86,7 @@ class Course < ActiveRecord::Base
 		prereqs && prereqs.downcase != "none"
 	end
 
-	def formatted_restrictions
-		restrictions.gsub(/\[.*\]\s*/,"")
-	end
-
 	def requires_code?
 		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
-	end
-
-	def formatted_name
-		little = %w(and of or the to the in but)
-		big = %(HIV AIDS GPU HCI)
-		prev = nil
-		name.gsub(/(\w|\.|'|:)*/) do |w|
-			w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
-				w.downcase
-			elsif big.include?(w.upcase)
-				w.upcase
-			elsif w =~ /^I*([A-D]|V|)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^(M|)(T|)(W|)(R|)(F|)$/
-				w
-			else
-				w.capitalize
-			end
-			prev = w2 if !w2.strip.empty?
-			w2
-		end
 	end
 end

@@ -17,18 +17,16 @@
       %div{:class => should_split_cols(subcourses) ? "cols" : ""}
         %table
           -subcourses.each do |lab|
+            -lab = lab.decorate
             %tr
               %td.middle.center
                 %button.btn.btn-sm.lab-btn{type:"button", :class => "#{lab.can_enroll? ? "btn-primary" : "disabled full"}"}
-                  =course_button_text(lab, name.titleize)
+                  =lab.button_text(name.titleize)
               %td.lab-info
                 .info
-                  =succeed "," do
-                    =formatted_time_and_day(lab)
-                  =lab.building
-                  =lab.room
+                  =lab.time_and_place
                 .info
-                  =enroll_ratio(lab)
+                  =lab.enroll_ratio
                   students are enrolled
           -if should_split_cols(subcourses) && subcourses.size.odd? #add extra if odd to align the columns
             %tr

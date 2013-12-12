@@ -51,7 +51,7 @@
                 in
                 ="#{(Time.now-@start_time).round(3)} seconds."
               -@courses.each do |course|
-                =render partial:"course", locals: {course: course}
+                =render partial:"course", locals: {course: course.decorate}
            
       -#SCHEDULE   
       .col-md-4 

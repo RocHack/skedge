@@ -139,4 +139,16 @@ class CourseDecorator < Draper::Decorator
 	def enroll_ratio
 		"#{object.enroll}/#{object.no_cap? ? "∞" : object.cap}"
 	end
+
+	def add_button_class
+		if object.course_type == Course::Type::Course
+			object.can_enroll? ? "btn-success" : "disabled"
+		else
+			object.can_enroll? ? "btn-primary" : "disabled full"
+		end
+	end
+
+	def add_button_tooltip
+		object.requires_code? ? "Instructor's permission is required." : ""
+	end
 end

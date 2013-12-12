@@ -6,15 +6,26 @@
           .col-md-3
 
             -#LOGO
-            %a.logo{href:"/"}
-              %h1.logo
-                skedge
-              %small.subtitle
-                better better cdcs
-            %p.rochack
-              a
-              %a{href:"http://rochack.org"} rochack
-              project
+            .logo-panel
+              %a.logo{href:"/"}
+                %h1.logo
+                  skedge
+                %small.subtitle
+                  better better cdcs
+                  .project-info
+                    %a{href:"#", onclick:"$(this).hide(); $('.credits').fadeIn(); return false;"}
+                      info
+              .credits{style:"display:none"}
+                %p
+                  a
+                  %a{href:"http://rochack.org"} rochack
+                  project
+                %p
+                  made by
+                  %a{href:"http://danhassin.com"} dan
+                %p
+                  running
+                  %a{href:"https://github.com/RocHack/skedge"} this code
 
           -#SEARCHBAR
           .col-md-9

@@ -103,10 +103,18 @@ small.subtitle
   color: gray;
 }
 
-.rochack
+.project-info
 {
-  font-size: 10pt;
-  margin-top: 30px;
+  font-size: 14px;
+  float: right;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.credits
+{
+  margin-top: 20px;
+  font-size: 0.9em;
 }
 
 h1.logo
@@ -114,6 +122,11 @@ h1.logo
   line-height:0.9em;
   font-size: 3.2em;
   margin: 0 0 8px 0;
+}
+
+.logo-panel
+{
+  padding-bottom: 10px;
 }
 
 a.logo:link, a.logo:visited, a.logo:hover, a.logo:active

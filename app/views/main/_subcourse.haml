@@ -20,7 +20,7 @@
             -lab = lab.decorate
             %tr
               %td.middle.center
-                %button.btn.btn-sm.lab-btn{type:"button", :class => "#{lab.can_enroll? ? "btn-primary" : "disabled full"}"}
+                %button.btn.btn-sm.lab-btn{type:"button", :class => lab.add_button_class}
                   =lab.button_text(name.titleize)
               %td.lab-info
                 .info

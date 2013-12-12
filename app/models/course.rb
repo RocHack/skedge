@@ -109,6 +109,10 @@ class Course < ActiveRecord::Base
 		restrictions.gsub(/\[.*\]\s*/,"")
 	end
 
+	def requires_code?
+		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
+	end
+
 	def formatted_name
 		little = %w(and of or the to the in but)
 		big = %(HIV AIDS GPU HCI)

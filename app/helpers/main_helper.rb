@@ -10,19 +10,21 @@ module MainHelper
 	def format_courselist(txt, course)
 		#matches any strings that are like "ABC 123", and replaces them with inline_form
 		last_dept = course.department.short #default to course's dept (ie if just "291")
-		regex = /([A-Za-z]*)\s*(\d+[A-Za-z]*)/
+		regex = /(\A|\s)([A-Za-z]*)\s*(\d+[A-Za-z]*)/
 		str = txt.gsub(regex) do |w|
 			match = w.match regex
 			link = w
 			not_link = ""
-			if match[1].empty? || match[1].strip == "or" || match[1].strip == "of" || match[1].strip == "and"
-				not_link = match[1] + " "
-				w = match[2]
-				link = last_dept+" "+match[2].strip
+			dept = match[2].strip
+			num = match[3].strip
+			if dept.empty? || dept == "or" || dept == "of" || dept == "and"
+				not_link = dept
+				w = num
+				link = last_dept+" "+num
 			else
-				last_dept = match[1]
+				last_dept = dept
 			end
-			not_link + inline_form(w,link).strip #strip off some whitespace that seems to come w the form
+			not_link + " " + inline_form(w.strip,link).strip #strip off some whitespace that seems to come w the form
 		end
 		raw str
 	end

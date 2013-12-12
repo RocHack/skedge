@@ -2,8 +2,10 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.formatted_name}" do
       %span.cnum= course.num
-    %button.btn.add-course-btn{type:"button", :class => "#{course.can_enroll? ? "btn-success" : "disabled"}"}
+    %button.btn.add-course-btn{type:"button", :class => "#{course.can_enroll? ? "btn-success" : "disabled"}", title:"#{course.requires_code? ? "Instructor's permission required" : ""}"}
       =course_button_text(course, "Course")
+      -if course.requires_code?
+        %span.left-margin-5.glyphicon.glyphicon-lock
   %p.info
     -if course.time_tba?
       %strong Time and place:
@@ -27,7 +29,7 @@
     .info
       %strong Comments:
       =format_courselist(course.comments, course)
-  -if course.restrictions
+  -if course.restrictions && !course.requires_code?
     .info
       %strong Restrictions:
       =course.formatted_restrictions

@@ -26,6 +26,9 @@
                 %p
                   running
                   %a{href:"https://github.com/RocHack/skedge"} this code
+                  =surround "(",")" do
+                    %a{href:"#", data:{toggle:"modal", target:"#bug-modal"}} bug?
+                  =render partial:"modal"
 
           -#SEARCHBAR
           .col-md-9

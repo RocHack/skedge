@@ -2,7 +2,7 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.name}" do
       %span.cnum= course.num
-    %button.btn.add-course-btn{type:"button", :class => course.add_button_class, :title => course.add_button_tooltip}
+    %button.btn.add-course-btn{type:"button", :id => "#{course.crn}", :class => course.add_button_class, :data => {toggle:"tooltip"}, :title => course.add_button_tooltip}
       =course.button_text("Course")
       -if course.requires_code?
         %span.left-margin-5.glyphicon.glyphicon-lock

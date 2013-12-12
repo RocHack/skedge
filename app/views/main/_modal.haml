@@ -1,0 +1,14 @@
+.modal.fade#bug-modal{tabindex:"-1", role:"dialog", aria:{labelledby:"modal-label", hidden:true}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button{type:"button", :class=>"close", data:{dismiss:"modal"}, aria:{hidden:"true"}}
+          &times;
+        %h4.modal-title#modal-label
+          Report a Bug
+        Please!
+      .modal-body
+        Thanks!
+      .modal-footer
+        %button{type:"button", :class=>"btn btn-default", data:{dismiss:"modal"}} Close
+        %button{type:"button", :class=>"btn btn-primary", data:{dismiss:"modal"}} Submit

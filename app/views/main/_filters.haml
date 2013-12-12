@@ -5,17 +5,18 @@
     %td.middle
       Start time:
       .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
           All
           %span.caret
         %ul.dropdown-menu{role:"menu"}
           %li
-            %a Action0
-            %a Action1
+            %a Morning (7 - 12)
+            %a Afternoon (12 - 5)
+            %a Evening (5 - 9)
 
       %span.left-margin-20 Class size:
       .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
           Any
           %span.caret
         %ul.dropdown-menu{role:"menu"}
@@ -39,7 +40,7 @@
     %td.middle
       By:
       .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data_toggle:"dropdown"}
+        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
           Course number
           %span.caret
         %ul.dropdown-menu{role:"menu"}

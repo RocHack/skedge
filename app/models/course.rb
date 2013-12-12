@@ -30,6 +30,8 @@ class Course < ActiveRecord::Base
 	belongs_to :main_course, class_name:"Course"
 	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
 
+	has_one :sister_course, class_name:"Course", foreign_key:"sister_course_id"
+
 	def filter_subcourses(type)
 		subcourses.select do |course|
 			course.course_type == type
@@ -69,12 +71,20 @@ class Course < ActiveRecord::Base
 	end
 
 	def old?
-		term != Course::Term::Spring && year != 2014
+		!(term == Course::Term::Spring && year == 2014)
+	end
+
+	def term_and_year
+		"#{term_string} #{year}"
+	end
+
+	def dept_and_cnum
+		"#{department.short} #{num}"
 	end
 
 	def term_string
-		return "Fall" if status == Term::Fall
-		return "Spring" if status == Term::Spring
+		return "Fall" if term == Term::Fall
+		return "Spring" if term == Term::Spring
 	end
 
 	def status_string

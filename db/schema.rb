@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131211214354) do
+ActiveRecord::Schema.define(version: 20131211224638) do
 
   create_table "courses", force: true do |t|
     t.integer  "department_id"
@@ -35,13 +35,14 @@ ActiveRecord::Schema.define(version: 20131211214354) do
     t.string   "restrictions"
     t.string   "cross_listed"
     t.integer  "year"
-    t.integer  "term",           limit: 255
+    t.integer  "term"
     t.integer  "course_type"
     t.integer  "status"
     t.string   "clusters"
     t.integer  "sec_enroll"
     t.integer  "sec_cap"
     t.integer  "main_course_id"
+    t.integer  "sister_course_id"
   end
 
   create_table "departments", force: true do |t|

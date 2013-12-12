@@ -19,6 +19,10 @@
     .info
       %strong Instructors:
       =format_instructors(course.instructors)
+  -if course.sister_course
+    .info
+      %strong Also offered: 
+      =inline_form course.sister_course.term_and_year, course.sister_course.dept_and_cnum+" term:#{course.sister_course.term_string.downcase}"
   -if course.comments
     .info
       %strong Comments:

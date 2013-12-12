@@ -6,11 +6,19 @@ class MainController < ApplicationController
 		dept_search = nil
 		num_search = nil
 		instructor_search = nil
+		term_search = nil
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
 			instructor_search = match[1]
 			query = query.gsub(instructor_regex,"") #remove from the query
+		end
+
+		term_regex = /term:\s*([A-Za-z'-_]*)/i
+		if (match = query.match term_regex)
+			term_search = match[1]
+			term_search = Course::Term::Terms[term_search.titleize]
+			query = query.gsub(term_regex,"") #remove from the query
 		end
 
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
@@ -24,6 +32,7 @@ class MainController < ApplicationController
 		Course.joins{department}.where do
 			[
 				num_search.presence && num =~ "#{num_search.to_i.to_s}%",
+				term_search.presence && term == term_search,
 				name_search.presence && name =~ "%#{name_search}%",
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
 				type_search.presence && course_type == type_search,

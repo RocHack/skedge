@@ -82,6 +82,13 @@ class Scraper
     end
   end
 
+  def self.link_sister_courses
+    Course.where {course_type == Course::Type::Course}.each do |c|
+      c.sister_course = find_sister_course(c)
+      c.save
+    end
+  end
+
   def self.find_main_course(c)
     Course.where do
       (term == c.term) &
@@ -90,6 +97,17 @@ class Scraper
       (department_id == c.department_id) &
       (course_type == Course::Type::Course) &
       (main_course_id == nil)
+    end.first
+  end
+
+  def self.find_sister_course(c)
+    t = (c.term + 1) % 2
+    Course.where do
+      (term == t) &
+#      (year == c.year) &
+      (num == c.num) &
+      (department_id == c.department_id) &
+      (course_type == Course::Type::Course)
     end.first
   end
 
@@ -107,7 +125,7 @@ class Scraper
       if c
         c.department = dept
 
-        #check if this is a lab in CDCS as a course
+        #check if this is really a lab but in CDCS as a course
         if c.course_type == Course::Type::Course && c.name.downcase["lab"]
           mc = Scraper.find_main_course(c)
           if mc
@@ -149,7 +167,8 @@ class Scraper
       results = form.click_button
       
       @form = results.form("form1")
-      depts = @depts ? @depts.map {|d| Department.lookup(d)} : get_dept_list
+      depts = get_dept_list 
+      depts = @depts.map {|d| Department.lookup(d)} if @depts
       
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"
@@ -168,20 +187,32 @@ class Scraper
   end
 end
 
-task :scrape => :environment do
-  num = ENV['num'] || -1
-  Scraper.scrape do |s|
-    s.terms = ["Spring 2014", "Fall 2013"]
-    s.school = Scraper::ASE
-    s.num = num.to_i
-    s.depts = ENV['depts'].split(",") if ENV['depts']
+namespace :scrape do
+
+  task :fetch => :environment do
+    num = ENV['num'] || -1
+    Scraper.scrape do |s|
+      s.terms = ["Spring 2014", "Fall 2013"]
+      s.school = Scraper::ASE
+      s.num = num.to_i
+      s.depts = ENV['depts'].split(",") if ENV['depts']
+    end
   end
-  puts "Linking labs/lectures/recitations/workshops to their main courses..."
-  Scraper.link_subcourses
+
+  task :subcourses => :environment do
+    puts "Linking labs/lectures/recitations/workshops to their main courses..."
+    Scraper.link_subcourses
+  end
+
+  task :sister => :environment do
+    puts "Linking sister courses..."
+    Scraper.link_sister_courses
+  end
+
+  task :all => :environment do
+    Rake::Task["scrape:fetch"].invoke
+    Rake::Task["scrape:subcourses"].invoke
+    Rake::Task["scrape:sister"].invoke
+  end
 end
 
-# namespace :scrape do
-#   task :subcourses => :environment do
-#     Scraper.link_subcourses
-#   end
-# end

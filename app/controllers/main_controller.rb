@@ -20,7 +20,7 @@ class MainController < ApplicationController
 		if match = (query.match /rand\((\d*)\)/)
 			num = [match[1].to_i, 1].max
 			offset = rand(Course.count)
-			return Course.limit(num).where {course_type == Course::Type::Course}.order("RANDOM()").to_a
+			return Course.limit(num).where {(course_type == Course::Type::Course) & (desc != nil)}.order("RANDOM()").to_a
 		end
 
 		type_search = Course::Type::Course

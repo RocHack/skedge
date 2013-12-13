@@ -67,7 +67,7 @@ strong
   column-count:2;
 }
 
-.depts
+#depts
 {
   -moz-column-gap:5px; /* Firefox */
   -webkit-column-gap:5px; /* Safari and Chrome */
@@ -75,6 +75,8 @@ strong
 
   padding-bottom: 30px;
   padding-top: 10px;
+
+  display: none;
 }
 
 .full
@@ -129,16 +131,12 @@ small.subtitle
   color: gray;
 }
 
-.project-info
-{
-  min-height: 38px;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
 .credits
 {
   font-size: 0.9em;
+  min-height: 38px;
+  float: right;
+  text-align: right;
 }
 
 h1.logo
@@ -174,7 +172,7 @@ a.bookmark:active
   margin-top: 10px;
   margin-right: 10px;
   height:2px;
-  width: 75%;
+  width: 72%;
   float:left;
   margin-bottom: -5px;
 }
@@ -184,6 +182,11 @@ a.bookmark:active
 {
   display: inline-block;
   width:20%;
+}
+
+.progress-bar-closed
+{
+  background-color:#9B9B9B;
 }
 
 /* FILTER STUFF */
@@ -302,14 +305,52 @@ p.info
   color:#EFEFEF;
 }
 
-.progress-bar-closed
-{
-  background-color:#9B9B9B;
-}
-
 /* Course num, like in CSC **173** */
 .cnum
 {
   font-weight: 500;
   margin-left: 4px;
+}
+
+.splash-container
+{
+  text-align: center;
+}
+
+.splash
+{
+  font-weight: 200;
+}
+
+hr.splash-hr
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+hr.half
+{
+  width: 70%;
+}
+
+.info-text
+{
+  font-size: 1.2em;
+}
+
+#info
+{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+small.splash
+{
+  font-weight: 100;
+  color:gray;
+}
+
+#bug-modal
+{
+  text-align: left;
 }

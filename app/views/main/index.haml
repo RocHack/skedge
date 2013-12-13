@@ -12,19 +12,7 @@
                   skedge
                 %small.subtitle
                   better better cdcs
-              .project-info
-                =bracket_link("info", "#", onclick:"$('.credits').fadeToggle(); $(this).parent().parent().hide(); return false;")
-                .credits{style:"display:none"}
-                  %p
-                    a
-                    %a{href:"http://rochack.org"} rochack
-                    project, by
-                    %a{href:"http://danhassin.com"} dan
-                  %p
-                    =bracket_link("source", "https://github.com/RocHack/skedge")
-                    =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
-                    =render partial:"ticket"
-
+              
           -#SEARCHBAR
           .col-md-9
             =form_tag("/", method:"post", id:"form") do 
@@ -40,10 +28,9 @@
         .row
           .col-md-12
             -if !@query
-              %hr
-              %p.lead
-                Use the search above, or explore the UR departments:
-              .cols.depts
+              =render partial:"splash"
+
+              #depts.cols
                 -@depts.each do |dept|
                   -if !dept.courses.empty?
                     .dept

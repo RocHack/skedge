@@ -101,7 +101,7 @@ strong
 
 .bigger
 {
-  font-size: 1.1em;
+  font-size: 1.3em;
 }
 
 .m-body
@@ -131,12 +131,13 @@ small.subtitle
 
 .project-info
 {
+  min-height: 38px;
+  margin-top: 10px;
   font-size: 14px;
 }
 
 .credits
 {
-  margin-top: 20px;
   font-size: 0.9em;
 }
 
@@ -144,7 +145,8 @@ h1.logo
 {
   line-height:0.9em;
   font-size: 3.2em;
-  margin: 0 0 8px 0;
+  margin-bottom: 10px;
+  margin-top: 0px;
 }
 
 .logo-panel
@@ -156,6 +158,11 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
 {
   text-decoration: none;
   color: black;
+}
+
+a.bookmark:active
+{
+  color:#1D4466;
 }
 
 

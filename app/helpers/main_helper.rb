@@ -24,4 +24,8 @@ module MainHelper
 	def should_split_cols(subcourses)
 		subcourses.size > 3
 	end
+
+	def bracket_link(txt, link, hash={})
+		raw("<span>[<span style='margin:0 2px 0 2px;'>" + link_to(txt, link, hash) + "</span>]</span>")
+	end
 end

@@ -31,3 +31,12 @@ function prof_search(i)
 	$("#search-input").val("instructor:"+i);
 	$("#form").submit();
 }
+
+function prepareModal()
+{
+	$("#modal-alert").hide();
+	$("#modal-submit").removeAttr("disabled");
+	$("#modal-submit").val("Submit").removeClass('btn-success').addClass('btn-primary');
+	$("#modal-email").val("");
+	$("#modal-contents").val("");
+}

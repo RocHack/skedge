@@ -25,8 +25,8 @@
                   %a{href:"http://danhassin.com"} dan
                 %p
                   =surround "[","]" do
-                    %a{href:"#", data:{toggle:"modal", target:"#bug-modal"}} give feedback
-                  =render partial:"modal"
+                    %a{href:"#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"}} give feedback
+                  =render partial:"ticket"
 
           -#SEARCHBAR
           .col-md-9

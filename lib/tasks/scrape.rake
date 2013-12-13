@@ -149,8 +149,6 @@ class Scraper
           end
         end
 
-        c.save
-
         #add this section to it
         crn = extract_attribute(e, num, SectionLabels[:crn], :crn)
         s = Section.find_or_create_by(crn:crn)
@@ -159,6 +157,13 @@ class Scraper
         extract_and_set(SectionLabels, s, e, num)
 
         s.save
+
+        #"cache" a copy of instructors on course so it's faster to search
+        if s.instructors
+          c.instructors ||= ""
+          c.instructors += s.instructors + "; "
+        end
+        c.save
       end
       num += 2 #for some reason the number in the div id's go up by two
     end

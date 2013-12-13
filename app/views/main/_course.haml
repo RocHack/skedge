@@ -29,9 +29,16 @@
   %p.desc
     =course.desc
   %table.wide
+    -num_hidden = 0
     -course.sections.each do |section|
       -section = section.decorate
-      %tr
+      -style = ""
+      -klass = ""
+      -if params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
+        -style = "display: none;"
+        -klass = "showme"
+        -num_hidden += 1
+      %tr{:style => style, :class => klass}
         %td.course-btn
           %button.btn.add-course-btn.tooltippy{type:"button", :id => "#{section.crn}", :class => section.add_button_class, :data => {toggle:"tooltip"}, :title => section.add_button_tooltip}
             =section.button_text("Section")
@@ -53,6 +60,13 @@
             %small
               =section.enroll_ratio
               enrolled
+
+  -if num_hidden > 0
+    %a{href:"#", onclick:"$(this).parent().find('.showme').show(); $(this).hide(); return false;"} 
+      %strong
+        Show
+        =num_hidden
+        more sections
 
   .subcourses
     =render partial:"subcourse", locals: {sections:course.labs, name:"lab"}

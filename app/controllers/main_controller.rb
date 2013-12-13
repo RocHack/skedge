@@ -10,8 +10,8 @@ class MainController < ApplicationController
 				term_search.presence && term == term_search,
 				name_search.presence && name =~ "%#{name_search}%",
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
-				type_search.presence && course_type == type_search
-				#instructor_search.presence && instructors =~ "%#{instructor_search}%"
+				type_search.presence && course_type == type_search,
+				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
 		end.order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, num")
 	end
@@ -34,6 +34,7 @@ class MainController < ApplicationController
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
 			instructor_search = match[1]
+			params[:instructor_search] = instructor_search #keep so the view can filter out sections
 			query = query.gsub(instructor_regex,"") #remove from the query
 		end
 

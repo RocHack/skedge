@@ -86,7 +86,7 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def format_name(name)
-		name.downcase.gsub(/(^|\s+|'|-)(mc)?[A-Za-z]/) do |w|
+		name.downcase.gsub(/mc (.*)/, 'mc\1').gsub(/(^|\s+|'|-)(mc)?[A-Za-z]/) do |w|
 			w.upcase!
 			if w.start_with? "MC"
 				w[1] = "c"

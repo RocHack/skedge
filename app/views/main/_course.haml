@@ -1,5 +1,5 @@
 .box
-  %a.bookmark.tooltippy{:title => "Bookmark this course", :data => {toggle:"tooltip", placement:"left"}}
+  %a.bookmark.tooltippy{:href => "#", :onclick => "return false;", :title => "Bookmark this course", :data => {toggle:"tooltip", placement:"left"}}
     %span.glyphicon.glyphicon-bookmark
   %p.lead
     =surround "#{course.department.short}", ": #{course.name}" do
@@ -34,6 +34,7 @@
       -section = section.decorate
       -style = ""
       -klass = ""
+      -# TODO - this is kind of an ugly way of filtering sections by instructor, but can't really think of another way
       -if params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
         -style = "display: none;"
         -klass = "showme"

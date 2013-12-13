@@ -23,7 +23,7 @@ class Course < ActiveRecord::Base
 
 	belongs_to :main_course, class_name:"Course"
 	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
-	has_many :sections
+	has_many :sections, order: [:status, :days, :start_time]
 
 	has_one :sister_course, class_name:"Course", foreign_key:"sister_course_id"
 

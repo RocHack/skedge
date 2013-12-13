@@ -60,7 +60,8 @@ class SectionDecorator < Draper::Decorator
 		return "info" if object.no_cap?
 		return "success" if object.enroll_percent < 75
 		return "warning" if object.enroll_percent < 90
-		return "danger"
+		return "danger" if object.enroll_percent < 100
+		return "closed"
 	end
 
 	def enroll_bar_precentage

@@ -61,8 +61,8 @@
                   %a{href:"#", onclick:"return false;", data:{toggle:"dropdown"}, :class => "dropdown-toggle"}
                     =i
                   =instructor_dropdown(i)
-
-              -#=section.instructors
+      %tr{:style => style, :class => klass}
+        %td{colspan:"2"}
           .progress
             %div.progress-bar{style:"width: #{section.enroll_bar_precentage}%", :class => "progress-bar-#{section.enroll_bar_style}"}
 

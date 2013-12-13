@@ -241,6 +241,7 @@ p.desc
 
 .add-course-btn
 {
+  margin-top: 10px; 
   width: 140px;
 }
 
@@ -299,6 +300,11 @@ p.info
   margin-right: 12px;
   margin-top: -35px;
   color:#EFEFEF;
+}
+
+.progress-bar-closed
+{
+  background-color:#9B9B9B;
 }
 
 /* Course num, like in CSC **173** */

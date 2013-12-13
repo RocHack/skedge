@@ -11,36 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131211224638) do
+ActiveRecord::Schema.define(version: 20131212183423) do
 
   create_table "courses", force: true do |t|
     t.integer  "department_id"
     t.string   "num"
     t.string   "name"
     t.text     "desc"
-    t.string   "instructors"
-    t.string   "building"
-    t.string   "room"
-    t.string   "days"
-    t.integer  "start_time"
-    t.integer  "end_time"
-    t.integer  "tot_enroll"
-    t.integer  "tot_cap"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "prereqs"
     t.integer  "credits"
     t.string   "comments"
-    t.integer  "crn"
     t.string   "restrictions"
     t.string   "cross_listed"
     t.integer  "year"
     t.integer  "term"
     t.integer  "course_type"
-    t.integer  "status"
     t.string   "clusters"
-    t.integer  "sec_enroll"
-    t.integer  "sec_cap"
     t.integer  "main_course_id"
     t.integer  "sister_course_id"
   end
@@ -50,6 +38,24 @@ ActiveRecord::Schema.define(version: 20131211224638) do
     t.string   "short"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "sections", force: true do |t|
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "building"
+    t.string   "room"
+    t.string   "days"
+    t.string   "instructors"
+    t.integer  "start_time"
+    t.integer  "end_time"
+    t.integer  "tot_enroll"
+    t.integer  "tot_cap"
+    t.integer  "sec_enroll"
+    t.integer  "sec_cap"
+    t.integer  "crn"
+    t.integer  "status"
   end
 
 end

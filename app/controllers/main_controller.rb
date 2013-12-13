@@ -1,4 +1,8 @@
 class MainController < ApplicationController
+	def spring?
+		true
+	end
+
 	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search)
 		Course.joins{department}.where do
 			[
@@ -6,12 +10,10 @@ class MainController < ApplicationController
 				term_search.presence && term == term_search,
 				name_search.presence && name =~ "%#{name_search}%",
 				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
-				type_search.presence && course_type == type_search,
-				status_search.presence && status == status_search,
-				status != Course::Status::Cancelled,
-				instructor_search.presence && instructors =~ "%#{instructor_search}%"
+				type_search.presence && course_type == type_search
+				#instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
-		end.to_a
+		end.order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, num")
 	end
 
 	def search_for_courses(query)

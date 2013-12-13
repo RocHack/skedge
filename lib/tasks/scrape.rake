@@ -4,11 +4,25 @@ require 'mechanize'
 class Scraper
   #the resulting HTML is stuck in tables, and each field is kept in a tag, with the field name as id...
   LabelSchedule = "rpSchedule_ctl01_"
-  Labels = {
+  CourseLabels = 
+  {
     num:"lblCNum", 
     name:"lblTitle", 
-    instructors:"lblInstructors", 
     desc:"lblDesc",
+    prereqs:"lblPrerequisites",
+    cross_listed:"lblCrossListed",
+    credits:"lblCredits",
+    course_type:"lblCredits",
+    comments:"lblComments",
+    restrictions:"lblRestrictions",
+    term:"lblTerm",
+    year:"lblTerm",
+    clusters:"lblClusters"
+  }
+
+  SectionLabels =
+  {
+    instructors:"lblInstructors", 
     days:LabelSchedule+"lblDay", 
     start_time:LabelSchedule+"lblStartTime", 
     end_time:LabelSchedule+"lblEndTime",
@@ -18,16 +32,7 @@ class Scraper
     sec_cap:"lblSectionCap",
     tot_enroll:"lblTotEnroll",
     tot_cap:"lblTotalCap",
-    prereqs:"lblPrerequisites",
-    cross_listed:"lblCrossListed",
-    credits:"lblCredits",
-    course_type:"lblCredits",
-    comments:"lblComments",
     crn:"lblCRN",
-    restrictions:"lblRestrictions",
-    term:"lblTerm",
-    year:"lblTerm",
-    clusters:"lblClusters",
     status:"lblStatus"
   }
 
@@ -41,33 +46,45 @@ class Scraper
     num.to_s.rjust(2,"0")
   end
 
-  def extract_attribute(e, num, label)
-      xpath = "//span[@id='rpResults_ctl#{pad_with_zero(num)}_#{label}']" #=> rpResults_ctl03_lblTitle
-      e.search(xpath).first.try(:text)
+  def extract_attribute(e, num, label, sym)
+    id = "rpResults_ctl#{pad_with_zero(num)}_#{label}"
+    val = e.search("//span[@id='#{id}']").first
+    if val
+      val = val.text.strip
+
+      val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
+      val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
+      val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
+      val = Section::Status::Statuses[val] if sym == :status
+      val = val.to_i if IntFields.include? sym #convert to int for some fields
+
+      val
+    else
+      nil
+    end
   end
 
-  def parse_course(e, num)
-    crn = extract_attribute(e, num, Labels[:crn])
-    c = Course.find_or_create_by(crn:crn)
-
-    #for each label, ie, attribute, parse thru html and assign to the course obj
-    Labels.each do |sym, label|
-      val = extract_attribute(e, num, label)
+  def extract_and_set(labels, obj, e, num)
+    labels.each do |sym, label|
+      val = extract_attribute(e, num, label, sym)
       if val
-        val.strip!
-
-        val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
-        val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
-        val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
-        val = Course::Status::Statuses[val] if sym == :status
-
-        #convert to int for some fields
-        val = val.to_i if IntFields.include? sym
-
         #call the setter method (ie :num=), with the val as the parameter
-        c.send :"#{sym}=", val
+        obj.send :"#{sym}=", val
       end
     end
+  end
+
+  def parse_course(e, num, dept)
+    name = extract_attribute(e, num, CourseLabels[:name], :name)
+    cnum = extract_attribute(e, num, CourseLabels[:num], :num)
+    term = extract_attribute(e, num, CourseLabels[:term], :term)
+    year = extract_attribute(e, num, CourseLabels[:year], :year)
+
+    c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id, term:term, year:year)
+    c.department = dept
+
+    #for each label, ie, attribute, parse thru html and assign to the course obj
+    extract_and_set(CourseLabels, c, e, num)
 
     #ignore course classes w/0 credits (they are like "independent study" etc)
     return nil if (c.course_type == Course::Type::Course && c.credits == 0)
@@ -121,18 +138,25 @@ class Scraper
     
     num = 1
     results.search("//table[@cellpadding='3']").each do |e|
-      c = parse_course(e, num)
+      c = parse_course(e, num, dept)
       if c
-        c.department = dept
+        #add this section to it
+        crn = extract_attribute(e, num, SectionLabels[:crn], :crn)
+        s = Section.find_or_create_by(crn:crn)
+        s.course = c
+
+        extract_and_set(SectionLabels, s, e, num)
+
+        s.save
 
         #check if this is really a lab but in CDCS as a course
-        if c.course_type == Course::Type::Course && c.name.downcase["lab"]
-          mc = Scraper.find_main_course(c)
-          if mc
-            c.main_course = mc
-            c.course_type = Course::Type::Lab
-          end
-        end
+        # if c.course_type == Course::Type::Course && c.name.downcase["lab"]
+        #   mc = Scraper.find_main_course(c)
+        #   if mc
+        #     c.main_course = mc
+        #     c.course_type = Course::Type::Lab
+        #   end
+        # end
 
         c.save
       end

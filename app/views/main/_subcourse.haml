@@ -1,12 +1,12 @@
--if !subcourses.empty?
+-if !sections.empty?
   .subcourses
     .subcourse-show
       %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"} 
         %strong
           Show
-          =subcourses.size
+          =sections.size
           =name
-          =subcourses.size == 1 ? "section" : "sections"
+          =sections.size == 1 ? "section" : "sections"
     %div.subcourse-data{:style=>"display:none"}
       %p
         %strong
@@ -14,9 +14,9 @@
           sections:
         %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
           (hide)
-      %div{:class => should_split_cols(subcourses) ? "cols" : ""}
+      %div{:class => should_split_cols(sections) ? "cols" : ""}
         %table
-          -subcourses.each do |lab|
+          -sections.each do |lab|
             -lab = lab.decorate
             %tr
               %td.middle.center
@@ -28,6 +28,6 @@
                 .info
                   =lab.enroll_ratio
                   students are enrolled
-          -if should_split_cols(subcourses) && subcourses.size.odd? #add extra if odd to align the columns
+          -if should_split_cols(sections) && sections.size.odd? #add extra if odd to align the columns
             %tr
               %td.lab-info

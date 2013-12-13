@@ -9,14 +9,6 @@ class Course < ActiveRecord::Base
 	    Types = {"LAB" => Lab, "REC" => Recitation, "L/L" => LabLecture, "WRK" => Workshop}
 	end
 
-	module Status
-		Open = 0
-		Closed = 1
-		Cancelled = 2
-
-		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
-	end
-
 	module Term
 		Fall = 0
 		Spring = 1
@@ -24,21 +16,22 @@ class Course < ActiveRecord::Base
 		Terms = {"Fall" => Fall, "Spring" => Spring}
 	end
 
-	validates :crn, presence: true, uniqueness: true
 	validates :num, presence: true
-	validates :name, presence: true
+	validates :name, presence: true, uniqueness: {scope: [:term, :year]}
 	
 	belongs_to :department
 
 	belongs_to :main_course, class_name:"Course"
 	has_many :subcourses, foreign_key:"main_course_id", class_name:"Course"
+	has_many :sections
 
 	has_one :sister_course, class_name:"Course", foreign_key:"sister_course_id"
 
 	def filter_subcourses(type)
-		subcourses.select do |course|
-			course.course_type == type
-		end
+		Section.joins{course}.where do
+			(course.main_course_id == my{id}) &
+			(course.course_type == type)
+		end.order([:days,:start_time])
 	end
 
 	def labs
@@ -57,44 +50,8 @@ class Course < ActiveRecord::Base
 		filter_subcourses(Course::Type::Workshop)
 	end
 
-	def sections
-        Course.where do
-            (term == my{term}) &
-            (year == my{year}) &
-            (num == my{num}) &
-            (department_id == my{department_id}) &
-            (course_type == my{course_type}) &
-            (status != Course::Status::Cancelled) &
-            (name == my{name})
-	    end.order("start_time")
-	end
-
-	def cap
-		tot_cap || sec_cap
-	end
-
-	def enroll
-		tot_enroll || sec_enroll
-	end
-
-	def no_cap?
-		cap == 0 || cap == nil
-	end
-
-	def can_enroll?
-		term == Course::Term::Spring && status == Status::Open
-	end
-
 	def old?
 		!(term == Course::Term::Spring && year == 2014)
-	end
-
-	def enroll_percent
-		enroll*100.0/cap
-	end
-
-	def time_tba?
-		days == "TBA"
 	end
 
 	def has_prereqs?
@@ -103,9 +60,5 @@ class Course < ActiveRecord::Base
 
 	def requires_code?
 		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
-	end
-
-	def multiple_instructors?
-		instructors[";"]
 	end
 end

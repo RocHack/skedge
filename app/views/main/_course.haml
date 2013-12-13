@@ -31,7 +31,7 @@
         %td.course-btn
           %button.btn.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class, :data => {toggle:"tooltip"}, :title => section.add_button_tooltip}
             =section.button_text("Section")
-            -if section.requires_code?
+            -if course.requires_code?
               %span.left-margin-5.glyphicon.glyphicon-lock
         %td.course-info
           %p.info
@@ -41,7 +41,7 @@
             .info
               %strong
                 ="Instructor#{section.multiple_instructors? ? "s" : ""}:"
-              =section.linkify(:instructors)
+              =section.instructors
           .progress
             %div.progress-bar{style:"width: #{section.enroll_bar_precentage}%", :class => "progress-bar-#{section.enroll_bar_style}"}
 
@@ -52,9 +52,9 @@
   %p.desc
     =course.desc
 
-  =render partial:"subcourse", locals: {subcourses:course.labs, name:"lab"}
-  =render partial:"subcourse", locals: {subcourses:course.lab_lectures, name:"lab lecture"}
-  =render partial:"subcourse", locals: {subcourses:course.recitations, name:"recitation"}
-  =render partial:"subcourse", locals: {subcourses:course.workshops, name:"workshop"}
+  =render partial:"subcourse", locals: {sections:course.labs, name:"lab"}
+  =render partial:"subcourse", locals: {sections:course.lab_lectures, name:"lab lecture"}
+  =render partial:"subcourse", locals: {sections:course.recitations, name:"recitation"}
+  =render partial:"subcourse", locals: {sections:course.workshops, name:"workshop"}
 
 %hr

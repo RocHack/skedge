@@ -74,7 +74,7 @@ class SectionDecorator < Draper::Decorator
 
 	def add_button_class
 		if object.course.course_type == Course::Type::Course
-			object.can_enroll? ? "btn-success" : "disabled" #:"btn-danger"
+			object.can_enroll? ? "btn-primary" : "disabled" #:"btn-danger"
 		else
 			object.can_enroll? ? "btn-primary" : "disabled full"
 		end
@@ -85,10 +85,20 @@ class SectionDecorator < Draper::Decorator
 		object.course.requires_code? ? "Instructor's permission is required." : ""
 	end
 
+	def format_name(name)
+		name.downcase.gsub(/(^|\s+|'|-)(mc)?[A-Za-z]/) do |w|
+			w.upcase!
+			if w.start_with? "MC"
+				w[1] = "c"
+			end
+			w
+		end
+	end
+
 	def instructors
 		return nil if !object.instructors
 		h.raw(object.instructors.split(";").map do |i|
-			helpers.inline_form(i.titleize, "instructor:#{i.split.first.downcase}")
+			helpers.inline_form(format_name(i), "instructor:#{i.split.first.downcase}")
 		end.join(", "))
 	end
 end

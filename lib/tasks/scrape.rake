@@ -140,6 +140,17 @@ class Scraper
     results.search("//table[@cellpadding='3']").each do |e|
       c = parse_course(e, num, dept)
       if c
+        #check if this is really a lab but in CDCS as a course
+        if c.course_type == Course::Type::Course && c.name.downcase["lab"]
+          mc = Scraper.find_main_course(c)
+          if mc
+            c.main_course = mc
+            c.course_type = Course::Type::Lab
+          end
+        end
+
+        c.save
+
         #add this section to it
         crn = extract_attribute(e, num, SectionLabels[:crn], :crn)
         s = Section.find_or_create_by(crn:crn)
@@ -148,17 +159,6 @@ class Scraper
         extract_and_set(SectionLabels, s, e, num)
 
         s.save
-
-        #check if this is really a lab but in CDCS as a course
-        # if c.course_type == Course::Type::Course && c.name.downcase["lab"]
-        #   mc = Scraper.find_main_course(c)
-        #   if mc
-        #     c.main_course = mc
-        #     c.course_type = Course::Type::Lab
-        #   end
-        # end
-
-        c.save
       end
       num += 2 #for some reason the number in the div id's go up by two
     end

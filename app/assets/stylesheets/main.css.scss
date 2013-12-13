@@ -89,9 +89,10 @@ strong
 
 .search-results
 {
-  margin-bottom: -10px;
   text-align: right;
-  font-size: 0.9em;
+  font-size: 0.85em;
+  padding-bottom: 10px;
+  margin-top: -5px;
 }
 
 .bigger
@@ -219,22 +220,22 @@ th
   width: 100%;
 
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 p.desc
 {
-  margin-bottom: 6px;
+  margin-top: 5px;
 }
 
 .add-course-btn
 {
-  width: 160px;
+  width: 140px;
 }
 
 td.course-btn
 {
-  width: 175px;
+  width: 155px;
 }
 
 .lab-btn
@@ -253,9 +254,14 @@ td.course-btn
   vertical-align: middle;
 }
 
-.subcourses
+.subcourse
 {
   margin-top: 5px;
+}
+
+.subcourses
+{
+  margin-top: 10px;
 }
 
 p.info
@@ -267,12 +273,21 @@ p.info
 {
   width: 100%;
   margin-top: 5px;
-  margin-bottom: 11px;
+  margin-bottom: 5px;
 }
 
 .course-details
 {
-  margin-top: 10px;
+  margin-top: 8px;
+}
+
+.bookmark
+{
+  font-size: 2.75em;
+  float: right;
+  margin-right: 12px;
+  margin-top: -35px;
+  color:#EFEFEF;
 }
 
 /* Course num, like in CSC **173** */

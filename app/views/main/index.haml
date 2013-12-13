@@ -58,7 +58,6 @@
               .search-results
                 Found
                 =@courses.size
-                unique
                 ="course#{@courses.size == 1 ? "" : "s"}"
                 in
                 ="#{(Time.now-@start_time).round(3)} seconds."

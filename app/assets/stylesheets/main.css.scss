@@ -87,12 +87,16 @@ strong
   text-align: center;
 }
 
-.search-results
+.search-info
 {
   text-align: right;
   font-size: 0.85em;
-  padding-bottom: 10px;
-  margin-top: -5px;
+  padding-bottom: 0px;
+}
+
+.search-results
+{
+  padding-bottom: 80px;
 }
 
 .bigger
@@ -283,7 +287,7 @@ p.info
 
 .bookmark
 {
-  font-size: 2.75em;
+  font-size: 3em;
   float: right;
   margin-right: 12px;
   margin-top: -35px;

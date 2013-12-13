@@ -1,3 +1,4 @@
+%hr
 .box
   %a.bookmark.tooltippy{:href => "#", :onclick => "return false;", :title => "Bookmark this course", :data => {toggle:"tooltip", placement:"left"}}
     %span.glyphicon.glyphicon-bookmark
@@ -82,5 +83,3 @@
     =render partial:"subcourse", locals: {sections:course.lab_lectures, name:"lab lecture"}
     =render partial:"subcourse", locals: {sections:course.recitations, name:"recitation"}
     =render partial:"subcourse", locals: {sections:course.workshops, name:"workshop"}
-
-%hr

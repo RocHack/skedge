@@ -7,6 +7,20 @@ module MainHelper
 		end
 	end
 
+	def instructor_dropdown_action(i, action, text)
+		"<li><a href='#'' onclick='#{action}(\"#{i}\"); return false;'>#{text}</a></li>"
+	end
+
+	def instructor_dropdown(i)
+		i = i.split.first.downcase.strip
+		raw('<ul class="dropdown-menu" role="menu">' +
+			instructor_dropdown_action(i, "prof_email", "Email instructor") +
+			instructor_dropdown_action(i, "prof_rmp", "Look up on Rate My Professors") +
+			'<li class="divider"></li>' +
+			instructor_dropdown_action(i, "prof_search", "Courses taught by this instructor") +
+			'</ul>')
+	end
+
 	def should_split_cols(subcourses)
 		subcourses.size > 3
 	end

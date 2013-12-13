@@ -95,10 +95,10 @@ class SectionDecorator < Draper::Decorator
 		end
 	end
 
-	def instructors
-		return nil if !object.instructors
-		h.raw(object.instructors.split(";").map do |i|
-			helpers.inline_form(format_name(i), "instructor:#{i.split.first.downcase}")
-		end.join(", "))
+	def instructor_list
+		return [] if !object.instructors
+		object.instructors.split(";").map do |i|
+			format_name(i)
+		end
 	end
 end

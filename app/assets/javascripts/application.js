@@ -14,3 +14,20 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+
+function prof_email(i)
+{
+	console.log(i);
+}
+
+function prof_rmp(i)
+{
+	var url = "http://www.ratemyprofessors.com/SelectTeacher.jsp?searchName="+i+"&search_submit1=Search&sid=1331";
+	window.open(url);
+}
+
+function prof_search(i)
+{
+	$("#search-input").val("instructor:"+i);
+	$("#form").submit();
+}

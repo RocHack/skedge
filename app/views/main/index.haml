@@ -39,6 +39,10 @@
                           =inline_form(dept.short)
                       ="-"
                       =dept.name
+            -elsif @courses.empty?
+              %hr
+              %p.lead.no-results
+                No results found.
             -else
               .search-results
                 .search-info

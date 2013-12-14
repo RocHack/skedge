@@ -40,3 +40,15 @@ function prepareModal()
 	$("#modal-email").val("");
 	$("#modal-contents").val("");
 }
+
+$(function() 
+{
+    $('.tooltippy').tooltip();
+    $('.dropdown-toggle').dropdown();
+    $(".dropdown-menu li a").click(function(){
+		var selText = $(this).text();
+		var display = selText.split("(")[0].trim();
+		$(this).parents('.btn-group').find('.dropdown-toggle').html(display+' <span class="caret"></span>');
+		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
+	});
+});

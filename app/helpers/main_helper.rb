@@ -1,4 +1,6 @@
 module MainHelper
+	Defaults = {"credits" => "Any", "term" => "Either", "sort" => "Course #"}
+
 	def inline_form(link_text, query=link_text)
 		form_tag("/", method:"post", class:"form-inline inline") do
 			hidden = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
@@ -27,5 +29,9 @@ module MainHelper
 
 	def bracket_link(txt, link, hash={})
 		raw("<span>[<span style='margin:0 2px 0 2px;'>" + link_to(txt, link, hash) + "</span>]</span>")
+	end
+
+	def get_filter(filter)
+		params[filter] || Defaults[filter]
 	end
 end

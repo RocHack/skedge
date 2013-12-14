@@ -163,6 +163,19 @@ class Scraper
           c.instructors ||= ""
           c.instructors += s.instructors + "; "
         end
+
+        if !c.min_enroll || s.enroll < c.min_enroll
+          c.min_enroll = s.enroll
+        end
+
+        if !c.min_start_time || s.start_time < c.min_start_time
+          c.min_start_time = s.start_time
+        end
+
+        if !c.max_start_time || s.start_time > c.max_start_time
+          c.max_start_time = s.start_time
+        end
+
         c.save
       end
       num += 2 #for some reason the number in the div id's go up by two

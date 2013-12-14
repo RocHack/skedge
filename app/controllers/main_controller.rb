@@ -42,9 +42,9 @@ class MainController < ApplicationController
 		term_search = Course::Term::Terms[params["term"].try(:capitalize)]
 		credits_search = params["credits"]
 		sort = {"Course #"=>"num", 
-				"Start time (early to late)" => "num",#"start_time ASC", 
-				"Start time (late to early)" => "num",#"start_time DESC", 
-				"Class size (small to large)" => "num"}[params["sort"]]
+				"Start time (early to late)" => "min_start_time ASC", 
+				"Start time (late to early)" => "max_start_time DESC", 
+				"Class size (small to large)" => "min_enroll ASC"}[params["sort"]]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)

@@ -20,7 +20,7 @@ class MainController < ApplicationController
 		if match = (query.match /rand\((\d*)\)/)
 			num = [match[1].to_i, 1].max
 			offset = rand(Course.count)
-			return Course.limit(num).where {(course_type == Course::Type::Course) & (desc != nil)}.order("RANDOM()").to_a
+			return Course.where {(course_type == Course::Type::Course) & (desc != nil)}.order("RANDOM()").to_a
 		end
 
 		type_search = Course::Type::Course
@@ -53,7 +53,11 @@ class MainController < ApplicationController
 			name_search = query
 		end
 
-		do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search)
+		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search)
+		if params["random"]=="true"
+			s = [s.sample]
+		end
+		s
 	end
 
 	def filter(courses)
@@ -62,22 +66,17 @@ class MainController < ApplicationController
 			sister = c.sister_course
 			sister && courses.include?(sister) && (c.year < sister.year || (c.year == sister.year && c.term > sister.term))
 		end
-		courses.each do |c|
-			courses.delete_if do |c2|
-				c2 != c &&
-				c2.num == c.num &&
-				c2.department_id == c.department_id &&
-				c2.term == c.term &&
-				c2.year == c.year
-			end
-		end
 	end
 
 	def index
 		@query = params[:query].try(:strip)
-		@query = nil if @query && @query.empty?
-		if @query
+		
+		@courses = nil
+		if @query && !@query.empty?
 			@courses = filter(search_for_courses(@query))
+		elsif params["random"] == "true"
+			#random everything
+			@courses = Course.limit(1).where {(course_type == Course::Type::Course) & (desc != nil)}.order("RANDOM()")
 		else
 			@depts = Department.all
 		end

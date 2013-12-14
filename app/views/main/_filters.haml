@@ -1,9 +1,6 @@
 .row
   #filters
     .col-sm-3
-      %button.btn.btn-default.btn-sm
-        I'm feeling lucky
-    .col-sm-3
       .filter
         Credits:
         .btn-group
@@ -45,3 +42,7 @@
               %a Start time (Early to late)
               %a Start time (Late to early)
               %a Class size (Small to large)
+    .col-sm-3
+      =hidden_field_tag "random", false, {id:"random_field"}
+      %button#rand-btn.btn.btn-default.btn-sm{onclick:"$('#random_field').val('true'); $('#form').submit(); return false;"}
+        I'm Feeling Lucky

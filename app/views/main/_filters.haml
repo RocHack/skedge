@@ -1,52 +1,47 @@
-%table#filter-table
-  %tr
-    %td.middle
-      %h5 Filter:
-    %td.middle
-      Start time:
-      .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-          All
-          %span.caret
-        %ul.dropdown-menu{role:"menu"}
-          %li
-            %a Morning (7 - 12)
-            %a Afternoon (12 - 5)
-            %a Evening (5 - 9)
-
-      %span.left-margin-20 Class size:
-      .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-          Any
-          %span.caret
-        %ul.dropdown-menu{role:"menu"}
-          %li
-            %a Small (0-15)
-            %a Medium (16-40)
-            %a Large (41-80)
-
-      %br
-
-      Hide conflicts
-      .btn-group.left-margin-5
-        %input{type:"checkbox"}
-
-      %span.left-margin-20 Show fall courses
-      .btn-group.left-margin-5
-        %input{type:"checkbox"}
-  %tr
-    %td.middle
-      %h5 Sort:
-    %td.middle
-      By:
-      .btn-group
-        %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-          Course number
-          %span.caret
-        %ul.dropdown-menu{role:"menu"}
-          %li
-            %a Start time
-            %a Students enrolled
-
-      %span.left-margin-20
-      %button.btn.btn-link.btn-xs Dependency Graph™
+.row
+  #filters
+    .col-sm-3
+      %button.btn.btn-default.btn-sm
+        I'm feeling lucky
+    .col-sm-3
+      .filter
+        Credits:
+        .btn-group
+          %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+            Any
+            %span.caret
+          %ul.dropdown-menu{role:"menu"}
+            %li
+              %a Any
+            %li.divider
+            %li
+              %a 1-2
+              %a 3-4
+              %a 5+
+    .col-sm-3
+      .filter
+        Term:
+        .btn-group
+          %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+            Either
+            %span.caret
+          %ul.dropdown-menu{role:"menu"}
+            %li
+              %a Any
+            %li.divider
+            %li
+              %a Fall
+              %a Spring
+    .col-sm-3
+      .filter
+        Sort:
+        .btn-group
+          %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+            Course #
+            %span.caret
+          %ul.dropdown-menu{role:"menu"}
+            %li
+              %a Course #
+              %a Start time (Early to late)
+              %a Start time (Late to early)
+              %a Class size (Small to large)

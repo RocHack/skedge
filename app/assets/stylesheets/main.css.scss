@@ -191,22 +191,43 @@ a.bookmark:active
 
 /* FILTER STUFF */
 
-#filter-table
+#filters
 {
-  width:100%;
-  margin-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
 }
 
-h5
+.filter
 {
-  margin-right: 10px;
-  padding-bottom: 4px;
+  margin-top: 5px;
+}
+
+#filters .btn-group
+{
+  margin-left: 3px;
+}
+
+#filters .col-sm-3
+{
+  margin-bottom: 6px;
 }
 
 #search-input
 {
   font-size: 20px;
   height: 50px;
+}
+
+#search-btn
+{
+  background-color:#EEEEEE;
+  height: 50px; 
+}
+
+ul
+{
+  text-align: left;
 }
 
 /* SCHEDULE */

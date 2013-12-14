@@ -3,19 +3,11 @@ class MainController < ApplicationController
 		true
 	end
 
-	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, credits_search, sort)
+	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_low, c_hi, sort)
 		Course.joins{department}.where do
 			[
-				(case credits_search
-				when "Any"
-					nil
-				when "1-2"
-					(credits == 1) | (credits == 2)
-				when "3-4"
-					(credits == 3) | (credits == 4)
-				when "5+"
-					(credits > 4)
-				end),
+				c_low.presence && credits >= c_low,
+				c_hi.presence && credits <= c_hi,
 				num_search.presence && num =~ "#{num_search}%",
 				term_search.presence && term == term_search,
 				name_search.presence && name =~ "%#{name_search}%",
@@ -24,6 +16,19 @@ class MainController < ApplicationController
 				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
 		end.order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, #{sort}")
+	end
+
+	def credits_range(search)
+		case search
+		when "Any"
+			return nil, nil
+		when "1-2"
+			return 1, 2
+		when "3-4"
+			return 3, 4
+		when "5+"
+			return 5, nil
+		end
 	end
 
 	def search_for_courses(query)
@@ -56,7 +61,8 @@ class MainController < ApplicationController
 			name_search = query
 		end
 
-		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, credits_search, sort)
+		c_lo, c_hi = credits_range(params["credits"])
+		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
 		if params["random"].presence
 			s = [s.sample]
 		end
@@ -78,8 +84,16 @@ class MainController < ApplicationController
 		if @query && !@query.empty?
 			@courses = filter(search_for_courses(@query))
 		elsif params["random"].presence
-			#random everything
-			@courses = Course.limit(1).where {(course_type == Course::Type::Course) & (desc != nil)}.order("RANDOM()")
+			#random everything, but include stuff
+			c_lo, c_hi = credits_range(params["credits"])
+			@courses = Course.limit(1).where do
+				[
+					c_low.presence && credits >= c_lo,
+					c_hi.presence && credits <= c_hi,
+					course_type == Course::Type::Course,
+					desc != nil
+				].compact.reduce(:&)
+			end.order("RANDOM()")
 		else
 			@depts = Department.all
 		end

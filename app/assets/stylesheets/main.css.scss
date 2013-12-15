@@ -257,8 +257,8 @@ th
 /* COURSE BOXES */
 .box
 {
-  margin-left: 15px;
-  width: 100%;
+  margin: auto;
+  width: 97%;
 
   margin-top: 30px;
   margin-bottom: 25px;
@@ -274,6 +274,11 @@ p.desc
   margin-top: 10px; 
   width: 140px;
 }
+
+/*.cancelled-btn
+{
+  width: 10px;
+}*/
 
 td.course-btn
 {
@@ -327,9 +332,10 @@ p.info
 {
   font-size: 3em;
   float: right;
-  margin-right: 12px;
-  margin-top: -35px;
+  margin-right: 0px;
+  margin-top: -25px;
   color:#EFEFEF;
+  opacity: clear;
 }
 
 /* Course num, like in CSC **173** */
@@ -339,10 +345,17 @@ p.info
   margin-left: 4px;
 }
 
+.cancelled
+{
+  opacity: 0.55;
+  /*color: #B1B1B1;*/
+}
+
 .course-credits
 {
   float:right;
   margin-right: 18px;
+  margin-left: 5px;
   margin-top: 0px;
   font-size: 0.9em;
 }
@@ -357,10 +370,9 @@ p.info
   font-weight: 200;
 }
 
-hr.splash-hr
+.splash-hr
 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 hr.half

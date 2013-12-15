@@ -61,4 +61,8 @@ class Course < ActiveRecord::Base
 	def requires_code?
 		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
 	end
+
+	def cancelled?
+		sections.inject(true) { |x, s| x && s.status == Section::Status::Cancelled }
+	end
 end

@@ -1,7 +1,7 @@
 %hr
-.box
-  %a.bookmark.tooltippy{:href => "#", :onclick => "return false;", :title => "Bookmark this course", :data => {toggle:"tooltip", placement:"left"}}
-    %span.glyphicon.glyphicon-bookmark
+%a.bookmark.tooltippy{:href => "#", :onclick => "return false;", :title => "Bookmark this course", :data => {toggle:"tooltip", placement:"left"}}
+  %span.glyphicon.glyphicon-bookmark
+.box{:class=>(course.cancelled? ? "cancelled" : "")}
   %p.lead
     =surround "#{course.department.short}", ": #{course.name}" do
       %span.cnum= course.num

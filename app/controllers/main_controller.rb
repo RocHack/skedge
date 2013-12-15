@@ -44,13 +44,13 @@ class MainController < ApplicationController
 		sort = {"Course #"=>"num", 
 				"Start time (early to late)" => "min_start_time ASC", 
 				"Start time (late to early)" => "max_start_time DESC", 
-				"Class size (small to large)" => "min_enroll ASC"}[params["sort"]]
+				"Class size (small to large)" => "min_enroll ASC"}[params["sort"]] || "num"
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
 			instructor_search = match[1]
 			params[:instructor_search] = instructor_search #keep so the view can filter out sections
-			query = query.gsub(instructor_regex,"") #remove from the query
+			query = query.gsub(instructor_regex,"").strip #remove from the query
 		end
 
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
@@ -68,14 +68,14 @@ class MainController < ApplicationController
 			s = [s.sample]
 		end
 		s.delete_if do |x|
-			x.sections.inject(true) { |x, y| x && y.status == Section::Status::Cancelled }
+			x.cancelled?
 		end if non_cancelled
 		s
 	end
 
 	def filter(courses)
 		#TODO optimize!
-		courses.delete_if do |c|
+		courses.compact.delete_if do |c|
 			sister = c.sister_course
 			sister && courses.include?(sister) && (c.year < sister.year || (c.year == sister.year && c.term > sister.term))
 		end

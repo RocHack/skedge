@@ -13,7 +13,7 @@
       -sister = course.sister_course.decorate
       .info
         %strong Also offered: 
-        =inline_form sister.term_and_year, sister.dept_and_cnum+" term:#{sister.term.downcase}"
+        =inline_form sister.term_and_year, sister.dept_and_cnum, {term:sister.term}
     -if course.comments
       .info
         %strong Comments:

@@ -1,11 +1,16 @@
 module MainHelper
 	Defaults = {"credits" => "Any", "term" => "Either", "sort" => "Course #"}
 
-	def inline_form(link_text, query=link_text)
+	def inline_form(link_text, query=link_text, params={})
+		sets = ""
+		
 		form_tag("/", method:"post", class:"form-inline inline") do
-			hidden = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
-			link = link_to link_text, "#", :onclick => "$(this).closest('form').submit()" #submit the closest form
-			hidden + link
+			hiddens = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
+			params.each do |k, v|
+				hiddens += hidden_field_tag k, v #filters & stuff (from params arg)
+			end
+			link = link_to link_text, "#", :onclick => "#{sets} $(this).closest('form').submit();" #submit the closest form
+			hiddens + link
 		end
 	end
 

@@ -48,7 +48,16 @@ $(function()
     $(".dropdown-menu li a").click(function(){
 		var selText = $(this).text();
 		var display = selText.split("(")[0].trim();
+		if (selText == "Course #" || selText == "Any" || selText == "Either")
+		{
+			$(this).parents('.filter').removeClass('filter-bold');
+		}
+		else
+		{
+			$(this).parents('.filter').addClass('filter-bold');
+		}
 		$(this).parents('.btn-group').find('.dropdown-toggle').html(display+' <span class="caret"></span>');
 		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
+		$('#form').submit();
 	});
 });

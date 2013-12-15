@@ -34,12 +34,12 @@
     =course.desc
   %table.wide
     -num_hidden = 0
-    -course.sections.each do |section|
+    -course.sections.each_with_index do |section,i|
       -section = section.decorate
       -style = ""
       -klass = ""
       -# TODO - this is kind of an ugly way of filtering sections by instructor, but can't really think of another way
-      -if params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
+      -if should_hide_section?(section)
         -style = "display: none;"
         -klass = "showme"
         -num_hidden += 1

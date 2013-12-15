@@ -1,5 +1,9 @@
 module MainHelper
-	Defaults = {"credits" => "Any", "term" => "Either", "sort" => "Course #"}
+	Filters = {
+		"credits" => ["Any", "1-2", "3-4", "5+"],
+		"term" => ["Either", "Fall", "Spring"],
+		"sort" => ["Course #", "Start time (early to late)", "Start time (late to early)", "Class size (small to large)"]
+	}
 
 	def inline_form(link_text, query=link_text, params={})
 		sets = ""
@@ -36,11 +40,19 @@ module MainHelper
 		raw("<span>[<span style='margin:0 2px 0 2px;'>" + link_to(txt, link, hash) + "</span>]</span>")
 	end
 
+	def default_filter?(filter)
+		Filters[filter].first == params[filter]
+	end
+
 	def get_filter(filter)
-		params[filter] || Defaults[filter]
+		params[filter] || Filters[filter].first
 	end
 
 	def fake_a(txt)
 		link_to txt, "#", {onclick:"return false;"}
+	end
+
+	def should_hide_section?(section)
+		params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
 	end
 end

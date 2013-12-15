@@ -35,6 +35,11 @@
   vertical-align: middle;
 }
 
+.filter-bold
+{
+  font-weight: 500;
+}
+
 p
 {
   margin-bottom:0px;  
@@ -200,6 +205,8 @@ a.bookmark:active
 
 .filter
 {
+  margin-left: -5px;
+  margin-right: -5px;
   margin-top: 5px;
 }
 
@@ -378,6 +385,8 @@ p.info
 hr.half
 {
   width: 70%;
+  margin-bottom: 8px;
+  margin-top: 5px;
 }
 
 .info-text

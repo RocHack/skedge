@@ -5,6 +5,9 @@
   %p.lead
     =surround "#{course.department.short}", ": #{course.name}" do
       %span.cnum= course.num
+  .course-credits
+    =course.credits
+    credits
   .course-details
     -if course.sister_course
       -sister = course.sister_course.decorate
@@ -29,9 +32,6 @@
         =course.linkify(:cross_listed)
   %p.desc
     =course.desc
-    =surround "(", ")" do
-      =course.credits
-      credits
   %table.wide
     -num_hidden = 0
     -course.sections.each do |section|

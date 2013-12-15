@@ -34,4 +34,8 @@ module MainHelper
 	def get_filter(filter)
 		params[filter] || Defaults[filter]
 	end
+
+	def fake_a(txt)
+		link_to txt, "#", {onclick:"return false;"}
+	end
 end

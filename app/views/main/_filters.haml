@@ -9,12 +9,12 @@
             %span.caret
           %ul.dropdown-menu{role:"menu"}
             %li
-              %a Any
+              =fake_a("Any")
             %li.divider
             %li
-              %a 1-2
-              %a 3-4
-              %a 5+
+              =fake_a("1-2")
+              =fake_a("3-4")
+              =fake_a("5+")
           =hidden_field_tag "credits", get_filter("credits"), {:class=>"dropdown-value"}
     .col-sm-3
       .filter
@@ -25,11 +25,11 @@
             %span.caret
           %ul.dropdown-menu{role:"menu"}
             %li
-              %a Any
+              =fake_a("Either")
             %li.divider
             %li
-              %a Fall
-              %a Spring
+              =fake_a("Fall")
+              =fake_a("Spring")
           =hidden_field_tag "term", get_filter("term"), {:class=>"dropdown-value"}
     .col-sm-3
       .filter
@@ -40,10 +40,10 @@
             %span.caret
           %ul.dropdown-menu{role:"menu"}
             %li
-              %a Course #
-              %a Start time (early to late)
-              %a Start time (late to early)
-              %a Class size (small to large)
+              =fake_a("Course #")
+              =fake_a("Start time (early to late)")
+              =fake_a("Start time (late to early)")
+              =fake_a("Class size (small to large)")
           =hidden_field_tag "sort", get_filter("sort"), {:class=>"dropdown-value"}
     .col-sm-3
       =hidden_field_tag "random", nil, {id:"random_field"}

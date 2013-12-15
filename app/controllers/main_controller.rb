@@ -62,10 +62,14 @@ class MainController < ApplicationController
 		end
 
 		c_lo, c_hi = credits_range(params["credits"])
+		non_cancelled = (sort == "min_enroll ASC")
 		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
 		if params["random"].presence
 			s = [s.sample]
 		end
+		s.delete_if do |x|
+			x.sections.inject(true) { |x, y| x && y.status == Section::Status::Cancelled }
+		end if non_cancelled
 		s
 	end
 
@@ -88,7 +92,7 @@ class MainController < ApplicationController
 			c_lo, c_hi = credits_range(params["credits"])
 			@courses = Course.limit(1).where do
 				[
-					c_low.presence && credits >= c_lo,
+					c_lo.presence && credits >= c_lo,
 					c_hi.presence && credits <= c_hi,
 					course_type == Course::Type::Course,
 					desc != nil

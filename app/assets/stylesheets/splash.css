@@ -1,0 +1,53 @@
+.course-credits
+{
+  float:right;
+  margin-right: 18px;
+  margin-left: 5px;
+  margin-top: 0px;
+  font-size: 0.9em;
+}
+
+.splash-container
+{
+  text-align: center;
+}
+
+.splash
+{
+  font-weight: 200;
+}
+
+.splash-hr
+{
+  padding-bottom: 40px;
+}
+
+hr.half
+{
+  width: 70%;
+  margin-bottom: 8px;
+  margin-top: 5px;
+}
+
+.info-text
+{
+  font-size: 1.2em;
+}
+
+#info
+{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+small.splash
+{
+  font-weight: 100;
+  color:gray;
+}
+
+.splash-options
+{
+  margin: auto;
+  width: 80%;
+}

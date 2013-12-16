@@ -1,7 +1,7 @@
-%table.table.table-condensed.courses.yo#schedule{:class=>(side ? "side" : "s-full")}
+%table.table.table-condensed.courses#schedule{:class=>(side ? "side" : "s-full")}
   %thead
     %tr
-      %th.time-header
+      %th.time-header.time
       %th M
       %th T
       %th W
@@ -13,6 +13,7 @@
         %td.time
           .time-thing
             =((t+8) % 12)+1
+            =# (t+8) < 12 ? "AM" : "PM"
         %td{:class => t > 5 && t < 9 ? "class grn" : ""}
           -if t == 6
             .overhead.start-00

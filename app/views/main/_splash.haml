@@ -2,14 +2,15 @@
 .splash-container
   .row
     %h2.splash
-      explore the ur curriculum
+      -#explore the ur curriculum
   .row
-    .col-md-4.lead
-      %a{href:"#", onclick:"$('#search-input').focus(); return false;"} search courses
-    .col-md-4.lead
-      %a{href:"#", onclick:"$('#depts').toggle(); $('#info').toggle(); return false;"} see all departments
-    .col-md-4.lead
-      %a{href:"#", onclick:"$('#rand-btn').focus(); return false;"} random course
+    .splash-options
+      .col-md-4.lead
+        %a{href:"#", onclick:"$('#search-input').focus(); return false;"} search courses
+      .col-md-4.lead
+        %a{href:"#", onclick:"$('#depts').toggle(); $('#info').toggle(); return false;"} see all departments
+      .col-md-4.lead
+        %a{href:"#", onclick:"$('#rand-btn').focus(); return false;"} random course
 
   %hr.half
 #info

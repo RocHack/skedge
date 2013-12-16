@@ -2,8 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "bootstrap";
-
 .cols
 {
   -moz-column-count:2; /* Firefox */
@@ -23,11 +21,6 @@
   display: none;
 }
 
-.full
-{
-  width:calc(100% - 7px);
-}
-
 .center
 {
   text-align: center;
@@ -43,54 +36,6 @@
 .search-results
 {
   padding-bottom: 80px;
-}
-
-.bigger
-{
-  font-size: 1.3em;
-}
-
-.m-body
-{
-  margin-bottom: 0;
-  padding-bottom: 0;   
-}
-
-.email-field
-{
-  margin-bottom: 10px;
-}
-
-textarea
-{
-  resize:vertical;
-  margin-bottom: 10px;
-}
-
-
-/* PROGRESS BAR */
-
-/* enroll progress bar */
-.progress
-{
-  margin-top: 10px;
-  margin-right: 10px;
-  height:2px;
-  width: 72%;
-  float:left;
-  margin-bottom: -5px;
-}
-
-/* the number (5/20 enrolled) */
-.progress-num
-{
-  display: inline-block;
-  width:20%;
-}
-
-.progress-bar-closed
-{
-  background-color:#9B9B9B;
 }
 
 /* FILTER STUFF */
@@ -140,154 +85,4 @@ ul
 {
   text-align: center;
   padding-top: 50px;
-}
-
-/* COURSE BOXES */
-.box
-{
-  margin: auto;
-  width: 97%;
-
-  margin-top: 30px;
-  margin-bottom: 25px;
-}
-
-p.desc
-{
-  margin-top: 5px;
-}
-
-.add-course-btn
-{
-  margin-top: 10px; 
-  width: 140px;
-}
-
-/*.cancelled-btn
-{
-  width: 10px;
-}*/
-
-td.course-btn
-{
-  width: 155px;
-}
-
-.lab-btn
-{
-  margin-right: 7px;
-}
-
-.hidden
-{
-  display:none;
-}
-
-.lab-info
-{
-  height: 50px;
-  vertical-align: middle;
-}
-
-.subcourse
-{
-  margin-top: 10px;
-}
-
-.subcourses
-{
-  margin-top: 10px;
-}
-
-p.info
-{
-  margin-top: 10px;
-}
-
-.wide
-{
-  width: 100%;
-  margin-top: 5px;
-  margin-bottom: 2px;
-}
-
-.course-details
-{
-  margin-top: 8px;
-}
-
-.bookmark
-{
-  font-size: 3em;
-  float: right;
-  margin-right: 0px;
-  margin-top: -25px;
-  color:#EFEFEF;
-  opacity: clear;
-}
-
-/* Course num, like in CSC **173** */
-.cnum
-{
-  font-weight: 500;
-  margin-left: 4px;
-}
-
-.cancelled
-{
-  opacity: 0.55;
-  /*color: #B1B1B1;*/
-}
-
-.course-credits
-{
-  float:right;
-  margin-right: 18px;
-  margin-left: 5px;
-  margin-top: 0px;
-  font-size: 0.9em;
-}
-
-.splash-container
-{
-  text-align: center;
-}
-
-.splash
-{
-  font-weight: 200;
-}
-
-.splash-hr
-{
-  padding-bottom: 20px;
-}
-
-hr.half
-{
-  width: 70%;
-  margin-bottom: 8px;
-  margin-top: 5px;
-}
-
-.info-text
-{
-  font-size: 1.2em;
-}
-
-#info
-{
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-small.splash
-{
-  font-weight: 100;
-  color:gray;
-}
-
-#bug-modal
-{
-  text-align: left;
 }

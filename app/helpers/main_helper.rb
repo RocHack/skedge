@@ -41,7 +41,7 @@ module MainHelper
 	end
 
 	def default_filter?(filter)
-		Filters[filter].first == params[filter]
+		!params[filter] || Filters[filter].first == params[filter]
 	end
 
 	def get_filter(filter)

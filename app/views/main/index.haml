@@ -50,10 +50,13 @@
                   =@courses.size
                   ="course#{@courses.size == 1 ? "" : "s"}"
                   in
-                  ="#{(Time.now-@start_time).round(3)} seconds."
+                  %span#render-time
                 -@courses.each do |course|
                   =render partial:"course", locals: {course: course.decorate}
            
       -#SCHEDULE   
       .col-md-4 
         =render partial:"schedule"
+
+:javascript
+  $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

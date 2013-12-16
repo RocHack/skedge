@@ -253,12 +253,123 @@ ul
   position: fixed;
   border-radius: 5px;
   text-align: center;
+
+  border-collapse:collapse;
 }
 
 th
 {
   text-align: center;
   height: 10px;
+}
+
+.time
+{
+  background-color: white;
+  border-color: white;
+  vertical-align: bottom;
+  text-align: right;
+  width: 1%;
+
+  border: 0px !important;
+}
+
+.line
+{
+  margin-top: 1px;
+  background-color: #dddddd;
+  height: 1px;
+}
+
+.start-30 {
+  height: 50%;
+}
+.start-00 { 
+  height: 0%;
+}
+.start-40 {
+  height: 66%;
+}
+
+.end-30 {
+  height: 50%;
+}
+.end-00 { 
+  height: 0%;
+}
+.end-40 {
+  height: 33%;
+}
+
+.overhead
+{
+  position: relative;
+  margin: -7px 0px 0px -5px;
+  width: calc(100% + 10px);
+  background-color: white;
+}
+
+.undercontainer
+{
+  height: calc(100% + 2px);
+  width: 100%;
+  position: relative;
+}
+
+.underfoot
+{
+  position: absolute;
+  bottom: 0px;
+  margin: 0px 0px 0px -5px;
+  width: calc(100% + 10px);
+  background-color: white;
+}
+
+.org
+{
+  background-color:rgb(254, 155, 0);
+  border-color: rgb(254, 155, 0) !important;
+}
+
+.prp
+{
+  background-color:rgb(205, 12, 126);
+  border-color: rgb(205, 12, 126) !important;
+}
+
+.blu
+{
+  background-color:rgb(23, 185, 250);
+  border-color: rgb(23, 185, 250) !important;
+}
+
+.grn
+{
+  background-color:rgb(27, 207, 17);
+  border-color: rgb(27, 207, 17)  !important;
+}
+
+.class
+{
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  color: white;
+  text-align: left;
+}
+
+.class-contents
+{
+  width: 30px;
+  padding: 0 0 0 0;
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.time-thing
+{
+  margin-top: -6px;
+  margin-right: 10px;
+  font-size: 0.9em;
 }
 
 /* COURSE BOXES */

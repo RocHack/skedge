@@ -9,6 +9,109 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
 
- *= require_self
  *= require_tree .
+ *= require_self
  */
+
+/* General */
+.inline
+{
+  display:inline;
+}
+
+.right-margin-20
+{
+  margin-right:20px;
+}
+
+.left-margin-5
+{
+  margin-left:5px;
+}
+
+.left-margin-20
+{
+  margin-left:20px;
+}
+
+.top-margin-35
+{
+  margin-top:35px;
+}
+
+.middle
+{
+  vertical-align: middle;
+}
+
+.filter-bold
+{
+  font-weight: 500;
+}
+
+p
+{
+  margin-bottom:0px;  
+}
+
+p.lead
+{
+  margin-bottom: 4px;
+}
+
+body
+{
+  font-weight: 200;
+}
+
+strong
+{
+  font-weight: 500;
+}
+
+#main
+{
+  margin-top: 35px;
+  width: 90%;
+}
+
+
+/* "Logo" */
+small.subtitle
+{
+  font-size: 1.9em;
+  line-height:15px;
+  color: gray;
+}
+
+.credits
+{
+  font-size: 0.9em;
+  min-height: 38px;
+  float: right;
+  text-align: right;
+}
+
+h1.logo
+{
+  line-height:0.9em;
+  font-size: 3.2em;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+.logo-panel
+{
+  padding-bottom: 10px;
+}
+
+a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
+{
+  text-decoration: none;
+  color: black;
+}
+
+a.bookmark:active
+{
+  color:#1D4466;
+}

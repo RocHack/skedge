@@ -1,4 +1,9 @@
--if @schedule
-
--else
-	No schedule found
+.row
+  .col-md-2
+    =render partial:"logo"
+  .col-md-8
+    -if @schedule
+      =render partial:"schedule", locals: {side:false}
+    -else
+      .center
+        No schedule found

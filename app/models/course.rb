@@ -17,7 +17,7 @@ class Course < ActiveRecord::Base
 	end
 
 	validates :num, presence: true
-	validates :name, presence: true, uniqueness: {scope: [:term, :year]}
+	validates :name, presence: true, uniqueness: {scope: [:department_id, :term, :year]}
 	
 	belongs_to :department
 
@@ -64,5 +64,9 @@ class Course < ActiveRecord::Base
 
 	def cancelled?
 		sections.inject(true) { |x, s| x && s.status == Section::Status::Cancelled }
+	end
+
+	def research?
+		min_enroll == 0 && !desc && sections.inject(true) { |x, s| x && s.time_tba? }
 	end
 end

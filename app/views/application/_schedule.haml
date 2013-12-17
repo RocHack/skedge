@@ -14,13 +14,13 @@
           .time-thing
             =((t+8) % 12)+1
             =# (t+8) < 12 ? "AM" : "PM"
-        %td{:class => t > 5 && t < 9 ? "class grn" : ""}
-          -if t == 6
+        %td{:class => t > 2 && t < 5 ? "class grn" : ""}
+          -if t == 3
             .overhead.start-00
           .class-contents
-            -if t == 6
+            -if t == 3
               MTH 150
-          -if t == 8
+          -if t == 4
             .undercontainer
               .underfoot.end-30
         %td{:class => t > 3 && t < 7 ? "class blu" : ""}

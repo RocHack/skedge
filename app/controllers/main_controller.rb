@@ -77,7 +77,8 @@ class MainController < ApplicationController
 		#TODO optimize!
 		courses.compact.delete_if do |c|
 			sister = c.sister_course
-			sister && courses.include?(sister) && (c.year < sister.year || (c.year == sister.year && c.term > sister.term))
+			sister_exists = sister && (c.year < sister.year || (c.year == sister.year && c.term > sister.term)) && courses.include?(sister)
+			sister_exists || c.research?
 		end
 	end
 
@@ -89,9 +90,11 @@ class MainController < ApplicationController
 			@courses = filter(search_for_courses(@query))
 		elsif params["random"].presence
 			#random everything, but include stuff
+			term_search = Course::Term::Terms[params["term"].try(:capitalize)]
 			c_lo, c_hi = credits_range(params["credits"])
 			@courses = Course.limit(1).where do
 				[
+					term_search.presence && term == term_search,
 					c_lo.presence && credits >= c_lo,
 					c_hi.presence && credits <= c_hi,
 					course_type == Course::Type::Course,

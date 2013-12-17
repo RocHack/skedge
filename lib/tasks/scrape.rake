@@ -161,7 +161,7 @@ class Scraper
         #"cache" a copy of instructors on course so it's faster to search
         if s.instructors
           c.instructors ||= ""
-          c.instructors += s.instructors + "; "
+          c.instructors += s.instructors + "; " unless c.instructors[s.instructors]
         end
 
         if !c.min_enroll || s.enroll < c.min_enroll

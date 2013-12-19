@@ -13,39 +13,48 @@
         %a{href:"#", onclick:"$('#rand-btn').focus(); return false;"} random course
 
   %hr.half
-#info
-  .row
-    %h3.splash
-      what is
-      =succeed "?" do
-        %strong skedge
-    %p.info-text
-      skedge is a clone of the
-      =succeed "." do
-        %a{href:"https://cdcs.ur.rochester.edu/"} university of rochester cdcs
-      it has all of the same courses and data, but aims to display it in a more organized and user-friendly way.
-  .row
-    %h3.splash
-      what can it do?
-    %ul.info-text
-      %li simplified search, that shows courses for both terms
-      %li course sections are grouped together
-      %li labs, recitations, and workshops are embedded in the main course
-      %li courses mentioned in prerequisites are clickable
-      %li instructors are also clickable, email them or look up their ratings
-      %li compare schedules with friends
-    %p.info-text
-      please remember that you cannot register for courses with skedge (!)
 
-    .credits
-      %p
-        a
-        %a{href:"http://rochack.org"} rochack
-        project
-      %p
-        made by
-        %a{href:"http://danhassin.com"} dan
-      %p
-        =bracket_link("source", "https://github.com/RocHack/skedge")
-        =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
-        =render partial:"ticket"
+-if info
+  #info
+    .row
+      %h3.splash
+        what is
+        =succeed "?" do
+          %strong skedge
+      %p.info-text
+        skedge is a clone of the
+        =succeed "." do
+          %a{href:"https://cdcs.ur.rochester.edu/"} university of rochester cdcs
+        it has all of the same courses and data, but aims to display it in a more organized and user-friendly way.
+    .row
+      %h3.splash
+        what can it do?
+      %ul.info-text
+        %li simplified search, that shows courses for both terms
+        %li course sections are grouped together
+        %li labs, recitations, and workshops are embedded in the main course
+        %li courses mentioned in prerequisites are clickable
+        %li instructors are also clickable, email them or look up their ratings
+        %li compare schedules with friends
+      %p.info-text
+        please remember that you cannot register for courses with skedge (!)
+
+      .credits
+        %p
+          a
+          %a{href:"http://rochack.org"} rochack
+          project
+        %p
+          made by
+          %a{href:"http://danhassin.com"} dan
+        %p
+          =bracket_link("source", "https://github.com/RocHack/skedge")
+          =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
+          =render partial:"ticket"
+-else
+  .enormous
+    skedge
+  .info-link
+    %a{href:"info"} info
+  .sub
+    a modern scheduling system for the u of r

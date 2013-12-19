@@ -51,3 +51,36 @@ small.splash
   margin: auto;
   width: 80%;
 }
+
+.enormous
+{
+  position: relative;
+  font-size: 15em;
+  letter-spacing: -15px;
+  opacity: 0.72;
+  text-align: center;
+  margin-top: 80px;
+  line-height: 0.8em;
+}
+
+.sub
+{
+  position: absolute;
+  opacity: 0.6;
+  letter-spacing: -3px;
+  font-size: 4em;
+  line-height: 0.9em;
+  text-align: right;
+  z-index: 1;
+  color: #434343;
+  margin: 0 340px 0 0px;
+}
+
+.info-link
+{
+  position: absolute;
+  font-size: 1.5em;
+  text-align: center;
+  right: 195px;
+  z-index: 999;
+}

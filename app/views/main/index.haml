@@ -19,7 +19,7 @@
     .row
       .col-md-12
         -if !@courses
-          =render partial:"splash"
+          =render partial:"splash", locals:{info:@info}
 
           #depts.cols
             -@depts.each do |dept|
@@ -51,7 +51,7 @@
       =render partial:"schedule", locals: {side:true, schedule:@schedule}
       .side-options
         %a.share{href:"1"}
-          Share this skedge & more
+          Share this skedge & more options
         .btn-group.side-menu
           %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
             %strong Spring 2014

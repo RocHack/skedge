@@ -3,6 +3,16 @@ class MainController < ApplicationController
 		true
 	end
 
+	def all_depts
+		@@all ||= Department.all
+	end
+
+	def lookup_dept(txt)
+		all_depts.find do |d|
+			d.short == txt.upcase
+		end
+	end
+
 	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_low, c_hi, sort)
 		Course.joins{department}.where do
 			[
@@ -58,7 +68,7 @@ class MainController < ApplicationController
 		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
 			dept_short = match[1] if !match[1].empty?
 			d = nil
-			if !dept_short || dept_short.empty || d = Department.lookup(dept_short)
+			if !dept_short || dept_short.empty? || d = lookup_dept(dept_short)
 				dept_search = d.try(:id)
 				name_search = nil
 			end
@@ -90,6 +100,7 @@ class MainController < ApplicationController
 	def index
 		@query = params[:query].try(:strip)
 		@schedule = Schedule.first
+		@info = false
 		
 		@courses = nil
 		if @query && !@query.empty?
@@ -108,7 +119,16 @@ class MainController < ApplicationController
 				].compact.reduce(:&)
 			end.order("RANDOM()")
 		else
-			@depts = Department.all
+			@depts = all_depts
 		end
+
+		render "index"
+	end
+
+	def info
+		@info = true
+		@schedule = Schedule.first
+		@depts = all_depts
+		render "index"
 	end
 end

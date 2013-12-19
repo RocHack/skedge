@@ -8,6 +8,7 @@ Skedge::Application.routes.draw do
   root 'main#index'
   post '/' => 'main#index'
   post '/ticket' => 'ticket#new'
+  get '/info' => 'main#info'
   get '/:id' => 'schedules#show'
 
   # Example of regular route:

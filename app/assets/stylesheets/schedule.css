@@ -83,7 +83,7 @@ th
 {
   text-align: left;
   color: white;
-  text-shadow: rgba(0,0,0,0.2) 0em 0em 0.15em;
+  text-shadow: rgba(0,0,0,0.4) 0em 0em 0.15em;
   margin: 5px;
   margin-left: 8px;
   overflow: hidden;
@@ -142,6 +142,13 @@ span.s-block-cnum
 .s-block:hover .s-block-details
 {
   display: block;
+}
+
+.s-block-head
+{
+  font-weight: 400;
+  margin-top: 10px;
+  line-height: 1.1em;
 }
 
 .s-block:hover .s-block-head

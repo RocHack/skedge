@@ -3,7 +3,7 @@
     =render partial:"logo"
   .col-md-8
     -if @schedule
-      =render partial:"schedule", locals: {side:false}
+      =render partial:"schedule", locals: {side:false, schedule:@schedule}
     -else
       .center
         No schedule found

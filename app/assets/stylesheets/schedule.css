@@ -1,139 +1,83 @@
-.side
+.fixed
 {
-  margin-left:20px;
-  width: 27%;
-  height: 88%;	
   position: fixed;
+  width: 27%;
+  margin-left:20px;
+  height: 88%;
 }
 
-#schedule
+.side
+{
+  width: 100%;
+  height: 100%;
+}
+
+.s-full
+{
+  height: 700px;
+}
+
+.schedule
 {
   border-radius: 5px;
-  text-align: center;
-
-  border-collapse:collapse;
+  text-align: left;
 }
 
 th
 {
   text-align: center;
-  height: 10px;
-  width:16%;
-}
 
-.time-header
-{
-  width: 1%;
-}
-
-.time
-{
-  background-color: white;
-  border-color: white;
-  vertical-align: bottom;
-  text-align: right;
-
-  border: 0px !important;
-}
-
-.line
-{
-  margin-top: 1px;
-  background-color: #dddddd;
-  height: 1px;
-}
-
-.start-30 {
-  height: 50%;
-}
-.start-00 { 
-  height: 0%;
-}
-.start-40 {
-  height: 66%;
-}
-
-.end-30 {
-  height: 50%;
-}
-.end-00 { 
-  height: 0%;
-}
-.end-40 {
-  height: 33%;
-}
-
-.overhead
-{
-  position: relative;
-  margin: -7px 0px 0px -5px;
-  width: calc(100% + 10px);
-  background-color: white;
-}
-
-.undercontainer
-{
-  height: calc(100% + 2px);
-  width: 100%;
-  position: relative;
-}
-
-.underfoot
-{
-  position: absolute;
-  bottom: 0px;
-  margin: 0px 0px 0px -5px;
-  width: calc(100% + 10px);
-  background-color: white;
+  height: 20px;
+  width: 20%;
 }
 
 .org
 {
   background-color:rgb(254, 155, 0);
-  border-color: rgb(254, 155, 0) !important;
 }
 
 .prp
 {
   background-color:rgb(205, 12, 126);
-  border-color: rgb(205, 12, 126) !important;
 }
 
 .blu
 {
   background-color:rgb(23, 185, 250);
-  border-color: rgb(23, 185, 250) !important;
 }
 
 .grn
 {
   background-color:rgb(27, 207, 17);
-  border-color: rgb(27, 207, 17)  !important;
 }
 
-.class
+.time
 {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-  color: white;
-  text-align: left;
-}
-
-.class-contents
-{
-  padding: 0 0 0 0;
-  margin-top: 3px;
-  font-size: 12px;
-}
-
-.time-thing
-{
-  margin-top: -14px;
-  margin-right: 10px;
+  width: 30px;
+  text-align: right;
+  margin-left: -45px;
+  margin-top: -15px;
   font-size: 0.9em;
 }
 
-.s-full
+.skedge
 {
-	height: 700px;
+  position: relative;
+  height: 100%;
+}
+
+.day-table
+{
+  margin-bottom: 0px;
+}
+
+.s-block
+{
+  position: absolute;
+}
+
+.s-block > p
+{
+  color: white;
+  margin: 5px;
 }

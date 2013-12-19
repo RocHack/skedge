@@ -55,4 +55,19 @@ module MainHelper
 	def should_hide_section?(section)
 		params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
 	end
+
+	def course_style(a,t_start,t_end,full=false)
+		days = %w(M T W R F)
+		width = 20
+		hour = 100/16.0 - (full ? 0.3 : 0)
+		height = (t_end - t_start) * hour
+		left = days.index(a.upcase)*width
+		top = hour*t_start
+		"
+		width: 20%;
+		left: #{left}%;
+		top: #{top}%;
+		height: #{height}%;
+		"
+	end
 end

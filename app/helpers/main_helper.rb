@@ -59,7 +59,7 @@ module MainHelper
 	def course_style(a,start,duration,full=false)
 		days = %w(M T W R F)
 		width = 20
-		hour = 100/12.0 - 0.05
+		hour = 100/11.0 - 0.05
 		height = duration * hour
 		left = days.index(a.upcase)*width
 		top = hour*start

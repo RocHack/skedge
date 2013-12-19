@@ -9,18 +9,6 @@
   column-count:2;
 }
 
-#depts
-{
-  -moz-column-gap:5px; /* Firefox */
-  -webkit-column-gap:5px; /* Safari and Chrome */
-  column-gap:5px;
-
-  padding-bottom: 30px;
-  padding-top: 10px;
-
-  display: none;
-}
-
 .center
 {
   text-align: center;

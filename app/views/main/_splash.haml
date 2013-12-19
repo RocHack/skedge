@@ -1,61 +1,71 @@
+#splash-space
+
+#splash
+  .enormous
+    skedge
+  -#.info-link
+    %a{href:"info"} info
+  .sub
+    a modern scheduling system for the u of r
+
 .splash-hr
+%hr.half
 .splash-container
   .row
     %h2.splash
       -#explore the ur curriculum
   .row
     .splash-options
-      .col-md-4.lead
+      -#.col-md-4.lead
         %a{href:"#", onclick:"$('#search-input').focus(); return false;"} search courses
-      .col-md-4.lead
-        %a{href:"#", onclick:"$('#depts').toggle(); $('#splash').toggle(); return false;"} see all departments
-      .col-md-4.lead
-        %a{href:"#", onclick:"$('#rand-btn').focus(); return false;"} random course
+      .col-md-6.lead
+        %a{href:"#", onclick:"$('#depts').toggle(); $('#info').hide(); $('#splash-space').toggle(); return false;"} all departments
+      .col-md-6.lead
+        %a{href:"#", onclick:"$('#info').toggle(); $('#depts').hide(); $('#splash-space').toggle(); return false;"} about
 
-  %hr.half
+#info
+  .row
+    %h3.splash
+      what is
+      =succeed "?" do
+        %strong skedge
+    %p.info-text
+      skedge is a clone of the
+      =succeed "." do
+        %a{href:"https://cdcs.ur.rochester.edu/"} university of rochester cdcs
+      it has all of the same courses and data, but aims to display it in a more organized and user-friendly way.
+  .row
+    %h3.splash
+      what can it do?
+    %ul.info-text
+      %li simplified search, that shows courses for both terms
+      %li course sections are grouped together
+      %li labs, recitations, and workshops are embedded in the main course
+      %li courses mentioned in prerequisites are clickable
+      %li instructors are also clickable, email them or look up their ratings
+      %li compare schedules with friends
+    %p.info-text
+      please remember that you cannot register for courses with skedge (!)
 
-#splash
-  -if info
-    #info
-      .row
-        %h3.splash
-          what is
-          =succeed "?" do
-            %strong skedge
-        %p.info-text
-          skedge is a clone of the
-          =succeed "." do
-            %a{href:"https://cdcs.ur.rochester.edu/"} university of rochester cdcs
-          it has all of the same courses and data, but aims to display it in a more organized and user-friendly way.
-      .row
-        %h3.splash
-          what can it do?
-        %ul.info-text
-          %li simplified search, that shows courses for both terms
-          %li course sections are grouped together
-          %li labs, recitations, and workshops are embedded in the main course
-          %li courses mentioned in prerequisites are clickable
-          %li instructors are also clickable, email them or look up their ratings
-          %li compare schedules with friends
-        %p.info-text
-          please remember that you cannot register for courses with skedge (!)
+    .credits
+      %p
+        a
+        %a{href:"http://rochack.org"} rochack
+        project
+      %p
+        made by
+        %a{href:"http://danhassin.com"} dan
+      %p
+        =bracket_link("source", "https://github.com/RocHack/skedge")
+        =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
+        =render partial:"ticket"
 
-        .credits
-          %p
-            a
-            %a{href:"http://rochack.org"} rochack
-            project
-          %p
-            made by
-            %a{href:"http://danhassin.com"} dan
-          %p
-            =bracket_link("source", "https://github.com/RocHack/skedge")
-            =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
-            =render partial:"ticket"
-  -else
-    .enormous
-      skedge
-    .info-link
-      %a{href:"info"} info
-    .sub
-      a modern scheduling system for the u of r
+#depts.cols
+  -@depts.each do |dept|
+    -if true#!dept.courses.empty?
+      .dept
+        %a
+          %strong
+            =inline_form(dept.short)
+        ="-"
+        =dept.name

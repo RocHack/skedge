@@ -10,7 +10,7 @@
   -if schedule
     -schedule.sections.each_with_index do |s, i|
       -s.days.chars.each do |day|
-        %a.s-block{href:"#", style:course_style(day,s.time_in_hours(:start)-9,s.duration,!side) + "background-color:#{color(i)};"}
+        %a.s-block{href:"#", style:course_style(day,s.time_in_hours(:start)-10,s.duration,!side) + "background-color:#{color(i)};"}
           .wrapper
             .s-block-p
               .s-block-huge
@@ -23,18 +23,18 @@
                     .s-block-head
                       =s.course.department.short
                       .s-block-cnum= s.course.num
-                    .s-block-details=truncate(s.course.decorate.name, length:25)
+                    .s-block-details=s.course.decorate.name
                   
               -if !side
-                .s-block-name=truncate(s.course.decorate.name, length:27)
+                .s-block-name=s.course.decorate.name
               
   %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
     %tbody
-      -12.times do |t|
+      -11.times do |t|
         %tr.schedule-row        
           %td
             .time
-              =((t+8) % 12)+1
+              =((t+9) % 12)+1
           %td
           %td
           %td

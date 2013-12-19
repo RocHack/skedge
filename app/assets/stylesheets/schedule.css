@@ -20,7 +20,7 @@
 
 .s-full
 {
-  height: 700px;
+  height: 800px;
 }
 
 .schedule
@@ -84,8 +84,7 @@ th
   text-align: left;
   color: white;
   text-shadow: rgba(0,0,0,0.4) 0em 0em 0.15em;
-  margin: 5px;
-  margin-left: 8px;
+  margin: 5px 8px 5px 8px;
   overflow: hidden;
 }
 
@@ -101,7 +100,7 @@ span.s-block-cnum
 
 .s-block-cnum
 {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .s-block-name
@@ -113,7 +112,7 @@ span.s-block-cnum
   line-height: 1.1em;
   height: 30px;
 
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   overflow: hidden;
 }
 
@@ -131,6 +130,8 @@ span.s-block-cnum
   display: none;
   font-size: 13px;  
   margin-top: -3px;
+  overflow: hidden;
+  height: 100%;
 }
 
 .s-block-huge
@@ -164,4 +165,11 @@ a.s-block
 a.s-block:hover
 {
   text-decoration: none;
+}
+
+@media (max-width: 900px) {
+.s-block-time
+{
+  display: none;
+}
 }

@@ -20,16 +20,6 @@
       .col-md-12
         -if !@courses
           =render partial:"splash", locals:{info:@info}
-
-          #depts.cols
-            -@depts.each do |dept|
-              -if !dept.courses.empty?
-                .dept
-                  %a
-                    %strong
-                      =inline_form(dept.short)
-                  ="-"
-                  =dept.name
         -elsif @courses.empty?
           %hr
           %p.lead.no-results

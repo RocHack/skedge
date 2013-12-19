@@ -11,7 +11,7 @@ class MainController < ApplicationController
 				num_search.presence && num =~ "#{num_search}%",
 				term_search.presence && term == term_search,
 				name_search.presence && name =~ "%#{name_search}%",
-				dept_search.presence && department.short =~ "#{dept_search.upcase}%",
+				dept_search.presence && department_id == dept_search,
 				type_search.presence && course_type == type_search,
 				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
@@ -53,12 +53,15 @@ class MainController < ApplicationController
 			query = query.gsub(instructor_regex,"").strip #remove from the query
 		end
 
+		name_search = query
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
 		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
-			dept_search = match[1] if !match[1].empty?
+			dept_short = match[1] if !match[1].empty?
+			if d = Department.lookup(dept_short)
+				dept_search = d.id
+				name_search = nil
+			end
 			num_search = match[2] if !match[2].empty?
-		else
-			name_search = query
 		end
 
 		c_lo, c_hi = credits_range(params["credits"])

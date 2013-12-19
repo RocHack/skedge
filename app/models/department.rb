@@ -3,6 +3,9 @@ class Department < ActiveRecord::Base
 	validates :short, presence: true, uniqueness: { case_sensitive: false }
 
 	def self.lookup(txt)
-		where {short == txt.upcase}.first
+		@@all ||= Department.all
+		@@all.find do |d|
+			d.short == txt.upcase
+		end
 	end
 end

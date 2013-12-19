@@ -56,18 +56,22 @@ module MainHelper
 		params[:instructor_search] and not section.instructors =~ /#{params[:instructor_search]}/i
 	end
 
-	def course_style(a,t_start,t_end,full=false)
+	def course_style(a,start,duration,full=false)
 		days = %w(M T W R F)
 		width = 20
-		hour = 100/16.0 - (full ? 0.3 : 0)
-		height = (t_end - t_start) * hour
+		hour = 100/12.0 - (full ? 0.27 : 0.1)
+		height = duration * hour
 		left = days.index(a.upcase)*width
-		top = hour*t_start
+		top = hour*start
 		"
 		width: 20%;
 		left: #{left}%;
 		top: #{top}%;
 		height: #{height}%;
 		"
+	end
+
+	def color(i)
+		["#FE9B00", "#17B9FA", "#1BCF11", "#E74C3C", "#CCEBAC", "#187697", "#5369B5"][i]
 	end
 end

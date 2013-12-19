@@ -1,7 +1,11 @@
 .row
   .col-md-2
     =render partial:"logo"
-  .col-md-8
+    .options
+      %p options
+      %p options
+      %p options
+  .col-md-10
     -if @schedule
       =render partial:"schedule", locals: {side:false, schedule:@schedule}
     -else

@@ -43,12 +43,12 @@
               in
               %span#render-time
             -@courses.each do |course|
-              =render partial:"course", locals: {course: course.decorate}
+              =render partial:"course", locals: {course: course.decorate, schedule:@schedule}
        
   -#SCHEDULE   
   .col-md-4
     =#%iframe.fixed{src:"./1"}
-    =render partial:"schedule", locals: {side:true}
+    =render partial:"schedule", locals: {side:true, schedule:@schedule}
 
   :javascript
     $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

@@ -3,27 +3,26 @@ class SectionDecorator < Draper::Decorator
 
 	DaysOfWeek = {"M" => "Mon", "T" => "Tues", "W" => "Wed", "R" => "Thurs", "F" => "Fri", "S" => "Sat", "U" => "Sun"}
 
-	def format_time(time)
-		if time.size == 3 #940
-			hour = time[0].to_i #9
-			mins = time[1..2] #40
-		else #1050
-			hour = time[0..1].to_i #10
-			mins = time[2..3] #50
-		end
+	def format_time(time, ampm=true)
+		hour = object.hour(time)
+		mins = object.minutes(time)
 		am = hour < 12
 		if hour > 12
 			hour = "#{hour - 12}"
 		end
-		"#{hour}:#{mins}#{am ? "am" : "pm"}"
+		"#{hour}:#{mins.to_s.rjust(2,"0")}#{ampm ? (am ? "am" : "pm") : ""}"
+	end
+
+	def time(ampm=true)
+		s = format_time(:start,ampm)
+		e = format_time(:end,ampm)
+		"#{s}-#{e}"
 	end
 
 	def time_and_day
 		# days is like "MWF". split into chars, map each one to the longer version, join with /, so Mon/Wed/Fri
 		d = object.days.split("").map {|d| DaysOfWeek[d]}.join("/")
-		s = format_time(object.start_time.to_s)
-		e = format_time(object.end_time.to_s)
-		"#{d} #{s}-#{e}"
+		"#{d} #{time}"
 	end
 
 	def time_and_place

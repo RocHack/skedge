@@ -17,7 +17,7 @@ class Course < ActiveRecord::Base
 	end
 
 	validates :num, presence: true
-	validates :name, presence: true, uniqueness: {scope: [:department_id, :term, :year]}
+	validates :name, presence: true, uniqueness: {scope: [:department_id, :num, :term, :year]}
 	
 	belongs_to :department
 

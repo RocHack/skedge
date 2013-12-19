@@ -1,3 +1,8 @@
+.options
+{
+  margin-top: 20px;
+}
+
 .fixed
 {
   position: fixed;
@@ -31,26 +36,6 @@ th
   width: 20%;
 }
 
-.org
-{
-  background-color:rgb(254, 155, 0);
-}
-
-.prp
-{
-  background-color:rgb(205, 12, 126);
-}
-
-.blu
-{
-  background-color:rgb(23, 185, 250);
-}
-
-.grn
-{
-  background-color:rgb(27, 207, 17);
-}
-
 .time
 {
   width: 30px;
@@ -74,10 +59,101 @@ th
 .s-block
 {
   position: absolute;
+  /*box-shadow:inset 0 0 5px rgba(0,0,0,0.2);*/
+  border-style:solid;
+  border-width: 0px;
+  border-color: rgba(0,0,0,0.2);
+  opacity: 0.75;
 }
 
-.s-block > p
+.s-block:hover
 {
+  opacity: 0.85;
+}
+
+.wrapper
+{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.s-block-p
+{
+  text-align: left;
   color: white;
+  text-shadow: rgba(0,0,0,0.2) 0em 0em 0.15em;
   margin: 5px;
+  margin-left: 8px;
+  overflow: hidden;
+}
+
+.s-block-num
+{
+  font-weight: 400;
+}
+
+span.s-block-cnum
+{
+    margin-left: 4px;
+}
+
+.s-block-cnum
+{
+  font-weight: 500;
+}
+
+.s-block-name
+{
+  margin: 5px 0 0 0;
+  font-size: 1em;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.1em;
+  height: 30px;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.s-block-time
+{
+  float:right;
+  opacity: 0.85;
+  margin-top:1px;
+  font-size: 12px;
+}
+
+.s-block-details
+{
+  width: 100%;
+  display: none;
+  font-size: 13px;  
+  margin-top: -3px;
+}
+
+.s-block-huge
+{
+  font-size: 1.2em;
+  margin-top: 5px;
+}
+
+.s-block:hover .s-block-details
+{
+  display: block;
+}
+
+.s-block:hover .s-block-head
+{
+  display: none;
+}
+
+a.s-block
+{
+  display: block;
+}
+
+a.s-block:hover
+{
+  text-decoration: none;
 }

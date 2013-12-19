@@ -75,6 +75,7 @@ class MainController < ApplicationController
 
 	def filter(courses)
 		#TODO optimize!
+		return courses
 		courses.compact.delete_if do |c|
 			sister = c.sister_course
 			sister_exists = sister && (c.year < sister.year || (c.year == sister.year && c.term > sister.term)) && courses.include?(sister)
@@ -84,6 +85,7 @@ class MainController < ApplicationController
 
 	def index
 		@query = params[:query].try(:strip)
+		@schedule = Schedule.first
 		
 		@courses = nil
 		if @query && !@query.empty?

@@ -41,6 +41,11 @@ function prepareModal()
 	$("#modal-contents").val("");
 }
 
+function hover(btn)
+{
+	console.log("hi!");
+}
+
 $(function() 
 {
     $('.tooltippy').tooltip();

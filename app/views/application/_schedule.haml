@@ -1,42 +1,41 @@
-%div{:class=>(side ? "fixed" : "")}
-  %table.table.day-table
-    %thead
-      %tr
-        %th M
-        %th T
-        %th W
-        %th R
-        %th F 
-  .skedge
-    -if schedule
-      -schedule.sections.each_with_index do |s, i|
-        -s.days.chars.each do |day|
-          %a.s-block{href:"#", style:course_style(day,s.time_in_hours(:start)-9,s.duration,!side) + "background-color:#{color(i)};"}
-            .wrapper
-              .s-block-p
-                .s-block-huge
-                  -if !side
-                    .s-block-time=s.decorate.time(false)
-                    =precede s.course.department.short do
-                      %span.s-block-cnum= s.course.num
-                  -else
-                    .center
-                      .s-block-head
-                        =s.course.department.short
-                        .s-block-cnum= s.course.num
-                      .s-block-details=truncate(s.course.decorate.name, length:25)
-                    
+%table.table.day-table
+  %thead
+    %tr
+      %th M
+      %th T
+      %th W
+      %th R
+      %th F 
+.skedge
+  -if schedule
+    -schedule.sections.each_with_index do |s, i|
+      -s.days.chars.each do |day|
+        %a.s-block{href:"#", style:course_style(day,s.time_in_hours(:start)-9,s.duration,!side) + "background-color:#{color(i)};"}
+          .wrapper
+            .s-block-p
+              .s-block-huge
                 -if !side
-                  .s-block-name=truncate(s.course.decorate.name, length:27)
-                
-    %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
-      %tbody
-        -12.times do |t|
-          %tr.schedule-row        
-            %td
-              .time
-                =((t+8) % 12)+1
-            %td
-            %td
-            %td
-            %td
+                  .s-block-time=s.decorate.time(false)
+                  =precede s.course.department.short do
+                    %span.s-block-cnum= s.course.num
+                -else
+                  .center
+                    .s-block-head
+                      =s.course.department.short
+                      .s-block-cnum= s.course.num
+                    .s-block-details=truncate(s.course.decorate.name, length:25)
+                  
+              -if !side
+                .s-block-name=truncate(s.course.decorate.name, length:27)
+              
+  %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
+    %tbody
+      -12.times do |t|
+        %tr.schedule-row        
+          %td
+            .time
+              =((t+8) % 12)+1
+          %td
+          %td
+          %td
+          %td

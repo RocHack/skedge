@@ -57,8 +57,9 @@ class MainController < ApplicationController
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
 		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
 			dept_short = match[1] if !match[1].empty?
-			if d = Department.lookup(dept_short)
-				dept_search = d.id
+			d = nil
+			if !dept_short || dept_short.empty || d = Department.lookup(dept_short)
+				dept_search = d.try(:id)
 				name_search = nil
 			end
 			num_search = match[2] if !match[2].empty?

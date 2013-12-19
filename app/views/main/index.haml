@@ -47,8 +47,17 @@
        
   -#SCHEDULE   
   .col-md-4
-    =#%iframe.fixed{src:"./1"}
-    =render partial:"schedule", locals: {side:true, schedule:@schedule}
+    .fixed
+      =render partial:"schedule", locals: {side:true, schedule:@schedule}
+      .side-options
+        %a.share{href:"1"}
+          Share this skedge & more
+        .btn-group.side-menu
+          %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+            %strong Spring 2014
+            %span.caret
+          %ul.dropdown-menu{role:"menu"}
+            %li="Add new..."
 
   :javascript
     $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

@@ -7,8 +7,9 @@
 {
   position: fixed;
   width: 27%;
-  margin-left:20px;
-  height: 88%;
+  margin-left:30px;
+  margin-top:10px;
+  height: 81%;
 }
 
 .side
@@ -24,8 +25,8 @@
 
 .schedule
 {
-  border-radius: 5px;
   text-align: left;
+  margin-bottom: 0px;
 }
 
 th

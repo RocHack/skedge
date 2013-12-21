@@ -35,7 +35,7 @@ color = 0
 colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#CCEBAC", "#187697", "#5369B5"]
 
 root = exports ? this
-root.add_course = (start,duration,obj) ->
+root.add_course = (start,duration,obj,direct) ->
 	for day in obj.days.split("")
 		s = style(day,start,duration,colors[color])
 		c = $("#template").clone().css(s).appendTo($('#courses'))
@@ -43,6 +43,9 @@ root.add_course = (start,duration,obj) ->
 		c.find('#s-block-cnum').html(obj.num)
 		c.find('#s-block-time').html(obj.time)
 		c.find('#s-block-title').html(obj.name)
-		c.data("content",obj.popover_content)
-		c.data("title",obj.popover_title)
+		if direct
+			c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
+		else
+			c.data("content",obj.popover_content)
+			c.data("title",obj.popover_title)
 	color += 1

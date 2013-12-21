@@ -50,5 +50,4 @@
         "popover_content":'#{s.decorate.popover_content.gsub("\n","<br>")}',
         "popover_title":'#{s.decorate.popover_title}'
       }
-      add_course(#{s.time_in_hours(:start)-10},#{s.duration},c);
-      
+      add_course(#{s.time_in_hours(:start)-10},#{s.duration},c,#{side});

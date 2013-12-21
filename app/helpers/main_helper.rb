@@ -70,8 +70,4 @@ module MainHelper
 		height: #{height}%;
 		"
 	end
-
-	def color(i)
-		["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#CCEBAC", "#187697", "#5369B5"][i]
-	end
 end

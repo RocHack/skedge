@@ -11,7 +11,7 @@ class CourseDecorator < Draper::Decorator
 	end
 
 	def name
-		little = %w(and of or the to the in but as is for)
+		little = %w(and of or the to the in but as is for with)
 		big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP)
 		prev = nil
 		object.name.gsub(/(\w|\.|')*/) do |w|

@@ -10,23 +10,7 @@
   -if schedule
     -schedule.sections.each_with_index do |s, i|
       -s.days.chars.each do |day|
-        %a.s-block{href:"#", style:course_style(day,s.time_in_hours(:start)-10,s.duration,!side) + "background-color:#{color(i)};"}
-          .wrapper
-            .s-block-p
-              .s-block-huge
-                -if !side
-                  .s-block-time=s.decorate.time(false)
-                  =precede s.course.department.short do
-                    %span.s-block-cnum= s.course.num
-                -else
-                  .center
-                    .s-block-head
-                      =s.course.department.short
-                      .s-block-cnum= s.course.num
-                    .s-block-details=s.course.decorate.name
-                  
-              -if !side
-                .s-block-name=s.course.decorate.name
+        =render partial:"block", locals:{day:day, s:s.decorate, color:color(i), side:side}
               
   %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
     %tbody

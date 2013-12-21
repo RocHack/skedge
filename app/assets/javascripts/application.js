@@ -46,10 +46,30 @@ function hover(btn)
 	console.log("hi!");
 }
 
+function splashtoggle(selector)
+{
+	if (selector != null && $(selector).css('display') == 'none')
+	{
+		$('#info').hide();
+		$('#depts').hide();
+		$('#splash-space').hide();	
+		$(selector).show();
+	}
+	else
+	{
+		$('#info').hide();
+		$('#depts').hide();
+		$('#splash-space').show();	
+		if (selector != null)
+			$(selector).hide();		
+	}
+}
+
 $(function() 
 {
     $('.tooltippy').tooltip();
     $('.dropdown-toggle').dropdown();
+	$('.pop').popover({html:true});
     $(".dropdown-menu li a").click(function(){
 		var selText = $(this).text();
 		var display = selText.split("(")[0].trim();
@@ -65,4 +85,14 @@ $(function()
 		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
 		$('#form').submit();
 	});
+});
+
+$('html').on('click', function (e) {
+    $('.pop').each(function () {
+    	//the 'is' for buttons that trigger popups
+        //the 'has' for icons within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
 });

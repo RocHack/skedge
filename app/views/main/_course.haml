@@ -45,10 +45,11 @@
         -num_hidden += 1
       %tr{:style => style, :class => klass}
         %td.course-btn
-          %button.btn.add-course-btn.tooltippy{type:"button", :id => "#{section.crn}", :class => section.add_button_class, :data => {toggle:"tooltip"}, :title => section.add_button_tooltip}
-            =section.button_text("Section")
-            -if course.requires_code?
-              %span.left-margin-5.glyphicon.glyphicon-lock
+          .tooltippy{:style=>"height:auto;",:data => {toggle:"tooltip", placement:"bottom"}, :title => section.add_button_tooltip}
+            %button.btn.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class}
+              =section.button_text("Section")
+              -if course.requires_code?
+                %span.left-margin-5.glyphicon.glyphicon-lock
         %td.course-info
           %p.info
             %strong Time & Place:

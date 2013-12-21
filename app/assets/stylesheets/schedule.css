@@ -65,6 +65,10 @@ th
   border-width: 0px;
   border-color: rgba(0,0,0,0.2);
   opacity: 0.75;
+  overflow: hidden;
+  border-radius: 7px;
+
+  z-index: 5;
 }
 
 .s-block:hover
@@ -77,6 +81,7 @@ th
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .s-block-p
@@ -109,8 +114,7 @@ span.s-block-cnum
   font-size: 1em;
   font-weight: 300;
   letter-spacing: 0.02em;
-  line-height: 1.1em;
-  height: 30px;
+  line-height: 1.25em;
 
   /*white-space: nowrap;*/
   overflow: hidden;
@@ -130,8 +134,8 @@ span.s-block-cnum
   display: none;
   font-size: 13px;  
   margin-top: -3px;
-  overflow: hidden;
-  height: 100%;
+  line-height: 1em;
+  text-align: left;
 }
 
 .s-block-huge
@@ -167,9 +171,31 @@ a.s-block:hover
   text-decoration: none;
 }
 
+.popover-content
+{
+  max-height: 300px;
+  overflow: scroll;
+}
+
 @media (max-width: 900px) {
 .s-block-time
 {
   display: none;
 }
+}
+
+.popover-instructors
+{
+  color: #A8A8A8;
+}
+
+.popover-desc
+{
+  margin-top:5px;
+}
+
+.popover-credits
+{
+  float: right;
+  color: #A8A8A8;
 }

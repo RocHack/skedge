@@ -36,7 +36,7 @@ hr.half
 }
 
 
-#depts
+#departments
 {
   -moz-column-gap:5px; /* Firefox */
   -webkit-column-gap:5px; /* Safari and Chrome */
@@ -103,4 +103,18 @@ small.splash
   margin-left: 310px;
   margin-top: -25px;
   line-height: 20px;
+}
+
+
+.more
+{
+  display: none;
+  color: #A1A1A1;
+}
+
+a.enormous:link, a.enormous:visited, a.enormous:hover, a.enormous:active
+{
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }

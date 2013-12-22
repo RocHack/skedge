@@ -1,7 +1,7 @@
 #splash-space
 
 #splash
-  .enormous
+  %a.enormous{href:"./"}
     skedge
   -#.info-link
     %a{href:"info"} info
@@ -17,11 +17,11 @@
   .row
     .splash-options
       .col-md-4.lead
-        %a{href:"#", onclick:"splashtoggle('#depts'); return false;"} departments
+        %a{href:"#depts", onclick:"splashtoggle('#departments');"} departments
       .col-md-4.lead
         %a{href:"#", onclick:"$('#search-input').focus(); splashtoggle(null); return false;"} search
       .col-md-4.lead
-        %a{href:"#", onclick:"splashtoggle('#info'); return false;"} about
+        %a{href:"#about", onclick:"splashtoggle('#info');"} about
 
 #info
   .row
@@ -35,9 +35,15 @@
       %li simplified search, that shows courses for both terms
       %li grouped course sections
       %li embedded labs, recitations, and workshops
-      %li clickable course mentions
-      %li clickable instructors (send them email or see ratings)
-      %li schedule sharing and comparison
+      %li clickable course mentions & instructors 
+      %li better schedule sharing
+      %li
+        %a{href:"#", onclick:"$(this).parent().hide(); $('.more').show(); return false;"} & more coming soon...
+      .more
+        %li desired courses -> different schedule options
+        %li autocomplete search w/ add btn in autocomplete box
+        %li compare yr schedule with a friend's & see mutual free time
+        %li download for ical/google calendar etc
     %p.info-text
       please remember that you cannot register for courses with skedge (!)
 
@@ -54,7 +60,7 @@
         =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
         =render partial:"ticket"
 
-#depts.cols
+#departments.cols
   -@depts.each do |dept|
     -if true#!dept.courses.empty?
       .dept
@@ -63,3 +69,13 @@
             =inline_form(dept.short)
         ="-"
         =dept.name
+
+:javascript
+  var hash = window.location.hash;
+  if (hash == "#about")
+    splashtoggle('#info');
+  else if (hash == "#depts")
+    splashtoggle('#departments');
+  else
+    splashtoggle(null);
+

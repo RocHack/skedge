@@ -46,14 +46,14 @@ function splashtoggle(selector)
 	if (selector != null && $(selector).css('display') == 'none')
 	{
 		$('#info').hide();
-		$('#depts').hide();
+		$('#departments').hide();
 		$('#splash-space').hide();	
 		$(selector).show();
 	}
 	else
 	{
 		$('#info').hide();
-		$('#depts').hide();
+		$('#departments').hide();
 		$('#splash-space').show();	
 		if (selector != null)
 			$(selector).hide();		

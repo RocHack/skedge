@@ -56,11 +56,14 @@ class Section < ActiveRecord::Base
 
 	def data
 		{
+			crn:crn,
 	        days:days,
 	        name:course.decorate.name,
 	        time:decorate.time(false),
 	        start_time:start_time,
 	        end_time:end_time,
+	        time_in_hours:time_in_hours(:start),
+	        duration:duration,
 	        dept:course.department.short,
 	        num:course.num,
 	        popover_content:decorate.popover_content.gsub("\n","<br>"),

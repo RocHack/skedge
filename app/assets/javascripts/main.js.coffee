@@ -2,19 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# 
-# 		width = 20
-# 		hour = 100/11.0 - 0.05
-# 		height = duration * hour
-# 		left = days.index(a.upcase)*width
-# 		top = hour*start
-# 		"
-# 		width: 20%;
-# 		left: #{left}%;
-# 		top: #{top}%;
-# 		height: #{height}%;
-# 		"
-
 style = (day,start,duration,color) -> 
 	width = 20
 	hour = 100/11.0 - 0.05
@@ -31,6 +18,12 @@ style = (day,start,duration,color) ->
 	}
 
 exists_conflict = (c1, c2) ->
+	conf = false
+	for day in c1.days.split("")
+		if c2.days.indexOf(day) > -1
+			conf = true
+	if !conf
+		return false
 	((c1.start_time >= c2.start_time && c1.start_time <= c2.end_time) || 
 	(c1.end_time >= c2.start_time && c1.end_time <= c2.end_time))
 
@@ -40,15 +33,15 @@ colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#CCEBAC", "#187697", "#53
 courses = []
 
 root = exports ? this
-root.add_course = (start,duration,obj,direct) ->
+root.add_course = (obj,popover) ->
 	for day in obj.days.split("")
-		s = style(day,start,duration,colors[color])
-		c = $("#template").clone().css(s).appendTo($('#courses'))
+		s = style(day,obj.time_in_hours-10,obj.duration,colors[color % colors.length])
+		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
 		c.find('#s-block-dept').html(obj.dept)
 		c.find('#s-block-cnum').html(obj.num)
 		c.find('#s-block-time').html(obj.time)
 		c.find('#s-block-title').html(obj.name)
-		if direct
+		if !popover
 			c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
 		else
 			c.data("content",obj.popover_content)
@@ -58,15 +51,38 @@ root.add_course = (start,duration,obj,direct) ->
 
 conflicting_course = (obj) ->
 	for course in courses
+		if obj.crn == course.crn
+			return true
 		if exists_conflict(obj, course) || exists_conflict(course, obj)
 			return course
 	return null
 
-root.compute_conflicts = ->
-	for btn in $('.add-course-btn.btn-primary')
+root.remove_section = (btn) ->
+	obj = $(btn).data('section')
+	$(".b-#{obj.crn}").hide()
+	courses.splice(courses.indexOf(obj),1)
+	compute_buttons()
+
+root.add_section = (btn) ->
+	obj = $(btn).data('section')
+	add_course(obj)
+	compute_buttons()
+
+format_btn = (btn, color, text, js) ->
+	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
+	$(btn).addClass(color)
+	$(btn).html(text)
+	$(btn).attr("onclick", "#{js}_section(this);")
+
+root.compute_buttons = ->
+	for btn in $('.add-course-btn').not('.disabled')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
-		if conflict
-			$(btn).removeClass('btn-primary').addClass('btn-danger')
-			$(btn).html("Conflict with #{conflict.dept} #{conflict.num}")
+		if conflict == true
+			format_btn(btn, "btn-success", "Section Added", "remove")
+		else if conflict
+			format_btn(btn, "btn-danger", "Conflict with #{conflict.dept} #{conflict.num}", "conflict")
+		else
+			format_btn(btn, "btn-primary", "Add Section", "add")
+
 

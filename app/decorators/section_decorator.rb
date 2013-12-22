@@ -82,7 +82,7 @@ class SectionDecorator < Draper::Decorator
 
 	def add_button_class
 		if object.course.course_type == Course::Type::Course
-			object.can_enroll? ? "btn-primary" : "disabled" #:"btn-danger"
+			object.can_enroll? ? "" : "disabled"
 		else
 			object.can_enroll? ? "btn-primary" : "disabled full"
 		end
@@ -112,7 +112,7 @@ class SectionDecorator < Draper::Decorator
 
 	def data
 		d = object.data.map do |k,v|
-			v = (v.is_a?(Fixnum) || !v) ? v : "\"#{v.gsub("\"","\\\"")}\""
+			v = (v.is_a?(Numeric) || !v) ? v : "\"#{v.gsub("\"","\\\"")}\""
 			"\"#{k}\":#{v}"
 		end.join(",")
 		"{#{d}}"

@@ -42,6 +42,6 @@
   -schedule.sections.each_with_index do |s, i|
     :javascript
       c = #{s.decorate.data}
-      add_course(#{s.time_in_hours(:start)-10},#{s.duration},c,#{side});
+      add_course(c,#{!side});
 
 

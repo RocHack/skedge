@@ -4,7 +4,7 @@
 
 style = (day,start,duration,color) -> 
 	width = 20
-	hour = 100/11.0 - 0.05
+	hour = 100/11.0
 	height = duration * hour
 	left = days.indexOf(day.toUpperCase())*width
 	top = hour*start
@@ -40,9 +40,7 @@ root = exports ? this
 load_cookie = ->
 	cookie = document.cookie
 	if cookie
-		console.log("found cookie #{cookie}")
-		alert()
-		match = cookie.match(/s_id=(\d+)&(.*)(;|$)/)
+		match = cookie.match(/s_id=(\d+)&(.*?)(;| |$)/)
 		if match
 			s_id = match[1]
 			secret = match[2]
@@ -57,7 +55,6 @@ set_cookie = ->
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
 
 root.initialize = ->
-	return
 	if load_cookie()
 		console.log("loaded s=#{s_id}; secret=#{secret}")
 	else
@@ -173,6 +170,7 @@ root.hover = (btn) ->
 	obj = $(btn).data('section')
 	for course in courses
 		if obj.crn == course.crn
+			$(".b-#{obj.crn}").css("opacity",0.3)
 			return
 	c = add_block(obj)
 	c.css("opacity",0.4)
@@ -181,6 +179,7 @@ root.unhover = (btn) ->
 	obj = $(btn).data('section')
 	for course in courses
 		if obj.crn == course.crn
+			$(".b-#{obj.crn}").css("opacity",0.75)
 			return
 	$(".b-#{obj.crn}").remove()
 		

@@ -89,7 +89,7 @@ class MainController < ApplicationController
 
 	def filter(courses)
 		#TODO optimize!
-		return courses
+		#return courses
 		courses.compact.delete_if do |c|
 			sister = c.sister_course
 			sister_exists = sister && (c.year < sister.year || (c.year == sister.year && c.term > sister.term)) && courses.include?(sister)

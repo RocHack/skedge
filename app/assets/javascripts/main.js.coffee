@@ -57,16 +57,37 @@ conflicting_course = (obj) ->
 			return course
 	return null
 
-root.remove_section = (btn) ->
-	obj = $(btn).data('section')
+remove_section_obj = (obj) ->
 	$(".b-#{obj.crn}").hide()
 	courses.splice(courses.indexOf(obj),1)
+
+root.remove_section = (btn) ->
+	obj = $(btn).data('section')
+	remove_section_obj(obj)
 	compute_buttons()
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
 	add_course(obj)
 	compute_buttons()
+
+root.conflict_section = (btn) ->
+	obj = $(btn).data('section')
+	conf = conflicting_course(obj)
+
+	remove_section_obj(conf)
+	add_section(btn)
+	undo = $(btn).clone()
+	undo.data("section",conf)
+	undo.removeClass('btn-success').addClass('btn-warning').addClass('undo')
+	undo.appendTo($(btn).parent())
+	undo.html("Re-add #{conf.dept} #{conf.num}")
+	undo.attr("onclick","")
+	undo.click( ->
+		remove_section(btn)
+		add_section(undo)
+		$(undo).hide()
+	)
 
 format_btn = (btn, color, text, js) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
@@ -75,13 +96,14 @@ format_btn = (btn, color, text, js) ->
 	$(btn).attr("onclick", "#{js}_section(this);")
 
 root.compute_buttons = ->
-	for btn in $('.add-course-btn').not('.disabled')
+	for btn in $('.add-course-btn').not('.disabled').not('.undo')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
 		if conflict == true
-			format_btn(btn, "btn-success", "Section Added", "remove")
+			format_btn(btn, "btn-success", "Remove Section", "remove")
 		else if conflict
 			format_btn(btn, "btn-danger", "Conflict with #{conflict.dept} #{conflict.num}", "conflict")
+			$(btn).data("conflict", conflict)
 		else
 			format_btn(btn, "btn-primary", "Add Section", "add")
 

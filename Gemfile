@@ -4,8 +4,12 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.1'
 
 # Use sqlite3 or mysql as the database for Active Record
-gem 'sqlite3'
-gem 'mysql2'
+group :development do
+  	gem 'sqlite3'
+end
+group :production do
+  	gem 'mysql2'
+end
 
 # js runtimes
 gem 'execjs'

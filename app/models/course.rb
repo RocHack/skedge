@@ -67,6 +67,6 @@ class Course < ActiveRecord::Base
 	end
 
 	def research?
-		min_enroll == 0 && !desc && sections.inject(true) { |x, s| x && s.time_tba? }
+		(!desc || desc.empty?) && sections.inject(true) { |x, s| x && s.time_tba? }
 	end
 end

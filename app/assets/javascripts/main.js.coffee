@@ -57,44 +57,53 @@ root.add_course = (obj,popover) ->
 	color += 1
 
 conflicting_course = (obj) ->
+	a = []
 	for course in courses
 		if obj.crn == course.crn
-			return true
+			return null
 		if exists_conflict(obj, course) || exists_conflict(course, obj)
-			return course
-	return null
+			a.push(course)
+	return a
 
 remove_section_obj = (obj) ->
 	$(".b-#{obj.crn}").remove()
-	courses.splice(courses.indexOf(obj),1)
+	idx = courses.indexOf(obj)
+	if (idx > -1)
+		courses.splice(idx,1)
 
 root.remove_section = (btn) ->
 	obj = $(btn).data('section')
-	remove_section_obj(obj)
-	compute_buttons()
+	if (obj)
+		remove_section_obj(obj)
+		compute_buttons()
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
 	add_course(obj)
 	compute_buttons()
 
+root.undo_section = (btn) ->
+	obj = $(btn).data('section')
+	for conf in conflicting_course(obj)
+		remove_section_obj(conf)
+
+	add_section(btn)
+	$(btn).remove()
+
 root.conflict_section = (btn) ->
 	obj = $(btn).data('section')
-	conf = conflicting_course(obj)
+	for conf in conflicting_course(obj)
+		remove_section_obj(conf)
+		undo = $(btn).clone()
+		undo.data("section",conf)
+		undo.attr("id", "")
+		undo.removeClass('btn-success').removeClass('btn-danger')
+		undo.addClass('btn-warning').addClass('undo')
+		undo.appendTo($(btn).parent())
+		undo.html("Re-add #{conf.dept} #{conf.num}")
+		undo.attr("onclick","undo_section(this);")
 
-	remove_section_obj(conf)
 	add_section(btn)
-	undo = $(btn).clone()
-	undo.data("section",conf)
-	undo.removeClass('btn-success').addClass('btn-warning').addClass('undo')
-	undo.appendTo($(btn).parent())
-	undo.html("Re-add #{conf.dept} #{conf.num}")
-	undo.attr("onclick","")
-	undo.click( ->
-		remove_section(btn)
-		add_section(undo)
-		$(undo).remove()
-	)
 
 format_btn = (btn, color, text, js) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
@@ -106,11 +115,13 @@ root.compute_buttons = ->
 	for btn in $('.add-course-btn').not('.disabled').not('.undo')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
-		if conflict == true
+		if conflict == null
 			format_btn(btn, "btn-success", "Remove Section", "remove")
-		else if conflict
-			format_btn(btn, "btn-danger", "Conflict with #{conflict.dept} #{conflict.num}", "conflict")
-			$(btn).data("conflict", conflict)
+		else if conflict.length > 0
+			txt = conflict.map( (conf) ->
+				"#{conf.dept} #{conf.num}"
+			).join(" and ")
+			format_btn(btn, "btn-danger", "Conflict with #{txt}", "conflict")
 		else
 			format_btn(btn, "btn-primary", "Add Section", "add")
 

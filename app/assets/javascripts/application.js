@@ -80,6 +80,7 @@ $(function()
 		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
 		$('#form').submit();
 	});
+
 });
 
 $('html').on('click', function (e) {
@@ -91,3 +92,10 @@ $('html').on('click', function (e) {
         }
     });
 });
+
+initialize();
+
+$(document).ready(function() {
+	compute_buttons();
+});
+

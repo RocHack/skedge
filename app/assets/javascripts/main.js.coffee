@@ -18,12 +18,12 @@ style = (day,start,duration,color) ->
 	}
 
 exists_conflict = (c1, c2) ->
-	conf = false
-	for day in c1.days.split("")
-		if c2.days.indexOf(day) > -1
-			conf = true
-	if !conf
+	day_overlap = c1.days.split("").map( (day) ->
+		c2.days.indexOf(day) > -1
+	).reduce ((a, b) -> a || b)
+	if !day_overlap
 		return false
+	
 	((c1.start_time >= c2.start_time && c1.start_time <= c2.end_time) || 
 	(c1.end_time >= c2.start_time && c1.end_time <= c2.end_time))
 
@@ -32,7 +32,39 @@ color = 0
 colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#187697", "#5369B5"]
 courses = []
 
+s_id = "1"
+secret = null
+
 root = exports ? this
+
+load_cookie = ->
+	cookie = document.cookie
+	if cookie
+		console.log("found cookie #{cookie}")
+		alert()
+		match = cookie.match(/s_id=(\d+)&(.*)(;|$)/)
+		if match
+			s_id = match[1]
+			secret = match[2]
+			return true
+
+	return false
+
+
+set_cookie = ->
+	expdate = new Date()
+	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
+	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
+
+root.initialize = ->
+	return
+	if load_cookie()
+		console.log("loaded s=#{s_id}; secret=#{secret}")
+	else
+		s_id = "1"
+		secret = "abc"
+		set_cookie()
+		console.log("load failed, writing cookie")
 
 add_block = (obj) ->
 	blx = []
@@ -46,7 +78,12 @@ add_block = (obj) ->
 		blx.push(c)
 	$(".b-#{obj.crn}")
 
-root.add_course = (obj,popover) ->
+ajax = (obj, action) -> 
+	$.post("schedule/#{s_id}/#{action}", {"crn":obj.crn, "secret":secret}, ->
+		console.log("ajax complete")
+	)
+
+root.add_course = (obj,popover, post) ->
 	c = add_block(obj)
 	if !popover
 		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
@@ -55,6 +92,9 @@ root.add_course = (obj,popover) ->
 		c.data("title",obj.popover_title)
 	courses.push(obj)
 	color += 1
+
+	if post
+		ajax(obj, "add")
 
 conflicting_course = (obj) ->
 	a = []
@@ -71,6 +111,9 @@ remove_section_obj = (obj) ->
 	if (idx > -1)
 		courses.splice(idx,1)
 
+	ajax(obj, "delete")
+
+
 root.remove_section = (btn) ->
 	obj = $(btn).data('section')
 	if (obj)
@@ -79,7 +122,7 @@ root.remove_section = (btn) ->
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
-	add_course(obj)
+	add_course(obj, false, true)
 	compute_buttons()
 
 root.undo_section = (btn) ->
@@ -141,5 +184,3 @@ root.unhover = (btn) ->
 			return
 	$(".b-#{obj.crn}").remove()
 		
-
-

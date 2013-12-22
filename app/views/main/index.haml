@@ -40,9 +40,13 @@
     .fixed
       =render partial:"schedule", locals: {side:true, schedule:@schedule}
       .side-options
-        %a.share{href:"1"}
-          Share this skedge & more
-        .btn-group.side-menu
+        %a{href:"1"}
+          %button.btn.btn-default.share
+            Share this skedge & more
+        %a{href:"#"}
+          %button.btn.btn-default.side-menu{href:"#"}
+            My bookmarks
+        -#.btn-group.side-menu
           %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
             %strong Spring 2014
             %span.caret
@@ -51,4 +55,3 @@
 
   :javascript
     $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");
-    compute_buttons();

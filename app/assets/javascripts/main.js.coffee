@@ -29,11 +29,13 @@ exists_conflict = (c1, c2) ->
 
 days = ["M", "T", "W", "R", "F"]
 color = 0
-colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#CCEBAC", "#187697", "#5369B5"]
+colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#187697", "#5369B5"]
 courses = []
 
 root = exports ? this
-root.add_course = (obj,popover) ->
+
+add_block = (obj) ->
+	blx = []
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-10,obj.duration,colors[color % colors.length])
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
@@ -41,11 +43,16 @@ root.add_course = (obj,popover) ->
 		c.find('#s-block-cnum').html(obj.num)
 		c.find('#s-block-time').html(obj.time)
 		c.find('#s-block-title').html(obj.name)
-		if !popover
-			c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
-		else
-			c.data("content",obj.popover_content)
-			c.data("title",obj.popover_title)
+		blx.push(c)
+	$(".b-#{obj.crn}")
+
+root.add_course = (obj,popover) ->
+	c = add_block(obj)
+	if !popover
+		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
+	else
+		c.data("content",obj.popover_content)
+		c.data("title",obj.popover_title)
 	courses.push(obj)
 	color += 1
 
@@ -58,7 +65,7 @@ conflicting_course = (obj) ->
 	return null
 
 remove_section_obj = (obj) ->
-	$(".b-#{obj.crn}").hide()
+	$(".b-#{obj.crn}").remove()
 	courses.splice(courses.indexOf(obj),1)
 
 root.remove_section = (btn) ->
@@ -86,7 +93,7 @@ root.conflict_section = (btn) ->
 	undo.click( ->
 		remove_section(btn)
 		add_section(undo)
-		$(undo).hide()
+		$(undo).remove()
 	)
 
 format_btn = (btn, color, text, js) ->
@@ -106,5 +113,22 @@ root.compute_buttons = ->
 			$(btn).data("conflict", conflict)
 		else
 			format_btn(btn, "btn-primary", "Add Section", "add")
+
+
+root.hover = (btn) ->
+	obj = $(btn).data('section')
+	for course in courses
+		if obj.crn == course.crn
+			return
+	c = add_block(obj)
+	c.css("opacity",0.4)
+
+root.unhover = (btn) ->
+	obj = $(btn).data('section')
+	for course in courses
+		if obj.crn == course.crn
+			return
+	$(".b-#{obj.crn}").remove()
+		
 
 

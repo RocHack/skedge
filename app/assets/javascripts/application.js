@@ -41,11 +41,6 @@ function prepareModal()
 	$("#modal-contents").val("");
 }
 
-function hover(btn)
-{
-	console.log("hi!");
-}
-
 function splashtoggle(selector)
 {
 	if (selector != null && $(selector).css('display') == 'none')

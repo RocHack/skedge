@@ -30,9 +30,14 @@ style = (day,start,duration,color) ->
 		"background-color":color
 	}
 
+exists_conflict = (c1, c2) ->
+	((c1.start_time >= c2.start_time && c1.start_time <= c2.end_time) || 
+	(c1.end_time >= c2.start_time && c1.end_time <= c2.end_time))
+
 days = ["M", "T", "W", "R", "F"]
 color = 0
 colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#CCEBAC", "#187697", "#5369B5"]
+courses = []
 
 root = exports ? this
 root.add_course = (start,duration,obj,direct) ->
@@ -48,4 +53,20 @@ root.add_course = (start,duration,obj,direct) ->
 		else
 			c.data("content",obj.popover_content)
 			c.data("title",obj.popover_title)
+	courses.push(obj)
 	color += 1
+
+conflicting_course = (obj) ->
+	for course in courses
+		if exists_conflict(obj, course) || exists_conflict(course, obj)
+			return course
+	return null
+
+root.compute_conflicts = ->
+	for btn in $('.add-course-btn.btn-primary')
+		obj = $(btn).data('section')
+		conflict = conflicting_course(obj)
+		if conflict
+			$(btn).removeClass('btn-primary').addClass('btn-danger')
+			$(btn).html("Conflict with #{conflict.dept} #{conflict.num}")
+

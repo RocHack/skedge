@@ -53,4 +53,18 @@ class Section < ActiveRecord::Base
 	def multiple_instructors?
 		instructors[";"]
 	end
+
+	def data
+		{
+	        days:days,
+	        name:course.decorate.name,
+	        time:decorate.time(false),
+	        start_time:start_time,
+	        end_time:end_time,
+	        dept:course.department.short,
+	        num:course.num,
+	        popover_content:decorate.popover_content.gsub("\n","<br>"),
+	        popover_title:decorate.popover_title
+      	}
+    end
 end

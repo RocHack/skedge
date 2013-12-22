@@ -109,4 +109,12 @@ class SectionDecorator < Draper::Decorator
 			format_name(i)
 		end
 	end
+
+	def data
+		d = object.data.map do |k,v|
+			v = (v.is_a?(Fixnum) || !v) ? v : "\"#{v.gsub("\"","\\\"")}\""
+			"\"#{k}\":#{v}"
+		end.join(",")
+		"{#{d}}"
+	end
 end

@@ -46,7 +46,7 @@
       %tr{:style => style, :class => klass}
         %td.course-btn
           .tooltippy{:style=>"height:auto;",:data => {toggle:"tooltip", placement:"bottom"}, :title => section.add_button_tooltip}
-            %button.btn.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class}
+            %button.btn.add-course-btn{type:"button", :onclick=>"add_section(this);", :id => "#{section.crn}", :class => section.add_button_class, data:{section:section.data}}
               =section.button_text("Section")
               -if course.requires_code?
                 %span.left-margin-5.glyphicon.glyphicon-lock

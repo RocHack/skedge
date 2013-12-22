@@ -41,13 +41,7 @@
 -if schedule
   -schedule.sections.each_with_index do |s, i|
     :javascript
-      c = {
-        "days":"#{s.days}",
-        "name":"#{s.course.decorate.name}",
-        "time":"#{s.decorate.time(false)}",
-        "dept":"#{s.course.department.short}",
-        "num":"#{s.course.num}",
-        "popover_content":'#{s.decorate.popover_content.gsub("\n","<br>")}',
-        "popover_title":'#{s.decorate.popover_title}'
-      }
+      c = #{s.decorate.data}
       add_course(#{s.time_in_hours(:start)-10},#{s.duration},c,#{side});
+
+

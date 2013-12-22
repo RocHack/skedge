@@ -15,7 +15,8 @@ p.desc
 .add-course-btn
 {
   margin-top: 10px; 
-  width: 140px;
+  min-width: 140px;
+  margin-right: 10px;
 }
 
 /*.cancelled-btn

@@ -18,14 +18,16 @@ style = (day,start,duration,color) ->
 	}
 
 exists_conflict = (c1, c2) ->
-	day_overlap = c1.days.split("").map( (day) ->
-		c2.days.indexOf(day) > -1
-	).reduce ((a, b) -> a || b)
+	day_overlap = null
+	if c1.days && c2.days
+		day_overlap = c1.days.split("").map( (day) ->
+			c2.days.indexOf(day) > -1
+		).reduce ((a, b) -> a || b)
 	if !day_overlap
 		return false
 	
-	((c1.start_time >= c2.start_time && c1.start_time <= c2.end_time) || 
-	(c1.end_time >= c2.start_time && c1.end_time <= c2.end_time))
+	((c1.start_time >= c2.start_time && c1.start_time < c2.end_time) || 
+	(c1.end_time > c2.start_time && c1.end_time <= c2.end_time))
 
 days = ["M", "T", "W", "R", "F"]
 color = 0
@@ -148,7 +150,7 @@ root.conflict_section = (btn) ->
 format_btn = (btn, color, text, js) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
 	$(btn).addClass(color)
-	$(btn).html(text)
+	$(btn).find('.btn-title').html(text)
 	$(btn).attr("onclick", "#{js}_section(this);")
 
 root.compute_buttons = ->

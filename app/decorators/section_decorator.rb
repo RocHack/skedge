@@ -112,7 +112,11 @@ class SectionDecorator < Draper::Decorator
 
 	def data
 		d = object.data.map do |k,v|
-			v = (v.is_a?(Numeric) || !v) ? v : "\"#{v.gsub("\"","\\\"")}\""
+			if !v
+				v = "null"
+			elsif !v.is_a?(Numeric)
+				v = "\"#{v.gsub("\"","\\\"")}\""
+			end
 			"\"#{k}\":#{v}"
 		end.join(",")
 		"{#{d}}"

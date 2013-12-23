@@ -106,9 +106,10 @@ conflicting_course = (obj) ->
 
 remove_section_obj = (obj) ->
 	$(".b-#{obj.crn}").remove()
-	idx = courses.indexOf(obj)
-	if (idx > -1)
-		courses.splice(idx,1)
+	for course, i in courses
+		if course.crn == obj.crn
+			courses.splice(i,1)
+			break
 
 	ajax(obj, "delete")
 

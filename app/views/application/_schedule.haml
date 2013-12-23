@@ -1,20 +1,13 @@
-%a.s-block.pop{href:"#", id:"template", style:"display:none", data:{placement:"right auto", html:"true"}}
-  .wrapper
+%a.s-block#template{href:"#", style:"display:none", data:{placement:(!side ? "right auto" : "top"), html:"true"}}
+  .wrapper{:class => side ? "s-side" : "s-big"}
     .s-block-p
-      .s-block-huge
-        -if !side
-          .s-block-time#s-block-time Time
-          %span#s-block-dept CSC
-          %span#s-block-cnum 200
-        -else
-          .center
-            .s-block-head
-              %span#s-block-dept CSC
-              %span#s-block-cnum 200
-            .s-block-details#s-block-title Programming
-          
       -if !side
-        .s-block-name#s-block-title Programming
+        .s-block-time
+      .s-block-dept
+      .s-block-cnum
+      .s-block-type
+      -if !side
+        .s-block-title
 
 %table.table.day-table
   %thead

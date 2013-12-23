@@ -29,6 +29,14 @@ exists_conflict = (c1, c2) ->
 	((c1.start_time >= c2.start_time && c1.start_time < c2.end_time) || 
 	(c1.end_time > c2.start_time && c1.end_time <= c2.end_time))
 
+
+TYPE2NAME = {}
+TYPE2NAME[MAIN = 0] = "Section"
+TYPE2NAME[LAB = 1] = "Lab"
+TYPE2NAME[REC = 2] = "Recitation"
+TYPE2NAME[LL = 3] = "Lab Lecture"
+TYPE2NAME[WRK = 4] = "Workshop"
+
 days = ["M", "T", "W", "R", "F"]
 color = 0
 colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#187697", "#5369B5"]
@@ -70,10 +78,12 @@ add_block = (obj) ->
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-10,obj.duration,colors[color % colors.length])
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
-		c.find('#s-block-dept').html(obj.dept)
-		c.find('#s-block-cnum').html(obj.num)
-		c.find('#s-block-time').html(obj.time)
-		c.find('#s-block-title').html(obj.name)
+		c.find('.s-block-dept').html(obj.dept)
+		c.find('.s-block-cnum').html(obj.num)
+		c.find('.s-block-time').html(obj.time)
+		c.find('.s-block-title').html(obj.name)
+		if obj.course_type != MAIN
+			c.find('.s-block-type').html(TYPE2NAME[obj.course_type])
 		blx.push(c)
 	$(".b-#{obj.crn}")
 
@@ -86,9 +96,12 @@ root.add_course = (obj,popover, post) ->
 	c = add_block(obj)
 	if !popover
 		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
+		c.data("title",obj.name)
+		c.tooltip()
 	else
 		c.data("content",obj.popover_content)
 		c.data("title",obj.popover_title)
+		c.popover()
 	courses.push(obj)
 	color += 1
 
@@ -155,18 +168,20 @@ format_btn = (btn, color, text, js) ->
 	$(btn).attr("onclick", "#{js}_section(this);")
 
 root.compute_buttons = ->
-	for btn in $('.add-course-btn').not('.disabled').not('.undo')
+	for btn in $('.add-course-btn, .lab-btn').not('.disabled').not('.undo')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
+		type = TYPE2NAME[obj.course_type]
+		console.log("type for #{obj.name} is #{obj.course_type}, got #{type}")
 		if conflict == null
-			format_btn(btn, "btn-success", "Remove Section", "remove")
+			format_btn(btn, "btn-success", "Remove #{type}", "remove")
 		else if conflict.length > 0
 			txt = conflict.map( (conf) ->
 				"#{conf.dept} #{conf.num}"
 			).join(" and ")
 			format_btn(btn, "btn-danger", "Conflict with #{txt}", "conflict")
 		else
-			format_btn(btn, "btn-primary", "Add Section", "add")
+			format_btn(btn, "btn-primary", "Add #{type}", "add")
 
 
 root.hover = (btn) ->

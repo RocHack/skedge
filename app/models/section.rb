@@ -67,7 +67,8 @@ class Section < ActiveRecord::Base
 	        dept:course.department.short,
 	        num:course.num,
 	        popover_content:decorate.popover_content.gsub("\n","<br>"),
-	        popover_title:decorate.popover_title
+	        popover_title:decorate.popover_title,
+	        course_type:course.course_type
       	}
     end
 end

@@ -20,8 +20,9 @@
             -lab = lab.decorate
             %tr
               %td.middle.center
-                %button.btn.btn-sm.lab-btn{type:"button", :class => lab.add_button_class}
-                  =lab.button_text(name.titleize)
+                %button.btn.btn-sm.lab-btn{type:"button", :class => lab.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:lab.data}}
+                  .btn-title
+                    =lab.button_text(name.titleize)
               %td.lab-info
                 .info
                   =lab.time_and_place

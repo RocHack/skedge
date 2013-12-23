@@ -73,7 +73,7 @@ th
 
 .s-block:hover
 {
-  opacity: 0.85;
+  opacity: 0.87;
 }
 
 .wrapper
@@ -81,7 +81,11 @@ th
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: hidden;
+}
+
+.s-side
+{
+  display: table;  
 }
 
 .s-block-p
@@ -89,8 +93,27 @@ th
   text-align: left;
   color: white;
   text-shadow: rgba(0,0,0,0.4) 0em 0em 0.15em;
-  margin: 5px 8px 5px 8px;
-  overflow: hidden;
+  margin: 2px 8px 2px 8px;
+  font-size: 1.2em;
+}
+
+.s-side > .s-block-p
+{
+  display: table-cell; 
+  vertical-align: middle;
+  text-align: center;
+  font-weight: 300;
+  line-height: 1.1em;
+}
+
+.s-big > .s-block-p
+{
+  margin: 5px 8px 2px 8px;
+}
+
+.s-big > .s-block-p > .s-block-dept, .s-block-cnum
+{
+  display: inline;
 }
 
 .s-block-num
@@ -103,16 +126,13 @@ th
   font-weight: 400;
 }
 
-.s-block-name
+.s-block-title
 {
   margin: 5px 0 0 0;
-  font-size: 1em;
+  font-size: 14px;
   font-weight: 300;
   letter-spacing: 0.02em;
   line-height: 1.25em;
-
-  /*white-space: nowrap;*/
-  overflow: hidden;
 }
 
 .s-block-time
@@ -123,37 +143,9 @@ th
   font-size: 12px;
 }
 
-.s-block-details
+.s-block-type
 {
-  width: 100%;
-  display: none;
-  font-size: 13px;  
-  margin-top: -3px;
-  line-height: 1em;
-  text-align: left;
-}
-
-.s-block-huge
-{
-  font-size: 1.2em;
-  margin-top: 5px;
-}
-
-.s-block:hover .s-block-details
-{
-  display: block;
-}
-
-.s-block-head
-{
-  font-weight: 400;
-  margin-top: 10px;
-  line-height: 1.1em;
-}
-
-.s-block:hover .s-block-head
-{
-  display: none;
+  font-size: 13px;
 }
 
 a.s-block

@@ -1,6 +1,7 @@
 !!! 5
 %html
   %head
+    %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
     %title skedge
     =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     =javascript_include_tag "application", "data-turbolinks-track" => true
@@ -11,7 +12,7 @@
       });
 
   %body
-    #main.container
+    #main.container.top-margin
       =yield
 
   :javascript

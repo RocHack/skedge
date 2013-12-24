@@ -4,7 +4,7 @@
 
 style = (day,start,duration,color) -> 
 	width = 20
-	hour = 100/11.0
+	hour = 100/12.0
 	height = duration * hour
 	left = days.indexOf(day.toUpperCase())*width
 	top = hour*start
@@ -78,7 +78,7 @@ add_block = (obj, col) ->
 		col = colors[color % colors.length]
 
 	for day in obj.days.split("")
-		s = style(day,obj.time_in_hours-10,obj.duration,col)
+		s = style(day,obj.time_in_hours-9,obj.duration,col)
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)

@@ -35,9 +35,9 @@
   margin-left:20px;
 }
 
-.top-margin-35
+.top-margin
 {
-  margin-top:35px;
+  margin-top:30px;
 }
 
 .middle
@@ -72,7 +72,6 @@ strong
 
 #main
 {
-  margin-top: 35px;
   width: 90%;
 }
 
@@ -99,7 +98,6 @@ h1.logo
   font-size: 3.2em;
   margin-bottom: 10px;
   margin-top: 3px;
-  text-align: left;
   letter-spacing: -2px;
   font-weight: 400;
   color: #5C5C5C;
@@ -107,6 +105,8 @@ h1.logo
 
 .logo-panel
 {
+  float: left;
+  width: 150px;
   padding-bottom: 10px;
 }
 
@@ -119,4 +119,53 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
 a.bookmark:active
 {
   color:#1D4466;
+}
+
+@media only screen and (max-device-width:640px)
+{
+  .logo-panel
+  {
+    display: none;
+  }
+  .add-course-btn
+  {
+    display: none;
+  }
+  td.course-btn
+  {
+    width: 0px;
+  }
+  .top-margin
+  {
+    margin-top: 10px;
+  }
+  .bar
+  {
+    margin-left: -8px;
+    width: 87%;
+    padding-bottom: 10px;
+  }
+  #search-group
+  {
+      margin-right: 0px;
+  }
+  .search-info
+  {
+    display: none;
+    margin: 0;
+    padding: 0; 
+  }
+  .searcher
+  {
+     height:40px;
+  }
+  p.desc, .info, .course-credits, .progress-num
+  {
+    font-size: 0.8em;
+  }
+  .box
+  {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 }

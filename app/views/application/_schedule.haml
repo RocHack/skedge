@@ -21,11 +21,11 @@
   #courses
   %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
     %tbody
-      -11.times do |t|
+      -12.times do |t|
         %tr.schedule-row        
           %td
             .time
-              =((t+9) % 12)+1
+              =((t+8) % 12)+1
           %td
           %td
           %td

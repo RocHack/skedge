@@ -92,3 +92,21 @@ $('html').on('click', function (e) {
         }
     });
 });
+
+var showing = false;
+
+$(document).ready(function(){
+    $(document).scroll(function() {
+        var top = $(document).scrollTop();
+        if (top >= 7 && !showing)
+        {
+            $('.bar').css('border-bottom',"1px solid #CBCBCB");
+            showing = true;
+        }
+        if (top < 7 && showing)
+        {
+        	showing = false;
+            $('.bar').css('border-bottom',"none");
+        }
+    });
+});

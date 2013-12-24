@@ -1,19 +1,23 @@
 .row
   .col-md-8
     .row
-      .col-md-3
-        =render partial:"logo"
+      .col-md-2
+        .bar
+          #loger.top-margin-35.gradient
+            =render partial:"logo"
           
       -#SEARCHBAR
-      .col-md-9
-        =form_tag(".", method:"post", id:"form") do 
-          .input-group
-            %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
-            %span.input-group-btn
-              %button#search-btn{type:"submit", :class=>"btn btn-default"}
-                %span.glyphicon.glyphicon-search
-              
-          =render partial:"filters"
+      .col-md-10
+        #search-group
+          =form_tag(".", method:"post", id:"form") do 
+            .bar
+              .input-group.top-margin-35#searcher
+                %input.form-control#search-input{name:"query", type:"search", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
+                %span.input-group-btn
+                  %button#search-btn{type:"submit", :class=>"btn btn-default"}
+                    %span.glyphicon.glyphicon-search
+                
+            =render partial:"filters"
 
     -#RESULTS
     .row

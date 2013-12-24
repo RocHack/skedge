@@ -101,12 +101,16 @@ root.add_course = (obj,popover, post) ->
 	else
 		c.data("content",obj.popover_content)
 		c.data("title",obj.popover_title)
+		c.addClass("pop")
 		c.popover()
 	courses.push(obj)
 	color += 1
 
 	if post
 		ajax(obj, "add")
+
+dept_and_cnum = (obj) ->
+	"#{obj.dept} #{obj.num} #{if obj.course_type != MAIN then TYPE2NAME[obj.course_type] else ""}"
 
 conflicting_course = (obj) ->
 	a = []
@@ -156,7 +160,7 @@ root.conflict_section = (btn) ->
 		undo.removeClass('btn-success').removeClass('btn-danger')
 		undo.addClass('btn-warning').addClass('undo')
 		undo.appendTo($(btn).parent())
-		undo.html("Re-add #{conf.dept} #{conf.num}")
+		undo.html(if obj.course_type != MAIN then "Undo" else "Re-add #{dept_and_cnum(conf)}")
 		undo.attr("onclick","undo_section(this);")
 
 	add_section(btn)
@@ -172,14 +176,13 @@ root.compute_buttons = ->
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
 		type = TYPE2NAME[obj.course_type]
-		console.log("type for #{obj.name} is #{obj.course_type}, got #{type}")
 		if conflict == null
-			format_btn(btn, "btn-success", "Remove #{type}", "remove")
+			format_btn(btn, "btn-success", "Remove #{if obj.course_type == MAIN then type else ""}", "remove")
 		else if conflict.length > 0
 			txt = conflict.map( (conf) ->
-				"#{conf.dept} #{conf.num}"
+				dept_and_cnum(conf)
 			).join(" and ")
-			format_btn(btn, "btn-danger", "Conflict with #{txt}", "conflict")
+			format_btn(btn, "btn-danger", "Conflict #{if obj.course_type == MAIN then "with #{txt}" else ""}", "conflict")
 		else
 			format_btn(btn, "btn-primary", "Add #{type}", "add")
 

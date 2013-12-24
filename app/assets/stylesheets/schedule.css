@@ -111,9 +111,14 @@ th
   margin: 5px 8px 2px 8px;
 }
 
-.s-big > .s-block-p > .s-block-dept, .s-block-cnum
+.s-big > .s-block-p > .s-block-dept, .s-block-cnum, .s-block-type
 {
   display: inline;
+}
+
+.s-block-type
+{
+  text-transform:uppercase;
 }
 
 .s-block-num

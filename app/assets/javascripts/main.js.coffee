@@ -29,13 +29,26 @@ exists_conflict = (c1, c2) ->
 	((c1.start_time >= c2.start_time && c1.start_time < c2.end_time) || 
 	(c1.end_time > c2.start_time && c1.end_time <= c2.end_time))
 
+MAIN = 0
+LAB = 1
+REC = 2
+LL = 3 
+WRK = 4
 
-TYPE2NAME = {}
-TYPE2NAME[MAIN = 0] = "Section"
-TYPE2NAME[LAB = 1] = "Lab"
-TYPE2NAME[REC = 2] = "Recitation"
-TYPE2NAME[LL = 3] = "Lab Lecture"
-TYPE2NAME[WRK = 4] = "Workshop"
+type2name = (type, short, ignore_section) ->
+	switch type
+		when MAIN
+			if ignore_section then "" else "Section"
+		when LAB
+			"Lab"
+		when REC
+			if short then "REC" else "Recitation"
+		when LL
+			if short then "L/L" else "Lab Lecture"
+		when WRK
+			if short then "WRK" else "Workshop"
+		else
+			""
 
 days = ["M", "T", "W", "R", "F"]
 color = 0
@@ -82,8 +95,7 @@ add_block = (obj) ->
 		c.find('.s-block-cnum').html(obj.num)
 		c.find('.s-block-time').html(obj.time)
 		c.find('.s-block-title').html(obj.name)
-		if obj.course_type != MAIN
-			c.find('.s-block-type').html(TYPE2NAME[obj.course_type])
+		c.find('.s-block-type').html(type2name(obj.course_type, true, true))
 		blx.push(c)
 	$(".b-#{obj.crn}")
 
@@ -110,7 +122,14 @@ root.add_course = (obj,popover, post) ->
 		ajax(obj, "add")
 
 dept_and_cnum = (obj) ->
-	"#{obj.dept} #{obj.num} #{if obj.course_type != MAIN then TYPE2NAME[obj.course_type] else ""}"
+	"#{obj.dept} #{obj.num} #{type2name(obj.course_type, false, true)}"
+
+find_course = (obj) ->
+	for course, i in courses
+		if course.crn == obj.crn
+			return i
+	return -1
+
 
 conflicting_course = (obj) ->
 	a = []
@@ -123,10 +142,9 @@ conflicting_course = (obj) ->
 
 remove_section_obj = (obj) ->
 	$(".b-#{obj.crn}").remove()
-	for course, i in courses
-		if course.crn == obj.crn
-			courses.splice(i,1)
-			break
+
+	idx = find_course(obj)
+	courses.splice(idx,1) if idx > -1
 
 	ajax(obj, "delete")
 
@@ -175,9 +193,9 @@ root.compute_buttons = ->
 	for btn in $('.add-course-btn, .lab-btn').not('.disabled').not('.undo')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
-		type = TYPE2NAME[obj.course_type]
+		type = type2name(obj.course_type, false, true)
 		if conflict == null
-			format_btn(btn, "btn-success", "Remove #{if obj.course_type == MAIN then type else ""}", "remove")
+			format_btn(btn, "btn-success", "Remove #{type}", "remove")
 		else if conflict.length > 0
 			txt = conflict.map( (conf) ->
 				dept_and_cnum(conf)
@@ -189,18 +207,18 @@ root.compute_buttons = ->
 
 root.hover = (btn) ->
 	obj = $(btn).data('section')
-	for course in courses
-		if obj.crn == course.crn
-			$(".b-#{obj.crn}").css("opacity",0.3)
-			return
+	if find_course(obj) > -1
+		$(".b-#{obj.crn}").css("opacity",0.75)
+		return
+
 	c = add_block(obj)
 	c.css("opacity",0.4)
 
 root.unhover = (btn) ->
 	obj = $(btn).data('section')
-	for course in courses
-		if obj.crn == course.crn
-			$(".b-#{obj.crn}").css("opacity",0.75)
-			return
+	if find_course(obj) > -1
+		$(".b-#{obj.crn}").css("opacity",0.75)
+		return
+			
 	$(".b-#{obj.crn}").remove()
 		

@@ -33,12 +33,12 @@
               in
               %span#render-time
             -@courses.each do |course|
-              =render partial:"course", locals: {course: course.decorate, schedule:@schedule}
+              =render partial:"course", locals: {course: course.decorate}
        
   -#SCHEDULE   
   .col-md-4
     .fixed
-      =render partial:"schedule", locals: {side:true, schedule:@schedule}
+      =render partial:"schedule", locals: {side:true, schedule:nil}
       .side-options
         %a{href:"1"}
           %button.btn.btn-default.share

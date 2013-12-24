@@ -11,6 +11,7 @@ Skedge::Application.routes.draw do
   get '/info' => 'main#info'
   get '/:id' => 'schedules#show'
 
+#  post '/schedule/:id' => "schedules#show"
   post '/schedule/:id/add' => "schedules#add"
   post '/schedule/:id/delete' => "schedules#delete"
 

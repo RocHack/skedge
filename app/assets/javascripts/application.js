@@ -92,10 +92,3 @@ $('html').on('click', function (e) {
         }
     });
 });
-
-initialize();
-
-$(document).ready(function() {
-	compute_buttons();
-});
-

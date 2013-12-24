@@ -55,7 +55,7 @@ color = 0
 colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#187697", "#5369B5"]
 courses = []
 
-s_id = "1"
+s_id = null
 secret = null
 
 root = exports ? this
@@ -71,7 +71,6 @@ load_cookie = ->
 
 	return false
 
-
 set_cookie = ->
 	expdate = new Date()
 	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
@@ -79,7 +78,11 @@ set_cookie = ->
 
 root.initialize = ->
 	if load_cookie()
-		console.log("loaded s=#{s_id}; secret=#{secret}")
+		$.get("schedules/#{s_id}.json", (data) ->
+			for s in data
+				add_course($.parseJSON(s))
+			compute_buttons()
+		)
 	else
 		s_id = "1"
 		secret = "abc"
@@ -104,7 +107,7 @@ ajax = (obj, action) ->
 		console.log("ajax complete")
 	)
 
-root.add_course = (obj,popover, post) ->
+root.add_course = (obj, popover, post) ->
 	c = add_block(obj)
 	if !popover
 		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")

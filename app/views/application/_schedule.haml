@@ -36,5 +36,7 @@
     :javascript
       c = #{s.decorate.data}
       add_course(c,#{!side});
-
-
+      compute_buttons();
+-else
+  :javascript
+    initialize();

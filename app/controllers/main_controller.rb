@@ -99,7 +99,6 @@ class MainController < ApplicationController
 
 	def index
 		@query = params[:query].try(:strip)
-		@schedule = Schedule.first
 		@info = false
 		
 		@courses = nil
@@ -127,7 +126,6 @@ class MainController < ApplicationController
 
 	def info
 		@info = true
-		@schedule = Schedule.first
 		@depts = all_depts
 		render "index"
 	end

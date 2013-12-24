@@ -19,7 +19,7 @@
     .row
       .col-md-12
         -if !@courses
-          =render partial:"splash", locals:{info:@info}
+          =render partial:"splash"
         -elsif @courses.empty?
           %hr
           %p.lead.no-results
@@ -38,9 +38,9 @@
   -#SCHEDULE   
   .col-md-4
     .fixed
-      =render partial:"schedule", locals: {side:true, schedule:nil}
+      =render partial:"schedule", locals: {side:true}
       .side-options
-        %a#share-link
+        %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), :style => @schedule ? "" : "display: none;"}
           %button.btn.btn-default.share
             Share this skedge & more
         %a{href:"#"}
@@ -53,5 +53,3 @@
           %ul.dropdown-menu{role:"menu"}
             %li="Add new..."
 
-  :javascript
-    $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

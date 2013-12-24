@@ -1,10 +1,15 @@
 !!! 5
 %html
   %head
-  %title skedge
-  =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
-  =javascript_include_tag "application", "data-turbolinks-track" => true
-  =csrf_meta_tags
+    %title skedge
+    =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    =javascript_include_tag "application", "data-turbolinks-track" => true
+    =csrf_meta_tags
+    :javascript
+      $(document).ready(function () {
+        #{!@schedule ? "" : @schedule.js_data.map{|a| "add_course(#{a});"}.join("\n")}
+        compute_buttons();
+      });
 
   %body
     #main.container

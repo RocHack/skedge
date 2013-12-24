@@ -99,8 +99,10 @@ class MainController < ApplicationController
 
 	def index
 		@query = params[:query].try(:strip)
-		@info = false
-		
+	    if s_id = cookies["s_id"]
+	    	@schedule = Schedule.find_by_id(s_id.to_i)
+	    end
+
 		@courses = nil
 		if @query && !@query.empty?
 			@courses = filter(search_for_courses(@query))
@@ -121,12 +123,6 @@ class MainController < ApplicationController
 			@depts = all_depts
 		end
 
-		render "index"
-	end
-
-	def info
-		@info = true
-		@depts = all_depts
 		render "index"
 	end
 end

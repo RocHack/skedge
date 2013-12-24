@@ -1,19 +1,22 @@
 class SchedulesController < ApplicationController
+	def raise_404
+		raise ActionController::RoutingError.new('Not Found')
+	end
+
 	def show
-		@schedule = Schedule.find_by_id(params[:id])
+		@schedule = Schedule.find_by_id(params[:id]) || raise_404
 		respond_to do |format|
-			format.json {render json:@schedule.sections.map {|s| s.decorate.data}.to_json}
+			format.json {render json:@schedule.js_data.to_json}
 			format.html 
 		end
 	end
 
-	def new
-		@schedule = Schedule.create
-		render json:@schedule
-	end
-
 	def action(action)
-		@schedule = Schedule.find_by_id(params[:id])
+		if params[:id] == "new"
+			@schedule = Schedule.create
+		else
+			@schedule = Schedule.find_by_id(params[:id])
+		end
 		
 		puts "action requested: #{params[:action]}"
 
@@ -25,7 +28,7 @@ class SchedulesController < ApplicationController
 		end
 		@schedule.save
 
-		head :ok
+		render json:@schedule.id
 	end
 
 	def add

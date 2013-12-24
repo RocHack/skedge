@@ -60,42 +60,17 @@ secret = null
 
 root = exports ? this
 
-load_cookie = ->
-	cookie = document.cookie
-	if cookie
-		match = cookie.match(/s_id=(\d+)&(.*?)(;| |$)/)
-		if match
-			set_s_id(match[1])
-			secret = match[2]
-			return true
-
-	return false
-
-set_s_id = (_s_id) ->
-	s_id = _s_id
-	$(document).ready ->
-		$('#share-link').attr("href","#{s_id}")
+cookie = document.cookie
+if cookie
+	match = cookie.match(/s_id=(\d+)&(.*?)(;| |$)/)
+	if match
+		s_id = match[1]
+		secret = match[2]
 
 set_cookie = ->
 	expdate = new Date()
 	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
-
-root.initialize = (import_courses) ->
-	compute_buttons() #so the user doesn't see white buttons before they get updated
-	if load_cookie()
-		if import_courses
-			$.get("schedules/#{s_id}.json", (data) ->
-				for s in data
-					add_course($.parseJSON(s))
-				compute_buttons()
-			)
-	else
-		$.get("schedules/new", (data) ->
-			set_s_id(data.id)
-			secret = "abc"
-			set_cookie()
-		)
 
 add_block = (obj) ->
 	blx = []
@@ -111,9 +86,18 @@ add_block = (obj) ->
 	$(".b-#{obj.crn}")
 
 ajax = (obj, action) -> 
-	$.post("schedule/#{s_id}/#{action}", {"crn":obj.crn, "secret":secret}, ->
-		console.log("ajax complete")
+	$.post("schedule/#{if s_id then s_id else "new"}/#{action}", {"crn":obj.crn, "secret":secret}, (data) ->
+		if !s_id
+			console.log("no s_id, but just set it to #{data}")
+			s_id = data
+			set_cookie()
+			$('#share-link').attr("href","#{s_id}")
+			$('#share-link').show()
 	)
+
+root.load_courses = (array) ->
+	for course in array
+		add_course(course)
 
 root.add_course = (obj, popover, post) ->
 	c = add_block(obj)
@@ -232,4 +216,4 @@ root.unhover = (btn) ->
 		return
 			
 	$(".b-#{obj.crn}").remove()
-		
+	

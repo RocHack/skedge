@@ -31,13 +31,3 @@
           %td
           %td
 
--if schedule
-  -schedule.sections.each_with_index do |s, i|
-    :javascript
-      c = #{s.decorate.data}
-      add_course(c,#{!side});
-      compute_buttons();
-      initialize(false);
--else
-  :javascript
-    initialize(true);

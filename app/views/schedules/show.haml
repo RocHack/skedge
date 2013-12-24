@@ -1,5 +1,5 @@
 .row
-  .col-md-1
+  .col-md-2
     =render partial:"logo"
     .options
       -if @my_schedule != @schedule
@@ -23,7 +23,7 @@
             %a{href:"#"} Print
             
           
-  .col-md-10
+  .col-md-9
     -if @schedule
       =render partial:"schedule", locals: {side:false}
     -else

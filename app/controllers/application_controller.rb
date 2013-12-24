@@ -8,5 +8,11 @@ class ApplicationController < ActionController::Base
   def set_start_time
     @start_time = Time.now
     @side = true
+
+    if cookies["s_id"]
+  		s_id, secret = cookies["s_id"].split("&")
+  		s = Schedule.find_by_id(s_id.to_i)
+  		@my_schedule = s if s.secret == secret
+  	end
   end
 end

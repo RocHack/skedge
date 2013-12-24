@@ -72,10 +72,13 @@ set_cookie = ->
 	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
 
-add_block = (obj) ->
+add_block = (obj, col) ->
 	blx = []
+	if !col
+		col = colors[color % colors.length]
+
 	for day in obj.days.split("")
-		s = style(day,obj.time_in_hours-10,obj.duration,colors[color % colors.length])
+		s = style(day,obj.time_in_hours-10,obj.duration,col)
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
@@ -98,8 +101,8 @@ ajax = (obj, action) ->
 		compute_buttons()
 		alert("an error occurred - pls check your internet connection?")
 
-root.add_course = (obj, popover, post) ->
-	c = add_block(obj)
+root.add_course = (obj, popover, post, c) ->
+	c = add_block(obj, c)
 	if !popover
 		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
 		c.data("title",obj.name)
@@ -206,7 +209,7 @@ root.hover = (btn) ->
 		$(".b-#{obj.crn}").css("opacity",0.75)
 		return
 
-	c = add_block(obj)
+	c = add_block(obj, null)
 	c.css("opacity",0.4)
 
 root.unhover = (btn) ->

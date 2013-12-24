@@ -2,9 +2,23 @@
   .col-md-2
     =render partial:"logo"
     .options
-      %p options
-      %p options
-      %p options
+      -if @my_schedule != @schedule
+        %a{href:"#", onclick:"#{load_schedule(@my_schedule, false, true)}; return false;"}
+          %button.btn.btn-default.s-option-btn{href:"#"}
+            Compare schedules!
+
+      .btn-group
+        %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+          Download
+          %span.caret
+        %ul.dropdown-menu{role:"menu"}
+          %li
+            %a{href:"#"} iCal
+          %li
+            %a{href:"#"} Google Calendar
+          %li
+            %a{href:"#"} Image
+          
   .col-md-10
     -if @schedule
       =render partial:"schedule", locals: {side:false}

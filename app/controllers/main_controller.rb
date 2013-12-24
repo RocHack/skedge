@@ -99,13 +99,9 @@ class MainController < ApplicationController
 
 	def index
 		@query = params[:query].try(:strip)
-	    if cookies["s_id"]
-	    	s_id, secret = cookies["s_id"].split("&")
-	    	s = Schedule.find_by_id(s_id.to_i)
-	    	@schedule = s if s.secret == secret
-	    end
-
 		@courses = nil
+		@schedule = @my_schedule
+
 		if @query && !@query.empty?
 			@courses = filter(search_for_courses(@query))
 		elsif params["random"].presence

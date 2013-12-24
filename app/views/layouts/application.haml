@@ -7,10 +7,12 @@
     =csrf_meta_tags
     :javascript
       $(document).ready(function () {
-        #{!@schedule ? "" : @schedule.js_data.map{|a| "add_course(#{a}, #{!@side});"}.join("\n")}
-        compute_buttons();
+        #{load_schedule(@schedule, @side)}
       });
 
   %body
     #main.container
       =yield
+
+  :javascript
+    $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

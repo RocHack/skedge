@@ -206,7 +206,7 @@ root.compute_buttons = ->
 root.hover = (btn) ->
 	obj = $(btn).data('section')
 	if find_course(obj) > -1
-		$(".b-#{obj.crn}").css("opacity",0.75)
+		$(".b-#{obj.crn}").css("opacity",0.3)
 		return
 
 	c = add_block(obj, null)

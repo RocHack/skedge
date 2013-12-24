@@ -71,6 +71,7 @@ small.splash
 .splash-options
 {
   margin: auto;
+  margin-top: 25px;
   width: 80%;
 }
 

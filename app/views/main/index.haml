@@ -40,7 +40,7 @@
     .fixed
       =render partial:"schedule", locals: {side:true}
       .side-options
-        %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), :style => @schedule ? "" : "display: none;"}
+        %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
           %button.btn.btn-default.share
             Share this skedge & more
         %a{href:"#"}

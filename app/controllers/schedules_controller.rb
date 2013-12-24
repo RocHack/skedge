@@ -5,6 +5,7 @@ class SchedulesController < ApplicationController
 
 	def show
 		@schedule = Schedule.find_by_id(params[:id]) || raise_404
+		@side = false
 		respond_to do |format|
 			format.json {render json:@schedule.js_data.to_json}
 			format.html 

@@ -7,7 +7,7 @@
       %p options
   .col-md-10
     -if @schedule
-      =render partial:"schedule", locals: {side:false, schedule:@schedule}
+      =render partial:"schedule", locals: {side:false}
     -else
       .center
         No schedule found

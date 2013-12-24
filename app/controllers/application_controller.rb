@@ -7,5 +7,6 @@ class ApplicationController < ActionController::Base
 
   def set_start_time
     @start_time = Time.now
+    @side = true
   end
 end

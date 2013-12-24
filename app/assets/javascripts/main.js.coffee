@@ -98,10 +98,6 @@ ajax = (obj, action) ->
 		compute_buttons()
 		alert("an error occurred - pls check your internet connection?")
 
-root.load_courses = (array) ->
-	for course in array
-		add_course(course)
-
 root.add_course = (obj, popover, post) ->
 	c = add_block(obj)
 	if !popover

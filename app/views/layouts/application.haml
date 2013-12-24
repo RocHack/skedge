@@ -7,7 +7,7 @@
     =csrf_meta_tags
     :javascript
       $(document).ready(function () {
-        #{!@schedule ? "" : @schedule.js_data.map{|a| "add_course(#{a});"}.join("\n")}
+        #{!@schedule ? "" : @schedule.js_data.map{|a| "add_course(#{a}, #{!@side});"}.join("\n")}
         compute_buttons();
       });
 

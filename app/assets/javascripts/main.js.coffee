@@ -88,12 +88,15 @@ add_block = (obj) ->
 ajax = (obj, action) -> 
 	$.post("schedule/#{if s_id then s_id else "new"}/#{action}", {"crn":obj.crn, "secret":secret}, (data) ->
 		if !s_id
-			console.log("no s_id, but just set it to #{data}")
-			s_id = data
+			s_id = data.id
+			secret = data.secret
 			set_cookie()
 			$('#share-link').attr("href","#{s_id}")
 			$('#share-link').show()
-	)
+	).fail ->
+		remove_section_obj(obj, true)
+		compute_buttons()
+		alert("an error occurred - pls check your internet connection?")
 
 root.load_courses = (array) ->
 	for course in array
@@ -135,13 +138,14 @@ conflicting_course = (obj) ->
 			a.push(course)
 	return a
 
-remove_section_obj = (obj) ->
+remove_section_obj = (obj, nopost) ->
 	$(".b-#{obj.crn}").remove()
 
 	idx = find_course(obj)
 	courses.splice(idx,1) if idx > -1
 
-	ajax(obj, "delete")
+	if !nopost
+		ajax(obj, "delete")
 
 
 root.remove_section = (btn) ->

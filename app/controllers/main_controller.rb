@@ -99,8 +99,10 @@ class MainController < ApplicationController
 
 	def index
 		@query = params[:query].try(:strip)
-	    if s_id = cookies["s_id"]
-	    	@schedule = Schedule.find_by_id(s_id.to_i)
+	    if cookies["s_id"]
+	    	s_id, secret = cookies["s_id"].split("&")
+	    	s = Schedule.find_by_id(s_id.to_i)
+	    	@schedule = s if s.secret == secret
 	    end
 
 		@courses = nil

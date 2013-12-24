@@ -16,10 +16,9 @@ class SchedulesController < ApplicationController
 			@schedule = Schedule.create
 		else
 			@schedule = Schedule.find_by_id(params[:id])
+			render status:500 if params[:secret] != @schedule.secret
 		end
-		
-		puts "action requested: #{params[:action]}"
-
+	
 		section = Section.find_by_crn(params[:crn])
 		if action == :delete
 			@schedule.sections.delete(section)
@@ -28,7 +27,7 @@ class SchedulesController < ApplicationController
 		end
 		@schedule.save
 
-		render json:@schedule.id
+		render json:@schedule
 	end
 
 	def add

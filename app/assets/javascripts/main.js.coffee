@@ -65,29 +65,37 @@ load_cookie = ->
 	if cookie
 		match = cookie.match(/s_id=(\d+)&(.*?)(;| |$)/)
 		if match
-			s_id = match[1]
+			set_s_id(match[1])
 			secret = match[2]
 			return true
 
 	return false
+
+set_s_id = (_s_id) ->
+	s_id = _s_id
+	$(document).ready ->
+		$('#share-link').attr("href","#{s_id}")
 
 set_cookie = ->
 	expdate = new Date()
 	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
 
-root.initialize = ->
+root.initialize = (import_courses) ->
+	compute_buttons() #so the user doesn't see white buttons before they get updated
 	if load_cookie()
-		$.get("schedules/#{s_id}.json", (data) ->
-			for s in data
-				add_course($.parseJSON(s))
-			compute_buttons()
-		)
+		if import_courses
+			$.get("schedules/#{s_id}.json", (data) ->
+				for s in data
+					add_course($.parseJSON(s))
+				compute_buttons()
+			)
 	else
-		s_id = "1"
-		secret = "abc"
-		set_cookie()
-		console.log("load failed, writing cookie")
+		$.get("schedules/new", (data) ->
+			set_s_id(data.id)
+			secret = "abc"
+			set_cookie()
+		)
 
 add_block = (obj) ->
 	blx = []
@@ -196,7 +204,7 @@ root.compute_buttons = ->
 	for btn in $('.add-course-btn, .lab-btn').not('.disabled').not('.undo')
 		obj = $(btn).data('section')
 		conflict = conflicting_course(obj)
-		type = type2name(obj.course_type, false, true)
+		type = type2name(obj.course_type, false, false)
 		if conflict == null
 			format_btn(btn, "btn-success", "Remove #{type}", "remove")
 		else if conflict.length > 0

@@ -2,9 +2,14 @@ class SchedulesController < ApplicationController
 	def show
 		@schedule = Schedule.find_by_id(params[:id])
 		respond_to do |format|
-			format.json {render json:Schedule.first.sections.map {|s| s.decorate.data}.to_json}
+			format.json {render json:@schedule.sections.map {|s| s.decorate.data}.to_json}
 			format.html 
 		end
+	end
+
+	def new
+		@schedule = Schedule.create
+		render json:@schedule
 	end
 
 	def action(action)

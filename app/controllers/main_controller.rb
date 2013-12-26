@@ -102,7 +102,7 @@ class MainController < ApplicationController
 	end
 
 	def index
-		@query = params[:query].try(:strip)
+		@query = params[:q].try(:strip)
 		@courses = nil
 		@schedule = @my_schedule
 

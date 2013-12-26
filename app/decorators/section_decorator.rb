@@ -26,11 +26,12 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def popover_content
-		"<p><strong>Instructors:</strong> #{instructor_list.join(", ")}</p><p class=\"popover-desc\">#{course.desc}</p>"
+		cont = h.truncate(course.desc, length:400)
+		"<p><strong>Instructors:</strong> #{instructor_list.join(", ")}</p><p class=\"popover-desc\">#{cont}</p>"
 	end
 
 	def popover_title
-		h.inline_form(course.decorate.dept_and_cnum).strip+"<span class=\"popover-credits\">#{course.credits} credits</span>"
+		"<span class='p-title'>#{course.decorate.dept_and_cnum}</span> <span class=\"popover-credits\">#{course.credits} credits</span>"
 	end
 
 	def time_and_place

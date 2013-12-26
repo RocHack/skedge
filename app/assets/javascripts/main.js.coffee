@@ -103,8 +103,8 @@ ajax = (obj, action) ->
 
 root.add_course = (obj, popover, post, c) ->
 	c = add_block(obj, c)
+	c.attr("href":"/?q=#{obj.dept}+#{obj.num}")
 	if !popover
-		c.attr("onclick":"$('#search-input').val('#{obj.dept} #{obj.num}'); $('#form').submit(); return false;")
 		c.data("title",obj.name)
 		c.tooltip()
 	else

@@ -10,7 +10,7 @@
           -#.col-md-10{style:"background-color:blue;"}
           #search-group
             .input-group
-              %input.form-control#search-input.searcher{name:"query", type:"text", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
+              %input.form-control#search-input.searcher{name:"q", type:"text", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
               %span.input-group-btn
                 %button#search-btn.searcher{type:"submit", :class=>"btn btn-default"}
                   %span.glyphicon.glyphicon-search

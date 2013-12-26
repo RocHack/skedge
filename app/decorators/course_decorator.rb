@@ -11,7 +11,7 @@ class CourseDecorator < Draper::Decorator
 	end
 
 	def linkify(attribute) 
-        #matches any strings that are like "ABC 123", and replaces them with inline_form
+        #matches any strings that are like "ABC 123", and replaces them with links
         last_dept = object.short #default to course's dept (ie if just "291")
 	    regex = /(\A|\s)([A-Za-z]{0,3})\s*(\d{3}[A-Za-z]*)/
 	    str = object.send(attribute).gsub(regex) do |w|
@@ -20,14 +20,14 @@ class CourseDecorator < Draper::Decorator
             not_link = ""
             dept = match[2].strip
             num = match[3].strip
-            if dept.empty? || dept == "or" || dept == "of" || dept == "and"
+            if dept.empty? || dept == "or" || dept == "of" || dept == "and" || dept == "one" || dept == "two"
                 not_link = " "+dept
                 w = num
                 link = last_dept+" "+num
             else
                 last_dept = dept
             end
-            not_link + " " + helpers.inline_form(w,link).strip #strip off some whitespace that seems to come w the form
+            not_link + " " + "<a href='/?q=#{link.strip.gsub(" ","+")}'>#{w}</a>"
         end
 	    h.raw str
     end

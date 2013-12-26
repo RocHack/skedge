@@ -30,6 +30,18 @@ p.desc
   background-color: #4A657B;
 }
 
+.closed.btn-danger
+{
+  background-color: #BD4944;
+  border-color: #A33F3B;
+}
+
+.closed.btn-danger:hover
+{
+  background-color: #9B3C38;
+}
+
+
 /*.cancelled-btn
 {
   width: 10px;

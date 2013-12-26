@@ -188,9 +188,9 @@ format_btn = (btn, color, text, js, icons) ->
 
 	if icons
 		if $(btn).hasClass('locked')
-			text += "<span class='left-margin-10 glyphicon glyphicon-lock'></span>"
+			text += "<span class='course-icon glyphicon glyphicon-lock'></span>"
 		if $(btn).hasClass('closed')
-			text += "<span class='left-margin-10 glyphicon glyphicon-ban-circle'></span>"
+			text += "<span class='course-icon glyphicon glyphicon-ban-circle'></span>"
 
 	$(btn).html(text)
 
@@ -205,7 +205,7 @@ root.compute_buttons = ->
 			txt = conflict.map( (conf) ->
 				dept_and_cnum(conf)
 			).join(" and ")
-			format_btn(btn, "btn-danger", "Conflict #{if obj.course_type == MAIN then "with #{txt}" else ""}", "conflict")
+			format_btn(btn, "btn-danger", "Conflict #{if obj.course_type == MAIN then "with #{txt}" else ""}", "conflict", true)
 		else
 			format_btn(btn, "btn-primary", "Add #{type}", "add", true)
 

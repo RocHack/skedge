@@ -61,7 +61,7 @@
       .dept
         %a
           %strong
-            =inline_form(dept.short)
+            %a{href:"/?q=#{dept.short}"}= dept.short
         ="-"
         =dept.name
 

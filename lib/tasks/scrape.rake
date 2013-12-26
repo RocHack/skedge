@@ -4,7 +4,7 @@ require 'mechanize'
 class Formatter
   def self.formatted_name(name)
     little = %w(and of or the to the in but as is for with)
-    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP)
+    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY)
     prev = nil
     name.gsub(/(\w|\.|')*/) do |w|
       w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)

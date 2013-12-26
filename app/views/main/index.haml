@@ -1,23 +1,23 @@
 .row
   .col-md-8
     
-    .bar
-      .row.top-margin
-        =render partial:"logo"
-        
-        -#SEARCHBAR
-        -#.col-md-10{style:"background-color:blue;"}
-        #search-group
-          =form_tag(".", method:"post", id:"form") do 
+    =form_tag(".", method:"post", id:"form") do #formtag has to be out here so it encapsulates the filter fields
+      .bar
+        .row.top-margin
+          =render partial:"logo"
+          
+          -#SEARCHBAR
+          -#.col-md-10{style:"background-color:blue;"}
+          #search-group
             .input-group
               %input.form-control#search-input.searcher{name:"query", type:"text", placeholder:"CSC / CSC 171 / Science of Programming", value:"#{@query}"}
               %span.input-group-btn
                 %button#search-btn.searcher{type:"submit", :class=>"btn btn-default"}
                   %span.glyphicon.glyphicon-search
-    .row
-      .col-md-2
-      .col-md-10              
-        =render partial:"filters"
+      .row
+        .col-md-2
+        .col-md-10              
+          =render partial:"filters"
 
     -#RESULTS
     .row
@@ -44,16 +44,19 @@
     .fixed
       =render partial:"schedule", locals: {side:true}
       .side-options
-        %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
-          %button.btn.btn-default.share
-            Share this skedge & more
-        %a{href:"#"}
-          %button.btn.btn-default.side-menu{href:"#"}
-            My bookmarks
-        -#.btn-group.side-menu
-          %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-            %strong Spring 2014
-            %span.caret
-          %ul.dropdown-menu{role:"menu"}
-            %li="Add new..."
+        .row
+          .col-md-6
+            %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
+              %button.btn.btn-default.share
+                Share and more...
+          .col-md-6
+            %a{href:"#"}
+              %button.btn.btn-default.side-menu{href:"#"}
+                My bookmarks
+            -#.btn-group.side-menu
+              %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+                %strong Spring 2014
+                %span.caret
+              %ul.dropdown-menu{role:"menu"}
+                %li="Add new..."
 

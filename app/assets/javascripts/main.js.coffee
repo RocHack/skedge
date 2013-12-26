@@ -79,7 +79,7 @@ add_block = (obj, col) ->
 
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-9,obj.duration,col)
-		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('#courses'))
+		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
 		c.find('.s-block-time').html(obj.time)
@@ -227,3 +227,10 @@ root.unhover = (btn) ->
 			
 	$(".b-#{obj.crn}").remove()
 	
+
+
+root.show_skedge = ->
+	if $('.popup-skedge').length == 0
+		$('.sk').clone().prependTo('.container').addClass('popup-skedge').hide()
+	$('.popup-skedge').toggle()
+

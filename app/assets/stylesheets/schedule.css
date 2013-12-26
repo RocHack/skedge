@@ -197,6 +197,11 @@ a.s-block:hover
 }
 }
 
+.sk
+{
+  height: 100%;
+}
+
 .popover-instructors
 {
   color: #A8A8A8;
@@ -218,4 +223,14 @@ a.s-block:hover
   font-weight: 300;
   float: right;
   color: #A8A8A8;
+}
+
+.popup-skedge
+{
+  z-index: 60;
+  background-color: white;
+  position: fixed;
+  top: 94px;
+  width: 90%;
+  height: 90%;
 }

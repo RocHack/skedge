@@ -14,6 +14,10 @@
               %span.input-group-btn
                 %button#search-btn.searcher{type:"submit", :class=>"btn btn-default"}
                   %span.glyphicon.glyphicon-search
+
+          #skedge-btn
+            %button.btn.btn-default{onclick:"show_skedge(); return false;", href:"#"}
+              Schedule
       .row
         .col-md-2
         .col-md-10              
@@ -42,7 +46,8 @@
   -#SCHEDULE   
   .col-md-4
     .fixed
-      =render partial:"schedule", locals: {side:true}
+      .sk
+        =render partial:"schedule", locals: {side:true}
       .side-options
         .row
           .col-md-6

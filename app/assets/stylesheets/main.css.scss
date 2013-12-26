@@ -20,7 +20,7 @@
 
 #search-group
 {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .center
@@ -108,6 +108,12 @@ ul
   float: right;
 }
 
+
+#skedge-btn
+{
+  display: none;
+}
+
 @media(max-width:991px){
    .bar {
        z-index: 50;
@@ -115,6 +121,16 @@ ul
         position: fixed;
         top: 0;
         width:88%;
+    }
+    #search-group
+    {
+        margin-right: 100px;
+    }
+    #skedge-btn
+    {
+      margin-top: -40px; /* hack :( */
+      display: inline;
+      float: right;
     }
     .fixed
     {

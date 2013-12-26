@@ -43,7 +43,7 @@ class Section < ActiveRecord::Base
 	end
 
 	def can_enroll?
-		course.term == Course::Term::Spring
+		course.term == Course::Term::Spring && status != Status::Cancelled
 	end
 
 	def enroll_percent

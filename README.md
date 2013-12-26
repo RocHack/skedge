@@ -4,7 +4,7 @@ skedge
 install:
 ```sh
 $ [sudo] gem install rails
-$ [sudo] gem install bundle
+$ [sudo] gem install bundler
 $ git clone https://github.com/RocHack/skedge.git
 ```
 
@@ -13,8 +13,16 @@ setup:
 $ cd skedge
 $ bundle            #install dependencies
 $ rake db:migrate   #set up the db
-$ rake scrape:all   #get some data
-$ rails s           #start the server (you can do this while it's scraping)
+$ rails s           #start the server
 ```
 
-& schedule some courses at [http://localhost:3000](http://localhost:3000)!
+scraping cdcs data (do any of these):
+```sh
+$ rake scrape:all               #this may take a really long time
+$ rake scrape:all depts=csc,lin #this will take less time
+$ rake scrape:all num=5         #this will also take less time
+$ rake scrape:spring num=5      #this will take even less time
+```
+
+then go to [http://localhost:3000](http://localhost:3000)!
+

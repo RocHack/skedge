@@ -259,30 +259,33 @@ class Scraper
 end
 
 namespace :scrape do
-  task :fetch => :environment do
+  def scrape(terms)
     num = ENV['num'] || -1
+
     Scraper.scrape do |s|
-      s.terms = ["Spring 2014", "Fall 2013"]
+      s.terms = terms
       s.school = Scraper::ASE
       s.num = num.to_i
       s.depts = ENV['depts'].split(",") if ENV['depts']
     end
-  end
 
-  task :subcourses => :environment do
     puts "Linking labs/lectures/recitations/workshops to their main courses..."
     Scraper.link_subcourses
-  end
 
-  task :sister => :environment do
     puts "Linking sister courses..."
     Scraper.link_sister_courses
   end
 
   task :all => :environment do
-    Rake::Task["scrape:fetch"].invoke
-    Rake::Task["scrape:subcourses"].invoke
-    Rake::Task["scrape:sister"].invoke
+    scrape(["Spring 2014", "Fall 2013"])
+  end
+
+  task :fall => :environment do
+    scrape(["Fall 2013"])
+  end
+
+  task :spring => :environment do
+    scrape(["Spring 2014"])
   end
 end
 

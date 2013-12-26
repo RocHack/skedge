@@ -93,7 +93,7 @@ $(document).ready(function(){
             $('.bar').css('border-bottom',"1px solid #CBCBCB");
             showing = true;
         }
-        if (top < 7 && showing)
+        if (top < 7 && showing && $('.logo-panel').css('display') != 'none')
         {
         	showing = false;
             $('.bar').css('border-bottom',"none");

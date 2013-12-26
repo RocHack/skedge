@@ -31,7 +31,8 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def popover_title
-		"<span class='p-title'>#{course.decorate.dept_and_cnum}</span> <span class=\"popover-credits\">#{course.credits} credits</span>"
+		title = h.truncate(course.name, length:27)
+		"<span class='p-title'>#{title}</span> <span class=\"popover-credits\">#{course.credits} credits</span>"
 	end
 
 	def time_and_place

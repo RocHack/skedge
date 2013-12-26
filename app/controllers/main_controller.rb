@@ -42,6 +42,9 @@ class MainController < ApplicationController
 	end
 
 	def search_for_courses(query)
+		puts  "\n\n****** SEARCHING ******\n\n"
+
+
 		type_search = Course::Type::Course
 		status_search = nil
 		name_search = nil
@@ -90,6 +93,7 @@ class MainController < ApplicationController
 	def filter(courses)
 		#TODO optimize!
 		#return courses
+		puts  "\n\n****** FILTERING ******\n\n"
 		courses.compact.delete_if do |c|
 			sister = c.sister_course
 			sister_exists = sister && (c.year < sister.year || (c.year == sister.year && c.term > sister.term)) && courses.include?(sister)
@@ -121,6 +125,6 @@ class MainController < ApplicationController
 			@depts = all_depts
 		end
 
-		render "index"
+		puts  "\n\n****** RENDERING ******\n\n"
 	end
 end

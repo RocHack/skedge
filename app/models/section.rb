@@ -38,8 +38,12 @@ class Section < ActiveRecord::Base
 		cap == 0 || cap == nil
 	end
 
+	def closed?
+		status == Status::Closed
+	end
+
 	def can_enroll?
-		course.term == Course::Term::Spring && status == Status::Open
+		course.term == Course::Term::Spring
 	end
 
 	def enroll_percent
@@ -64,7 +68,7 @@ class Section < ActiveRecord::Base
 	        end_time:end_time,
 	        time_in_hours:time_in_hours(:start),
 	        duration:duration,
-	        dept:course.department.short,
+	        dept:course.short,
 	        num:course.num,
 	        popover_content:decorate.popover_content.gsub("\n","<br>"),
 	        popover_title:decorate.popover_title,

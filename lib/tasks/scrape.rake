@@ -1,6 +1,27 @@
 require 'rubygems'
 require 'mechanize'
 
+class Formatter
+  def self.formatted_name(name)
+    little = %w(and of or the to the in but as is for with)
+    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP)
+    prev = nil
+    name.gsub(/(\w|\.|')*/) do |w|
+      w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
+        w.downcase
+      elsif big.include?(w.upcase)
+        w.upcase
+      elsif w =~ /^(I*|\d)([A-D]|V|)((:|\b)?)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^M?T?W?R?F?$/
+        w
+      else
+        w.capitalize
+      end
+      prev = w2 if !w2.strip.empty?
+      w2
+    end
+  end
+end
+
 class Scraper
   #the resulting HTML is stuck in tables, and each field is kept in a tag, with the field name as id...
   LabelSchedule = "rpSchedule_ctl01_"
@@ -56,6 +77,7 @@ class Scraper
       val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
       val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
       val = Section::Status::Statuses[val] if sym == :status
+      val = Formatter.formatted_name(val) if sym == :name
       val = val.to_i if IntFields.include? sym #convert to int for some fields
 
       val
@@ -82,6 +104,7 @@ class Scraper
 
     c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id, term:term, year:year)
     c.department = dept
+    c.short = dept.short
 
     #for each label, ie, attribute, parse thru html and assign to the course obj
     extract_and_set(CourseLabels, c, e, num)
@@ -95,6 +118,10 @@ class Scraper
   def self.link_subcourses
     Course.where {course_type != Course::Type::Course}.each do |c|
       c.main_course = find_main_course(c)
+      c.sections.each do |s|
+        s.main_course_id = c.main_course_id
+        s.save
+      end
       c.save
     end
   end
@@ -153,7 +180,9 @@ class Scraper
         crn = extract_attribute(e, num, SectionLabels[:crn], :crn)
         s = Section.find_or_create_by(crn:crn)
         s.course = c
-
+        s.term = c.term
+        s.course_type = c.course_type
+        
         extract_and_set(SectionLabels, s, e, num)
 
         s.save
@@ -210,7 +239,7 @@ class Scraper
       
       @form = results.form("form1")
       depts = get_dept_list 
-      depts = @depts.map {|d| Department.lookup(d)} if @depts
+      depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
       
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"

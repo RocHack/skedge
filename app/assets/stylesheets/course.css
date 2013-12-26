@@ -19,6 +19,17 @@ p.desc
   margin-right: 10px;
 }
 
+.closed.btn-primary
+{
+  background-color: #6589A8;
+  border-color: #54728C;
+}
+
+.closed.btn-primary:hover
+{
+  background-color: #4A657B;
+}
+
 /*.cancelled-btn
 {
   width: 10px;

@@ -81,11 +81,13 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def add_button_class
-		if object.course.course_type == Course::Type::Course
-			object.can_enroll? ? "" : "disabled"
+		c = if object.course.course_type == Course::Type::Course
+			object.can_enroll? ? (object.closed? ? "closed" : "") : "disabled"
 		else
 			object.can_enroll? ? "btn-primary" : "disabled full"
 		end
+		c += " locked" if object.course.requires_code?
+		c
 	end
 
 	def add_button_tooltip

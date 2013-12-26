@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131224074109) do
+ActiveRecord::Schema.define(version: 20131225013406) do
 
   create_table "courses", force: true do |t|
     t.integer  "department_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20131224074109) do
     t.integer  "min_enroll"
     t.integer  "min_start_time"
     t.integer  "max_start_time"
+    t.string   "short"
   end
 
   create_table "departments", force: true do |t|
@@ -71,6 +72,9 @@ ActiveRecord::Schema.define(version: 20131224074109) do
     t.integer  "sec_cap"
     t.integer  "crn"
     t.integer  "status"
+    t.integer  "course_type"
+    t.integer  "main_course_id"
+    t.integer  "term"
   end
 
   create_table "tickets", force: true do |t|

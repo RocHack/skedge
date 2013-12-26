@@ -181,11 +181,18 @@ root.conflict_section = (btn) ->
 
 	add_section(btn)
 
-format_btn = (btn, color, text, js) ->
+format_btn = (btn, color, text, js, icons) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
 	$(btn).addClass(color)
-	$(btn).find('.btn-title').html(text)
 	$(btn).attr("onclick", "#{js}_section(this);")
+
+	if icons
+		if $(btn).hasClass('locked')
+			text += "<span class='left-margin-10 glyphicon glyphicon-lock'></span>"
+		if $(btn).hasClass('closed')
+			text += "<span class='left-margin-10 glyphicon glyphicon-ban-circle'></span>"
+
+	$(btn).html(text)
 
 root.compute_buttons = ->
 	for btn in $('.add-course-btn, .lab-btn').not('.disabled').not('.undo')
@@ -193,14 +200,14 @@ root.compute_buttons = ->
 		conflict = conflicting_course(obj)
 		type = type2name(obj.course_type, false, false)
 		if conflict == null
-			format_btn(btn, "btn-success", "Remove #{type}", "remove")
+			format_btn(btn, "btn-success", "Remove #{if obj.course_type != MAIN then "" else type}", "remove")
 		else if conflict.length > 0
 			txt = conflict.map( (conf) ->
 				dept_and_cnum(conf)
 			).join(" and ")
 			format_btn(btn, "btn-danger", "Conflict #{if obj.course_type == MAIN then "with #{txt}" else ""}", "conflict")
 		else
-			format_btn(btn, "btn-primary", "Add #{type}", "add")
+			format_btn(btn, "btn-primary", "Add #{type}", "add", true)
 
 
 root.hover = (btn) ->

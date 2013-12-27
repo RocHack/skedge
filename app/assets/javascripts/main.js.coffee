@@ -216,13 +216,16 @@ root.hover = (btn) ->
 		$(".b-#{obj.crn}").css("opacity",0.3)
 		return
 
+	op = 0.4
+	if $(btn).hasClass('btn-danger')
+		op = 0.83
 	c = add_block(obj, null)
-	c.css("opacity",0.4)
+	c.css("opacity",op)
 
 root.unhover = (btn) ->
 	obj = $(btn).data('section')
 	if find_course(obj) > -1
-		$(".b-#{obj.crn}").css("opacity",0.75)
+		$(".b-#{obj.crn}").css("opacity",0.63)
 		return
 			
 	$(".b-#{obj.crn}").remove()

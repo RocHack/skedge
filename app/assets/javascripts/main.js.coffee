@@ -69,7 +69,7 @@ if cookie
 
 set_cookie = ->
 	expdate = new Date()
-	expdate.setTime(expdate.getTime() + (24 * 60 * 60 * 365 * 4)) #4 yrs lol
+	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
 
 add_block = (obj, col) ->

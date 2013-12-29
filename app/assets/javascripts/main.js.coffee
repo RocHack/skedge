@@ -4,7 +4,7 @@
 
 style = (day,start,duration,color) -> 
 	width = 20
-	hour = 100/12.0
+	hour = 100/(max-min + 1)
 	height = duration * hour
 	left = days.indexOf(day.toUpperCase())*width
 	top = hour*start
@@ -58,7 +58,36 @@ courses = []
 s_id = null
 secret = null
 
+min = 0
+max = 0
+
 root = exports ? this
+
+
+hour_range = (extra) ->
+	min = 1000
+	max = 2000
+	extra = [] if !extra
+	for c in courses.concat(extra)
+		if c.start_time < min
+			min = c.start_time
+		if c.end_time > max
+			max = c.end_time
+	min = Math.floor(min/100)
+	max = Math.floor(max/100)
+
+	[min..max]
+
+root.resize_schedule = (extra) ->
+	$('#hour-rows').html("")
+	for i in hour_range(extra)
+		$('#hour-row').clone().css('display','table-row').appendTo($('#hour-rows')).find('.time').html((i-1) % 12 + 1)
+
+	s = courses
+	courses = []
+	for c in s
+		$(".b-#{c.crn}").remove()
+		add_course(c, $('.wrapper').hasClass('s-big'))
 
 cookie = document.cookie
 if cookie
@@ -72,13 +101,13 @@ set_cookie = ->
 	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
 
-add_block = (obj, col) ->
+add_block = (obj) ->
 	blx = []
-	if !col
-		col = colors[color % colors.length]
+	if !obj.color
+		obj.color = colors[color++ % colors.length]
 
 	for day in obj.days.split("")
-		s = style(day,obj.time_in_hours-9,obj.duration,col)
+		s = style(day,obj.time_in_hours-min,obj.duration,obj.color)
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
@@ -86,6 +115,7 @@ add_block = (obj, col) ->
 		c.find('.s-block-title').html(obj.name)
 		c.find('.s-block-type').html(type2name(obj.course_type, true, true))
 		blx.push(c)
+
 	$(".b-#{obj.crn}")
 
 ajax = (obj, action) -> 
@@ -101,8 +131,11 @@ ajax = (obj, action) ->
 		compute_buttons()
 		alert("an error occurred - pls check your internet connection?")
 
-root.add_course = (obj, popover, post, c) ->
-	c = add_block(obj, c)
+root.add_course = (obj, popover, post, col) ->
+	if col
+		obj.color = col
+	c = add_block(obj)
+
 	c.attr("href":"/?q=#{obj.dept}+#{obj.num}")
 	if !popover
 		c.data("title",obj.name)
@@ -112,8 +145,8 @@ root.add_course = (obj, popover, post, c) ->
 		c.data("title",obj.popover_title)
 		c.addClass("pop")
 		c.popover()
+
 	courses.push(obj)
-	color += 1
 
 	if post
 		ajax(obj, "add")
@@ -152,6 +185,7 @@ root.remove_section = (btn) ->
 	if (obj)
 		remove_section_obj(obj)
 		compute_buttons()
+		resize_schedule()
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
@@ -213,13 +247,16 @@ root.compute_buttons = ->
 root.hover = (btn) ->
 	obj = $(btn).data('section')
 	if find_course(obj) > -1
-		$(".b-#{obj.crn}").css("opacity",0.3)
+		$(".b-#{obj.crn}").css("opacity",0.25)
 		return
+
+	if obj.start_time/100 < min || obj.end_time/100 > max
+		resize_schedule(obj)
 
 	op = 0.4
 	if $(btn).hasClass('btn-danger')
 		op = 0.83
-	c = add_block(obj, null)
+	c = add_block(obj)
 	c.css("opacity",op)
 
 root.unhover = (btn) ->
@@ -227,11 +264,12 @@ root.unhover = (btn) ->
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.63)
 		return
-			
+
 	$(".b-#{obj.crn}").remove()
+
+	resize_schedule()
 	
-
-
+	
 root.show_skedge = ->
 	if $('.popup-skedge').length == 0
 		$('.sk').clone().prependTo('.container').addClass('popup-skedge').hide()

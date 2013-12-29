@@ -16,18 +16,16 @@
       %th T
       %th W
       %th R
-      %th F 
+      %th F
+    %tr.schedule-row#hour-row{style:"display:none"}
+      %td
+        .time
+      %td
+      %td
+      %td
+      %td
 .skedge
   .courses
   %table.table.table-condensed.courses.schedule{:class=>(side ? "side" : "s-full")}
-    %tbody
-      -12.times do |t|
-        %tr.schedule-row        
-          %td
-            .time
-              =((t+8) % 12)+1
-          %td
-          %td
-          %td
-          %td
-
+    %tbody#hour-rows
+      

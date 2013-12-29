@@ -193,7 +193,7 @@ class Scraper
           c.instructors += s.instructors + "; " unless c.instructors[s.instructors]
         end
 
-        if !c.min_enroll || s.enroll < c.min_enroll
+        if !s.cancelled? && (!c.min_enroll || s.enroll < c.min_enroll)
           c.min_enroll = s.enroll
         end
 

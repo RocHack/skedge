@@ -42,6 +42,10 @@ class Section < ActiveRecord::Base
 		status == Status::Closed
 	end
 
+	def cancelled?
+		status == Status::Cancelled
+	end
+
 	def can_enroll?
 		course.term == Course::Term::Spring && status != Status::Cancelled
 	end

@@ -55,14 +55,15 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def button_text(name)
-		if object.can_enroll?
+		if object.time_tba?
+      		"Time & Place TBA"
+		elsif object.can_enroll?
         	"Add #{name}"
       	elsif object.course.old?
       		course.decorate.term_and_year
         else
         	status
         end
-        #"Conflict – CSC 172"
 	end
 
 	def enroll_bar_style
@@ -84,7 +85,7 @@ class SectionDecorator < Draper::Decorator
 
 	def add_button_class
 		c = if object.course.course_type == Course::Type::Course
-			object.can_enroll? ? (object.closed? ? "closed" : "") : "disabled"
+			object.can_enroll? ? (object.closed? ? "closed" : (object.time_tba? ? "btn-default" : "")) : "disabled"
 		else
 			object.can_enroll? ? "btn-primary" : "disabled full"
 		end

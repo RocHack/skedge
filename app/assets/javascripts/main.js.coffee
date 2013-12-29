@@ -218,7 +218,7 @@ root.conflict_section = (btn) ->
 format_btn = (btn, color, text, js, icons) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
 	$(btn).addClass(color)
-	$(btn).attr("onclick", "#{js}_section(this);")
+	$(btn).attr("onclick", "#{js}_section(this);") if js
 
 	if icons
 		if $(btn).hasClass('locked')
@@ -241,11 +241,17 @@ root.compute_buttons = ->
 			).join(" and ")
 			format_btn(btn, "btn-danger", "Conflict #{if obj.course_type == MAIN then "with #{txt}" else ""}", "conflict", true)
 		else
-			format_btn(btn, "btn-primary", "Add #{type}", "add", true)
+			if obj.start_time
+				format_btn(btn, "btn-primary", "Add #{type}", "add", true)
+			else
+				format_btn(btn, "btn-default", "Time & Place TBA", null, true)
 
 
 root.hover = (btn) ->
 	obj = $(btn).data('section')
+	if !obj.start_time
+		return
+
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.25)
 		return
@@ -261,6 +267,9 @@ root.hover = (btn) ->
 
 root.unhover = (btn) ->
 	obj = $(btn).data('section')
+	if !obj.start_time
+		return
+	
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.63)
 		return

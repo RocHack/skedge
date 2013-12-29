@@ -52,7 +52,7 @@ type2name = (type, short, ignore_section) ->
 
 days = ["M", "T", "W", "R", "F"]
 color = 0
-colors = ["#FE9B00", "#17B9FA", "#1BCF11", "#672357", "#187697", "#5369B5"]
+colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
 courses = []
 
 s_id = null

@@ -66,15 +66,17 @@ root = exports ? this
 
 hour_range = (extra) ->
 	min = 1000
-	max = 2000
+	max = 1900
 	extra = [] if !extra
 	for c in courses.concat(extra)
-		if c.start_time < min
-			min = c.start_time
-		if c.end_time > max
-			max = c.end_time
+		start = c.start_time-5
+		end = c.end_time+5
+		if start < min
+			min = start
+		if end > max
+			max = end
 	min = Math.floor(min/100)
-	max = Math.floor(max/100)
+	max = Math.ceil(max/100)
 
 	[min..max]
 
@@ -83,11 +85,16 @@ root.resize_schedule = (extra) ->
 	for i in hour_range(extra)
 		$('#hour-row').clone().css('display','table-row').appendTo($('#hour-rows')).find('.time').html((i-1) % 12 + 1)
 
+	full = $('.wrapper').hasClass('s-big')
+
 	s = courses
 	courses = []
 	for c in s
 		$(".b-#{c.crn}").remove()
-		add_course(c, $('.wrapper').hasClass('s-big'))
+		add_course(c, full)
+
+	if full
+		$('.s-full').height(Math.max((max-min)*67, 750))
 
 cookie = document.cookie
 if cookie
@@ -256,7 +263,7 @@ root.hover = (btn) ->
 		$(".b-#{obj.crn}").css("opacity",0.25)
 		return
 
-	if obj.start_time/100 < min || obj.end_time/100 > max
+	if obj.start_time/100-5 < min || obj.end_time/100+5 > max
 		resize_schedule(obj)
 
 	op = 0.4

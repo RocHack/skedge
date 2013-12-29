@@ -121,20 +121,21 @@ th
   text-transform:uppercase;
 }
 
-.s-block-num
-{
-  font-weight: 400;
-}
-
 .s-block-cnum
 {
   font-weight: 400;
 }
 
+.s-block-dept
+{
+  font-weight: 300;
+}
+
 .s-block-title
 {
-  margin: 5px 0 0 0;
-  font-size: 14px;
+  text-align: left;
+  margin: 3px 0 0 0;
+  font-size: 13.5px;
   font-weight: 300;
   letter-spacing: 0.02em;
   line-height: 1.25em;

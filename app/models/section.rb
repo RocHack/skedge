@@ -8,6 +8,7 @@ class Section < ActiveRecord::Base
 	end
 
 	belongs_to :course
+	has_many :enrollments
 	validates :crn, presence: true, uniqueness: true
 
 	def hour(start_or_end)

@@ -10,10 +10,12 @@ Skedge::Application.routes.draw do
   post '/ticket' => 'ticket#new'
   get '/:id' => 'schedules#show'
 
-#  post '/schedule/:id' => "schedules#show"
   get '/schedule/new' => "schedules#new"
   post '/schedule/:id/add' => "schedules#add"
   post '/schedule/:id/delete' => "schedules#delete"
+
+  post '/schedule/:id/bookmark/add' => "schedules#bookmark_add"
+  post '/schedule/:id/bookmark/delete' => "schedules#bookmark_delete"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

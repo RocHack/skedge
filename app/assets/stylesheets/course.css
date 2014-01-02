@@ -117,6 +117,17 @@ p.info
   opacity: clear;
 }
 
+a.bookmark:active
+{
+  color:#1D4466;
+}
+
+.bookmark.enabled
+{
+  color:#3785C8;  
+}
+
+
 /* Course num, like in CSC **173** */
 .cnum
 {

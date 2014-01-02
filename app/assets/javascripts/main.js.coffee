@@ -125,18 +125,26 @@ add_block = (obj) ->
 
 	$(".b-#{obj.crn}")
 
-ajax = (obj, action) -> 
-	$.post("schedule/#{if s_id then s_id else "new"}/#{action}", {"crn":obj.crn, "secret":secret}, (data) ->
-		if !s_id
+ajax = (route, obj_id, success, fail) -> 
+	$.post("schedule/#{if s_id then s_id else "new"}/#{route}", {"obj_id":obj_id, "secret":secret}, (data) ->
+		is_new = !s_id
+		if is_new
 			s_id = data.id
 			secret = data.secret
 			set_cookie()
-			$('#share-link').attr("href","#{s_id}")
-			$('#share-link').show()
+		success(is_new)
 	).fail ->
-		remove_section_obj(obj, true)
-		compute_buttons()
+		fail()
 		alert("an error occurred - pls check your internet connection?")
+
+course_ajax = (obj, action) ->
+	ajax(action, obj.crn, 
+		((is_new) -> 
+			$('#share-link').attr("href","#{s_id}")
+			$('#share-link').show()),
+		( ->
+			remove_section_obj(obj, true)
+			compute_buttons()))
 
 root.add_course = (obj, popover, post, col) ->
 	if col
@@ -156,7 +164,7 @@ root.add_course = (obj, popover, post, col) ->
 	courses.push(obj)
 
 	if post
-		ajax(obj, "add")
+		course_ajax(obj, "add")
 
 dept_and_cnum = (obj) ->
 	"#{obj.dept} #{obj.num} #{type2name(obj.course_type, false, true)}"
@@ -184,7 +192,7 @@ remove_section_obj = (obj, nopost) ->
 	courses.splice(idx,1) if idx > -1
 
 	if !nopost
-		ajax(obj, "delete")
+		course_ajax(obj, "delete")
 
 
 root.remove_section = (btn) ->
@@ -310,4 +318,24 @@ root.show_skedge = ->
 	if $('.popup-skedge').length == 0
 		$('.sk').clone().prependTo('.container').addClass('popup-skedge').hide()
 	$('.popup-skedge').toggle()
+
+
+###############
+#bookmarks
+################
+
+bookmarks = []
+
+bookmark_ajax = (id, action) ->
+	ajax("bookmark/#{action}", id, 
+		((is_new) -> ),
+		( -> ))
+
+root.bookmark = (btn) ->
+	if $(btn).hasClass('enabled')
+		$(btn).removeClass('enabled')
+		bookmark_ajax(btn.id, "delete")
+	else
+		$(btn).addClass('enabled')
+		bookmark_ajax(btn.id, "add")
 

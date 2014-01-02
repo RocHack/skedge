@@ -22,6 +22,8 @@ class Course < ActiveRecord::Base
 	belongs_to :department
 	belongs_to :main_course, class_name:"Course"
 
+	has_many :bookmarks
+
 	has_many :sections, -> { order([:status, :days, :start_time]) }
 	has_many :fall_sections, -> { where(term == Course::Term::Fall).order([:status, :days, :start_time]) }
 	has_many :spring_sections, -> { where(term == Course::Term::Spring).order([:status, :days, :start_time]) }

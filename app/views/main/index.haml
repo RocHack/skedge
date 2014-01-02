@@ -41,7 +41,7 @@
               in
               %span#render-time
             -@courses.each do |course|
-              =render partial:"course", locals: {course: course.decorate}
+              =render partial:"course", locals: {course: course.decorate, bookmarked:(@schedule ? @schedule.courses.include?(course) : false)}
        
   -#SCHEDULE   
   .col-md-4

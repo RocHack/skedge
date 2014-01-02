@@ -12,7 +12,7 @@ class SchedulesController < ApplicationController
 		end
 	end
 
-	def action(action)
+	def action(action, bookmark)
 		if params[:id] == "new"
 			@schedule = Schedule.create
 		else
@@ -20,22 +20,38 @@ class SchedulesController < ApplicationController
 			render status:500 if params[:secret] != @schedule.secret
 		end
 	
-		section = Section.find_by_crn(params[:crn])
-		if action == :delete
-			@schedule.sections.delete(section)
-		elsif action == :add
-			@schedule.sections << section
+		if bookmark
+			obj = Course.find_by_id(params[:obj_id])
+			collection = @schedule.courses
+		else
+			obj = Section.find_by_crn(params[:obj_id])
+			collection = @schedule.sections
 		end
+
+		if action == :delete
+			collection.delete(obj)
+		elsif action == :add
+			collection << obj
+		end
+
 		@schedule.save
 
 		render json:@schedule
 	end
 
 	def add
-		action :add
+		action :add, false
 	end
 
 	def delete
-		action :delete
+		action :delete, false
+	end
+
+	def bookmark_add
+		action :add, true
+	end
+
+	def bookmark_delete
+		action :delete, true
 	end
 end

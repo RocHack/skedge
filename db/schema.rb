@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131230045600) do
+ActiveRecord::Schema.define(version: 20140102210603) do
+
+  create_table "bookmarks", force: true do |t|
+    t.integer  "course_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "courses", force: true do |t|
     t.integer  "department_id"

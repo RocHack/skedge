@@ -12,11 +12,20 @@ p.desc
   margin-top: 5px;
 }
 
+.add-course-group
+{
+  margin-right: 10px;
+}
+
 .add-course-btn
 {
   margin-top: 10px; 
   min-width: 140px;
-  margin-right: 10px;
+}
+
+.add-course-special
+{
+  margin-top: 10px; 
 }
 
 .closed.btn-primary

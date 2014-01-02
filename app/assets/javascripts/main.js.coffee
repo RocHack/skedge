@@ -193,6 +193,9 @@ root.remove_section = (btn) ->
 		remove_section_obj(obj)
 		compute_buttons()
 		resize_schedule()
+		if !$(btn).hasClass('btn-success') && $(btn).hasClass('locked')
+			$(btn).closest('.tooltippy').tooltip('show')
+
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
@@ -216,7 +219,7 @@ root.conflict_section = (btn) ->
 		undo.attr("id", "")
 		undo.removeClass('btn-success').removeClass('btn-danger')
 		undo.addClass('btn-warning').addClass('undo')
-		undo.appendTo($(btn).parent())
+		undo.appendTo($(btn).parent().parent())
 		undo.html(if obj.course_type != MAIN then "Undo" else "Re-add #{dept_and_cnum(conf)}")
 		undo.attr("onclick","undo_section(this);")
 
@@ -224,6 +227,8 @@ root.conflict_section = (btn) ->
 
 format_btn = (btn, color, text, js, icons) ->
 	$(btn).removeClass('btn-primary').removeClass('btn-danger').removeClass('btn-success')
+	$(btn).closest('.tooltippy').tooltip('enable')
+
 	$(btn).addClass(color)
 	$(btn).attr("onclick", "#{js}_section(this);") if js
 
@@ -234,6 +239,21 @@ format_btn = (btn, color, text, js, icons) ->
 			text += "<span class='course-icon glyphicon glyphicon-ban-circle'></span>"
 
 	$(btn).html(text)
+
+	if js == "remove"
+		# dd = $("<button class='btn btn-success dropdown-toggle add-course-special' data-toggle='dropdown' type='button'>
+		# 			<span class='caret'></span>
+		# 		</button>").dropdown()
+
+		# menu = $("<ul class='dropdown-menu' role='menu'>
+		# 	    	<li><a href='#'>Tentative</a></li>
+		# 	    	<li><a href='#'>I'm TAing this course</a></li>
+		# 		  </ul>")
+
+		# dd.insertAfter(btn)
+		# menu.insertAfter(dd)
+		$(btn).closest('.tooltippy').tooltip('hide')
+		$(btn).closest('.tooltippy').tooltip('disable')
 
 root.compute_buttons = ->
 	for btn in $('.add-course-btn, .lab-btn').not('.disabled').not('.undo')

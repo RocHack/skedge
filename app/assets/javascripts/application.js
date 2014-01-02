@@ -88,12 +88,12 @@ var showing = false;
 $(document).ready(function(){
     $(document).scroll(function() {
         var top = $(document).scrollTop();
-        if (top >= 7 && !showing)
+        if (top >= 8 && !showing)
         {
             $('.bar').css('border-bottom',"1px solid #CBCBCB");
             showing = true;
         }
-        if (top < 7 && showing && $('.logo-panel').css('display') != 'none')
+        if (top < 8 && showing && $('.logo-panel').css('display') != 'none')
         {
         	showing = false;
             $('.bar').css('border-bottom',"none");

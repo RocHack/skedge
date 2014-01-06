@@ -46,22 +46,35 @@
   -#SCHEDULE   
   .col-md-4
     .fixed
-      .sk
-        =render partial:"schedule", locals: {side:true}
       .side-options
         .row
           .col-md-6
-            %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
+            #share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
               %button.btn.btn-default.share
                 Share and more...
           .col-md-6
-            %a{href:"#"}
-              %button.btn.btn-default.side-menu{href:"#"}
-                My bookmarks
-            -#.btn-group.side-menu
+            %button.btn.btn-default.side-menu{href:"#", onclick:"toggleSide(this); return false;"}
+              My bookmarks
+            -#.btn-group.side-menu this is for multiple skedges
               %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
                 %strong Spring 2014
                 %span.caret
               %ul.dropdown-menu{role:"menu"}
                 %li="Add new..."
+      .bk
+        .panel.panel-default.bk-panel
+          .panel-heading
+            %strong My Bookmarks
+          .b-b
+            %table.table.table-hover.book-table
+              %tbody.bookies
+          .panel-footer.center.bk-footer
+            %button.btn.btn-primary{href:"#", onclick:"toggleSide(this); return false;"}
+              Fit into my schedule
+            %button.btn.btn-primary{href:"#", onclick:"toggleSide(this); return false;"}
+              Generate schedules
+        :javascript
+          $('.bk').hide()
+      .sk
+        =render partial:"schedule", locals: {side:true}
 

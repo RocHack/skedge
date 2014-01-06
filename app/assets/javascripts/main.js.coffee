@@ -339,3 +339,32 @@ root.bookmark = (btn) ->
 		$(btn).addClass('enabled')
 		bookmark_ajax(btn.id, "add")
 
+root.toggleSide = (btn) ->
+	$(".sk").toggle()
+	$(".bk").toggle()
+	if $(".bk").is(":visible")
+		$(btn).html("My schedule")
+	else
+		$(btn).html("My bookmarks")
+
+root.remove_bookmark = (btn) ->
+	$(btn).closest('tr').fadeOut(100)
+
+root.add_bookmark = (num,name) ->
+	$('.bookies').append("<tr>
+		<td class='check-td'>
+			<div class='b-check'><input type='checkbox'></input></div>
+		</td>
+		<td>
+			<a href='/?q=#{num}' class='b-a'>
+				<div class='b-body'><strong>#{num}</strong><br>#{name}</div>
+			</a>
+		</td>
+		<td>
+			<button type='button' onclick='remove_bookmark(this); return false;' class='close b-close' aria-hidden='true'>×</button>
+		</td>
+	</tr>")
+
+
+
+

@@ -6,4 +6,9 @@ module ApplicationHelper
 		compute_buttons();
 		resize_schedule();"
 	end
+
+	def load_bookmarks(skedge)
+		return "" if !skedge
+		skedge.courses.map {|c| "add_bookmark('#{c.decorate.dept_and_cnum}','#{c.name}');"}.join("\n")
+	end
 end

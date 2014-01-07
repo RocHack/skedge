@@ -8,7 +8,7 @@ Skedge::Application.routes.draw do
   root 'main#index'
   post '/' => 'main#index'
   post '/ticket' => 'ticket#new'
-  get '/:id' => 'schedules#show'
+  get '/getemail' => 'main#get_email'
 
   get '/schedule/new' => "schedules#new"
   post '/schedule/:id/add' => "schedules#add"
@@ -16,6 +16,8 @@ Skedge::Application.routes.draw do
 
   post '/schedule/:id/bookmark/add' => "schedules#bookmark_add"
   post '/schedule/:id/bookmark/delete' => "schedules#bookmark_delete"
+
+  get '/:id' => 'schedules#show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

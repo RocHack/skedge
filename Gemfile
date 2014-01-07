@@ -50,6 +50,8 @@ gem 'haml'
 gem 'squeel' #for nice activerecord lookups
 gem 'draper' #decorators
 
+gem 'httparty' #for scraping faculty email addresses
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

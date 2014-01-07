@@ -49,7 +49,7 @@
       .side-options
         .row
           .col-md-6
-            #share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
+            %a#share-link{href:(@schedule ? "#{@schedule.id}" : ""), target:"_blank", :style => @schedule ? "" : "display: none;"}
               %button.btn.btn-default.share
                 Share and more...
           .col-md-6

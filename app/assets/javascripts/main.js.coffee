@@ -3,13 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 style = (day,start,duration,color) -> 
-	width = 20
+	width = 100.0/days.length
 	hour = 100/(max-min + 1)
 	height = duration * hour
 	left = days.indexOf(day.toUpperCase())*width
 	top = hour*start
 	{
-		"width":"20%",
+		"width":"#{width}%",
 		"left":"#{left}%",
 		"top":"#{top}%",
 		"height":"#{height}%",
@@ -63,11 +63,11 @@ max = 0
 
 root = exports ? this
 
-
 hour_range = (extra) ->
 	min = 1000
 	max = 1900
 	extra = [] if !extra
+
 	for c in courses.concat(extra)
 		start = c.start_time-5
 		end = c.end_time+5
@@ -75,12 +75,44 @@ hour_range = (extra) ->
 			min = start
 		if end > max
 			max = end
+		s = (c.days.indexOf('S') > -1)
+		u = (c.days.indexOf('U') > -1)
+		
 	min = Math.floor(min/100)
 	max = Math.ceil(max/100)
 
 	[min..max]
 
+root.resize_days = (extra) ->
+	$('#days').html("")
+	s = false
+	u = false
+
+	days = ["M", "T", "W", "R", "F"]
+
+	extra = [] if !extra
+
+	for c in courses.concat(extra)
+		s = true if c.days.indexOf('S') > -1
+		u = true if c.days.indexOf('U') > -1
+
+	if s
+		days.push("S")
+	if u
+		days = ["U"].concat(days)
+
+	for d in days
+		$('#days').append("<th>#{d}</th>")
+
+	$('th').css('width',"#{100.0/days.length}%")
+
+	if days.length > 5
+		$('.s-block-time').hide()
+
+
 root.resize_schedule = (extra) ->
+	resize_days(extra)
+
 	$('#hour-rows').html("")
 	for i in hour_range(extra)
 		$('#hour-row').clone().css('display','table-row').appendTo($('#hour-rows')).find('.time').html((i-1) % 12 + 1)

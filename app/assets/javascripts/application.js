@@ -15,11 +15,6 @@
 //= require bootstrap
 //= require_tree .
 
-function prof_email(i)
-{
-	console.log(i);
-}
-
 function prof_rmp(i)
 {
 	var url = "http://www.ratemyprofessors.com/SelectTeacher.jsp?searchName="+i+"&search_submit1=Search&sid=1331";
@@ -65,7 +60,7 @@ $(function()
     $('.tooltippy').tooltip();
     $('.dropdown-toggle').dropdown();
 	$('.pop').popover({html:true});
-    $(".dropdown-menu li a").click(function(){
+    $(".dropdown-menu.filter-menu li a").click(function(){
 		var selText = $(this).text();
 		var display = selText.split("(")[0].trim();
 		if (selText == "Course #" || selText == "Any" || selText == "Either")

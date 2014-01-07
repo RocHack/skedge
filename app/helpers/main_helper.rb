@@ -19,16 +19,17 @@ module MainHelper
 	end
 
 	def instructor_dropdown_action(i, action, text)
-		"<li><a href='#'' onclick='#{action}(\"#{i}\"); return false;'>#{text}</a></li>"
+		"<li><a href='#' onclick=\"#{action}('#{i}', this); return false;\">#{text}</a></li>"
 	end
 
 	def instructor_dropdown(i)
-		i = i.split.first.downcase.strip
+		last = i.split.first.downcase.strip
+		full = (i.split[1..-1] + i.split[0..0]).join(" ").downcase.strip
 		raw('<ul class="dropdown-menu" role="menu">' +
-			instructor_dropdown_action(i, "prof_email", "Email instructor") +
-			instructor_dropdown_action(i, "prof_rmp", "Look up on Rate My Professors") +
+			instructor_dropdown_action(full, "prof_email", "Email instructor") +
+			instructor_dropdown_action(last, "prof_rmp", "Look up on Rate My Professors") +
 			'<li class="divider"></li>' +
-			instructor_dropdown_action(i, "prof_search", "Courses taught by this instructor") +
+			instructor_dropdown_action(last, "prof_search", "Courses taught by this instructor") +
 			'</ul>')
 	end
 

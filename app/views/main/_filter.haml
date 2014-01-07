@@ -6,7 +6,7 @@
       %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
         =get_filter(filter).gsub(/\(.*\)/,"")
         %span.caret
-      %ul.dropdown-menu{role:"menu"}
+      %ul.filter-menu.dropdown-menu{role:"menu"}
         -options.each_with_index do |option, i|
           %li=fake_a(option)
           -if i == 0

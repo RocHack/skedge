@@ -366,5 +366,18 @@ root.add_bookmark = (num,name) ->
 	</tr>")
 
 
+#######################
+#other stuff
+#######################
+
+root.prof_email = (i, link) ->
+	$(link).closest('.dropdown-menu').dropdown('toggle')
+	if $(link).find('img').length == 0
+		$.get("/getemail", {"email":i}, (data) ->
+			$(link).html("<img src='#{data.url}' />")
+		).fail( (data) ->
+			console.log("failed w data = #{data}")
+		)
+
 
 

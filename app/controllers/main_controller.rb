@@ -5,9 +5,9 @@ class MainController < ApplicationController
 		response = HTTParty.post('https://info.rochester.edu/FacultyStaffDirectory/Default.aspx', :body => DATA+params["email"])
 		if match = response.parsed_response.match(/(JpegImage\.ashx\?text=[A-Z0-9]+)/)
 			img = "https://info.rochester.edu/FacultyStaffDirectory/"+match[1]
-			render json:img
+			render json:{"url" => img}
 		else
-			render json:"nope"
+			render status:404
 		end
 	end
 

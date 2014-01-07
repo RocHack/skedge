@@ -46,8 +46,8 @@
       %tr{:style => style, :class => klass}
         %td.course-btn
           .tooltippy{:style=>"height:auto;",:data => {toggle:"tooltip", placement:"bottom"}, :title => section.add_button_tooltip}
-            .btn-group.add-course-group
-              %button.btn.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:section.data}}
+            .btn-group.full.add-course-group
+              %button.btn.full.add-course-btn{type:"button", :id => "#{section.crn}", :class => section.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:section.data}}
                 =section.button_text("Section")
 
         %td.course-info

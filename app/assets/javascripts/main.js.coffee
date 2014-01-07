@@ -248,18 +248,18 @@ root.undo_section = (btn) ->
 		remove_section_obj(conf)
 
 	add_section(btn)
-	$(btn).remove()
+	$(btn).parent().remove()
 
 root.conflict_section = (btn) ->
 	obj = $(btn).data('section')
 	for conf in conflicting_course(obj)
 		remove_section_obj(conf)
-		undo = $(btn).clone()
+		undo = $(btn).parent().clone().find('button')
 		undo.data("section",conf)
 		undo.attr("id", "")
 		undo.removeClass('btn-success').removeClass('btn-danger')
 		undo.addClass('btn-warning').addClass('undo')
-		undo.appendTo($(btn).parent().parent())
+		undo.parent().appendTo($(btn).parent().parent())
 		undo.html(if obj.course_type != MAIN then "Undo" else "Re-add #{dept_and_cnum(conf)}")
 		undo.attr("onclick","undo_section(this);")
 

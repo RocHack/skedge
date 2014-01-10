@@ -9,11 +9,11 @@
     =course.credits
     credits
   .course-details
-    -if course.sister_course
+    -if course.sister_course_id
       -sister = course.sister_course.decorate
       .info
-        %strong Also offered: 
-        =inline_form sister.term_and_year, sister.dept_and_cnum, {term:sister.term}
+        %strong Also offered:
+        =link_to sister.term_and_year, "/?q=#{sister.dept_and_cnum}&term=#{sister.term}"
     -if course.comments
       .info
         %strong Comments:

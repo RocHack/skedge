@@ -153,7 +153,11 @@ class Scraper
   def self.link_sister_courses
     Course.where {course_type == Course::Type::Course}.each do |c|
       c.sister_course = find_sister_course(c)
-      c.save
+      if c.sister_course
+        c.sister_course.sister_course = c
+        c.sister_course.save
+        c.save
+      end
     end
   end
 

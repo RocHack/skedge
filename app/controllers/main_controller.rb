@@ -37,7 +37,7 @@ class MainController < ApplicationController
 				type_search.presence && course_type == type_search,
 				instructor_search.presence && instructors =~ "%#{instructor_search}%"
 			].compact.reduce(:&)
-		end.includes({sections:[:course], labs:[:course], recitations:[:course], workshops:[:course], lab_lectures:[:course]}).order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, #{sort}")
+		end.includes({sections:[:course], labs:[:course], recitations:[:course], workshops:[:course], lab_lectures:[:course], sister_course:[]}).order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, #{sort}")
 	end
 
 	def credits_range(search)
@@ -104,7 +104,6 @@ class MainController < ApplicationController
 
 	def filter(courses)
 		#TODO optimize!
-		#return courses
 		puts  "\n\n****** FILTERING ******\n\n"
 		courses.compact.delete_if do |c|
 			sister = c.sister_course

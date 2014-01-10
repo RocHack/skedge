@@ -5,18 +5,18 @@ module MainHelper
 		"sort" => ["Course #", "Start time (early to late)", "Start time (late to early)", "Class size (small to large)"]
 	}
 
-	def inline_form(link_text, query=link_text, params={})
-		sets = ""
+	# def inline_form(link_text, query=link_text, params={})
+	# 	sets = ""
 		
-		form_tag(".", method:"post", class:"form-inline inline") do
-			hiddens = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
-			params.each do |k, v|
-				hiddens += hidden_field_tag k, v #filters & stuff (from params arg)
-			end
-			link = link_to link_text, "#", :onclick => "#{sets} $(this).closest('form').submit();" #submit the closest form
-			hiddens + link
-		end
-	end
+	# 	form_tag(".", method:"post", class:"form-inline inline") do
+	# 		hiddens = hidden_field_tag 'query', query #implicit field that will send the query (ie, query will go into \1)
+	# 		params.each do |k, v|
+	# 			hiddens += hidden_field_tag k, v #filters & stuff (from params arg)
+	# 		end
+	# 		link = link_to link_text, "#", :onclick => "#{sets} $(this).closest('form').submit();" #submit the closest form
+	# 		hiddens + link
+	# 	end
+	# end
 
 	def instructor_dropdown_action(i, action, text)
 		"<li><a href='#' onclick=\"#{action}('#{i}', this); return false;\">#{text}</a></li>"

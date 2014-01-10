@@ -368,10 +368,11 @@ bookmark_ajax = (id, action) ->
 
 root.bookmark = (btn) ->
 	if $(btn).hasClass('enabled')
+		$(".bookmarks-row-#{btn.id}").fadeOut(100)
 		$(btn).removeClass('enabled')
 		bookmark_ajax(btn.id, "delete")
 	else
-		$(btn).addClass('enabled')
+		add_bookmark($(btn).data('num'), $(btn).data('name'), btn.id).hide().fadeIn()
 		bookmark_ajax(btn.id, "add")
 
 root.toggleSide = (btn) ->
@@ -382,11 +383,14 @@ root.toggleSide = (btn) ->
 	else
 		$(btn).html("My bookmarks")
 
-root.remove_bookmark = (btn) ->
+root.remove_bookmark = (btn,id) ->
 	$(btn).closest('tr').fadeOut(100)
+	$("##{id}").removeClass('enabled')
+	bookmark_ajax(id, "delete")
 
-root.add_bookmark = (num,name) ->
-	$('.bookies').append("<tr>
+root.add_bookmark = (num,name,id) ->
+	$("##{id}").addClass('enabled')
+	row = $("<tr class='bookmarks-row-#{id}'>
 		<td class='check-td'>
 			<div class='b-check'><input type='checkbox'></input></div>
 		</td>
@@ -396,9 +400,11 @@ root.add_bookmark = (num,name) ->
 			</a>
 		</td>
 		<td>
-			<button type='button' onclick='remove_bookmark(this); return false;' class='close b-close' aria-hidden='true'>×</button>
+			<button type='button' onclick='remove_bookmark(this, #{id}); return false;' class='close b-close' aria-hidden='true'>×</button>
 		</td>
 	</tr>")
+	$('.bookies').append(row)
+	row
 
 
 #######################

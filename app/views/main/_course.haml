@@ -17,7 +17,7 @@
     -if course.comments
       .info
         %strong Comments:
-        =course.linkify(:comments)
+        =raw course.comments
     -if course.restrictions
       .info
         %strong Restrictions:
@@ -25,11 +25,11 @@
     -if course.has_prereqs?
       .info
         %strong Prerequisites:
-        =course.linkify(:prereqs)
+        =raw course.prereqs
     -if course.cross_listed
       .info
         %strong Cross listed:
-        =course.linkify(:cross_listed)
+        =raw course.cross_listed
   %p.desc
     =course.desc
   %table.wide

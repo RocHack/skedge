@@ -2,6 +2,28 @@ require 'rubygems'
 require 'mechanize'
 
 class Formatter
+  def self.linkify(short, txt) 
+    #matches any strings that are like "ABC 123", and replaces them with links
+    last_dept = short #default to course's dept (ie if just "291")
+    regex = /(\A|\s)([A-Za-z]{0,3})\s*(\d{3}[A-Za-z]*)/
+    str = txt.gsub(regex) do |w|
+      match = w.match regex
+      link = w
+      not_link = ""
+      dept = match[2].strip
+      num = match[3].strip
+      if dept.empty? || dept == "or" || dept == "of" || dept == "and" || dept == "one" || dept == "two"
+        not_link = " "+dept
+        w = num
+        link = last_dept+" "+num
+      else
+        last_dept = dept
+      end
+      not_link + " " + "<a href='/?q=#{link.strip.gsub(" ","+")}'>#{w}</a>"
+    end
+    str
+  end
+
   def self.formatted_name(name)
     little = %w(and of or the to the in but as is for with)
     big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI)
@@ -67,7 +89,7 @@ class Scraper
     num.to_s.rjust(2,"0")
   end
 
-  def extract_attribute(e, num, label, sym)
+  def extract_attribute(e, num, label, sym, dept)
     id = "rpResults_ctl#{pad_with_zero(num)}_#{label}"
     val = e.search("//span[@id='#{id}']").first
     if val
@@ -78,6 +100,8 @@ class Scraper
       val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
       val = Section::Status::Statuses[val] if sym == :status
       val = Formatter.formatted_name(val) if sym == :name
+      val = val.gsub(/\[.*\]\s*/,"") if sym == :restrictions #remove [A] stuff
+      val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross_listed || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
 
       val
@@ -86,9 +110,9 @@ class Scraper
     end
   end
 
-  def extract_and_set(labels, obj, e, num)
+  def extract_and_set(labels, obj, e, num, dept)
     labels.each do |sym, label|
-      val = extract_attribute(e, num, label, sym)
+      val = extract_attribute(e, num, label, sym, dept)
       if val
         #call the setter method (ie :num=), with the val as the parameter
         obj.send :"#{sym}=", val
@@ -97,17 +121,17 @@ class Scraper
   end
 
   def parse_course(e, num, dept)
-    name = extract_attribute(e, num, CourseLabels[:name], :name)
-    cnum = extract_attribute(e, num, CourseLabels[:num], :num)
-    term = extract_attribute(e, num, CourseLabels[:term], :term)
-    year = extract_attribute(e, num, CourseLabels[:year], :year)
+    name = extract_attribute(e, num, CourseLabels[:name], :name, dept.short)
+    cnum = extract_attribute(e, num, CourseLabels[:num], :num, dept.short)
+    term = extract_attribute(e, num, CourseLabels[:term], :term, dept.short)
+    year = extract_attribute(e, num, CourseLabels[:year], :year, dept.short)
 
     c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id, term:term, year:year)
     c.department = dept
     c.short = dept.short
 
     #for each label, ie, attribute, parse thru html and assign to the course obj
-    extract_and_set(CourseLabels, c, e, num)
+    extract_and_set(CourseLabels, c, e, num, dept.short)
 
     #ignore course classes w/0 credits (they are like "independent study" etc)
     return nil if (c.course_type == Course::Type::Course && c.credits == 0)
@@ -177,13 +201,13 @@ class Scraper
         end
 
         #add this section to it
-        crn = extract_attribute(e, num, SectionLabels[:crn], :crn)
+        crn = extract_attribute(e, num, SectionLabels[:crn], :crn, dept.short)
         s = Section.find_or_create_by(crn:crn)
         s.course = c
         s.term = c.term
         s.course_type = c.course_type
         
-        extract_and_set(SectionLabels, s, e, num)
+        extract_and_set(SectionLabels, s, e, num, dept.short)
 
         s.save
 

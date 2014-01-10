@@ -1,34 +1,34 @@
--if !sections.empty?
-  .subcourse
-    .subcourse-show
-      %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"} 
-        %strong
-          Show
-          =sections.size
-          =name
-          =sections.size == 1 ? "section" : "sections"
-    %div.subcourse-data{:style=>"display:none"}
-      %p
-        %strong
-          =name.capitalize
-          sections:
-        %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
-          (hide)
-      %div{:class => should_split_cols(sections) ? "cols" : ""}
-        %table
-          -sections.each do |lab|
-            -lab = lab.decorate
-            %tr
-              %td.middle.center
-                %button.btn.btn-sm.full.lab-btn{type:"button", :class => lab.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:lab.data}}
-                  .btn-title
-                    =lab.button_text(name.titleize)
-              %td.lab-info
-                .info
-                  =lab.time_and_place
-                .info
-                  =lab.enroll_ratio
-                  students are enrolled
-          -if should_split_cols(sections) && sections.size.odd? #add extra if odd to align the columns
-            %tr
-              %td.lab-info
+/ -if !sections.empty?
+/   .subcourse
+/     .subcourse-show
+/       %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"} 
+/         %strong
+/           Show
+/           =sections.size
+/           =name
+/           =sections.size == 1 ? "section" : "sections"
+/     %div.subcourse-data{:style=>"display:none"}
+/       %p
+/         %strong
+/           =name.capitalize
+/           sections:
+/         %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
+/           (hide)
+/       %div{:class => should_split_cols(sections) ? "cols" : ""}
+/         %table
+/           -sections.each do |lab|
+/             -lab = lab.decorate
+/             %tr
+/               %td.middle.center
+/                 %button.btn.btn-sm.full.lab-btn{type:"button", :class => lab.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:lab.data}}
+/                   .btn-title
+/                     =lab.button_text(name.titleize)
+/               %td.lab-info
+/                 .info
+/                   =lab.time_and_place
+/                 .info
+/                   =lab.enroll_ratio
+/                   students are enrolled
+/           -if should_split_cols(sections) && sections.size.odd? #add extra if odd to align the columns
+/             %tr
+/               %td.lab-info

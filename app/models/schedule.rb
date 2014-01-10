@@ -13,6 +13,6 @@ class Schedule < ActiveRecord::Base
 	end
 
 	def js_data
-		sections.map {|s| s.decorate.data }
+		sections.includes(:course).map {|s| s.decorate.data }
 	end
 end

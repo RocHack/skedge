@@ -186,8 +186,11 @@ root.add_course = (obj, popover, post, col) ->
 	c.attr("href":"/?q=#{obj.dept}+#{obj.num}")
 	if !popover
 		c.data("title",obj.name)
+		c.data("placement","top")
 		c.tooltip()
 	else
+		c.data("container","body")
+		c.data("placement","auto left")
 		c.data("content",obj.popover_content)
 		c.data("title",obj.popover_title)
 		c.addClass("pop")

@@ -24,7 +24,18 @@ class Formatter
     str
   end
 
-  def self.formatted_name(name)
+  def self.format_clusters(clusters)
+    clusters.split(",").map do |c|
+      c.strip!
+      "<a href='http://rochack.org/clustergraph/#cluster:#{c.downcase}'>#{c}</a>"
+    end.join(", ")
+  end
+
+  def self.format_restrictions(restrictions)
+    restrictions.gsub(/\[.*\]\s*/,"") #remove [A] stuff
+  end
+
+  def self.format_name(name)
     little = %w(and of or the to the in but as is for with)
     big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI)
     prev = nil
@@ -99,8 +110,9 @@ class Scraper
       val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
       val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
       val = Section::Status::Statuses[val] if sym == :status
-      val = Formatter.formatted_name(val) if sym == :name
-      val = val.gsub(/\[.*\]\s*/,"") if sym == :restrictions #remove [A] stuff
+      val = Formatter.format_name(val) if sym == :name
+      val = Formatter.format_restrictions(val) if sym == :restrictions
+      val = Formatter.format_clusters(val) if sym == :clusters
       val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross_listed || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
 

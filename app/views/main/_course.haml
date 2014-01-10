@@ -30,6 +30,10 @@
       .info
         %strong Cross listed:
         =raw course.cross_listed
+    -if false && course.clusters #leaving out for now... too much info i think. how can we display this nicely?
+      .info
+        %strong Clusters:
+        =raw course.clusters
   %p.desc
     =course.desc
   %table.wide
@@ -58,12 +62,11 @@
             .info
               %strong
                 ="Instructor#{section.multiple_instructors? ? "s" : ""}:"
-              -section.instructor_list.each_with_index do |i, idx|
-                -if idx > 0
-                  ;
+              -list = section.instructor_list
+              -list.each_with_index do |i, idx|
                 .dropdown.inline
-                  %a{href:"#", onclick:"return false;", data:{toggle:"dropdown"}, :class => "dropdown-toggle"}
-                    =i
+                  =succeed (idx == list.size-1 ? "" : ",") do
+                    %a{href:"#", onclick:"return false;", :class => "dropdown-toggle", data:{toggle:"dropdown"}}= i
                   =instructor_dropdown(i)
       %tr{:style => style, :class => klass}
         %td{colspan:"2"}

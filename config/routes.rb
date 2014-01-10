@@ -17,7 +17,7 @@ Skedge::Application.routes.draw do
   post '/schedule/:id/bookmark/add' => "schedules#bookmark_add"
   post '/schedule/:id/bookmark/delete' => "schedules#bookmark_delete"
 
-  get '/:id' => 'schedules#show'
+  get '/:id' => 'schedules#show', :constraints => { :id => /[0-9]+/ }
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

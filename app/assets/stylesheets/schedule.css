@@ -311,3 +311,19 @@ a.s-block:hover
   color: black;
 }
 
+/*******/
+
+.no-skedge
+{
+  text-align: center;
+
+  font-size: 3em;
+  color: gray;
+
+  position: absolute;
+  left: 50%;
+  top: 31%;
+  width: 600px;
+  margin-left: -300px;
+}
+

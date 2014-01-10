@@ -1,31 +1,28 @@
 .row
   .col-md-2
     =render partial:"logo"
-    .options
-      -if @my_schedule != @schedule
-        %a{href:"#", onclick:"#{load_schedule(@my_schedule, false, true)}; return false;"}
-          %button.btn.btn-default.s-option-btn{href:"#"}
-            Compare schedules!
+    -if @schedule
+      .options
+        -if @my_schedule != @schedule
+          %a{href:"#", onclick:"#{load_schedule(@my_schedule, false, true)}; return false;"}
+            %button.btn.btn-default.s-option-btn{href:"#"}
+              Compare schedules!
 
-      .btn-group
-        %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-          Download
-          %span.caret
-        %ul.dropdown-menu{role:"menu"}
-          %li
-            %a{href:"#"} iCal
-          %li
-            %a{href:"#"} Google Calendar
-          %li
-            %a{href:"#"} Image
-          %li.divider
-          %li
-            %a{href:"#"} Print
-            
+        .btn-group
+          %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+            Download
+            %span.caret
+          %ul.dropdown-menu{role:"menu"}
+            %li
+              %a{href:"#"} iCal
+            %li
+              %a{href:"#"} Google Calendar
+            %li
+              %a{href:"#"} Image
+            %li.divider
+            %li
+              %a{href:"#"} Print
+              
           
   .col-md-9
-    -if @schedule
-      =render partial:"schedule", locals: {side:false}
-    -else
-      .center
-        No schedule found
+    =render partial:"schedule", locals: {side:false, exists:@schedule.presence}

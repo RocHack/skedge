@@ -4,10 +4,10 @@ class SchedulesController < ApplicationController
 	end
 
 	def show
-		@schedule = Schedule.find_by_id(params[:id]) || raise_404
+		@schedule = Schedule.find_by_id(params[:id])
 		@side = false
 		respond_to do |format|
-			format.json {render json:@schedule.js_data.to_json}
+			format.json {(!@schedule && raise_404) || (render json:@schedule.js_data.to_json)}
 			format.html 
 		end
 	end

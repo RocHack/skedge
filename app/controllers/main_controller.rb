@@ -103,8 +103,7 @@ class MainController < ApplicationController
 	end
 
 	def filter(courses)
-		#TODO optimize!
-		puts  "\n\n****** FILTERING ******\n\n"
+		#TODO optimize, maybe?
 		courses.compact.delete_if do |c|
 			sister = c.sister_course
 			sister_exists = sister && (c.year < sister.year || (c.year == sister.year && c.term > sister.term)) && courses.include?(sister)
@@ -135,7 +134,5 @@ class MainController < ApplicationController
 		else
 			@depts = all_depts
 		end
-
-		puts  "\n\n****** RENDERING ******\n\n"
 	end
 end

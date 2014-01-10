@@ -171,3 +171,9 @@ a.bookmark:active
 {
   background-color:#9B9B9B;
 }
+
+.spinner
+{
+  margin-top: 2px;
+  float: right;
+}

@@ -408,10 +408,11 @@ root.add_bookmark = (num,name) ->
 root.prof_email = (i, link) ->
 	$(link).closest('.dropdown-menu').dropdown('toggle')
 	if $(link).find('img').length == 0
+		spinner = $(link).append('<img src="assets/ajax-loader.gif" class="spinner" />')
 		$.get("/getemail", {"email":i}, (data) ->
 			$(link).html("<img src='#{data.url}' />")
 		).fail( (data) ->
-			console.log("failed w data = #{data}")
+			$(link).html("<span class='text-danger'>Error retrieving email :(</span>").addClass('text-danger')
 		)
 
 

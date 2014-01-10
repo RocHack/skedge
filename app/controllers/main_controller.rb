@@ -94,7 +94,7 @@ class MainController < ApplicationController
 		non_cancelled = (sort == "min_enroll ASC")
 		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
 		if params["random"].presence
-			s = [s.sample]
+			s = s.limit(1).order("RANDOM()")
 		end
 		s.delete_if do |x|
 			x.cancelled?

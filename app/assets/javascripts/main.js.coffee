@@ -375,13 +375,20 @@ root.bookmark = (btn) ->
 		add_bookmark($(btn).data('num'), $(btn).data('name'), btn.id).hide().fadeIn()
 		bookmark_ajax(btn.id, "add")
 
-root.toggleSide = (btn) ->
+root.toggleSide = () ->
 	$(".sk").toggle()
 	$(".bk").toggle()
 	if $(".bk").is(":visible")
-		$(btn).html("My schedule")
+		#document.cookie = "bookmarks=1" #how to set an expiration date for this... (but not for s_id)
+		$("#toggle-btn").html("My schedule")
 	else
-		$(btn).html("My bookmarks")
+		#document.cookie = "bookmarks=0"
+		$("#toggle-btn").html("My bookmarks")
+
+$(document).ready ->
+	if match = document.cookie.match(/bookmarks=(\d)/)
+		if (match[1] == "1")
+			toggleSide()
 
 root.remove_bookmark = (btn,id) ->
 	$(btn).closest('tr').fadeOut(100)

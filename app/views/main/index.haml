@@ -53,7 +53,7 @@
               %button.btn.btn-default.share
                 Share and more...
           .col-md-6
-            %button.btn.btn-default.side-menu{href:"#", onclick:"toggleSide(this); return false;"}
+            %button.btn.btn-default.side-menu#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
               My bookmarks
             -#.btn-group.side-menu this is for multiple skedges
               %button.btn.btn-default.btn-xs.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}

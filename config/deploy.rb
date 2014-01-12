@@ -28,14 +28,14 @@ namespace :deploy do
   desc 'Stop application'
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "cd #{current_path} && sudo bundle exec passenger stop -p #{passenger_port}" rescue nil
+      execute "sudo service apache2 stop"
     end
   end
 
   desc 'Start application'
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "cd #{current_path} && RAILS_ENV=staging sudo bundle exec passenger start -d -p #{passenger_port} -e #{fetch(:default_env)[:rails_env]} --user=#{passenger_user}"
+      execute "sudo service apache2 start"
     end
   end
 

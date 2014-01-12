@@ -189,6 +189,7 @@ DEPENDENCIES
   mechanize
   mysql2
   rails (= 4.0.1)
+  rake
   sass-rails (~> 4.0.0)
   sdoc
   sqlite3

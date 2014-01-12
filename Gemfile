@@ -7,6 +7,8 @@ gem 'rails', '4.0.1'
 group :development do
   	gem 'sqlite3'
 	gem 'capistrano'
+	gem 'capistrano-rails'
+	gem 'capistrano-bundler'
 end
 group :production do
   	gem 'mysql2'

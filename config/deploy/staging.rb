@@ -1,6 +1,6 @@
 set :stage, :staging
 
-my_ip = "skedge-staging.danhassin.com"
+my_ip = "skedge-test.danhassin.com"
 my_user = "deploy"
 my_server = "#{my_user}@#{my_ip}"
 

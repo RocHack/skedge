@@ -16,8 +16,8 @@ class CreateEnrollments < ActiveRecord::Migration
     drop_table :enrollments
 
     create_table "schedules_sections", :id => false do |t|
-	  t.column "schedule_id", :integer, :null => false
-	  t.column "section_id",  :integer, :null => false
-	end
+  	  t.column "schedule_id", :integer, :null => false
+  	  t.column "section_id",  :integer, :null => false
+  	end
   end
 end

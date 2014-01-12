@@ -19,3 +19,5 @@ config/initializers/secret_token.rb
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
+
+config/database.yml

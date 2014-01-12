@@ -6,10 +6,13 @@ gem 'rails', '4.0.1'
 # Use sqlite3 or mysql as the database for Active Record
 group :development do
   	gem 'sqlite3'
+	gem 'capistrano'
 end
 group :production do
   	gem 'mysql2'
 end
+
+gem 'rake'
 
 # js runtimes
 gem 'execjs'
@@ -57,9 +60,6 @@ gem 'httparty' #for scraping faculty email addresses
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

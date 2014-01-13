@@ -38,6 +38,8 @@
               Found
               =@courses.size
               ="course#{@courses.size == 1 ? "" : "s"}"
+              -if params["capped"]
+                (capped)
               in
               %span#render-time
             -@courses.each do |course|

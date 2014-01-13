@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140102210603) do
+ActiveRecord::Schema.define(version: 20140113005631) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "course_id"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.datetime "updated_at"
   end
 
+  add_index "bookmarks", ["course_id"], name: "index_bookmarks_on_course_id"
+  add_index "bookmarks", ["schedule_id"], name: "index_bookmarks_on_schedule_id"
+
   create_table "courses", force: true do |t|
     t.integer  "department_id"
     t.string   "num"
@@ -27,15 +30,11 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.text     "desc"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "prereqs"
     t.integer  "credits"
-    t.string   "comments"
     t.string   "restrictions"
-    t.string   "cross_listed"
     t.integer  "year"
     t.integer  "term"
     t.integer  "course_type"
-    t.string   "clusters"
     t.integer  "main_course_id"
     t.integer  "sister_course_id"
     t.string   "instructors"
@@ -43,7 +42,20 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.integer  "min_start_time"
     t.integer  "max_start_time"
     t.string   "short"
+    t.text     "clusters"
+    t.text     "prereqs"
+    t.text     "cross_listed"
+    t.text     "comments"
   end
+
+  add_index "courses", ["course_type"], name: "index_courses_on_course_type"
+  add_index "courses", ["main_course_id"], name: "index_courses_on_main_course_id"
+  add_index "courses", ["name"], name: "index_courses_on_name"
+  add_index "courses", ["num"], name: "index_courses_on_num"
+  add_index "courses", ["short"], name: "index_courses_on_short"
+  add_index "courses", ["sister_course_id"], name: "index_courses_on_sister_course_id"
+  add_index "courses", ["term"], name: "index_courses_on_term"
+  add_index "courses", ["year"], name: "index_courses_on_year"
 
   create_table "departments", force: true do |t|
     t.string   "name"
@@ -51,6 +63,8 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "departments", ["short"], name: "index_departments_on_short"
 
   create_table "enrollments", force: true do |t|
     t.integer  "schedule_id"
@@ -60,6 +74,9 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "enrollments", ["schedule_id"], name: "index_enrollments_on_schedule_id"
+  add_index "enrollments", ["section_id"], name: "index_enrollments_on_section_id"
 
   create_table "schedules", force: true do |t|
     t.datetime "created_at"
@@ -93,12 +110,17 @@ ActiveRecord::Schema.define(version: 20140102210603) do
     t.integer  "term"
   end
 
+  add_index "sections", ["course_id"], name: "index_sections_on_course_id"
+  add_index "sections", ["days"], name: "index_sections_on_days"
+  add_index "sections", ["main_course_id"], name: "index_sections_on_main_course_id"
+  add_index "sections", ["start_time"], name: "index_sections_on_start_time"
+
   create_table "tickets", force: true do |t|
     t.string   "email"
-    t.string   "contents"
     t.integer  "read"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "contents"
   end
 
 end

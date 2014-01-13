@@ -11,6 +11,10 @@ class MainController < ApplicationController
 		end
 	end
 
+	def rand_order
+		Rails.env.production? ? "RAND()" : "RANDOM()"
+	end
+
 	def spring?
 		true
 	end
@@ -26,7 +30,7 @@ class MainController < ApplicationController
 	end
 
 	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_low, c_hi, sort)
-		Course.joins{department}.where do
+		Course.limit(150).joins{department}.where do
 			[
 				c_low.presence && credits >= c_low,
 				c_hi.presence && credits <= c_hi,
@@ -94,8 +98,9 @@ class MainController < ApplicationController
 		non_cancelled = (sort == "min_enroll ASC")
 		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
 		if params["random"].presence
-			s = s.limit(1).order("RANDOM()")
+			s = s.limit(1).order(rand_order)
 		end
+		params["capped"] = s.count == 150
 		s.delete_if do |x|
 			x.cancelled?
 		end if non_cancelled
@@ -130,7 +135,7 @@ class MainController < ApplicationController
 					course_type == Course::Type::Course,
 					desc != nil
 				].compact.reduce(:&)
-			end.order("RANDOM()")
+			end.order(rand_order)
 		else
 			@depts = all_depts
 		end

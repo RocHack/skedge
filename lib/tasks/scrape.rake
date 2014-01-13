@@ -53,6 +53,11 @@ class Formatter
       w2
     end
   end
+
+  def self.encode(txt)
+    #PH 236 has a weird encoding in its description, sanitizing everything to be sure
+    txt.encode("ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => '')
+  end
 end
 
 class Scraper
@@ -115,6 +120,7 @@ class Scraper
       val = Formatter.format_clusters(val) if sym == :clusters
       val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross_listed || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
+      val = Formatter.encode(val) if sym == :desc
 
       val
     else

@@ -122,6 +122,10 @@ class MainController < ApplicationController
 		@schedule = @my_schedule
 
 		if @query && !@query.empty?
+			if @query.downcase == "register" || @query.downcase == "registrar"
+				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
+				return
+			end
 			@courses = filter(search_for_courses(@query))
 		elsif params["random"].presence
 			#random everything, but include stuff

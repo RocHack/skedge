@@ -119,7 +119,6 @@ class MainController < ApplicationController
 	def index
 		@query = params[:q].try(:strip)
 		@courses = nil
-		@schedule = @my_schedule
 
 		if @query && !@query.empty?
 			if @query.downcase == "register" || @query.downcase == "registrar"

@@ -1,3 +1,21 @@
+module ActiveRecord
+  class Base
+
+    def update_record_without_timestamping
+      class << self
+        def record_timestamps; false; end
+      end
+
+      save!
+
+      class << self
+        remove_method :record_timestamps
+      end
+    end
+
+  end
+end
+
 class SchedulesController < ApplicationController
 	def raise_404
 		raise ActionController::RoutingError.new('Not Found')
@@ -9,6 +27,27 @@ class SchedulesController < ApplicationController
 		respond_to do |format|
 			format.json {(!@schedule && raise_404) || (render json:@schedule.js_data.to_json)}
 			format.html 
+		end
+	end
+
+	def decode_img(img64)
+		img64["data:image/jpeg;base64,"] = ""
+		data = StringIO.new(Base64.decode64(img64))
+		data.class.class_eval { attr_accessor :original_filename, :content_type }
+		data.original_filename = "schedule.jpg"
+		data.content_type = "image/jpg"
+		data
+	end
+
+	def set_image
+		@schedule = Schedule.find_by_id_and_secret(params[:id],params[:secret])
+		if !@schedule
+			render status:500
+		else
+			@schedule.image = decode_img(params[:img])
+			@schedule.update_record_without_timestamping
+
+			render json:{url:@schedule.image.url}
 		end
 	end
 
@@ -34,6 +73,7 @@ class SchedulesController < ApplicationController
 			collection << obj
 		end
 
+		@schedule.touch
 		@schedule.save
 
 		render json:@schedule

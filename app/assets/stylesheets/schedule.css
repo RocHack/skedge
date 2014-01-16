@@ -169,33 +169,33 @@ a.s-block:hover
 }
 
 @media (max-width: 1200px) {
-.s-block-time
-{
-  display: none;
-}
+  .s-block-time
+  {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
-.s-block-title
-{
-  display: none;
-}
-.s-big
-{
-  display: table;  
-}
-.s-big > .s-block-p
-{
-  display: table-cell; 
-  vertical-align: middle;
-  text-align: center;
-  font-weight: 300;
-  line-height: 1.1em;
-}
-.s-big > .s-block-p > .s-block-dept, .s-block-cnum, .s-block-type
-{
-  display: block;
-}
+  .s-block-title
+  {
+    display: none;
+  }
+  .s-big
+  {
+    display: table;  
+  }
+  .s-big > .s-block-p
+  {
+    display: table-cell; 
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 300;
+    line-height: 1.1em;
+  }
+  .s-big > .s-block-p > .s-block-dept, .s-block-cnum, .s-block-type
+  {
+    display: block;
+  }
 }
 
 .sk
@@ -327,3 +327,13 @@ a.s-block:hover
   margin-left: -300px;
 }
 
+.white
+{
+  background-color: white;
+}
+
+.big-schedule
+{
+  margin-left: 15px;
+  margin-right: 5%;
+}

@@ -8,6 +8,8 @@ class Schedule < ActiveRecord::Base
 	
 	before_create :generate_secret
 
+	has_attached_file :image#, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+
 	def generate_secret
 		self.secret = SecureRandom.hex
 	end

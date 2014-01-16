@@ -18,11 +18,21 @@
             %li
               %a{href:"#"} Google Calendar
             %li
-              %a{href:"#"} Image
+              %a#download-img{href: @schedule.image.url } Image
             %li.divider
             %li
               %a{href:"#"} Print
               
           
-  .col-md-9
-    =render partial:"schedule", locals: {side:false, exists:@schedule.presence}
+  .col-md-10.white
+    .big-schedule
+      =render partial:"schedule", locals: {side:false, exists:@schedule.presence}
+
+-if @schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at
+  =link_to "hello!", @schedule.image.url
+-elsif @schedule == @my_schedule
+  :javascript
+    $(document).ready( function () {
+      render_img(#{@schedule.id});
+    });
+    

@@ -30,11 +30,11 @@ class SchedulesController < ApplicationController
 		end
 	end
 
-	def decode_img(img64)
+	def decode_img(img64, rid)
 		img64["data:image/jpeg;base64,"] = ""
 		data = StringIO.new(Base64.decode64(img64))
 		data.class.class_eval { attr_accessor :original_filename, :content_type }
-		data.original_filename = "schedule.jpg"
+		data.original_filename = "#{rid}.jpg"
 		data.content_type = "image/jpg"
 		data
 	end
@@ -44,7 +44,7 @@ class SchedulesController < ApplicationController
 		if !@schedule
 			render status:500
 		else
-			@schedule.image = decode_img(params[:img])
+			@schedule.image = decode_img(params[:img], @schedule.rid)
 			@schedule.update_record_without_timestamping
 
 			render json:{url:@schedule.image.url}

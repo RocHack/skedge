@@ -17,4 +17,16 @@ class Schedule < ActiveRecord::Base
 	def js_data
 		sections.includes(:course).map {|s| s.decorate.data }
 	end
+
+	before_validation(:on => :create) do
+	    rid = Schedule.make_rid
+	end
+
+	def self.make_rid
+		begin
+			rid = ''
+			1..4.times { rid += rand(10).to_s }
+		end while !!Schedule.find_by_rid(rid)
+		rid
+	end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116064440) do
+ActiveRecord::Schema.define(version: 20140117083331) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "course_id"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20140116064440) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "rid"
   end
 
   create_table "schedules_sections", id: false, force: true do |t|

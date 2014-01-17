@@ -6,23 +6,7 @@
         -if @my_schedule != @schedule
           %a{href:"#", onclick:"#{load_schedule(@my_schedule, false, true)}; return false;"}
             %button.btn.btn-default.s-option-btn{href:"#"}
-              Compare schedules!
-
-        .btn-group
-          %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-            Download
-            %span.caret
-          %ul.dropdown-menu{role:"menu"}
-            %li
-              %a{href:"#", onclick:"render_ics()"} iCal
-            %li
-              %a{href:"#"} Google Calendar
-            %li
-              %a#download-img{href: @schedule.image.url } Image
-            %li.divider
-            %li
-              %a{href:"#"} Print
-              
+              Compare schedules!              
           
   .col-md-10.white
     .big-schedule

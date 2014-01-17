@@ -236,21 +236,6 @@ a.s-block:hover
   height: 90%;
 }
 
-.side-options
-{
-  margin-bottom: 25px;
-}
-
-.share
-{
-  float: left;
-}
-
-.side-menu
-{
-  float: right;
-}
-
 .bk-panel
 {
   height: 100%;
@@ -336,4 +321,30 @@ a.s-block:hover
 {
   margin-left: 15px;
   margin-right: 5%;
+}
+
+.top-btns
+{
+  text-align: justify;
+}
+
+.top-btns:after {
+  content: '';
+  width: 100%; /* Ensures there are at least 2 lines of text, so justification works */
+  display: inline-block;
+}
+
+.share
+{
+  display: inline-block;
+}
+
+.download
+{
+  display: inline-block;
+}
+
+.bkmks
+{
+  display: inline-block;
 }

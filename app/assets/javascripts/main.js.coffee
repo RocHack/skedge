@@ -64,9 +64,10 @@ max = 0
 root = exports ? this
 
 hour_range = (extra) ->
-	min = 1000
-	max = 1900
 	extra = [] if !extra
+
+	min = 2500
+	max = -1
 
 	for c in courses.concat(extra)
 		start = c.start_time-5
@@ -78,9 +79,18 @@ hour_range = (extra) ->
 		s = (c.days.indexOf('S') > -1)
 		u = (c.days.indexOf('U') > -1)
 		
-	min = Math.floor(min/100)
-	max = Math.ceil(max/100)
+	min /= 100
+	max /= 100
 
+	diff = max-min
+	min_hrs = 7
+	if (diff < min_hrs)
+		console.log("diff is #{diff} (#{min}, #{max})")
+		min -= (min_hrs-diff)/2
+		max += (min_hrs-diff)/2
+
+	min = Math.floor(min)
+	max = Math.ceil(max)
 	[min..max]
 
 root.resize_days = (extra) ->
@@ -380,10 +390,10 @@ root.toggleSide = () ->
 	$(".bk").toggle()
 	if $(".bk").is(":visible")
 		#document.cookie = "bookmarks=1" #how to set an expiration date for this... (but not for s_id)
-		$("#toggle-btn").html("My schedule")
+		$("#toggle-btn").html("Schedule")
 	else
 		#document.cookie = "bookmarks=0"
-		$("#toggle-btn").html("My bookmarks")
+		$("#toggle-btn").html("Bookmarks")
 
 $(document).ready ->
 	if match = document.cookie.match(/bookmarks=(\d)/)
@@ -460,6 +470,7 @@ root.render_event = (obj) ->
 	today = new Date()
 	day = today.getDay()
 	days = ["S","M","T","W","R","F","U"]
+
 	while (obj.days.indexOf(days[day % days.length]) > -1)
 		day += 1
 		today = new Date(today.getTime() + 1000*60*60*24);

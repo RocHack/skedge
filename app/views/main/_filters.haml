@@ -1,7 +1,7 @@
 .row
   #filters
     -MainHelper::Filters.each do |filter, options|
-      .col-sm-2
+      .col-sm-3
         .filter{:class => default_filter?(filter) ? "" : "filter-bold"}
           =succeed ":" do
             =filter.capitalize
@@ -17,7 +17,7 @@
 
             =hidden_field_tag filter, get_filter(filter), {:class=>"dropdown-value", :id=>"filter-sort"}
 
-    .col-sm-2
+    .col-sm-3
       =hidden_field_tag "random", nil, {id:"random_field"}
       %button#rand-btn.btn.btn-default.btn-sm{onclick:"$('#random_field').val('true'); $('#form').submit(); return false;"}
         I'm Feeling Lucky

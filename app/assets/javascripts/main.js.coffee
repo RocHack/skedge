@@ -182,7 +182,9 @@ course_ajax = (obj, action) ->
 	ajax(action, obj.crn, 
 		((is_new) -> 
 			$('#share-link').attr("href","#{s_id}")
-			$('#share-link').show()),
+			$('#share-link').show()
+			$('.download').attr("href","#{s_id}")
+			$('.download').show()),
 		( ->
 			remove_section_obj(obj, true)
 			compute_buttons()))

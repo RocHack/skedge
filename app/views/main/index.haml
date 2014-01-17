@@ -50,26 +50,24 @@
     .fixed
       .row
         .top-btns
-          -if @my_schedule
-            %a#share-link.share{href:"#{@my_schedule.id}", target:"_blank"}
-              %button.btn.btn-default
-                Share
-          -if @my_schedule
-            / %button.download.btn.btn-default{href:"#", onclick:"render_ics(); return false;"}
-            /   Export to Calendar
-            .btn-group.center.download
-              %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-                Download
-                %span.caret
-              %ul.dropdown-menu{role:"menu"}
-                %li
-                  %a{href:"#", onclick:"render_ics()"} Export to Calendar
-                %li
-                  %a#download-img{href: "#{@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.id}#img"}", target:"_blank" }
-                    Image
-                / %li.divider
-                / %li
-                /   %a{href:"#"} Print
+          %a.share#share-link{href:"#{@my_schedule ? @my_schedule.id : ''}", target:"_blank", style:"#{!@my_schedule ? "display:none" : ''}"}
+            %button.btn.btn-default
+              Share
+          / %button.download.btn.btn-default{href:"#", onclick:"render_ics(); return false;"}
+          /   Export to Calendar
+          .btn-group.center.download{style:"#{!@my_schedule ? "display:none" : ''}"}
+            %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+              Download
+              %span.caret
+            %ul.dropdown-menu{role:"menu"}
+              %li
+                %a{href:"#", onclick:"render_ics()"} Export to Calendar
+              %li
+                %a#download-img{href: !@my_schedule ? '' : (@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.id}#img"), target:"_blank" }
+                  Image
+              / %li.divider
+              / %li
+              /   %a{href:"#"} Print
           %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
             Bookmarks
       .bk

@@ -17,7 +17,7 @@
 :javascript
   $(document).ready( function () {
     #{load_schedule(@schedule, false)}
-    #{needs_update ? "render_img(#{@schedule.id}, window.location.hash=='#img');" : ""}
+    #{if needs_update then "render_img(#{@schedule.id}, window.location.hash=='#img');" else "if (window.location.hash=='#img') { window.location='#{@schedule.image.url}'; }" end }
   });
 
 

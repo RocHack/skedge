@@ -30,7 +30,7 @@ class MainController < ApplicationController
 	end
 
 	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_low, c_hi, sort)
-		Course.limit(150).joins{department}.where do
+		Course.limit(250).joins{department}.where do
 			[
 				c_low.presence && credits >= c_low,
 				c_hi.presence && credits <= c_hi,

@@ -450,3 +450,48 @@ root.render_img = (sid) ->
 			a.remove()
 		)
 	})
+
+pad = (num) ->
+	if (num+"").length == 1
+		return "0"+num
+	return num+""
+
+root.render_event = (obj) ->
+	today = new Date()
+	day = today.getDay()
+	days = ["S","M","T","W","R","F","U"]
+	while (obj.days.indexOf(days[day % days.length]) > -1)
+		day += 1
+		today = new Date(today.getTime() + 1000*60*60*24);
+
+	today_str = "#{today.getFullYear()}#{pad(today.getMonth()+1)}#{pad(today.getDate())}"
+	start = "#{today_str}T#{obj.start_time}00"
+	end ="#{today_str}T#{obj.end_time}00"
+	days = obj.days.split("").map((d) -> {"M":"MO","T":"TU","W":"WE","R":"TH","F":"FR","S":"SA","U":"SU"}[d]).join(",")
+	[
+		"BEGIN:VEVENT",
+		"CLASS:PUBLIC",
+		"DESCRIPTION:#{obj.name}",
+		"DTSTART;TZID=America/New_York:#{start}",
+		"DTEND;TZID=America/New_York:#{end}",
+		"LOCATION:#{obj.location}",
+		"SUMMARY;LANGUAGE=en-us:#{dept_and_cnum(obj)}",
+		"TRANSP:TRANSPARENT",
+		"RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=#{days};WKST=SU"
+		"END:VEVENT",
+	].join('\n')+'\n'
+
+root.render_ics = ->
+	cal = "BEGIN:VCALENDAR\nVERSION:2.0\n"
+	for obj in courses
+		cal += render_event(obj)
+	cal += "END:VCALENDAR"
+	
+	blob = new Blob([cal])
+	# if navigator.userAgent.indexOf('MSIE 10') > -1 # chrome or firefox
+	# else  # ie
+	#    	bb = new BlobBuilder()
+	#    	bb.append(cal)
+	#    	blob = bb.getBlob("text/x-vCalendar;charset=" + document.characterSet)
+	saveAs(blob, "skedge.ics")
+

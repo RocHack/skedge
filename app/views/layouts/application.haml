@@ -8,11 +8,6 @@
     =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     =javascript_include_tag "application", "data-turbolinks-track" => true
     =csrf_meta_tags
-    :javascript
-      $(document).ready(function () {
-        #{load_schedule(@my_schedule, @side)}
-        #{@side ? load_bookmarks(@my_schedule) : ""}
-      });
 
   %body
     #main.container.top-margin

@@ -65,6 +65,7 @@ class Section < ActiveRecord::Base
 
 	def data
 		{
+			location:"#{building} #{room}",
 			crn:crn,
 	        days:days,
 	        name:course.decorate.name,

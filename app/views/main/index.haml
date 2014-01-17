@@ -80,3 +80,8 @@
       .sk
         =render partial:"schedule", locals: {side:true}
 
+:javascript
+  $(document).ready(function () {
+    #{load_schedule(@my_schedule, @side)}
+    #{@side ? load_bookmarks(@my_schedule) : ""}
+  });

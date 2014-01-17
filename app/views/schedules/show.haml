@@ -14,7 +14,7 @@
             %span.caret
           %ul.dropdown-menu{role:"menu"}
             %li
-              %a{href:"#"} iCal
+              %a{href:"#", onclick:"render_ics()"} iCal
             %li
               %a{href:"#"} Google Calendar
             %li
@@ -28,9 +28,13 @@
     .big-schedule
       =render partial:"schedule", locals: {side:false, exists:@schedule.presence}
 
--if @schedule == @my_schedule && @schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at
-  :javascript
-    $(document).ready( function () {
-      render_img(#{@schedule.id});
-    });
-    
+
+-needs_update = (@schedule == @my_schedule && @schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at)
+:javascript
+  $(document).ready( function () {
+    #{needs_update ? "render_img(#{@schedule.id});" : ""}
+    #{load_schedule(@schedule, false)}
+  });
+
+
+-##{load_schedule(@schedule, false)}

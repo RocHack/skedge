@@ -4,6 +4,7 @@
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
     -if @schedule && @schedule.image_file_name
       %meta{property:"og:image", content:"http://skedgeur.com#{@schedule.image.url}"}
+      %link{rel:"image_src", href:"http://skedgeur.com#{@schedule.image.url}"}
     %title skedge
     =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     =javascript_include_tag "application", "data-turbolinks-track" => true
@@ -12,6 +13,8 @@
   %body
     #main.container.top-margin
       =yield
+    -if @schedule && @schedule.image_file_name
+      %img{src:"http://skedgeur.com#{@schedule.image.url}", style:"display:none;"}
 
   :javascript
     $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");

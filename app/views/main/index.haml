@@ -55,6 +55,8 @@
               %button.btn.btn-default
                 Share
           -if @my_schedule
+            / %button.download.btn.btn-default{href:"#", onclick:"render_ics(); return false;"}
+            /   Export to Calendar
             .btn-group.center.download
               %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
                 Download
@@ -63,7 +65,8 @@
                 %li
                   %a{href:"#", onclick:"render_ics()"} Export to Calendar
                 %li
-                  %a#download-img{href: @my_schedule.image.url } Image
+                  %a#download-img{href: "#{@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.id}#img"}", target:"_blank" }
+                    Image
                 / %li.divider
                 / %li
                 /   %a{href:"#"} Print

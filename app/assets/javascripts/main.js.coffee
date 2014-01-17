@@ -85,7 +85,6 @@ hour_range = (extra) ->
 	diff = max-min
 	min_hrs = 7
 	if (diff < min_hrs)
-		console.log("diff is #{diff} (#{min}, #{max})")
 		min -= (min_hrs-diff)/2
 		max += (min_hrs-diff)/2
 
@@ -439,13 +438,13 @@ root.prof_email = (i, link) ->
 		)
 
 
-root.render_img = (sid) ->
-	a = $('.col-md-10').clone().appendTo('body')
+root.render_img = (sid,goto) ->
+	a = $('.screenshot').clone().appendTo('body')
 	a.width(1000)
-	a.find('.s-block-time, .s-block-title').show()
+	a.find('.s-block-time, .s-block-title').show().css('display','block')
 	a.find('.s-block-dept, .s-block-cnum, .s-block-type').css('display','inline')
 	a.find('.s-block-p').css('line-height','1.1em').css('text-align','left').css('margin','8px 8px 2px 8px').css('display','block').css('color','white')
-	a.find('.s-block-title').css('margin-top','3px')
+	a.find('.s-block-title').css('margin-top','3px').show()
 	a.find('.wrapper').css('color','white')
 	a.find('.s-big').css('display','block')
 	a.find('.s-block').css('opacity','0.85')
@@ -454,8 +453,9 @@ root.render_img = (sid) ->
 			strDataURI = canvas.toDataURL("image/jpeg")
 			# console.log("ok here we go!!!!!!")
 			$.post("schedule/#{sid}/set_image.json", {"img":strDataURI, "secret":secret}, (data) ->
-				# console.log("got this data #{data.url}")
-				$('#download-img').attr('href',data.url)
+				console.log("got this data #{data.url}")
+				if (goto)
+					window.location=data.url
 			)
 			a.remove()
 		)

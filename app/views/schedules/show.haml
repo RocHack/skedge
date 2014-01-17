@@ -8,16 +8,16 @@
             %button.btn.btn-default.s-option-btn{href:"#"}
               Compare schedules!              
           
-  .col-md-10.white
+  .col-md-10.screenshot
     .big-schedule
       =render partial:"schedule", locals: {side:false, exists:@schedule.presence}
 
 
--needs_update = (@schedule == @my_schedule && @schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at)
+-needs_update = (@schedule == @my_schedule && (!@schedule.image_file_name || (!@schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at)))
 :javascript
   $(document).ready( function () {
-    #{needs_update ? "render_img(#{@schedule.id});" : ""}
     #{load_schedule(@schedule, false)}
+    #{needs_update ? "render_img(#{@schedule.id}, window.location.hash=='#img');" : ""}
   });
 
 

@@ -8,7 +8,7 @@ class Schedule < ActiveRecord::Base
 	
 	before_create :generate_secret
 
-	has_attached_file :image, :use_timestamp => false, :url => "system/:class/:attachment/:filename"
+	has_attached_file :image, :use_timestamp => false, :url => "system/:class/:attachment/:filename", :path => ":rails_root/public/system/:class/:attachment/:filename"
 
 	def generate_secret
 		self.secret = SecureRandom.hex

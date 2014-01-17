@@ -6,12 +6,13 @@ class Schedule < ActiveRecord::Base
 	has_many :sections, -> { includes(:course) }, :through => :enrollments
 	has_many :courses, :through => :bookmarks
 	
-	before_create :generate_secret
+	before_create :generate_secret_and_rid
 
 	has_attached_file :image, :use_timestamp => false, :url => "system/:class/:attachment/:filename", :path => ":rails_root/public/system/:class/:attachment/:filename"
 
-	def generate_secret
+	def generate_secret_and_rid
 		self.secret = SecureRandom.hex
+		self.rid = Schedule.make_rid
 	end
 
 	def sections_description
@@ -21,11 +22,7 @@ class Schedule < ActiveRecord::Base
 	def js_data
 		sections.map {|s| s.decorate.data }
 	end
-
-	before_validation(:on => :create) do
-	    rid = Schedule.make_rid
-	end
-
+	
 	def self.make_rid
 		begin
 			rid = ''

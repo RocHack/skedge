@@ -56,6 +56,7 @@ colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
 courses = []
 
 s_id = null
+s_rid = null
 secret = null
 
 min = 0
@@ -171,6 +172,7 @@ ajax = (route, obj_id, success, fail) ->
 		is_new = !s_id
 		if is_new
 			s_id = data.id
+			s_rid = data.rid
 			secret = data.secret
 			set_cookie()
 		success(is_new)
@@ -181,10 +183,10 @@ ajax = (route, obj_id, success, fail) ->
 course_ajax = (obj, action) ->
 	ajax(action, obj.crn, 
 		((is_new) -> 
-			$('#share-link').attr("href","#{s_id}")
+			$('#share-link').attr("href","#{s_rid}")
 			$('#share-link').show()
-			$('.download').attr("href","#{s_id}")
-			$('.download').show()),
+			$('.download').show()
+			$('#download-img').attr("href","#{s_rid}#img")),
 		( ->
 			remove_section_obj(obj, true)
 			compute_buttons()))

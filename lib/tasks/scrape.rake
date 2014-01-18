@@ -37,7 +37,7 @@ class Formatter
 
   def self.format_name(name)
     little = %w(and of or the to the in but as is for with)
-    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI)
+    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI BME CHM ECE LIN CSC BIO LGBTQ)
     prev = nil
     name.gsub(/(\w|\.|')*/) do |w|
       w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
@@ -260,7 +260,6 @@ class Scraper
   def get_dept_list
     depts = []
     @form.field_with(:name => "ddlDept").options.each do |dept|
-      next if depts.size >= @num && @num > 0
       d = Department.where({short:dept.value}).first
       if !d
         d = Department.new
@@ -286,11 +285,12 @@ class Scraper
       @form = results.form("form1")
       depts = get_dept_list 
       depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
-      
+      depts = depts[@num..-1]
+
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"
         depts.each_with_index do |dept,i|
-          puts "#{i+1}. #{dept.short} - #{dept.name}"
+          puts "#{i+1+@num}. #{dept.short} - #{dept.name}"
           get_dept(dept, term)
         end
       end
@@ -306,7 +306,7 @@ end
 
 namespace :scrape do
   def scrape(terms)
-    num = ENV['num'] || -1
+    num = ENV['num'] || 0
 
     Scraper.scrape do |s|
       s.terms = terms

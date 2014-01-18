@@ -73,7 +73,8 @@ $(function()
 		}
 		$(this).parents('.btn-group').find('.dropdown-toggle').html(display+' <span class="caret"></span>');
 		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
-		$('#form').submit();
+		if ($("#search-input").val().length > 0)
+			$('#form').submit();
 	});
 
 });

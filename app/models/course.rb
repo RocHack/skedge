@@ -12,6 +12,7 @@ class Course < ActiveRecord::Base
 	module Term
 		Fall = 0
 		Spring = 1
+		Both = 2
 
 		Terms = {"Fall" => Fall, "Spring" => Spring}
 	end
@@ -36,8 +37,6 @@ class Course < ActiveRecord::Base
 	has_many :recitations, scope(Course::Type::Recitation), class_name:"Section", foreign_key:"main_course_id"
 	has_many :workshops, scope(Course::Type::Workshop), class_name:"Section", foreign_key:"main_course_id"
 	has_many :lab_lectures, scope(Course::Type::LabLecture), class_name:"Section", foreign_key:"main_course_id"
-
-	has_one :sister_course, class_name:"Course", foreign_key:"sister_course_id"
 
 	def old?
 		!(term == Course::Term::Spring && year == 2014)

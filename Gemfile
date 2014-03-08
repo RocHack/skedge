@@ -16,8 +16,6 @@ end
 
 gem 'paperclip'
 
-gem 'rake'
-
 # js runtimes
 gem 'execjs'
 gem 'therubyracer'

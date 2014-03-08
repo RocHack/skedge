@@ -207,7 +207,6 @@ DEPENDENCIES
   mysql2
   paperclip
   rails (= 4.0.1)
-  rake
   sass-rails (~> 4.0.0)
   sdoc
   sqlite3

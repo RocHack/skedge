@@ -144,10 +144,18 @@ class Scraper
     term = extract_attribute(e, num, CourseLabels[:term], :term, dept.short)
     year = extract_attribute(e, num, CourseLabels[:year], :year, dept.short)
 
-    c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id, term:term, year:year)
+    c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id)
     c.department = dept
     c.short = dept.short
 
+    if c.term != term #offered in the other term too
+      c.term = Course::Term::Both
+    else
+      c.term = term
+    end
+
+    c.year = [c.year||0, year].max #keep the max year for ordering sake
+    
     #for each label, ie, attribute, parse thru html and assign to the course obj
     extract_and_set(CourseLabels, c, e, num, dept.short)
 
@@ -168,17 +176,6 @@ class Scraper
     end
   end
 
-  def self.link_sister_courses
-    Course.where {course_type == Course::Type::Course}.each do |c|
-      c.sister_course = find_sister_course(c)
-      if c.sister_course
-        c.sister_course.sister_course = c
-        c.sister_course.save
-        c.save
-      end
-    end
-  end
-
   def self.find_main_course(c)
     Course.where do
       (term == c.term) &
@@ -187,17 +184,6 @@ class Scraper
       (department_id == c.department_id) &
       (course_type == Course::Type::Course) &
       (main_course_id == nil)
-    end.first
-  end
-
-  def self.find_sister_course(c)
-    t = (c.term + 1) % 2
-    Course.where do
-      (term == t) &
-#      (year == c.year) & #if we only keep track of one semester behind, commented out is ok, otherwise has to be +/-
-      (num == c.num) &
-      (department_id == c.department_id) &
-      (course_type == Course::Type::Course)
     end.first
   end
 
@@ -223,10 +209,14 @@ class Scraper
         end
 
         #add this section to it
+        term = extract_attribute(e, num, CourseLabels[:term], :term, dept.short)
+        year = extract_attribute(e, num, CourseLabels[:year], :year, dept.short)
+
         crn = extract_attribute(e, num, SectionLabels[:crn], :crn, dept.short)
         s = Section.find_or_create_by(crn:crn)
         s.course = c
-        s.term = c.term
+        s.term = term
+        s.year = year
         s.course_type = c.course_type
         
         extract_and_set(SectionLabels, s, e, num, dept.short)
@@ -317,9 +307,6 @@ namespace :scrape do
 
     puts "Linking labs/lectures/recitations/workshops to their main courses..."
     Scraper.link_subcourses
-
-    puts "Linking sister courses..."
-    Scraper.link_sister_courses
   end
 
   task :all => :environment do

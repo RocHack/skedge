@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140117083331) do
+ActiveRecord::Schema.define(version: 20140308035504) do
 
   create_table "bookmarks", force: true do |t|
     t.integer  "course_id"
@@ -32,11 +32,8 @@ ActiveRecord::Schema.define(version: 20140117083331) do
     t.datetime "updated_at"
     t.integer  "credits"
     t.string   "restrictions"
-    t.integer  "year"
-    t.integer  "term"
     t.integer  "course_type"
     t.integer  "main_course_id"
-    t.integer  "sister_course_id"
     t.string   "instructors"
     t.integer  "min_enroll"
     t.integer  "min_start_time"
@@ -46,6 +43,8 @@ ActiveRecord::Schema.define(version: 20140117083331) do
     t.text     "prereqs"
     t.text     "cross_listed"
     t.text     "comments"
+    t.integer  "year"
+    t.integer  "term"
   end
 
   add_index "courses", ["course_type"], name: "index_courses_on_course_type"
@@ -53,9 +52,6 @@ ActiveRecord::Schema.define(version: 20140117083331) do
   add_index "courses", ["name"], name: "index_courses_on_name"
   add_index "courses", ["num"], name: "index_courses_on_num"
   add_index "courses", ["short"], name: "index_courses_on_short"
-  add_index "courses", ["sister_course_id"], name: "index_courses_on_sister_course_id"
-  add_index "courses", ["term"], name: "index_courses_on_term"
-  add_index "courses", ["year"], name: "index_courses_on_year"
 
   create_table "departments", force: true do |t|
     t.string   "name"
@@ -113,6 +109,7 @@ ActiveRecord::Schema.define(version: 20140117083331) do
     t.integer  "course_type"
     t.integer  "main_course_id"
     t.integer  "term"
+    t.integer  "year"
   end
 
   add_index "sections", ["course_id"], name: "index_sections_on_course_id"

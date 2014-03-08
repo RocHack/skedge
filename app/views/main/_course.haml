@@ -9,11 +9,10 @@
     =course.credits
     credits
   .course-details
-    -if course.sister_course_id
-      -sister = course.sister_course.decorate
+    -if course.term == Course::Term::Both
       .info
-        %strong Also offered:
-        =link_to sister.term_and_year, "/?q=#{sister.dept_and_cnum}&term=#{sister.term}"
+        %strong Also offered another term
+        /=link_to sister.term_and_year, "/?q=#{sister.dept_and_cnum}&term=#{sister.term}"
     -if course.comments
       .info
         %strong Comments:
@@ -103,24 +102,36 @@
                 sections:
               %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
                 (hide)
-            %div{:class => should_split_cols(sections) ? "cols" : ""}
+            %div
               %table
-                -sections.each do |lab|
-                  -lab = lab.decorate
+                -sections.each_slice(2) do |(s1,s2)|
+                  -s1 = s1.decorate
+                  -s2 = s2.decorate if s2
                   %tr
                     %td.middle.center
-                      %button.btn.btn-sm.full.lab-btn{type:"button", :class => lab.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:lab.data}}
+                      %button.btn.btn-sm.full.lab-btn{type:"button", :class => s1.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:s1.data}}
                         .btn-title
-                          =lab.button_text(name.titleize)
+                          =s1.button_text(name.titleize)
                     %td.lab-info
                       .info
-                        =lab.time_and_place
+                        =s1.time_and_place
                       .info
-                        =lab.enroll_ratio
+                        =s1.enroll_ratio
                         students are enrolled
-                -if should_split_cols(sections) && sections.size.odd? #add extra if odd to align the columns
-                  %tr
-                    %td.lab-info
+                    -if s2
+                      %td.middle.center
+                        %button.btn.btn-sm.full.lab-btn{type:"button", :class => s2.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:s2.data}}
+                          .btn-title
+                            =s2.button_text(name.titleize)
+                      %td.lab-info
+                        .info
+                          =s2.time_and_place
+                        .info
+                          =s2.enroll_ratio
+                          students are enrolled
+                    -else #add extra if odd to align the columns
+                      %td.middle.center
+                      %td.lab-info
     / WAS in nice neat partials, but that had a significant performance hit
     / =render partial:"subcourse", locals: {sections:course.labs, name:"lab"}
     / =render partial:"subcourse", locals: {sections:course.lab_lectures, name:"lab lecture"}

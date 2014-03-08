@@ -1,7 +1,7 @@
 .row
   .col-md-8
     
-    =form_tag(".", method:"post", id:"form") do #formtag has to be out here so it encapsulates the filter fields
+    %form(method="get" id="form")
       .bar
         .row.top-margin
           =render partial:"logo"
@@ -91,4 +91,21 @@
   $(document).ready(function () {
     #{load_schedule(@my_schedule, @side)}
     #{@side ? load_bookmarks(@my_schedule) : ""}
+
+    $('#form').submit(function()
+    {
+      if ($('#random_field').val() != "true")
+        $('#random_field').remove();
+
+      if ($('#credits').val() == 0)
+        $('#credits').remove();
+
+      if ($('#term').val() == 0)
+        $('#term').remove();
+
+      if ($('#sort').val() == 0)
+        $('#sort').remove();
+
+      return true;
+    });
   });

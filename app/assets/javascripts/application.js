@@ -61,18 +61,22 @@ $(function()
     $('.dropdown-toggle').dropdown();
 	$('.pop').popover({html:true});
     $(".dropdown-menu.filter-menu li a").click(function(){
-		var selText = $(this).text();
-		var display = selText.split("(")[0].trim();
-		if (selText == "Course #" || selText == "Any" || selText == "Either")
-		{
+		var text = $(this).text();
+
+		var val = ["Any", "1-2", "3-4", "5+"].indexOf(text);
+		if (val < 0)
+			val = ["Either", "Fall", "Spring"].indexOf(text);
+		if (val < 0)
+			val = ["Course #", "Start time (early to late)", "Start time (late to early)", "Class size (small to large)"].indexOf(text);
+
+		var display = text.split("(")[0].trim();
+		if (val == 0)
 			$(this).parents('.filter').removeClass('filter-bold');
-		}
 		else
-		{
 			$(this).parents('.filter').addClass('filter-bold');
-		}
+		
 		$(this).parents('.btn-group').find('.dropdown-toggle').html(display+' <span class="caret"></span>');
-		$(this).parents('.btn-group').find('.dropdown-value').val(selText);
+		$(this).parents('.btn-group').find('.dropdown-value').val(val);
 		if ($("#search-input").val().length > 0)
 			$('#form').submit();
 	});

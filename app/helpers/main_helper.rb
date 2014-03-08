@@ -46,7 +46,7 @@ module MainHelper
 	end
 
 	def get_filter(filter)
-		params[filter] || Filters[filter].first
+		Filters[filter][(params[filter] || 0).to_i]
 	end
 
 	def fake_a(txt)

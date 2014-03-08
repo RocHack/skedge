@@ -15,7 +15,7 @@
                 -if i == 0
                   %li.divider
 
-            =hidden_field_tag filter, get_filter(filter), {:class=>"dropdown-value", :id=>"filter-sort"}
+            =hidden_field_tag filter, params[filter], {:class=>"dropdown-value", :id=>filter}
 
     .col-sm-3
       =hidden_field_tag "random", nil, {id:"random_field"}

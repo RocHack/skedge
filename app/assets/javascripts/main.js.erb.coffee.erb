@@ -434,7 +434,8 @@ root.add_bookmark = (num,name,id) ->
 root.prof_email = (i, link) ->
 	$(link).closest('.dropdown-menu').dropdown('toggle')
 	if $(link).find('img').length == 0
-		spinner = $(link).append('<img src="assets/ajax-loader.gif" class="spinner" />')
+		icon = "<%= image_path('ajax-loader.gif') %>"
+		spinner = $(link).append("<img src='#{icon}' class='spinner' />")
 		$.get("/getemail", {"email":i}, (data) ->
 			$(link).html("<img src='#{data.url}' />")
 		).fail( (data) ->

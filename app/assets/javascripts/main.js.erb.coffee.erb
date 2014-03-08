@@ -170,11 +170,10 @@ add_block = (obj) ->
 ajax = (route, obj_id, success, fail) -> 
 	$.post("schedule/#{if s_id then s_id else "new"}/#{route}", {"obj_id":obj_id, "secret":secret}, (data) ->
 		is_new = !s_id
-		if is_new
-			s_id = data.id
-			s_rid = data.rid
-			secret = data.secret
-			set_cookie()
+		s_id = data.id
+		s_rid = data.rid
+		secret = data.secret
+		set_cookie()
 		success(is_new)
 	).fail ->
 		fail()

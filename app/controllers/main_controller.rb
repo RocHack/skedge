@@ -44,22 +44,8 @@ class MainController < ApplicationController
 		end.includes({sections:[:course], labs:[:course], recitations:[:course], workshops:[:course], lab_lectures:[:course], sister_course:[]}).order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, #{sort}")
 	end
 
-	def credits_range(search)
-		case search
-		when "Any"
-			return nil, nil
-		when "1-2"
-			return 1, 2
-		when "3-4"
-			return 3, 4
-		when "5+"
-			return 5, nil
-		end
-	end
-
 	def search_for_courses(query)
 		puts  "\n\n****** SEARCHING ******\n\n"
-
 
 		type_search = Course::Type::Course
 		status_search = nil
@@ -68,12 +54,9 @@ class MainController < ApplicationController
 		num_search = nil
 		instructor_search = nil
 
-		term_search = Course::Term::Terms[params["term"].try(:capitalize)]
-		credits_search = params["credits"]
-		sort = {"Course #"=>"num", 
-				"Start time (early to late)" => "min_start_time ASC", 
-				"Start time (late to early)" => "max_start_time DESC", 
-				"Class size (small to large)" => "min_enroll ASC"}[params["sort"]] || "num"
+		sort = ["num", "min_start_time ASC", "max_start_time DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
+		credits = [[nil, nil],[1,2],[3,4],[5,nil]][(params["credits"] || 0).to_i]
+		term_search = [nil, 0, 1][(params["term"] || 0).to_i]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
@@ -94,10 +77,10 @@ class MainController < ApplicationController
 			num_search = match[2] if !match[2].empty?
 		end
 
-		c_lo, c_hi = credits_range(params["credits"])
+		c_lo, c_hi = credits
 		non_cancelled = (sort == "min_enroll ASC")
 		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
-		if params["random"].presence
+		if params["rand"].presence
 			s = s.limit(1).order(rand_order)
 		end
 		params["capped"] = s.count == 150
@@ -120,25 +103,12 @@ class MainController < ApplicationController
 		@query = params[:q].try(:strip)
 		@courses = nil
 
-		if @query && !@query.empty?
+		if (@query && !@query.empty?) || params["rand"].presence
 			if @query.downcase == "register" || @query.downcase == "registrar"
 				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
 				return
 			end
 			@courses = filter(search_for_courses(@query))
-		elsif params["random"].presence
-			#random everything, but include stuff
-			term_search = Course::Term::Terms[params["term"].try(:capitalize)]
-			c_lo, c_hi = credits_range(params["credits"])
-			@courses = Course.limit(1).where do
-				[
-					term_search.presence && term == term_search,
-					c_lo.presence && credits >= c_lo,
-					c_hi.presence && credits <= c_hi,
-					course_type == Course::Type::Course,
-					desc != nil
-				].compact.reduce(:&)
-			end.order(rand_order)
 		else
 			@depts = all_depts
 		end

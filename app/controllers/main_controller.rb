@@ -11,43 +11,7 @@ class MainController < ApplicationController
 		end
 	end
 
-	def rand_order
-		Rails.env.production? ? "RAND()" : "RANDOM()"
-	end
-
-	def spring?
-		true
-	end
-
-	def all_depts
-		@@all ||= []
-	end
-
-	def lookup_dept(txt)
-		all_depts.find do |d|
-			d.short == txt.upcase
-		end
-	end
-
-	def do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_low, c_hi, sort)
-		Course.limit(250).joins{department}.where do
-			[
-				c_low.presence && credits >= c_low,
-				c_hi.presence && credits <= c_hi,
-				num_search.presence && num =~ "#{num_search}%",
-				term_search.presence && term == term_search,
-				name_search.presence && name =~ "%#{name_search}%",
-				dept_search.presence && department_id == dept_search,
-				type_search.presence && course_type == type_search,
-				instructor_search.presence && instructors =~ "%#{instructor_search}%"
-			].compact.reduce(:&)
-		end.includes({sections:[:course], labs:[:course], recitations:[:course], workshops:[:course], lab_lectures:[:course]}).order("year DESC, term #{spring? ? "DESC" : "ASC"}, department_id, #{sort}")
-	end
-
 	def search_for_courses(query)
-		puts  "\n\n****** SEARCHING ******\n\n"
-
-		type_search = Course::Type::Course
 		status_search = nil
 		name_search = nil
 		dept_search = nil
@@ -55,38 +19,36 @@ class MainController < ApplicationController
 		instructor_search = nil
 
 		sort = ["num", "min_start_time ASC", "max_start_time DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
-		credits = [[nil, nil],[1,2],[3,4],[5,nil]][(params["credits"] || 0).to_i]
+		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][(params["credits"] || 0).to_i]
 		term_search = [nil, 0, 1][(params["term"] || 0).to_i]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
 			instructor_search = match[1]
-			params[:instructor_search] = instructor_search #keep so the view can filter out sections
 			query = query.gsub(instructor_regex,"").strip #remove from the query
 		end
 
 		name_search = query
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
 		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
-			dept_short = match[1] if !match[1].empty?
-			d = nil
-			if !dept_short || dept_short.empty? || d = lookup_dept(dept_short)
-				dept_search = d.try(:id)
-				name_search = nil
-			end
+			dept_search = match[1] if !match[1].empty?
 			num_search = match[2] if !match[2].empty?
 		end
 
-		c_lo, c_hi = credits
-		non_cancelled = (sort == "min_enroll ASC")
-		s = do_search(type_search, status_search, name_search, dept_search, num_search, instructor_search, term_search, c_lo, c_hi, sort)
-		if params["rand"].presence
-			s = s.limit(1).order(rand_order)
-		end
+		select = {}
+		select[:credits.gte] = c_lo
+		select[:credits.lte] = c_hi
+		select[:number] = /#{num_search}.*/
+		select[:dept] = dept_search
+		select["sections.term"] = term_search
+		select[:instructors] = instructor_search
+
+		s = Course.where(select)
+		
+		# if params["rand"].presence
+		# 	s = s.limit(1).order(rand_order)
+		# end
 		params["capped"] = s.count == 150
-		s.delete_if do |x|
-			x.cancelled?
-		end if non_cancelled
 		s
 	end
 
@@ -108,7 +70,7 @@ class MainController < ApplicationController
 			end
 			@courses = filter(search_for_courses(@query))
 		else
-			@depts = all_depts
+			@depts = []
 		end
 	end
 end

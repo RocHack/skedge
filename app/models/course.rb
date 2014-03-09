@@ -1,42 +1,16 @@
-class Course < ActiveRecord::Base
-	module Type
-		Course = 0
-		Lab = 1
-	    Recitation = 2
-	    LabLecture = 3
-	    Workshop = 4
-	    
-	    Types = {"LAB" => Lab, "REC" => Recitation, "L/L" => LabLecture, "WRK" => Workshop}
-	end
-
-	module Term
-		Fall = 0
-		Spring = 1
-		Both = 2
-
-		Terms = {"Fall" => Fall, "Spring" => Spring}
-	end
-
-	validates :num, presence: true
-	validates :name, presence: true, uniqueness: {scope: [:department_id, :num, :term, :year]}
-	
-	belongs_to :department
-	belongs_to :main_course, class_name:"Course"
-
-	has_many :bookmarks
-
-	has_many :sections, -> { order([:status, :days, :start_time]) }
-	has_many :fall_sections, -> { where(term == Course::Term::Fall).order([:status, :days, :start_time]) }
-	has_many :spring_sections, -> { where(term == Course::Term::Spring).order([:status, :days, :start_time]) }
-
-	def self.scope(type)
-		lambda { where(course_type:type).order([:days,:start_time]) }
-	end
-
-	has_many :labs, scope(Course::Type::Lab), class_name:"Section", foreign_key:"main_course_id"
-	has_many :recitations, scope(Course::Type::Recitation), class_name:"Section", foreign_key:"main_course_id"
-	has_many :workshops, scope(Course::Type::Workshop), class_name:"Section", foreign_key:"main_course_id"
-	has_many :lab_lectures, scope(Course::Type::LabLecture), class_name:"Section", foreign_key:"main_course_id"
+class Course
+	include Mongoid::Document
+	field :title, type: String
+	field :number, type: String
+	field :description, type: String
+	field :credits, type: Integer
+	field :restrictions, type: String
+	field :instructors, type: Array
+	field :dept, type: String
+	field :clusters, type: Array
+	field :prereqs, type: String
+	field :cross, type: String
+	field :comments, type: String
 
 	def old?
 		!(term == Course::Term::Spring && year == 2014)

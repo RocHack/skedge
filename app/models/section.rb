@@ -1,4 +1,4 @@
-class Section < ActiveRecord::Base
+class Section
 	module Status
 		Open = 0
 		Closed = 1
@@ -7,9 +7,18 @@ class Section < ActiveRecord::Base
 		Statuses = {"Open" => Open, "Closed" => Closed, "Cancelled" => Cancelled}
 	end
 
-	belongs_to :course
-	has_many :enrollments
-	validates :crn, presence: true, uniqueness: true
+	module Term
+		Fall = 0
+		Spring = 1
+		Both = 2
+
+		Terms = {"Fall" => Fall, "Spring" => Spring}
+	end
+
+	include Mongoid::Document
+	field :status, type: Integer
+	field :term, type: Integer
+	field :year, type: Integer
 
 	def hour(start_or_end)
 		send(:"#{start_or_end}_time").to_s.rjust(4,"0")[0..1].to_i #first two, accounting for 3-digits, ie, "940"

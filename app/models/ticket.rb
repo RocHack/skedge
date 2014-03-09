@@ -1,3 +1,4 @@
-class Ticket < ActiveRecord::Base
-	validates :contents, presence: true
+class Ticket
+	include Mongoid::Document
+	field :content, type: String
 end

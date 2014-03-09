@@ -3,16 +3,13 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
-# Use sqlite3 or mysql as the database for Active Record
 group :development do
-  	gem 'sqlite3'
 	gem 'capistrano'
 	gem 'capistrano-rails'
 	gem 'capistrano-bundler'
 end
-group :production do
-  	gem 'mysql2'
-end
+
+gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
 
 gem 'paperclip'
 
@@ -52,7 +49,6 @@ end
 
 gem 'mechanize'
 gem 'haml'
-gem 'squeel' #for nice activerecord lookups
 gem 'draper' #decorators
 
 gem 'httparty' #for scraping faculty email addresses

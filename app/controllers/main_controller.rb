@@ -20,7 +20,7 @@ class MainController < ApplicationController
 	end
 
 	def all_depts
-		@@all ||= Department.all
+		@@all ||= []
 	end
 
 	def lookup_dept(txt)

@@ -10,11 +10,7 @@ class CourseDecorator < Draper::Decorator
 		end
 	end
 
-	def term_and_year
-		"#{term} #{object.year}"
-	end
-
 	def dept_and_cnum
-		"#{object.short} #{object.num}"
+		"#{object.dept} #{object.number}"
 	end
 end

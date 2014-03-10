@@ -1,18 +1,18 @@
 %hr
-%a.bookmark.tooltippy{:href => "#", :id => "#{course.id}", :class => (false ? "enabled" : ""), :onclick => "bookmark(this); return false;", :title => "Bookmark this course", :data => {num:"#{course.dept_and_cnum}", name:"#{course.name}", toggle:"tooltip", placement:"left"}}
+%a.bookmark.tooltippy{:href => "#", :id => "#{course.id}", :class => (false ? "enabled" : ""), :onclick => "bookmark(this); return false;", :title => "Bookmark this course", :data => {num:"#{course.dept_and_cnum}", name:"#{course.title}", toggle:"tooltip", placement:"left"}}
   %span.glyphicon.glyphicon-bookmark
 .box{:class=>(course.cancelled? ? "cancelled" : "")}
   %p.lead
-    =surround "#{course.short}", ": #{course.name}" do
-      %span.cnum= course.num
+    =surround "#{course.dept}", ": #{course.title}" do
+      %span.cnum= course.number
   .course-credits
     =course.credits
     credits
   .course-details
-    -if course.term == Course::Term::Both
-      .info
-        %strong Also offered another term
-        /=link_to sister.term_and_year, "/?q=#{sister.dept_and_cnum}&term=#{sister.term}"
+    /-if course.term == Course::Term::Both
+    /  .info
+    /    %strong Also offered another term
+    /    =link_to sister.term_and_year, "/?q=#{sister.dept_and_cnum}&term=#{sister.term}"
     -if course.comments
       .info
         %strong Comments:
@@ -25,19 +25,19 @@
       .info
         %strong Prerequisites:
         =raw course.prereqs
-    -if course.cross_listed
+    -if course.cross
       .info
         %strong Cross listed:
-        =raw course.cross_listed
+        =raw course.cross
     -if false && course.clusters #leaving out for now... too much info i think. how can we display this nicely?
       .info
         %strong Clusters:
         =raw course.clusters
   %p.desc
-    =course.desc
+    =course.description
   %table.wide
     -num_hidden = 0
-    -course.sections.each_with_index do |section,i|
+    -course.lectures.each_with_index do |section,i|
       -section = section.decorate
       -style = ""
       -klass = ""

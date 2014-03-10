@@ -26,12 +26,12 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def popover_content
-		cont = h.truncate(course.desc, length:400)
+		cont = h.truncate(course.description, length:400)
 		"<p><strong>Instructors:</strong> #{instructor_list.join(", ")}</p><p class=\"popover-desc\">#{cont}</p>"
 	end
 
 	def popover_title
-		title = h.truncate(course.name, length:27)
+		title = h.truncate(course.title, length:27)
 		"<span class='p-title'>#{title}</span> <span class=\"popover-credits\">#{course.credits} credits</span>"
 	end
 
@@ -54,13 +54,15 @@ class SectionDecorator < Draper::Decorator
 		end
 	end
 
+	def term_and_year
+		"#{object.term} #{object.year}"
+	end
+
 	def button_text(name)
 		if object.time_tba?
       		"Time & Place TBA"
-		elsif object.can_enroll?
+		elsif !object.cancelled?
         	"Add #{name}"
-      	elsif object.course.old?
-      		course.decorate.term_and_year
         else
         	status
         end
@@ -84,10 +86,10 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def add_button_class
-		c = if object.course.course_type == Course::Type::Course
-			object.can_enroll? ? (object.closed? ? "closed" : (object.time_tba? ? "btn-default" : "")) : "disabled"
+		c = if object.section_type == Section::Type::Course
+			object.cancelled? ? (object.closed? ? "closed" : (object.time_tba? ? "btn-default" : "")) : "disabled"
 		else
-			object.can_enroll? ? "btn-primary" : "disabled full"
+			object.cancelled? ? "btn-primary" : "disabled full"
 		end
 		c += " locked" if object.course.requires_code?
 		c
@@ -110,7 +112,7 @@ class SectionDecorator < Draper::Decorator
 
 	def instructor_list
 		return [] if !object.instructors
-		object.instructors.split(";").map do |i|
+		object.instructors.map do |i|
 			format_name(i)
 		end
 	end

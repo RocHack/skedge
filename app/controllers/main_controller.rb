@@ -18,7 +18,7 @@ class MainController < ApplicationController
 		num_search = nil
 		instructor_search = nil
 
-		sort = ["num", "min_start_time ASC", "max_start_time DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
+		sort = ["number ASC", "min_start_time ASC", "max_start_time DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
 		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][(params["credits"] || 0).to_i]
 		term_search = [nil, 0, 1][(params["term"] || 0).to_i]
 
@@ -31,19 +31,21 @@ class MainController < ApplicationController
 		name_search = query
 		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
 		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
-			dept_search = match[1] if !match[1].empty?
+			dept_search = match[1].upcase if !match[1].empty?
 			num_search = match[2] if !match[2].empty?
 		end
 
 		select = {}
-		select[:credits.gte] = c_lo
-		select[:credits.lte] = c_hi
-		select[:number] = /#{num_search}.*/
-		select[:dept] = dept_search
-		select["sections.term"] = term_search
-		select[:instructors] = instructor_search
+		select[:credits.gte] = c_lo               if c_lo
+		select[:credits.lte] = c_hi               if c_hi
+		select[:number] = /#{num_search}.*/       if num_search
+		select[:dept] = dept_search               if dept_search
+		select["sections.term"] = term_search     if term_search
+		select[:instructors] = instructor_search  if instructor_search
 
-		s = Course.where(select)
+        puts "searching #{select.inspect}"
+
+		s = Course.where(select).order_by(sort)
 		
 		# if params["rand"].presence
 		# 	s = s.limit(1).order(rand_order)
@@ -53,6 +55,7 @@ class MainController < ApplicationController
 	end
 
 	def filter(courses)
+        return courses
 		#TODO optimize, maybe?
 		courses.compact.delete_if do |c|
 			c.research?

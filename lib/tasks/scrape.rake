@@ -71,7 +71,6 @@ class Scraper
     prereqs:"lblPrerequisites",
     cross:"lblCrossListed",
     credits:"lblCredits",
-    course_type:"lblCredits",
     comments:"lblComments",
     restrictions:"lblRestrictions",
     clusters:"lblClusters"
@@ -81,6 +80,7 @@ class Scraper
   {
     term:"lblTerm",
     year:"lblTerm",
+    section_type:"lblCredits",
     instructors:"lblInstructors", 
     days:LabelSchedule+"lblDay", 
     start_time:LabelSchedule+"lblStartTime", 
@@ -113,7 +113,7 @@ class Scraper
 
       val = val.split.last if sym == :number || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
       val = Section::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
-      val = (Section::Type::Types[val] || Section::Type::Course) if sym == :course_type
+      val = (Section::Type::Types[val] || Section::Type::Course) if sym == :section_type
       val = Section::Status::Statuses[val] if sym == :status
       val = Formatter.format_name(val) if sym == :title
       val = Formatter.format_restrictions(val) if sym == :restrictions
@@ -121,7 +121,8 @@ class Scraper
       val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
       val = Formatter.encode(val) if sym == :description
-      val = val.split(", ") if sym == :instructors || sym == :clusters
+      val = val.split(";") if sym == :instructors
+      val = val.split(", ") if sym == :clusters
 
       val
     else
@@ -149,43 +150,54 @@ class Scraper
       (year == c.year) &
       (num =~ c.num.to_i.to_s) &
       (department_id == c.department_id) &
-      (course_type == Course::Type::Course) &
+      (course_type == Section::Type::Course) &
       (main_course_id == nil)
     end.first
   end
 
   def parse_course(e, num, dept)
-    info = extract(CourseLabels, e, num, dept)
+    c_info = extract(CourseLabels, e, num, dept)
+    s_info = extract(SectionLabels, e, num, dept)
 
-    if info[:course_type] != Course::Type::Course
+    type = s_info[:section_type]
+
+    if type != Section::Type::Course
       #link to something
       return nil
     end
 
-    if info[:title].downcase["lab"]
+    if c_info[:title].downcase["lab"]
       #link to something
       return nil
     end
 
-    info.delete(:course_type) #not a field
-
-    if info[:credits] == 0
+    if c_info[:credits] == 0
       return nil
     end
 
-    search = {title:info[:title], number:info[:number], dept:dept}
+    search = {title:c_info[:title], number:c_info[:number], dept:dept}
 
     c = Course.where(search).first
     if !c
       c = Course.new
     end
 
-    info[:dept] = dept
+    c_info[:dept] = dept
 
-    c.update_attributes(info)
+    c.update_attributes(c_info)
     c.save
 
-    c
+    #now deal with the section
+
+    s = c.sections.where(crn:s_info[:crn]).first
+    if !s
+      s = Section.new
+      s.course = c
+      c.sections << s
+    end
+
+    s.update_attributes(s_info)
+    s.save
   end
 
   def get_dept(dept, term)
@@ -198,24 +210,7 @@ class Scraper
     
     num = 1
     results.search("//table[@cellpadding='3']").each do |e|
-      c = parse_course(e, num, dept)
-      if c
-        #add this section
-        info = extract(SectionLabels, e, num, dept)
-
-        s = Section.where(crn:info[:crn]).first
-        if !s
-          s = Section.new
-        end
-
-        s.update_attributes(info)
-
-        s.course = c
-        c.sections << s
-
-        #embed in course?
-        s.save
-      end
+      parse_course(e, num, dept)
       num += 2 #for some reason the number in the div id's go up by two
     end
   end

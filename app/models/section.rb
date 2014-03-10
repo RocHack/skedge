@@ -15,10 +15,34 @@ class Section
 		Terms = {"Fall" => Fall, "Spring" => Spring}
 	end
 
+	module Type
+		Course = 0
+		Lab = 1
+	    Recitation = 2
+	    LabLecture = 3
+	    Workshop = 4
+	    
+	    Types = {"LAB" => Lab, "REC" => Recitation, "L/L" => LabLecture, "WRK" => Workshop}
+	end
+
+
 	include Mongoid::Document
 	field :status, type: Integer
 	field :term, type: Integer
 	field :year, type: Integer
+	field :instructors, type: Array
+	field :building, type: String
+	field :room, type: String
+	field :days, type: String
+	field :start_time, type: Integer
+	field :end_time, type: Integer
+	field :sec_enroll, type: Integer
+	field :sec_cap, type: Integer
+	field :tot_enroll, type: Integer
+	field :tot_cap, type: Integer
+	field :crn, type: Integer
+	field :section_type, type: Integer
+	embedded_in :course
 
 	def hour(start_or_end)
 		send(:"#{start_or_end}_time").to_s.rjust(4,"0")[0..1].to_i #first two, accounting for 3-digits, ie, "940"
@@ -56,10 +80,6 @@ class Section
 		status == Status::Cancelled
 	end
 
-	def can_enroll?
-		course.term == Course::Term::Spring && status != Status::Cancelled
-	end
-
 	def enroll_percent
 		enroll*100.0/cap
 	end
@@ -69,7 +89,7 @@ class Section
 	end
 
 	def multiple_instructors?
-		instructors[";"]
+		instructors.size > 1
 	end
 
 	def data
@@ -77,17 +97,17 @@ class Section
 			location:"#{building} #{room}",
 			crn:crn,
 	        days:days,
-	        name:course.decorate.name,
+	        title:course.title,
 	        time:decorate.time(false),
 	        start_time:start_time,
 	        end_time:end_time,
 	        time_in_hours:time_in_hours(:start),
 	        duration:duration,
-	        dept:course.short,
-	        num:course.num,
+	        dept:course.dept,
+	        num:course.number,
 	        popover_content:decorate.popover_content.gsub("\n","<br>"),
 	        popover_title:decorate.popover_title,
-	        course_type:course.course_type
+	        course_type:section_type
       	}
     end
 end

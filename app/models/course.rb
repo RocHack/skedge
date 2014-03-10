@@ -5,16 +5,22 @@ class Course
 	field :description, type: String
 	field :credits, type: Integer
 	field :restrictions, type: String
-	field :instructors, type: Array
 	field :dept, type: String
 	field :clusters, type: Array
 	field :prereqs, type: String
 	field :cross, type: String
 	field :comments, type: String
+	embeds_many :sections
 
-	def old?
-		!(term == Course::Term::Spring && year == 2014)
+	def select_sections(type)
+		sections.select { |s| s.section_type == type }
 	end
+
+	def lectures; select_sections(Section::Type::Course); end
+	def labs; select_sections(Section::Type::Lab); end
+	def workshops; select_sections(Section::Type::Workshop); end
+	def lab_lectures; select_sections(Section::Type::LabLecture); end
+	def recitations; select_sections(Section::Type::Recitation); end
 
 	def has_prereqs?
 		prereqs && prereqs.downcase != "none"
@@ -29,6 +35,6 @@ class Course
 	end
 
 	def research?
-		(!desc || desc.empty?) && sections.inject(true) { |x, s| x && s.time_tba? }
+		(!description || description.empty?) && sections.inject(true) { |x, s| x && s.time_tba? }
 	end
 end

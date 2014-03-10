@@ -65,22 +65,22 @@ class Scraper
   LabelSchedule = "rpSchedule_ctl01_"
   CourseLabels = 
   {
-    num:"lblCNum", 
-    name:"lblTitle", 
-    desc:"lblDesc",
+    number:"lblCNum", 
+    title:"lblTitle", 
+    description:"lblDesc",
     prereqs:"lblPrerequisites",
-    cross_listed:"lblCrossListed",
+    cross:"lblCrossListed",
     credits:"lblCredits",
     course_type:"lblCredits",
     comments:"lblComments",
     restrictions:"lblRestrictions",
-    term:"lblTerm",
-    year:"lblTerm",
     clusters:"lblClusters"
   }
 
   SectionLabels =
   {
+    term:"lblTerm",
+    year:"lblTerm",
     instructors:"lblInstructors", 
     days:LabelSchedule+"lblDay", 
     start_time:LabelSchedule+"lblStartTime", 
@@ -111,16 +111,17 @@ class Scraper
     if val
       val = val.text.strip
 
-      val = val.split.last if sym == :num || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
-      val = Course::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
-      val = (Course::Type::Types[val] || Course::Type::Course) if sym == :course_type
+      val = val.split.last if sym == :number || sym == :year  #"CSC 172", "Spring 2013" => "172", "2013"
+      val = Section::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
+      val = (Section::Type::Types[val] || Section::Type::Course) if sym == :course_type
       val = Section::Status::Statuses[val] if sym == :status
-      val = Formatter.format_name(val) if sym == :name
+      val = Formatter.format_name(val) if sym == :title
       val = Formatter.format_restrictions(val) if sym == :restrictions
       val = Formatter.format_clusters(val) if sym == :clusters
-      val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross_listed || sym == :prereqs
+      val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
-      val = Formatter.encode(val) if sym == :desc
+      val = Formatter.encode(val) if sym == :description
+      val = val.split(", ") if sym == :instructors || sym == :clusters
 
       val
     else
@@ -128,52 +129,18 @@ class Scraper
     end
   end
 
-  def extract_and_set(labels, obj, e, num, dept)
+  def extract(labels, e, num, dept)
+    dict = {}
     labels.each do |sym, label|
       val = extract_attribute(e, num, label, sym, dept)
-      if val
-        #call the setter method (ie :num=), with the val as the parameter
-        obj.send :"#{sym}=", val
-      end
+      dict[sym] = val if val
     end
-  end
+    dict
 
-  def parse_course(e, num, dept)
-    name = extract_attribute(e, num, CourseLabels[:name], :name, dept.short)
-    cnum = extract_attribute(e, num, CourseLabels[:num], :num, dept.short)
-    term = extract_attribute(e, num, CourseLabels[:term], :term, dept.short)
-    year = extract_attribute(e, num, CourseLabels[:year], :year, dept.short)
-
-    c = Course.find_or_create_by(name:name, num:cnum, department_id:dept.id)
-    c.department = dept
-    c.short = dept.short
-
-    if c.term != term #offered in the other term too
-      c.term = Course::Term::Both
-    else
-      c.term = term
-    end
-
-    c.year = [c.year||0, year].max #keep the max year for ordering sake
-    
-    #for each label, ie, attribute, parse thru html and assign to the course obj
-    extract_and_set(CourseLabels, c, e, num, dept.short)
-
-    #ignore course classes w/0 credits (they are like "independent study" etc)
-    return nil if (c.course_type == Course::Type::Course && c.credits == 0)
-    
-    c
-  end
-
-  def self.link_subcourses
-    Course.where {course_type != Course::Type::Course}.each do |c|
-      c.main_course = find_main_course(c)
-      c.sections.each do |s|
-        s.main_course_id = c.main_course_id
-        s.save
-      end
-      c.save
-    end
+      # if val
+      #   #call the setter method (ie :num=), with the val as the parameter
+      #   obj.send :"#{sym}=", val
+      # end
   end
 
   def self.find_main_course(c)
@@ -187,10 +154,44 @@ class Scraper
     end.first
   end
 
+  def parse_course(e, num, dept)
+    info = extract(CourseLabels, e, num, dept)
+
+    if info[:course_type] != Course::Type::Course
+      #link to something
+      return nil
+    end
+
+    if info[:title].downcase["lab"]
+      #link to something
+      return nil
+    end
+
+    info.delete(:course_type) #not a field
+
+    if info[:credits] == 0
+      return nil
+    end
+
+    search = {title:info[:title], number:info[:number], dept:dept}
+
+    c = Course.where(search).first
+    if !c
+      c = Course.new
+    end
+
+    info[:dept] = dept
+
+    c.update_attributes(info)
+    c.save
+
+    c
+  end
+
   def get_dept(dept, term)
     #make all the CDCS choices
     @form.field_with(:name => "ddlTerm").option_with(:text => term).click
-    @form.field_with(:name => "ddlDept").option_with(:value => dept.short).click
+    @form.field_with(:name => "ddlDept").option_with(:value => dept).click
 
     #go!
     results = @form.click_button
@@ -199,49 +200,21 @@ class Scraper
     results.search("//table[@cellpadding='3']").each do |e|
       c = parse_course(e, num, dept)
       if c
-        #check if this is really a lab but in CDCS as a course
-        if c.course_type == Course::Type::Course && c.name.downcase["lab"]
-          mc = Scraper.find_main_course(c)
-          if mc
-            c.main_course = mc
-            c.course_type = Course::Type::Lab
-          end
+        #add this section
+        info = extract(SectionLabels, e, num, dept)
+
+        s = Section.where(crn:info[:crn]).first
+        if !s
+          s = Section.new
         end
 
-        #add this section to it
-        term = extract_attribute(e, num, CourseLabels[:term], :term, dept.short)
-        year = extract_attribute(e, num, CourseLabels[:year], :year, dept.short)
+        s.update_attributes(info)
 
-        crn = extract_attribute(e, num, SectionLabels[:crn], :crn, dept.short)
-        s = Section.find_or_create_by(crn:crn)
         s.course = c
-        s.term = term
-        s.year = year
-        s.course_type = c.course_type
-        
-        extract_and_set(SectionLabels, s, e, num, dept.short)
+        c.sections << s
 
+        #embed in course?
         s.save
-
-        #"cache" a copy of instructors on course so it's faster to search
-        if s.instructors
-          c.instructors ||= ""
-          c.instructors += s.instructors + "; " unless c.instructors[s.instructors]
-        end
-
-        if !s.cancelled? && (!c.min_enroll || s.enroll < c.min_enroll)
-          c.min_enroll = s.enroll
-        end
-
-        if !c.min_start_time || s.start_time < c.min_start_time
-          c.min_start_time = s.start_time
-        end
-
-        if !c.max_start_time || s.start_time > c.max_start_time
-          c.max_start_time = s.start_time
-        end
-
-        c.save
       end
       num += 2 #for some reason the number in the div id's go up by two
     end
@@ -250,14 +223,15 @@ class Scraper
   def get_dept_list
     depts = []
     @form.field_with(:name => "ddlDept").options.each do |dept|
-      d = Department.where({short:dept.value}).first
-      if !d
-        d = Department.new
-        d.name = dept.text.split(" - ", 2).last
-        d.short = dept.value
-        d.save
-      end
-      depts << d if d.name && d.short
+      depts << dept.value if dept.value
+      # d = Department.where({short:dept.value}).first
+      # if !d
+      #   d = Department.new
+      #   d.name = dept.text.split(" - ", 2).last
+      #   d.short = dept.value
+      #   d.save
+      # end
+      # depts << d if d.name && d.short
     end
     depts
   end
@@ -273,15 +247,15 @@ class Scraper
       results = form.click_button
       
       @form = results.form("form1")
-      depts = get_dept_list 
-      depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
-      depts = depts[@num..-1]
+      #depts = get_dept_list
+      #depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
+      #depts = depts[@num..-1]
 
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"
-        depts.each_with_index do |dept,i|
-          puts "#{i+1+@num}. #{dept.short} - #{dept.name}"
-          get_dept(dept, term)
+        @depts.each_with_index do |dept,i|
+          puts "#{i+1+@num}. #{dept} - #{dept}"
+          get_dept(dept.upcase, term)
         end
       end
     end
@@ -304,9 +278,6 @@ namespace :scrape do
       s.num = num.to_i
       s.depts = ENV['depts'].split(",") if ENV['depts']
     end
-
-    puts "Linking labs/lectures/recitations/workshops to their main courses..."
-    Scraper.link_subcourses
   end
 
   task :all => :environment do

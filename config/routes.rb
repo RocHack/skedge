@@ -11,11 +11,11 @@ Skedge::Application.routes.draw do
   get '/getemail' => 'main#get_email'
 
   get '/schedule/new' => "schedules#new"
-  post '/schedule/:id/add' => "schedules#add"
-  post '/schedule/:id/delete' => "schedules#delete"
+  post '/schedule/add' => "schedules#add"
+  post '/schedule/delete' => "schedules#delete"
 
-  post '/schedule/:id/bookmark/add' => "schedules#bookmark_add"
-  post '/schedule/:id/bookmark/delete' => "schedules#bookmark_delete"
+  post '/schedule/bookmark/add' => "schedules#bookmark_add"
+  post '/schedule/bookmark/delete' => "schedules#bookmark_delete"
 
   post '/schedule/:id/set_image' => "schedules#set_image"
 

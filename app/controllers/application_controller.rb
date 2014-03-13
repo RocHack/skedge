@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
     if cookies["s_id"]
   		s_id, secret = cookies["s_id"].split("&")
-  		s = Schedule.where(_id: s_id.to_i).first
+  		s = Schedule.where(_id: s_id).first
   		@my_schedule = s if s && s.secret == secret
   	end
   end

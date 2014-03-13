@@ -68,11 +68,8 @@
               %li
                 %a{href:"#", onclick:"render_ics()"} Export to Calendar
               %li
-                %a#download-img{href: !@my_schedule ? '' : (@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.rid}#img"), target:"_blank" }
+                %a#download-img{href: @my_schedule ? '' : (@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.rid}#img"), target:"_blank" }
                   Image
-              / %li.divider
-              / %li
-              /   %a{href:"#"} Print
           %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
             Bookmarks
       .bk

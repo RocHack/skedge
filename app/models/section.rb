@@ -92,6 +92,7 @@ class Section
 
 	def data
 		{
+			id:course.id.to_s,
 			location:"#{building} #{room}",
 			crn:crn,
 	        days:days,

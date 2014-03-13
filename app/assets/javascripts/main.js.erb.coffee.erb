@@ -140,7 +140,7 @@ root.resize_schedule = (extra) ->
 
 cookie = document.cookie
 if cookie
-	match = cookie.match(/s_id=(\d+)&(.*?)(;| |$)/)
+	match = cookie.match(/s_id=(.*?)&(.*?)(;| |$)/)
 	if match
 		s_id = match[1]
 		secret = match[2]
@@ -161,16 +161,18 @@ add_block = (obj) ->
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
 		c.find('.s-block-time').html(obj.time)
-		c.find('.s-block-title').html(obj.name)
+		c.find('.s-block-title').html(obj.title)
 		c.find('.s-block-type').html(type2name(obj.course_type, true, true))
 		blx.push(c)
 
 	$(".b-#{obj.crn}")
 
-ajax = (route, obj_id, success, fail) -> 
-	$.post("schedule/#{if s_id then s_id else "new"}/#{route}", {"obj_id":obj_id, "secret":secret}, (data) ->
+ajax = (route, form, success, fail) -> 
+	form["secret"] = (secret ? secret : "new")
+	$.post("schedule/#{route}", form, (data) ->
+		console.log(data)
 		is_new = !s_id
-		s_id = data.id
+		s_id = data._id["$oid"]
 		s_rid = data.rid
 		secret = data.secret
 		set_cookie()
@@ -180,7 +182,7 @@ ajax = (route, obj_id, success, fail) ->
 		alert("an error occurred - pls check your internet connection?")
 
 course_ajax = (obj, action) ->
-	ajax(action, obj.crn, 
+	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
 		((is_new) -> 
 			$('#share-link').attr("href","#{s_rid}")
 			$('#share-link').show()
@@ -197,7 +199,7 @@ root.add_course = (obj, popover, post, col) ->
 
 	c.attr("href":"/?q=#{obj.dept}+#{obj.num}")
 	if !popover
-		c.data("title",obj.name)
+		c.data("title",obj.title)
 		c.data("placement","top")
 		c.tooltip()
 	else
@@ -384,7 +386,7 @@ root.bookmark = (btn) ->
 		$(btn).removeClass('enabled')
 		bookmark_ajax(btn.id, "delete")
 	else
-		add_bookmark($(btn).data('num'), $(btn).data('name'), btn.id).hide().fadeIn()
+		add_bookmark($(btn).data('num'), $(btn).data('title'), btn.id).hide().fadeIn()
 		bookmark_ajax(btn.id, "add")
 
 root.toggleSide = () ->
@@ -486,7 +488,7 @@ root.render_event = (obj) ->
 	[
 		"BEGIN:VEVENT",
 		"CLASS:PUBLIC",
-		"DESCRIPTION:#{obj.name}",
+		"DESCRIPTION:#{obj.title}",
 		"DTSTART;TZID=America/New_York:#{start}",
 		"DTEND;TZID=America/New_York:#{end}",
 		"LOCATION:#{obj.location}",

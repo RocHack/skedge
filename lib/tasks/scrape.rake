@@ -172,13 +172,7 @@ class Scraper
     end
 
     #now deal with the section
-    relation = case type
-    when Section::Type::Course; c.sections
-    when Section::Type::Lab; c.labs
-    when Section::Type::Recitation; c.recitations
-    when Section::Type::LabLecture; c.lab_lectures
-    when Section::Type::Workshop; c.workshops
-    end
+    relation = c.relation(type)
 
     s = relation.where(crn:s_info[:crn]).first
     if !s

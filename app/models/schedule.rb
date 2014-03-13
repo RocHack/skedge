@@ -2,7 +2,11 @@ require 'securerandom'
 
 class Schedule
 	include Mongoid::Document
-	field :status, type: Integer
+	field :secret, type: String
+	field :rid, type: Integer
+
+	field :bookmarks, type: Array, default: []
+	field :enrollments, type: Array, default: []
 
 #	has_attached_file :image, :use_timestamp => false, :url => "system/:class/:attachment/:filename", :path => ":rails_root/public/system/:class/:attachment/:filename"
 
@@ -11,12 +15,12 @@ class Schedule
 		self.rid = Schedule.make_rid
 	end
 
-	def sections_description
-		sections.map {|s| s.course.decorate.dept_and_cnum }.join(", ")
+	def js_data
+		enrollments.map {|s| s.to_json }
 	end
 
-	def js_data
-		sections.map {|s| s.decorate.data }
+	def sections_description
+		sections.map {|s| s.course.decorate.dept_and_cnum }.join(", ")
 	end
 	
 	def self.make_rid

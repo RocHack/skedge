@@ -22,10 +22,10 @@ class SchedulesController < ApplicationController
 	end
 
 	def show
-		@schedule = Schedule.find_by_rid(params[:rid])
+		@schedule = Schedule.find_by(rid:params[:rid])
 		@side = false
 		respond_to do |format|
-			format.json {(!@schedule && raise_404) || (render json:@schedule.js_data.to_json)}
+			format.json { render json:@schedule.enrollments.to_json }
 			format.html 
 		end
 	end
@@ -40,37 +40,36 @@ class SchedulesController < ApplicationController
 	end
 
 	def set_image
-		@schedule = Schedule.find_by_id_and_secret(params[:id],params[:secret])
-		if !@schedule
-			render status:500
-		else
-			@schedule.image = decode_img(params[:img], @schedule.rid)
-			@schedule.update_record_without_timestamping
+		@schedule = Schedule.find_by(id:params[:id],secret:params[:secret])
+		@schedule.image = decode_img(params[:img], @schedule.rid)
+		@schedule.update_record_without_timestamping
 
-			render json:{url:@schedule.image.url}
-		end
+		render json:{url:@schedule.image.url}
 	end
 
 	def action(action, bookmark)
-		if params[:id] == "new"
+		if params[:secret] == "new"
 			@schedule = Schedule.create
 		else
-			@schedule = Schedule.find_by_id(params[:id])
-			render status:500 if params[:secret] != @schedule.secret
-		end
-	
-		if bookmark
-			obj = Course.find_by_id(params[:obj_id])
-			collection = @schedule.courses
-		else
-			obj = Section.find_by_crn(params[:obj_id])
-			collection = @schedule.sections
+			@schedule = Schedule.find_by(secret:params[:secret])
 		end
 
-		if action == :delete
-			collection.delete(obj)
-		elsif action == :add
-			collection << obj
+		course = Course.find(params[:course_id])
+	
+		if bookmark
+			if action == :delete
+				@schedule.bookmarks.delete(course)
+			elsif action == :add
+				@schedule.bookmarks << course
+			end
+		else
+			if action == :delete
+				@schedule.enrollments.delete_if {|e| e["crn"] == params[:crn].to_i}
+			elsif action == :add
+				#save the js data hash for superspeed efficiency
+				data = course.relation(params[:course_type].to_i).where(crn:params[:crn]).first.data
+				@schedule.enrollments << data
+			end
 		end
 
 		@schedule.touch

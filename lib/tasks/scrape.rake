@@ -73,13 +73,13 @@ class Scraper
     credits:"lblCredits",
     comments:"lblComments",
     restrictions:"lblRestrictions",
+    term:"lblTerm",
+    year:"lblTerm",
     clusters:"lblClusters"
   }
 
   SectionLabels =
   {
-    term:"lblTerm",
-    year:"lblTerm",
     section_type:"lblCredits",
     instructors:"lblInstructors", 
     days:LabelSchedule+"lblDay", 
@@ -157,62 +157,88 @@ class Scraper
 
   def parse_course(e, num, dept)
     c_info = extract(CourseLabels, e, num, dept)
+    c_info[:dept] = dept
     s_info = extract(SectionLabels, e, num, dept)
 
     type = s_info[:section_type]
 
-    if type != Section::Type::Course
-      #link to something
+    # if c_info[:title].downcase["lab"]
+    #   #link to something
+    #   return nil
+    # end
+
+    if c_info[:credits] == 0 && type == Section::Type::Course
       return nil
     end
 
-    if c_info[:title].downcase["lab"]
-      #link to something
-      return nil
+    c = Course.find_or_initialize_by(c_info.slice(:number, :dept, :term, :year))
+    if c.new_record?
+      #if this is a new record and we're looking at a lab, something went wrong (course needs to be registered first...) so get outta here
+      #not necessary since we'll scrape all main courses first
+      #nevermind
+      return if type != Section::Type::Course
+
+      old_latest = Course.where(c_info.slice(:number, :dept).merge(:latest => true)).first
+      if old_latest
+        old_latest.latest = false
+        old_latest.save
+      end
+
+      c.latest = true
     end
 
-    if c_info[:credits] == 0
-      return nil
-    end
-
-    search = {title:c_info[:title], number:c_info[:number], dept:dept}
-
-    c = Course.where(search).first
-    if !c
-      c = Course.new
-    end
-
-    c_info[:dept] = dept
-
-    c.update_attributes(c_info)
-    c.save
+    c.update_attributes(c_info) if type == Section::Type::Course
 
     #now deal with the section
+    relation = case type
+    when Section::Type::Course; c.sections
+    when Section::Type::Lab; c.labs
+    when Section::Type::Recitation; c.recitations
+    when Section::Type::LabLecture; c.lab_lectures
+    when Section::Type::Workshop; c.workshops
+    end
 
-    s = c.sections.where(crn:s_info[:crn]).first
+    s = relation.where(crn:s_info[:crn]).first
     if !s
       s = Section.new
-      s.course = c
-      c.sections << s
+      relation << s
     end
 
     s.update_attributes(s_info)
     s.save
+
+    #cache some values so we can sort faster
+    if !c.min_enroll || s.enroll < c.min_enroll
+      c.min_enroll = s.enroll
+    end
+
+    if !c.min_start || s.start_time < c.min_start
+      c.min_start = s.start_time
+    end
+
+    if !c.max_start || s.start_time > c.max_start
+      c.max_start = s.start_time
+    end
+
+    c.save
   end
 
   def get_dept(dept, term)
-    #make all the CDCS choices
-    @form.field_with(:name => "ddlTerm").option_with(:text => term).click
-    @form.field_with(:name => "ddlDept").option_with(:value => dept).click
+    # 5.times do |course_type|
+      #make all the CDCS choices
+      @form.field_with(:name => "ddlTerm").option_with(:text => term).click
+      @form.field_with(:name => "ddlDept").option_with(:value => dept).click
+      # @form.field_with(:name => "ddlTypes").option_with(:value => course_type.to_s).click
 
-    #go!
-    results = @form.click_button
-    
-    num = 1
-    results.search("//table[@cellpadding='3']").each do |e|
-      parse_course(e, num, dept)
-      num += 2 #for some reason the number in the div id's go up by two
-    end
+      #go!
+      results = @form.click_button
+      
+      num = 1
+      results.search("//table[@cellpadding='3']").each do |e|
+        parse_course(e, num, dept)
+        num += 2 #for some reason the number in the div id's go up by two
+      end
+    # end
   end
 
   def get_dept_list
@@ -249,7 +275,7 @@ class Scraper
       @terms.each do |term|
         puts "Starting scrape of #{term} (#{depts.size} departments)"
         @depts.each_with_index do |dept,i|
-          puts "#{i+1+@num}. #{dept} - #{dept}"
+          puts "#{i+1+@num}. #{dept.upcase}"
           get_dept(dept.upcase, term)
         end
       end
@@ -276,7 +302,7 @@ namespace :scrape do
   end
 
   task :all => :environment do
-    scrape(["Spring 2014", "Fall 2013"])
+    scrape(["Fall 2013", "Spring 2014"])
   end
 
   task :fall => :environment do

@@ -28,8 +28,6 @@ class Section
 
 	include Mongoid::Document
 	field :status, type: Integer
-	field :term, type: Integer
-	field :year, type: Integer
 	field :instructors, type: Array
 	field :building, type: String
 	field :room, type: String

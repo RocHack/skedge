@@ -87,9 +87,9 @@ class SectionDecorator < Draper::Decorator
 
 	def add_button_class
 		c = if object.section_type == Section::Type::Course
-			object.cancelled? ? (object.closed? ? "closed" : (object.time_tba? ? "btn-default" : "")) : "disabled"
+			!object.cancelled? ? (object.closed? ? "closed" : (object.time_tba? ? "btn-default" : "")) : "disabled"
 		else
-			object.cancelled? ? "btn-primary" : "disabled full"
+			!object.cancelled? ? "btn-primary" : "disabled full"
 		end
 		c += " locked" if object.course.requires_code?
 		c

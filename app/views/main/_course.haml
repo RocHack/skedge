@@ -37,7 +37,7 @@
     =course.description
   %table.wide
     -num_hidden = 0
-    -course.lectures.each_with_index do |section,i|
+    -course.sections.each_with_index do |section,i|
       -section = section.decorate
       -style = ""
       -klass = ""

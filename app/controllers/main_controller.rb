@@ -40,8 +40,14 @@ class MainController < ApplicationController
 		select[:credits.lte] = c_hi               if c_hi
 		select[:number] = /#{num_search}.*/       if num_search
 		select[:dept] = dept_search               if dept_search
-		select["sections.term"] = term_search     if term_search
 		select[:instructors] = instructor_search  if instructor_search
+
+		if term_search
+			select[:term] = term_search
+		else
+			select[:latest] = 1
+		end
+
 
         puts "searching #{select.inspect}"
 

@@ -10,17 +10,19 @@ class Course
 	field :prereqs, type: String
 	field :cross, type: String
 	field :comments, type: String
+
+	field :term, type: Integer
+	field :year, type: Integer
+	field :latest, type: Boolean
+	field :min_enroll, type: Integer
+	field :min_start, type: Integer
+	field :max_start, type: Integer
+
 	embeds_many :sections
-
-	def select_sections(type)
-		sections.select { |s| s.section_type == type }
-	end
-
-	def lectures; select_sections(Section::Type::Course); end
-	def labs; select_sections(Section::Type::Lab); end
-	def workshops; select_sections(Section::Type::Workshop); end
-	def lab_lectures; select_sections(Section::Type::LabLecture); end
-	def recitations; select_sections(Section::Type::Recitation); end
+	embeds_many :labs,         class_name: 'Section', inverse_of: :course
+	embeds_many :workshops,    class_name: 'Section', inverse_of: :course
+	embeds_many :lab_lectures, class_name: 'Section', inverse_of: :course
+	embeds_many :recitations,  class_name: 'Section', inverse_of: :course
 
 	def has_prereqs?
 		prereqs && prereqs.downcase != "none"

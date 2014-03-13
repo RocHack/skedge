@@ -302,15 +302,15 @@ namespace :scrape do
   end
 
   task :all => :environment do
-    scrape(["Fall 2013", "Spring 2014"])
+    scrape(["Fall 2013", "Spring 2014", "Fall 2014"])
   end
 
   task :fall => :environment do
-    scrape(["Fall 2013"])
+    scrape(["Fall #{Time.now.year}"])
   end
 
   task :spring => :environment do
-    scrape(["Spring 2014"])
+    scrape(["Spring #{Time.now.year}"])
   end
 end
 

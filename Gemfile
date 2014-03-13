@@ -47,6 +47,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development, :test do
+    gem "rspec"
+    gem "rspec-rails"
+end
+
 gem 'mechanize'
 gem 'haml'
 gem 'draper' #decorators

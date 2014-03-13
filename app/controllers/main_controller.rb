@@ -11,16 +11,15 @@ class MainController < ApplicationController
 		end
 	end
 
-	def search_for_courses(query)
+	def params_from_query(query, credits=0, term=0)
 		status_search = nil
 		name_search = nil
 		dept_search = nil
 		num_search = nil
 		instructor_search = nil
 
-		sort = ["number ASC", "min_start_time ASC", "max_start_time DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
-		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][(params["credits"] || 0).to_i]
-		term_search = [nil, 0, 1][(params["term"] || 0).to_i]
+		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][credits.to_i]
+		term_search = [nil, 0, 1][term.to_i]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
@@ -29,10 +28,11 @@ class MainController < ApplicationController
 		end
 
 		name_search = query
-		match = query.match /^([A-Za-z]*)\s*(\d+[A-Za-z]*|)\s*$/
-		if match && (match[1].size <= 3 || !match[2].empty?) #either the dept length is <= 3 OR we have some numbers
+		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
+		if match
 			dept_search = match[1].upcase if !match[1].empty?
 			num_search = match[2] if !match[2].empty?
+			name_search = nil
 		end
 
 		select = {}
@@ -41,6 +41,7 @@ class MainController < ApplicationController
 		select[:number] = /#{num_search}.*/       if num_search
 		select[:dept] = dept_search               if dept_search
 		select[:instructors] = instructor_search  if instructor_search
+		select[:title] = /.*#{query}.*/i          if name_search
 
 		if term_search
 			select[:term] = term_search
@@ -48,24 +49,19 @@ class MainController < ApplicationController
 			select[:latest] = 1
 		end
 
+		select
+	end
 
-        puts "searching #{select.inspect}"
-
-		s = Course.where(select).order_by(sort)
+	def search_for_courses(query)
+		sort = ["number ASC", "min_start ASC", "max_start DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
+		q = params_from_query(query, params["credits"] || 0, params["term"] || 0)
+		results = Course.where(q).order_by(["year ASC", "term DESC", "dept ASC", sort])
 		
 		# if params["rand"].presence
 		# 	s = s.limit(1).order(rand_order)
 		# end
-		params["capped"] = s.count == 150
-		s
-	end
-
-	def filter(courses)
-        return courses
-		#TODO optimize, maybe?
-		courses.compact.delete_if do |c|
-			c.research?
-		end
+		params["capped"] = results.count == 150
+		results
 	end
 
 	def index
@@ -77,7 +73,7 @@ class MainController < ApplicationController
 				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
 				return
 			end
-			@courses = filter(search_for_courses(@query))
+			@courses = search_for_courses(@query)
 		else
 			@depts = []
 		end

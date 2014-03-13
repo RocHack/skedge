@@ -42,7 +42,12 @@
                 (capped)
               in
               %span#render-time
+            -prev = nil
             -@courses.each do |course|
+              -if !prev || prev != course.decorate.term_and_year
+                %h2.term-header{style: prev ? "padding-top:40px" : ""}
+                  =prev=course.decorate.term_and_year
+                
               =render partial:"course", locals: {course: course.decorate}
        
   -#SCHEDULE   

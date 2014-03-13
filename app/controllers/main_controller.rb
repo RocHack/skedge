@@ -53,9 +53,9 @@ class MainController < ApplicationController
 	end
 
 	def search_for_courses(query)
-		sort = ["number ASC", "min_start ASC", "max_start DESC", "min_enroll ASC"][(params["sort"] || 0).to_i]
+		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][(params["sort"] || 0).to_i]
 		q = params_from_query(query, params["credits"] || 0, params["term"] || 0)
-		results = Course.where(q).order_by(["year ASC", "term DESC", "dept ASC", sort])
+		results = Course.where(q).order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
 		
 		# if params["rand"].presence
 		# 	s = s.limit(1).order(rand_order)

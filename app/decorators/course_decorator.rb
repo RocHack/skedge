@@ -3,11 +3,15 @@ class CourseDecorator < Draper::Decorator
 
 	def term
 		case object.term
-		when Course::Term::Fall
+		when Section::Term::Fall
 			"Fall"
-		when Course::Term::Spring
+		when Section::Term::Spring
 			"Spring"
 		end
+	end
+
+	def term_and_year
+		"#{term} #{year}"
 	end
 
 	def dept_and_cnum

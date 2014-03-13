@@ -37,13 +37,13 @@ class Formatter
 
   def self.format_name(name)
     little = %w(and of or the to the in but as is for with)
-    big = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI BME CHM ECE LIN CSC BIO LGBTQ)
+    exact = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI BME CHM ECE LIN CSC BIO LGBTQ iPhone)
     prev = nil
     name.gsub(/(\w|\.|')*/) do |w|
       w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
         w.downcase
-      elsif big.include?(w.upcase)
-        w.upcase
+      elsif exact.include?(w)
+        w
       elsif w =~ /^(I*|\d)([A-D]|V|)((:|\b)?)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^M?T?W?R?F?$/
         w
       else
@@ -137,22 +137,6 @@ class Scraper
       dict[sym] = val if val
     end
     dict
-
-      # if val
-      #   #call the setter method (ie :num=), with the val as the parameter
-      #   obj.send :"#{sym}=", val
-      # end
-  end
-
-  def self.find_main_course(c)
-    Course.where do
-      (term == c.term) &
-      (year == c.year) &
-      (num =~ c.num.to_i.to_s) &
-      (department_id == c.department_id) &
-      (course_type == Section::Type::Course) &
-      (main_course_id == nil)
-    end.first
   end
 
   def parse_course(e, num, dept)
@@ -179,15 +163,13 @@ class Scraper
       return if type != Section::Type::Course
 
       old_latest = Course.where(c_info.slice(:number, :dept).merge(:latest => true)).first
-      if old_latest
+      if old_latest && ((old_latest.year < c.year) || (old_latest.year == c.year && old_latest.term > c.term))
         old_latest.latest = false
         old_latest.save
       end
 
       c.latest = true
     end
-
-    c.update_attributes(c_info) if type == Section::Type::Course
 
     #now deal with the section
     relation = case type
@@ -207,17 +189,21 @@ class Scraper
     s.update_attributes(s_info)
     s.save
 
-    #cache some values so we can sort faster
-    if !c.min_enroll || s.enroll < c.min_enroll
-      c.min_enroll = s.enroll
-    end
+    if type == Section::Type::Course
+      #cache some values so we can sort faster
+      if !c.min_enroll || s.enroll < c.min_enroll
+        c.min_enroll = s.enroll
+      end
 
-    if !c.min_start || s.start_time < c.min_start
-      c.min_start = s.start_time
-    end
+      if !c.min_start || s.start_time < c.min_start
+        c.min_start = s.start_time
+      end
 
-    if !c.max_start || s.start_time > c.max_start
-      c.max_start = s.start_time
+      if !c.max_start || s.start_time > c.max_start
+        c.max_start = s.start_time
+      end
+
+      c.update_attributes(c_info) 
     end
 
     c.save
@@ -226,7 +212,13 @@ class Scraper
   def get_dept(dept, term)
     # 5.times do |course_type|
       #make all the CDCS choices
-      @form.field_with(:name => "ddlTerm").option_with(:text => term).click
+      search_mode = :text
+      if !term
+        #search the latest
+        @form.field_with(:name => "ddlTerm").value = @form.field_with(:name => "ddlTerm").options[1]
+      else
+        @form.field_with(:name => "ddlTerm").option_with(search_mode => term).click
+      end
       @form.field_with(:name => "ddlDept").option_with(:value => dept).click
       # @form.field_with(:name => "ddlTypes").option_with(:value => course_type.to_s).click
 
@@ -272,8 +264,10 @@ class Scraper
       #depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
       #depts = depts[@num..-1]
 
+
+
       @terms.each do |term|
-        puts "Starting scrape of #{term} (#{depts.size} departments)"
+        puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"
         @depts.each_with_index do |dept,i|
           puts "#{i+1+@num}. #{dept.upcase}"
           get_dept(dept.upcase, term)
@@ -290,7 +284,7 @@ class Scraper
 end
 
 namespace :scrape do
-  def scrape(terms)
+  def scrape(terms=[nil])
     num = ENV['num'] || 0
 
     Scraper.scrape do |s|
@@ -306,11 +300,15 @@ namespace :scrape do
   end
 
   task :fall => :environment do
-    scrape(["Fall #{Time.now.year}"])
+    scrape(["Fall #{ENV['year'] || Time.now.year}"])
   end
 
   task :spring => :environment do
-    scrape(["Spring #{Time.now.year}"])
+    scrape(["Spring #{ENV['year'] || Time.now.year}"])
+  end
+
+  task :current => :environment do
+    scrape
   end
 end
 

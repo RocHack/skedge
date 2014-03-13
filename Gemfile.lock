@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/meskyanichi/mongoid-paperclip.git
+  revision: 18e9d2d50a337f347e01776201a5f36dda2934cb
+  specs:
+    mongoid-paperclip (0.0.9)
+      paperclip (>= 2.3.6)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: bde8ac1b0f16aaad7e343073ce8c5b5b9c9ffc5b
   specs:
@@ -123,7 +130,7 @@ GEM
     ntlm-http (0.1.1)
     optionable (0.2.0)
     origin (2.1.0)
-    paperclip (3.5.2)
+    paperclip (4.1.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
@@ -232,7 +239,7 @@ DEPENDENCIES
   jquery-rails
   mechanize
   mongoid!
-  paperclip
+  mongoid-paperclip!
   rails (= 4.0.1)
   rspec
   rspec-rails

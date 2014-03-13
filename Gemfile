@@ -9,9 +9,9 @@ group :development do
 	gem 'capistrano-bundler'
 end
 
+#this is bleeding edge stuff guys
 gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
-
-gem 'paperclip'
+gem "mongoid-paperclip", :require => "mongoid_paperclip", git: 'git://github.com/meskyanichi/mongoid-paperclip.git'
 
 # js runtimes
 gem 'execjs'

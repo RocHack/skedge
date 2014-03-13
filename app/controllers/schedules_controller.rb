@@ -50,6 +50,7 @@ class SchedulesController < ApplicationController
 	def action(action, bookmark)
 		if params[:secret] == "new"
 			@schedule = Schedule.create
+			@schedule.generate_secret_and_rid
 		else
 			@schedule = Schedule.find_by(secret:params[:secret])
 		end
@@ -58,9 +59,9 @@ class SchedulesController < ApplicationController
 	
 		if bookmark
 			if action == :delete
-				@schedule.bookmarks.delete(course)
+				@schedule.bookmarks.delete_if {|e| e["id"] == params[:course_id]}
 			elsif action == :add
-				@schedule.bookmarks << course
+				@schedule.bookmarks << {title:course.title,number:course.decorate.dept_and_cnum,id:course.id.to_s}
 			end
 		else
 			if action == :delete

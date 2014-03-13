@@ -1,5 +1,5 @@
 %hr
-%a.bookmark.tooltippy{:href => "#", :id => "#{course.id}", :class => (false ? "enabled" : ""), :onclick => "bookmark(this); return false;", :title => "Bookmark this course", :data => {num:"#{course.dept_and_cnum}", name:"#{course.title}", toggle:"tooltip", placement:"left"}}
+%a.bookmark.tooltippy{:href => "#", :id => "#{course.id}", :class => (false ? "enabled" : ""), :onclick => "bookmark(this); return false;", :title => "Bookmark this course", :data => {number:"#{course.dept_and_cnum}", title:"#{course.title}", :id => "#{course.id}", toggle:"tooltip", placement:"left"}}
   %span.glyphicon.glyphicon-bookmark
 .box{:class=>(course.cancelled? ? "cancelled" : "")}
   %p.lead

@@ -9,6 +9,7 @@ module ApplicationHelper
 
 	def load_bookmarks(skedge)
 		return "" if !skedge
-		skedge.bookmarks.map {|c| "add_bookmark('#{c.decorate.dept_and_cnum}','#{c.name}',#{c.id});"}.join("\n")
+		puts "bookies = #{skedge.bookmarks}"
+		skedge.bookmarks.map {|c| "add_bookmark(#{c.to_json});"}.join("\n")
 	end
 end

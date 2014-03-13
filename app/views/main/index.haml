@@ -58,8 +58,6 @@
           %a.share#share-link{href:"#{@my_schedule ? @my_schedule.rid : ''}", target:"_blank", style:"#{!@my_schedule ? "display:none" : ''}"}
             %button.btn.btn-default
               Share
-          / %button.download.btn.btn-default{href:"#", onclick:"render_ics(); return false;"}
-          /   Export to Calendar
           .btn-group.center.download{style:"#{!@my_schedule ? "display:none" : ''}"}
             %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
               Download
@@ -68,7 +66,7 @@
               %li
                 %a{href:"#", onclick:"render_ics()"} Export to Calendar
               %li
-                %a#download-img{href: @my_schedule ? '' : (@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.rid}#img"), target:"_blank" }
+                %a#download-img{href: !@my_schedule ? '' : (@my_schedule.image_file_name ? @my_schedule.image.url : "#{@my_schedule.rid}#img"), target:"_blank" }
                   Image
           %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
             Bookmarks

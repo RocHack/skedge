@@ -62,7 +62,7 @@ class SectionDecorator < Draper::Decorator
 		if object.time_tba?
       		"Time & Place TBA"
 		elsif !object.cancelled?
-        	"Add #{name}"
+        	"Loading..."
         else
         	status
         end

@@ -57,7 +57,7 @@ courses = []
 
 s_id = null
 s_rid = null
-secret = null
+secret = "new"
 
 min = 0
 max = 0
@@ -168,9 +168,9 @@ add_block = (obj) ->
 	$(".b-#{obj.crn}")
 
 ajax = (route, form, success, fail) -> 
-	form["secret"] = (secret ? secret : "new")
+	form.secret = secret
+
 	$.post("schedule/#{route}", form, (data) ->
-		console.log(data)
 		is_new = !s_id
 		s_id = data._id["$oid"]
 		s_rid = data.rid
@@ -376,7 +376,7 @@ root.show_skedge = ->
 bookmarks = []
 
 bookmark_ajax = (id, action) ->
-	ajax("bookmark/#{action}", id, 
+	ajax("bookmark/#{action}", {'course_id':id}, 
 		((is_new) -> ),
 		( -> ))
 
@@ -386,7 +386,9 @@ root.bookmark = (btn) ->
 		$(btn).removeClass('enabled')
 		bookmark_ajax(btn.id, "delete")
 	else
-		add_bookmark($(btn).data('num'), $(btn).data('title'), btn.id).hide().fadeIn()
+		console.log("passing:")
+		console.log($(btn).data())
+		add_bookmark($(btn).data()).hide().fadeIn()
 		bookmark_ajax(btn.id, "add")
 
 root.toggleSide = () ->
@@ -409,19 +411,19 @@ root.remove_bookmark = (btn,id) ->
 	$("##{id}").removeClass('enabled')
 	bookmark_ajax(id, "delete")
 
-root.add_bookmark = (num,name,id) ->
-	$("##{id}").addClass('enabled')
-	row = $("<tr class='bookmarks-row-#{id}'>
+root.add_bookmark = (data) ->
+	$("##{data.id}").addClass('enabled')
+	row = $("<tr class='bookmarks-row-#{data.id}'>
 		<td class='check-td'>
 			<div class='b-check'><input type='checkbox'></input></div>
 		</td>
 		<td>
-			<a href='/?q=#{num}' class='b-a'>
-				<div class='b-body'><strong>#{num}</strong><br>#{name}</div>
+			<a href='/?q=#{data.number.replace(" ","+")}' class='b-a'>
+				<div class='b-body'><strong>#{data.number}</strong><br>#{data.title}</div>
 			</a>
 		</td>
 		<td>
-			<button type='button' onclick='remove_bookmark(this, #{id}); return false;' class='close b-close' aria-hidden='true'>×</button>
+			<button type='button' onclick='remove_bookmark(this, \"#{data.id}\"); return false;' class='close b-close' aria-hidden='true'>×</button>
 		</td>
 	</tr>")
 	$('.bookies').append(row)

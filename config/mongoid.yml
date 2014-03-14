@@ -58,7 +58,7 @@ development:
 test:
   sessions:
     default:
-      database: skedge_test
+      database: skedge_development
       hosts:
         - localhost:27017
       options:

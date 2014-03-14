@@ -50,6 +50,7 @@ end
 group :development, :test do
     gem "rspec"
     gem "rspec-rails"
+    gem "capybara"
 end
 
 gem 'mechanize'

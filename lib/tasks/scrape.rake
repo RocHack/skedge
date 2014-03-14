@@ -163,12 +163,14 @@ class Scraper
       return if type != Section::Type::Course
 
       old_latest = Course.where(c_info.slice(:number, :dept).merge(:latest => true)).first
-      if old_latest && ((old_latest.year < c.year) || (old_latest.year == c.year && old_latest.term > c.term))
-        old_latest.latest = false
-        old_latest.save
-      end
+      if !old_latest || ((old_latest.year < c.year) || (old_latest.year == c.year && old_latest.term > c.term))
+        if old_latest
+          old_latest.latest = false
+          old_latest.save
+        end
 
-      c.latest = true
+        c.latest = true
+      end
     end
 
     #now deal with the section

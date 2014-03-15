@@ -60,7 +60,6 @@ old_skedge = null #in case we hover over a course of different term
 courses = []
 
 set_cookie = (secret) ->
-	console.log("writing to cookie, (#{current_skedge})")
 	expdate = new Date()
 	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
 	document.cookie = "s_id=#{current_skedge}&#{secret}; expires=#{expdate.toUTCString()};"
@@ -90,7 +89,6 @@ root.remove_all_blocks = ->
 		$(".b-#{c.crn}").remove()
 
 root.load_courses = (cs) ->
-	console.log("loading new courses!! cs = #{current_skedge}")
 	remove_all_blocks()
 
 	courses = cs
@@ -112,8 +110,7 @@ root.skedge_description = (skedge, year, term) ->
 	if skedge
 		year = skedge.year
 		term = skedge.term
-	return "" if year == null || term == null
-	console.log("setting! year = #{year}, term = #{term}")
+	return "" if year == null || term == null || year == undefined || term == undefined
 	"#{['Fall', 'Spring'][term]} #{year}"
 
 root.load_skedge = (sk, year, term) ->
@@ -151,8 +148,6 @@ root.load_skedge = (sk, year, term) ->
 		$('#current-skedge').html(skedge_description(null, year, term))
 
 add_block = (obj, op) ->
-	#console.log("adding block #{obj.crn}")
-
 	popover = $('.wrapper').hasClass('s-big')
 
 	if !obj.color
@@ -272,7 +267,6 @@ ajax = (route, form, success, fail) ->
 		if current_skedge
 			courses = user.schedules[current_skedge].enrollments
 		if data.current_skedge && current_skedge != data.current_skedge
-			console.log("loading a new skedge")
 			load_skedge(data.current_skedge)
 			old_skedge = null
 
@@ -320,12 +314,10 @@ conflicting_course = (obj) ->
 	return a
 
 remove_block = (obj) ->
-	#console.log("removing .b-#{obj.crn}")
 	$(".b-#{obj.crn}").remove()
 
 remove_section_obj = (obj) ->
 	remove_block(obj)
-	#console.log("remove block")
 	course_ajax(obj, "delete")
 
 
@@ -417,7 +409,6 @@ root.compute_buttons = ->
 
 
 root.hover = (btn) ->
-	#console.log("HOVER!")
 	obj = $(btn).data('section')
 	if !obj.start_time
 		return
@@ -433,7 +424,6 @@ root.hover = (btn) ->
 					skedge = rid
 					break
 
-		console.log("switching to #{skedge}")
 		load_skedge(skedge, obj.year, obj.term)
 
 	if find_course(obj) > -1
@@ -454,7 +444,6 @@ root.unhover = (btn) ->
 		return
 	
 	if old_skedge || !current_skedge
-		console.log("switching back")
 		#switch back
 		load_skedge(old_skedge)
 		old_skedge = null
@@ -546,30 +535,6 @@ root.prof_email = (i, link) ->
 		).fail( (data) ->
 			$(link).html("<span class='text-danger'>Error retrieving email :(</span>").addClass('text-danger')
 		)
-
-
-root.render_img = (sid,goto) ->
-	a = $('.screenshot').clone().appendTo('body')
-	a.width(1000)
-	a.find('.s-block-time, .s-block-title').show().css('display','block')
-	a.find('.s-block-dept, .s-block-cnum, .s-block-type').css('display','inline')
-	a.find('.s-block-p').css('line-height','1.1em').css('text-align','left').css('margin','8px 8px 2px 8px').css('display','block').css('color','white')
-	a.find('.s-block-title').css('margin-top','3px').show()
-	a.find('.wrapper').css('color','white')
-	a.find('.s-big').css('display','block')
-	a.find('.s-block').css('opacity','0.85')
-	html2canvas(a, {
-		onrendered: ( (canvas) ->
-			strDataURI = canvas.toDataURL("image/jpeg")
-			# console.log("ok here we go!!!!!!")
-			$.post("schedule/#{sid}/set_image.json", {"img":strDataURI, "secret":secret}, (data) ->
-				console.log("got this data #{data.url}")
-				if (goto)
-					window.location=data.url
-			)
-			a.remove()
-		)
-	})
 
 pad = (num) ->
 	if (num+"").length == 1

@@ -17,7 +17,7 @@ Skedge::Application.routes.draw do
   post '/schedule/bookmark/add' => "schedules#bookmark_add"
   post '/schedule/bookmark/delete' => "schedules#bookmark_delete"
 
-  post '/schedule/:id/set_image' => "schedules#set_image"
+  post '/schedule/set_image' => "schedules#set_image"
 
   get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9]+/ }
 

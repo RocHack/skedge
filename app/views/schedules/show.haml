@@ -12,10 +12,9 @@
     .big-schedule
       =render partial:"schedule", locals: {side:false, exists:@schedule.presence}
 
-
--needs_update = false && (@schedule == @my_schedule && (!@schedule.image_file_name || (!@schedule.image_file_name && @schedule.image_updated_at > @schedule.updated_at)))
 :javascript
-  $(document).ready( function () {
+  $(document).ready( function() {
     load_courses(#{@schedule.enrollments.to_json});
-    #{if needs_update then "render_img(#{@schedule.id}, window.location.hash=='#img');" elsif @schedule then "if (window.location.hash=='#img') { window.location='#{@schedule.image.url}'; }" end }
+    #{do_image_update}
+    //show();
   });

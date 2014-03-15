@@ -1,21 +1,3 @@
-module ActiveRecord
-  class Base
-
-    def update_record_without_timestamping
-      class << self
-        def record_timestamps; false; end
-      end
-
-      save!
-
-      class << self
-        remove_method :record_timestamps
-      end
-    end
-
-  end
-end
-
 class SchedulesController < ApplicationController
 	def raise_404
 		raise ActionController::RoutingError.new('Not Found')
@@ -42,9 +24,17 @@ class SchedulesController < ApplicationController
 	end
 
 	def set_image
-		@schedule = Schedule.find_by(id:params[:id],secret:params[:secret])
+		if !(s=cookies["s_id"])
+			render status:500
+			return
+		end
+
+		secret = s.split("&").last
+		@schedule = User.find_by(secret:secret).schedules.find_by(rid:params[:rid])
+
 		@schedule.image = decode_img(params[:img], @schedule.rid)
-		@schedule.update_record_without_timestamping
+
+		@schedule.timeless.save
 
 		render json:{url:@schedule.image.url}
 	end
@@ -82,9 +72,9 @@ class SchedulesController < ApplicationController
 				data = course.relation(params[:course_type].to_i).where(crn:params[:crn]).first.data
 				@schedule.enrollments << data
 			end
-		end
 
-		# @schedule.touch
+			@schedule.touch
+		end
 
 		@user.save
 

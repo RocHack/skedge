@@ -9,16 +9,16 @@ class ApplicationController < ActionController::Base
     @start_time = Time.now
     @side = true
 
-    u = nil
+    @user = nil
     if cookies["s_id"]
       @rid, secret = cookies["s_id"].split("&")
 
-      u = User.where(secret: secret).first
-      @rid = nil if @rid && u && !u.schedules.where(rid:@rid).exists?
+      @user = User.where(secret: secret).first
+      @rid = nil if @rid && @user && !@user.schedules.where(rid:@rid).exists?
     end
-    if u
-      @user_json = u.skedge_json
-      @rid ||= u.schedules.first.try(:rid) || "null"
+    if @user
+      @user_json = @user.skedge_json
+      @rid ||= @user.schedules.first.try(:rid) || "null"
     else
       @rid = "null"
       @user_json = "null"

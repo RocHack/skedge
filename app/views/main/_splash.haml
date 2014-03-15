@@ -31,16 +31,17 @@
       %li grouped course sections
       %li embedded labs, recitations, and workshops
       %li clickable course mentions & instructors 
-      %li easier schedule sharing
-      %li
-        %a{href:"#", onclick:"$(this).parent().hide(); $('.more').show(); return false;"} & more coming soon...
+      %li easy, live-updating schedule sharing
+      %li.text-danger
+        please remember that you cannot register for courses using skedge
+        %strong (!)
+      %li{style:"color:gray"}
+        /%a{href:"#", onclick:"$(this).parent().hide(); $('.more').show(); return false;"} 
+        \& more coming soon...
       .more
         %li desired courses -> different schedule options
         %li autocomplete search w/ add btn in autocomplete box
-        %li compare yr schedule with a friend's & see mutual free time
-    %p.info-text.text-danger
-      please remember that you cannot register for courses using skedge
-      %strong (!)
+        %li compare yr schedule with a friend's & see mutual free time      
 
     .credits
       %p
@@ -54,6 +55,18 @@
         =bracket_link("source", "https://github.com/RocHack/skedge")
         =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
         =render partial:"ticket"
+
+    %p.info-text
+      %a{href:"#", onclick:"$('#transfer-stuff').show(); $(this).hide(); return false;"} using skedge across computers?
+    %p.info-text#transfer-stuff{style:'display:none'}
+      %small
+        -if s=cookies['s_id']
+          %strong this account's key is:
+          =s.split("&").last
+          %br
+        %strong change your account key:
+        %input.form-control#transfer{style:"width:300px; display:inline-block; margin-left:2px;"}
+        %button.btn.btn-default{onclick:"transfer();"} go
 
 #departments.cols
   -@depts.each do |dept|

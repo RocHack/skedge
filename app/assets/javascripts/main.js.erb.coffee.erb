@@ -59,16 +59,21 @@ current_skedge = null
 old_skedge = null #in case we hover over a course of different term
 courses = []
 
-set_cookie = () ->
+set_cookie = (secret) ->
 	console.log("writing to cookie, (#{current_skedge})")
 	expdate = new Date()
 	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
-	document.cookie = "s_id=#{current_skedge}&#{user.secret}; expires=#{expdate.toUTCString()};"
+	document.cookie = "s_id=#{current_skedge}&#{secret}; expires=#{expdate.toUTCString()};"
 
 min = 0
 max = 0
 
 root = exports ? this
+
+root.transfer = ->
+	new_key = $('#transfer').val()
+	set_cookie(new_key)
+	location.reload()
 
 # helpful w/ debug
 root.user = ->

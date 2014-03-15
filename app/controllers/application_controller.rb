@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       @rid, secret = cookies["s_id"].split("&")
 
       u = User.where(secret: secret).first
-      @rid = nil if @rid && !u.schedules.where(rid:@rid).exists?
+      @rid = nil if @rid && u && !u.schedules.where(rid:@rid).exists?
     end
     if u
       @user_json = u.skedge_json

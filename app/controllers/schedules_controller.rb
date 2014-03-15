@@ -24,7 +24,7 @@ class SchedulesController < ApplicationController
 	def show
 		rid = params[:rid].to_i
 		user = User.where('schedules.rid' => rid).first
-		@schedule = user.schedules.bsearch { |a| a.rid == rid }
+		@schedule = user.schedules.find_by(rid:rid)
 		@side = false
 		respond_to do |format|
 			format.json { render json:@schedule.enrollments.to_json }

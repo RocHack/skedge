@@ -232,15 +232,10 @@ class Scraper
   def get_dept_list
     depts = []
     @form.field_with(:name => "ddlDept").options.each do |dept|
-      depts << dept.value if dept.value
-      # d = Department.where({short:dept.value}).first
-      # if !d
-      #   d = Department.new
-      #   d.name = dept.text.split(" - ", 2).last
-      #   d.short = dept.value
-      #   d.save
-      # end
-      # depts << d if d.name && d.short
+      if dept.value && !dept.value.trim.empty?
+        depts << dept.value
+        Department.find_or_create_by(short:dept.value, name:dept.text.split(" - ", 2).last)
+      end
     end
     depts
   end
@@ -256,11 +251,7 @@ class Scraper
       results = form.click_button
       
       @form = results.form("form1")
-      #depts = get_dept_list
-      #depts = @depts.map {|d| Department.find_by_short(d.upcase)} if @depts
-      #depts = depts[@num..-1]
-
-
+      @depts ||= get_dept_list
 
       @terms.each do |term|
         puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"

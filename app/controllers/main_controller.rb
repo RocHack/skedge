@@ -55,11 +55,16 @@ class MainController < ApplicationController
 	def search_for_courses(query)
 		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][(params["sort"] || 0).to_i]
 		q = params_from_query(query, params["credits"] || 0, params["term"] || 0)
-		results = Course.where(q).order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
+		results = Course.where(q)
 		
-		# if params["rand"].presence
-		# 	s = s.limit(1).order(rand_order)
-		# end
+		if params["rand"].presence
+			results = results.only(:_id)
+			random = Course.find(results.sample.id)
+			return [random]
+		else
+			results = results.order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
+		end
+
 		params["capped"] = results.count == 150
 		results
 	end
@@ -75,7 +80,7 @@ class MainController < ApplicationController
 			end
 			@courses = search_for_courses(@query)
 		else
-			@depts = []
+			@depts = Department.all
 		end
 	end
 end

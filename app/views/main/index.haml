@@ -55,10 +55,10 @@
     .fixed
       .row
         .top-btns
-          %a.share.hidden#share-link{target:"_blank"}
+          %a.share#share-link{target:"_blank", style:"display:none"}
             %button.btn.btn-default
               Share
-          .btn-group.center.download.hidden
+          .btn-group.center.download{style:"display:none"}
             %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
               Download
               %span.caret

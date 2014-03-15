@@ -59,8 +59,10 @@ class MainController < ApplicationController
 		
 		if params["rand"].presence
 			results = results.only(:_id)
-			random = Course.find(results.sample.id)
-			return [random]
+			if !results.empty?
+				random = Course.find(results.sample.id)
+				return [random]
+			end
 		else
 			results = results.order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
 		end

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     end
     if u
       @user_json = u.skedge_json
-      @rid ||= u.schedules.first.rid
+      @rid ||= u.schedules.first.try(:rid) || "null"
     else
       @rid = "null"
       @user_json = "null"

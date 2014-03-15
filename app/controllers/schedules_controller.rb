@@ -60,14 +60,6 @@ class SchedulesController < ApplicationController
 
 		course = Course.find(params[:course_id])
 
-		@schedule = @user.schedules.where(term:course.term, year:course.year).first
-
-		if !@schedule
-			@schedule = Schedule.new(term:course.term, year:course.year)
-			@schedule.generate_rid
-			@user.schedules << @schedule
-		end
-	
 		if bookmark
 			if action == :delete
 				@user.bookmarks.delete_if {|e| e["id"] == params[:course_id]}
@@ -75,6 +67,14 @@ class SchedulesController < ApplicationController
 				@user.bookmarks << {title:course.title,number:course.decorate.dept_and_cnum,id:course.id.to_s}
 			end
 		else
+			@schedule = @user.schedules.where(term:course.term, year:course.year).first
+
+			if !@schedule
+				@schedule = Schedule.new(term:course.term, year:course.year)
+				@schedule.generate_rid
+				@user.schedules << @schedule
+			end
+
 			if action == :delete
 				@schedule.enrollments.delete_if {|e| e["crn"] == params[:crn].to_i}
 			elsif action == :add
@@ -88,7 +88,7 @@ class SchedulesController < ApplicationController
 
 		@user.save
 
-		render json:@user.skedge_json(@schedule.rid)
+		render json:@user.skedge_json(bookmark ? nil : @schedule.rid)
 	end
 
 	def add

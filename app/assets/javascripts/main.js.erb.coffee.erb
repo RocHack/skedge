@@ -103,15 +103,22 @@ root.load_user = (u, sk) ->
 	else
 		resize_schedule()
 
-root.skedge_description = (skedge) ->
-	"#{['Fall', 'Spring'][skedge.term]} #{skedge.year}"
+root.skedge_description = (skedge, year, term) ->
+	if skedge
+		year = skedge.year
+		term = skedge.term
+	return "" if year == null || term == null
+	console.log("setting! year = #{year}, term = #{term}")
+	"#{['Fall', 'Spring'][term]} #{year}"
 
-root.load_skedge = (sk) ->
+root.load_skedge = (sk, year, term) ->
 	current_skedge = sk
 
 	if (sk)
 		skedge = user.schedules[sk]
 		load_courses(skedge.enrollments)
+
+		set_cookie(user.secret)
 	
 		$('#share-link').show()
 		$('.download').show()
@@ -136,7 +143,7 @@ root.load_skedge = (sk) ->
 			
 	else
 		load_courses([])
-
+		$('#current-skedge').html(skedge_description(null, year, term))
 
 add_block = (obj, op) ->
 	#console.log("adding block #{obj.crn}")
@@ -250,14 +257,18 @@ root.resize_schedule = (extra, minus) ->
 ajax = (route, form, success, fail) -> 
 	$.post("schedule/#{route}", form, (data) ->
 		console.log(data)
+
+		secret = data.secret
+		if !user
+			set_cookie(secret)
+
 		user = data
 		#update this reference
-		courses = user.schedules[current_skedge].enrollments
-		secret = data.secret
+		if current_skedge
+			courses = user.schedules[current_skedge].enrollments
 		if data.current_skedge && current_skedge != data.current_skedge
 			console.log("loading a new skedge")
 			load_skedge(data.current_skedge)
-			set_cookie(secret)
 			old_skedge = null
 
 		success()
@@ -293,13 +304,14 @@ find_course = (obj) ->
 
 conflicting_course = (obj) ->
 	a = []
-	for rid, skedge of user.schedules
-		if skedge.year == obj.year && skedge.term == obj.term
-			for course in skedge.enrollments
-				if obj.crn == course.crn
-					return null
-				if exists_conflict(obj, course) || exists_conflict(course, obj)
-					a.push(course)
+	if user
+		for rid, skedge of user.schedules
+			if skedge.year == obj.year && skedge.term == obj.term
+				for course in skedge.enrollments
+					if obj.crn == course.crn
+						return null
+					if exists_conflict(obj, course) || exists_conflict(course, obj)
+						a.push(course)
 	return a
 
 remove_block = (obj) ->
@@ -406,18 +418,18 @@ root.hover = (btn) ->
 		return
 
 	#check to see if the course is in another term/year
-	skedge = user.schedules[current_skedge]
-	if obj.year != skedge.year || obj.term != skedge.term
+	if !current_skedge || (obj.year != user.schedules[current_skedge].year || obj.term != user.schedules[current_skedge].term)
 		#switch!
 		old_skedge = current_skedge
 		skedge = null
-		for rid, sk of user.schedules
-			if sk.year == obj.year && sk.term == obj.term
-				skedge = rid
-				break
+		if user
+			for rid, sk of user.schedules
+				if sk.year == obj.year && sk.term == obj.term
+					skedge = rid
+					break
 
 		console.log("switching to #{skedge}")
-		load_skedge(skedge)
+		load_skedge(skedge, obj.year, obj.term)
 
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.25)
@@ -436,7 +448,7 @@ root.unhover = (btn) ->
 	if !obj.start_time
 		return
 	
-	if old_skedge
+	if old_skedge || !current_skedge
 		console.log("switching back")
 		#switch back
 		load_skedge(old_skedge)

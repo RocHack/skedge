@@ -116,7 +116,7 @@ root.load_skedge = (sk) ->
 
 
 add_block = (obj, op) ->
-	console.log("adding block #{obj.crn}")
+	#console.log("adding block #{obj.crn}")
 
 	popover = $('.wrapper').hasClass('s-big')
 
@@ -205,7 +205,7 @@ root.resize_days = (extra) ->
 		$('.s-block-time').hide()
 
 root.resize_schedule = (extra, minus) ->
-	console.log("resizing")
+	#console.log("resizing")
 	resize_days(extra)
 
 	$('#hour-rows').html("")
@@ -243,14 +243,8 @@ ajax = (route, form, success, fail) ->
 
 course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
-		( -> 
-			if action == "add"
-				courses.push(obj)
-			else if action == "delete"
-				console.log("splice and delete")
-				idx = find_course(obj)
-				courses.splice(idx,1) if idx > -1
-
+		( ->
+			#no maintenance here since we're updating courses from the server anyway!! 
 			compute_buttons()
 		),
 		( ->
@@ -276,21 +270,21 @@ find_course = (obj) ->
 conflicting_course = (obj) ->
 	a = []
 	for rid, skedge of user.schedules
-		continue if skedge.year != obj.year || skedge.term != obj.term
-		for course in skedge.enrollments
-			if obj.crn == course.crn
-				return null
-			if exists_conflict(obj, course) || exists_conflict(course, obj)
-				a.push(course)
+		if skedge.year == obj.year && skedge.term == obj.term
+			for course in skedge.enrollments
+				if obj.crn == course.crn
+					return null
+				if exists_conflict(obj, course) || exists_conflict(course, obj)
+					a.push(course)
 	return a
 
 remove_block = (obj) ->
-	console.log("removing .b-#{obj.crn}")
+	#console.log("removing .b-#{obj.crn}")
 	$(".b-#{obj.crn}").remove()
 
 remove_section_obj = (obj) ->
 	remove_block(obj)
-	console.log("remove block")
+	#console.log("remove block")
 	course_ajax(obj, "delete")
 
 
@@ -382,7 +376,7 @@ root.compute_buttons = ->
 
 
 root.hover = (btn) ->
-	console.log("HOVER!")
+	#console.log("HOVER!")
 	obj = $(btn).data('section')
 	if !obj.start_time
 		return

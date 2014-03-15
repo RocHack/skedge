@@ -118,14 +118,6 @@ class SectionDecorator < Draper::Decorator
 	end
 
 	def data
-		d = object.data.map do |k,v|
-			if !v
-				v = "null"
-			elsif !v.is_a?(Numeric)
-				v = "\"#{v.gsub("\"","\\\"")}\""
-			end
-			"\"#{k}\":#{v}"
-		end.join(",")
-		"{#{d}}"
+		object.data.to_json
 	end
 end

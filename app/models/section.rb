@@ -106,7 +106,9 @@ class Section
 	        num:course.number,
 	        popover_content:decorate.popover_content.gsub("\n","<br>"),
 	        popover_title:decorate.popover_title,
-	        course_type:section_type
+	        course_type:section_type,
+	        term:course.term,
+	        year:course.year
       	}
     end
 end

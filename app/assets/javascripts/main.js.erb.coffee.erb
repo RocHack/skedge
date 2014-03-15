@@ -56,6 +56,7 @@ colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
 
 user = null
 current_skedge = null
+old_skedge = null #in case we hover over a course of different term
 courses = []
 
 set_cookie = () ->
@@ -79,8 +80,14 @@ root.courses = ->
 root.cs = ->
 	current_skedge
 
+root.remove_all_blocks = ->
+	for c in courses
+		$(".b-#{c.crn}").remove()
+
 root.load_courses = (cs) ->
+	console.log("loading new courses!! cs = #{current_skedge}")
 	remove_all_blocks()
+
 	courses = cs
 	for block in courses
 		add_block(block)
@@ -97,15 +104,20 @@ root.load_user = (u, sk) ->
 root.load_skedge = (sk) ->
 	current_skedge = sk
 
-	load_courses(user.schedules[sk].enrollments)
+	if (sk)
+		load_courses(user.schedules[sk].enrollments)
 	
-	$('#share-link').attr("href","#{current_skedge}")
-	$('#share-link').show()
-	$('.download').show()
-	$('#download-img').attr("href","#{current_skedge}#img")
+		$('#share-link').attr("href","#{current_skedge}")
+		$('#share-link').show()
+		$('.download').show()
+		$('#download-img').attr("href","#{current_skedge}#img")
+	else
+		load_courses([])
 
 
 add_block = (obj, op) ->
+	console.log("adding block #{obj.crn}")
+
 	popover = $('.wrapper').hasClass('s-big')
 
 	if !obj.color
@@ -135,13 +147,15 @@ add_block = (obj, op) ->
 			c.addClass("pop")
 			c.popover()
 
-hour_range = (extra) ->
+hour_range = (extra, minus) ->
 	extra = [] if !extra
 
 	min = 2500
 	max = -1
 
 	for c in courses.concat(extra)
+		if minus && c.crn == minus.crn
+			continue
 		start = c.start_time-5
 		end = c.end_time+5
 		if start < min
@@ -190,17 +204,12 @@ root.resize_days = (extra) ->
 	if days.length > 5
 		$('.s-block-time').hide()
 
-
-remove_all_blocks = ->
-	for c in courses
-		$(".b-#{c.crn}").remove()
-
-
-root.resize_schedule = (extra) ->
+root.resize_schedule = (extra, minus) ->
+	console.log("resizing")
 	resize_days(extra)
 
 	$('#hour-rows').html("")
-	for i in hour_range(extra)
+	for i in hour_range(extra, minus)
 		$('#hour-row').clone().css('display','table-row').appendTo($('#hour-rows')).find('.time').html((i-1) % 12 + 1)
 
 	full = $('.wrapper').hasClass('s-big')
@@ -208,7 +217,8 @@ root.resize_schedule = (extra) ->
 	remove_all_blocks()
 
 	for c in courses
-		add_block(c)
+		if !minus || c.crn != minus.crn
+			add_block(c)
 
 	if full
 		$('.s-full').height(Math.max((max-min)*67, 750))
@@ -217,10 +227,14 @@ ajax = (route, form, success, fail) ->
 	$.post("schedule/#{route}", form, (data) ->
 		console.log(data)
 		user = data
+		#update this reference
+		courses = user.schedules[current_skedge].enrollments
 		secret = data.secret
 		if data.current_skedge && current_skedge != data.current_skedge
+			console.log("loading a new skedge")
 			load_skedge(data.current_skedge)
 			set_cookie(secret)
+			old_skedge = null
 
 		success()
 	).fail ->
@@ -230,11 +244,21 @@ ajax = (route, form, success, fail) ->
 course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
 		( -> 
-			courses.push(obj)
+			if action == "add"
+				courses.push(obj)
+			else if action == "delete"
+				console.log("splice and delete")
+				idx = find_course(obj)
+				courses.splice(idx,1) if idx > -1
+
 			compute_buttons()
 		),
 		( ->
-			remove_section_obj(obj, true)
+			if action == "add"
+				remove_block(obj)
+			else if action == "delete"
+				add_block(obj)
+
 			compute_buttons()
 		)
 	)
@@ -251,21 +275,23 @@ find_course = (obj) ->
 
 conflicting_course = (obj) ->
 	a = []
-	for course in courses
-		if obj.crn == course.crn
-			return null
-		if exists_conflict(obj, course) || exists_conflict(course, obj)
-			a.push(course)
+	for rid, skedge of user.schedules
+		continue if skedge.year != obj.year || skedge.term != obj.term
+		for course in skedge.enrollments
+			if obj.crn == course.crn
+				return null
+			if exists_conflict(obj, course) || exists_conflict(course, obj)
+				a.push(course)
 	return a
 
-remove_section_obj = (obj, nopost) ->
+remove_block = (obj) ->
+	console.log("removing .b-#{obj.crn}")
 	$(".b-#{obj.crn}").remove()
 
-	idx = find_course(obj)
-	courses.splice(idx,1) if idx > -1
-
-	if !nopost
-		course_ajax(obj, "delete")
+remove_section_obj = (obj) ->
+	remove_block(obj)
+	console.log("remove block")
+	course_ajax(obj, "delete")
 
 
 root.remove_section = (btn) ->
@@ -273,7 +299,7 @@ root.remove_section = (btn) ->
 	if (obj)
 		remove_section_obj(obj)
 		compute_buttons()
-		resize_schedule()
+		resize_schedule(null, obj)
 		if !$(btn).hasClass('btn-success') && $(btn).hasClass('locked')
 			$(btn).closest('.tooltippy').tooltip('show')
 
@@ -356,9 +382,24 @@ root.compute_buttons = ->
 
 
 root.hover = (btn) ->
+	console.log("HOVER!")
 	obj = $(btn).data('section')
 	if !obj.start_time
 		return
+
+	#check to see if the course is in another term/year
+	skedge = user.schedules[current_skedge]
+	if obj.year != skedge.year || obj.term != skedge.term
+		#switch!
+		old_skedge = current_skedge
+		skedge = null
+		for rid, sk of user.schedules
+			if sk.year == obj.year && sk.term == obj.term
+				skedge = rid
+				break
+
+		console.log("switching to #{skedge}")
+		load_skedge(skedge)
 
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.25)
@@ -377,11 +418,17 @@ root.unhover = (btn) ->
 	if !obj.start_time
 		return
 	
+	if old_skedge
+		console.log("switching back")
+		#switch back
+		load_skedge(old_skedge)
+		old_skedge = null
+
 	if find_course(obj) > -1
 		$(".b-#{obj.crn}").css("opacity",0.63)
 		return
 
-	$(".b-#{obj.crn}").remove()
+	remove_block(obj)
 
 	if obj.start_time/100-5 < min || obj.end_time/100+5 > max
 		resize_schedule()

@@ -5,7 +5,7 @@ class SchedulesController < ApplicationController
 
 	def show
 		rid = params[:rid].to_i
-		user = User.where('schedules.rid' => rid).first
+		user = User.find_by('schedules.rid' => rid)
 		@schedule = user.schedules.find_by(rid:rid)
 		@side = false
 		respond_to do |format|
@@ -70,6 +70,7 @@ class SchedulesController < ApplicationController
 			elsif action == :add
 				#save the js data hash for superspeed efficiency
 				data = course.relation(params[:course_type].to_i).where(crn:params[:crn]).first.data
+				data[:color] = params[:color]
 				@schedule.enrollments << data
 			end
 

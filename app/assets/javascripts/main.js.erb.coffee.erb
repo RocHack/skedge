@@ -51,8 +51,6 @@ type2name = (type, short, ignore_section) ->
 			""
 
 days = ["M", "T", "W", "R", "F"]
-color = 0
-colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
 
 user = null
 current_skedge = null
@@ -73,6 +71,14 @@ root.transfer = ->
 	new_key = $('#transfer').val()
 	set_cookie(new_key)
 	location.reload()
+
+root.next_color = ->
+	colors = ["#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#d35400", "#c0392b", "#5e6768"]
+	for c in courses
+		idx = colors.indexOf(c.color)
+		colors.splice(idx,1) if idx > -1
+
+	return colors[Math.floor(Math.random()*colors.length)]
 
 # helpful w/ debug
 root.user = ->
@@ -151,7 +157,7 @@ add_block = (obj, op) ->
 	popover = $('.wrapper').hasClass('s-big')
 
 	if !obj.color
-		obj.color = colors[color++ % colors.length]
+		obj.color = next_color()
 
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-min,obj.duration,obj.color)
@@ -276,7 +282,7 @@ ajax = (route, form, success, fail) ->
 		alert("An error occurred :( please check your internet connection or refresh & try again!")
 
 course_ajax = (obj, action) ->
-	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
+	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type, "color":obj.color},
 		( ->
 			#no maintenance here since we're updating courses from the server anyway!! 
 			compute_buttons()

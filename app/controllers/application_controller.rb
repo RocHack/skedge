@@ -9,10 +9,19 @@ class ApplicationController < ActionController::Base
     @start_time = Time.now
     @side = true
 
+    u = nil
     if cookies["s_id"]
-  		s_id, secret = cookies["s_id"].split("&")
-  		s = Schedule.find_by(secret: secret) #do this since ID's changed after we switched to mongo
-  		@my_schedule = s if s && s.secret == secret
-  	end
+      @rid, secret = cookies["s_id"].split("&")
+
+      u = User.where(secret: secret).first
+      @rid = nil if @rid && u.schedules.where(rid:@rid)
+    end
+    if u
+      @user_json = u.skedge_json
+      @rid ||= u.schedules.first.rid
+    else
+      @rid = "null"
+      @user_json = "null"
+    end
   end
 end

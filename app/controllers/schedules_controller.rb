@@ -22,7 +22,9 @@ class SchedulesController < ApplicationController
 	end
 
 	def show
-		@schedule = Schedule.find_by(rid:params[:rid])
+		rid = params[:rid].to_i
+		user = User.where('schedules.rid' => rid).first
+		@schedule = user.schedules.bsearch { |a| a.rid == rid }
 		@side = false
 		respond_to do |format|
 			format.json { render json:@schedule.enrollments.to_json }
@@ -48,14 +50,23 @@ class SchedulesController < ApplicationController
 	end
 
 	def action(action, bookmark)
-		if params[:secret] == "new"
-			@schedule = Schedule.create
-			@schedule.generate_secret_and_rid
+		if cookies["s_id"]
+			secret = cookies["s_id"].split("&")[1]
+			@user = User.find_by(secret:secret)
 		else
-			@schedule = Schedule.find_by(secret:params[:secret])
+			@user = User.new
+			@user.generate_secret
 		end
 
 		course = Course.find(params[:course_id])
+
+		@schedule = @user.schedules.where(term:course.term, year:course.year).first
+
+		if !@schedule
+			@schedule = Schedule.new(term:course.term, year:course.year)
+			@schedule.generate_rid
+			@user.schedules << @schedule
+		end
 	
 		if bookmark
 			if action == :delete
@@ -73,10 +84,11 @@ class SchedulesController < ApplicationController
 			end
 		end
 
-		@schedule.touch
-		@schedule.save
+		# @schedule.touch
 
-		render json:@schedule
+		@user.save
+
+		render json:@user.skedge_json(@schedule.rid)
 	end
 
 	def add

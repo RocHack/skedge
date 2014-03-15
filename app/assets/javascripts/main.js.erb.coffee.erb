@@ -53,16 +53,89 @@ type2name = (type, short, ignore_section) ->
 days = ["M", "T", "W", "R", "F"]
 color = 0
 colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
-courses = []
 
-s_id = null
-s_rid = null
-secret = "new"
+# cookie = document.cookie
+# if cookie
+# 	match = cookie.match(/s_id=(.*?)&(.*?)(;| |$)/)
+# 	if match
+# 		s_id = match[1]
+# 		secret = match[2]
+
+set_cookie = () ->
+	expdate = new Date()
+	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
+	document.cookie = "s_id=#{current_skedge}&#{user.secret}; expires=#{expdate.toUTCString()};"
+
+user = null
+current_skedge = null
+courses = []
 
 min = 0
 max = 0
 
 root = exports ? this
+
+# root.user = ->
+# 	user
+
+# root.courses = ->
+# 	courses
+
+# root.cs = ->
+# 	current_skedge
+
+root.load_courses = (cs) ->
+	courses = cs
+	for block in courses
+		add_block(block)
+
+	resize_schedule()
+
+root.load_user = (u, sk) ->
+	if u
+		user = u
+		load_skedge(sk)
+
+root.load_skedge = (sk) ->
+	current_skedge = sk
+
+	load_courses(user.schedules[sk].enrollments)
+	
+	$('#share-link').attr("href","#{current_skedge}")
+	$('#share-link').show()
+	$('.download').show()
+	$('#download-img').attr("href","#{current_skedge}#img")
+
+
+add_block = (obj, op) ->
+	popover = $('.wrapper').hasClass('s-big')
+
+	if !obj.color
+		obj.color = colors[color++ % colors.length]
+
+	for day in obj.days.split("")
+		s = style(day,obj.time_in_hours-min,obj.duration,obj.color)
+		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
+		c.find('.s-block-dept').html(obj.dept)
+		c.find('.s-block-cnum').html(obj.num)
+		c.find('.s-block-time').html(obj.time)
+		c.find('.s-block-title').html(obj.title)
+		c.find('.s-block-type').html(type2name(obj.course_type, true, true))
+
+		if op
+			c.css("opacity",op)
+
+		if !popover
+			c.data("title",obj.title)
+			c.data("placement","top")
+			c.tooltip()
+		else
+			c.data("container","body")
+			c.data("placement","auto left")
+			c.data("content",obj.popover_content)
+			c.data("title",obj.popover_title)
+			c.addClass("pop")
+			c.popover()
 
 hour_range = (extra) ->
 	extra = [] if !extra
@@ -129,91 +202,38 @@ root.resize_schedule = (extra) ->
 
 	full = $('.wrapper').hasClass('s-big')
 
-	s = courses
-	courses = []
-	for c in s
+	for c in courses
 		$(".b-#{c.crn}").remove()
-		add_course(c, full)
+		add_block(c)
 
 	if full
 		$('.s-full').height(Math.max((max-min)*67, 750))
 
-cookie = document.cookie
-if cookie
-	match = cookie.match(/s_id=(.*?)&(.*?)(;| |$)/)
-	if match
-		s_id = match[1]
-		secret = match[2]
-
-set_cookie = ->
-	expdate = new Date()
-	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
-	document.cookie = "s_id=#{s_id}&#{secret}; expires=#{expdate.toUTCString()};"
-
-add_block = (obj) ->
-	blx = []
-	if !obj.color
-		obj.color = colors[color++ % colors.length]
-
-	for day in obj.days.split("")
-		s = style(day,obj.time_in_hours-min,obj.duration,obj.color)
-		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
-		c.find('.s-block-dept').html(obj.dept)
-		c.find('.s-block-cnum').html(obj.num)
-		c.find('.s-block-time').html(obj.time)
-		c.find('.s-block-title').html(obj.title)
-		c.find('.s-block-type').html(type2name(obj.course_type, true, true))
-		blx.push(c)
-
-	$(".b-#{obj.crn}")
-
 ajax = (route, form, success, fail) -> 
-	form.secret = secret
-
 	$.post("schedule/#{route}", form, (data) ->
-		is_new = !s_id
-		s_id = data._id["$oid"]
-		s_rid = data.rid
+		console.log(data)
+		user = data
 		secret = data.secret
-		set_cookie()
-		success(is_new)
+		if current_skedge != data.current_skedge
+			load_skedge(data.current_skedge)
+		set_cookie(secret)
+
+		success()
 	).fail ->
 		fail()
 		alert("an error occurred - pls check your internet connection?")
 
 course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
-		((is_new) -> 
-			$('#share-link').attr("href","#{s_rid}")
-			$('#share-link').show()
-			$('.download').show()
-			$('#download-img').attr("href","#{s_rid}#img")),
+		( -> 
+			courses.push(obj)
+			compute_buttons()
+		),
 		( ->
 			remove_section_obj(obj, true)
-			compute_buttons()))
-
-root.add_course = (obj, popover, post, col) ->
-	if col
-		obj.color = col
-	c = add_block(obj)
-
-	c.attr("href":"/?q=#{obj.dept}+#{obj.num}")
-	if !popover
-		c.data("title",obj.title)
-		c.data("placement","top")
-		c.tooltip()
-	else
-		c.data("container","body")
-		c.data("placement","auto left")
-		c.data("content",obj.popover_content)
-		c.data("title",obj.popover_title)
-		c.addClass("pop")
-		c.popover()
-
-	courses.push(obj)
-
-	if post
-		course_ajax(obj, "add")
+			compute_buttons()
+		)
+	)
 
 dept_and_cnum = (obj) ->
 	"#{obj.dept} #{obj.num} #{type2name(obj.course_type, false, true)}"
@@ -256,8 +276,8 @@ root.remove_section = (btn) ->
 
 root.add_section = (btn) ->
 	obj = $(btn).data('section')
-	add_course(obj, false, true)
-	compute_buttons()
+	add_block(obj)
+	course_ajax(obj, "add")
 
 root.undo_section = (btn) ->
 	obj = $(btn).data('section')
@@ -346,8 +366,7 @@ root.hover = (btn) ->
 	op = 0.4
 	if $(btn).hasClass('btn-danger')
 		op = 0.83
-	c = add_block(obj)
-	c.css("opacity",op)
+	c = add_block(obj, op)
 
 root.unhover = (btn) ->
 	obj = $(btn).data('section')
@@ -360,7 +379,8 @@ root.unhover = (btn) ->
 
 	$(".b-#{obj.crn}").remove()
 
-	resize_schedule()
+	if obj.start_time/100-5 < min || obj.end_time/100+5 > max
+		resize_schedule()
 	
 	
 root.show_skedge = ->
@@ -373,8 +393,6 @@ root.show_skedge = ->
 #bookmarks
 ################
 
-bookmarks = []
-
 bookmark_ajax = (id, action) ->
 	ajax("bookmark/#{action}", {'course_id':id}, 
 		((is_new) -> ),
@@ -386,8 +404,6 @@ root.bookmark = (btn) ->
 		$(btn).removeClass('enabled')
 		bookmark_ajax(btn.id, "delete")
 	else
-		console.log("passing:")
-		console.log($(btn).data())
 		add_bookmark($(btn).data()).hide().fadeIn()
 		bookmark_ajax(btn.id, "add")
 
@@ -513,4 +529,3 @@ root.render_ics = ->
 	#    	bb.append(cal)
 	#    	blob = bb.getBlob("text/x-vCalendar;charset=" + document.characterSet)
 	saveAs(blob, "skedge.ics")
-

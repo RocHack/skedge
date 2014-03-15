@@ -54,6 +54,11 @@
   .col-md-4
     .fixed
       .row
+        .dropdown.inline
+          %p.lead{style:"margin-bottom:12px"}
+            %a#current-skedge.dropdown-toggle{data:{toggle:"dropdown"}}
+            %span.caret{style:'margin-bottom:4px; display:none;'}
+        
         .top-btns
           %a.share#share-link{target:"_blank", style:"display:none"}
             %button.btn.btn-default
@@ -70,7 +75,7 @@
                   Image
           %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
             Bookmarks
-      .bk
+      .bk{style:"display:none"}
         .panel.panel-default.bk-panel
           .panel-heading
             %h3.panel-title My Bookmarks
@@ -82,8 +87,6 @@
             /   Fit into my schedule
             / %button.btn.btn-primary{href:"#", onclick:"toggleSide(this); return false;"}
             /   Generate schedules
-        :javascript
-          $('.bk').hide()
       .sk
         =render partial:"schedule", locals: {side:true}
 

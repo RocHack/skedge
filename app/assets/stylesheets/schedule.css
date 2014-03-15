@@ -326,6 +326,7 @@ a.s-block:hover
 .top-btns
 {
   text-align: justify;
+  margin-bottom: -8px;
 }
 
 .top-btns:after {
@@ -347,4 +348,9 @@ a.s-block:hover
 .bkmks
 {
   display: inline-block;
+}
+
+#current-skedge
+{
+  color: black;
 }

@@ -103,16 +103,37 @@ root.load_user = (u, sk) ->
 	else
 		resize_schedule()
 
+root.skedge_description = (skedge) ->
+	"#{['Fall', 'Spring'][skedge.term]} #{skedge.year}"
+
 root.load_skedge = (sk) ->
 	current_skedge = sk
 
 	if (sk)
-		load_courses(user.schedules[sk].enrollments)
+		skedge = user.schedules[sk]
+		load_courses(skedge.enrollments)
 	
 		$('#share-link').show()
 		$('.download').show()
 		$('#share-link').attr("href","#{current_skedge}")
 		$('#download-img').attr("href","#{current_skedge}#img")
+
+		$('#current-skedge').html(skedge_description(skedge))
+
+		if Object.keys(user.schedules).length > 1
+			$('#current-skedge').parent().find('.caret').show()
+			$('#current-skedge').attr('href','#')
+			$('#current-skedge').attr('onclick', 'return false;')
+			
+			$('#current-skedge').parent().find('.dropdown-menu').remove()
+
+			list = $('<ul class="dropdown-menu" role="menu"></ul>').appendTo($('#current-skedge').parent())
+			for rid, s of user.schedules
+				continue if "#{rid}" == "#{sk}"
+				list.append($("<li><a href='#' onclick=\"load_skedge(#{rid}); return false;\">#{skedge_description(s)}</a></li>"))
+
+			$('#current-skedge').dropdown()
+			
 	else
 		load_courses([])
 

@@ -70,9 +70,9 @@ class SchedulesController < ApplicationController
 	
 		if bookmark
 			if action == :delete
-				@schedule.bookmarks.delete_if {|e| e["id"] == params[:course_id]}
+				@user.bookmarks.delete_if {|e| e["id"] == params[:course_id]}
 			elsif action == :add
-				@schedule.bookmarks << {title:course.title,number:course.decorate.dept_and_cnum,id:course.id.to_s}
+				@user.bookmarks << {title:course.title,number:course.decorate.dept_and_cnum,id:course.id.to_s}
 			end
 		else
 			if action == :delete

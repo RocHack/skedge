@@ -6,7 +6,6 @@ class Schedule
 	field :term, type: Integer
 	field :year, type: Integer
 
-	field :bookmarks, type: Array, default: []
 	field :enrollments, type: Array, default: []
 
 	has_mongoid_attached_file :image, :use_timestamp => false, :url => "system/:class/:attachment/:filename", :path => ":rails_root/public/system/:class/:attachment/:filename"

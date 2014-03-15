@@ -98,6 +98,8 @@ root.load_user = (u, sk) ->
 	if u
 		user = u
 		load_skedge(sk)
+		for bm in u.bookmarks
+			add_bookmark(bm)
 	else
 		resize_schedule()
 
@@ -107,9 +109,9 @@ root.load_skedge = (sk) ->
 	if (sk)
 		load_courses(user.schedules[sk].enrollments)
 	
-		$('#share-link').attr("href","#{current_skedge}")
 		$('#share-link').show()
 		$('.download').show()
+		$('#share-link').attr("href","#{current_skedge}")
 		$('#download-img').attr("href","#{current_skedge}#img")
 	else
 		load_courses([])
@@ -126,6 +128,7 @@ add_block = (obj, op) ->
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-min,obj.duration,obj.color)
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
+		c.attr('href',"/?q=#{obj.dept}+#{obj.num}")
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
 		c.find('.s-block-time').html(obj.time)
@@ -239,7 +242,7 @@ ajax = (route, form, success, fail) ->
 		success()
 	).fail ->
 		fail()
-		alert("an error occurred - pls check your internet connection?")
+		alert("An error occurred :( please check your internet connection or refresh & try again!")
 
 course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type},
@@ -462,10 +465,10 @@ root.toggleSide = () ->
 		#document.cookie = "bookmarks=0"
 		$("#toggle-btn").html("Bookmarks")
 
-$(document).ready ->
-	if match = document.cookie.match(/bookmarks=(\d)/)
-		if (match[1] == "1")
-			toggleSide()
+# $(document).ready ->
+# 	if match = document.cookie.match(/bookmarks=(\d)/)
+# 		if (match[1] == "1")
+# 			toggleSide()
 
 root.remove_bookmark = (btn,id) ->
 	$(btn).closest('tr').fadeOut(100)

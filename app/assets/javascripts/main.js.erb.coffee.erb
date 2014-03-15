@@ -54,37 +54,33 @@ days = ["M", "T", "W", "R", "F"]
 color = 0
 colors = ["#FF7620", "#139CD3", "#1BCF11", "#672357", "#074098", "#6E53B5"]
 
-# cookie = document.cookie
-# if cookie
-# 	match = cookie.match(/s_id=(.*?)&(.*?)(;| |$)/)
-# 	if match
-# 		s_id = match[1]
-# 		secret = match[2]
-
-set_cookie = () ->
-	expdate = new Date()
-	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
-	document.cookie = "s_id=#{current_skedge}&#{user.secret}; expires=#{expdate.toUTCString()};"
-
 user = null
 current_skedge = null
 courses = []
+
+set_cookie = () ->
+	console.log("writing to cookie, (#{current_skedge})")
+	expdate = new Date()
+	expdate.setTime(expdate.getTime() + (1000 * 24 * 60 * 60 * 365 * 4)) #4 yrs lol
+	document.cookie = "s_id=#{current_skedge}&#{user.secret}; expires=#{expdate.toUTCString()};"
 
 min = 0
 max = 0
 
 root = exports ? this
 
-# root.user = ->
-# 	user
+# helpful w/ debug
+root.user = ->
+	user
 
-# root.courses = ->
-# 	courses
+root.courses = ->
+	courses
 
-# root.cs = ->
-# 	current_skedge
+root.cs = ->
+	current_skedge
 
 root.load_courses = (cs) ->
+	remove_all_blocks()
 	courses = cs
 	for block in courses
 		add_block(block)
@@ -95,6 +91,8 @@ root.load_user = (u, sk) ->
 	if u
 		user = u
 		load_skedge(sk)
+	else
+		resize_schedule()
 
 root.load_skedge = (sk) ->
 	current_skedge = sk
@@ -193,6 +191,11 @@ root.resize_days = (extra) ->
 		$('.s-block-time').hide()
 
 
+remove_all_blocks = ->
+	for c in courses
+		$(".b-#{c.crn}").remove()
+
+
 root.resize_schedule = (extra) ->
 	resize_days(extra)
 
@@ -202,8 +205,9 @@ root.resize_schedule = (extra) ->
 
 	full = $('.wrapper').hasClass('s-big')
 
+	remove_all_blocks()
+
 	for c in courses
-		$(".b-#{c.crn}").remove()
 		add_block(c)
 
 	if full
@@ -214,9 +218,9 @@ ajax = (route, form, success, fail) ->
 		console.log(data)
 		user = data
 		secret = data.secret
-		if current_skedge != data.current_skedge
+		if data.current_skedge && current_skedge != data.current_skedge
 			load_skedge(data.current_skedge)
-		set_cookie(secret)
+			set_cookie(secret)
 
 		success()
 	).fail ->

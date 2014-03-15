@@ -10,10 +10,9 @@ class User
   end	  
 
   def skedge_json(current_skedge=nil)
-    hash = self.attributes
+    hash = {"secret" => secret, "schedules" => schedules.inject({}) { |h, n| h[n["rid"]] = n; h }}
     hash["current_skedge"] = current_skedge if current_skedge
     #organize the schedules by RID so js is faster/simpler
-    hash["schedules"] = hash["schedules"].inject({}) { |h, n| h[n["rid"]] = n; h } if hash["schedules"]
     hash.to_json
   end
 end

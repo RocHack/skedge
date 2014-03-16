@@ -28,19 +28,13 @@ task :unarchive => :environment do
 		new_sk = Schedule.new(year:2014, term:1, rid:old_sk[:rid])
 
 		old_sk[:sections].each do |crn|
-			begin
 			s = Course.find_by('sections.crn' => crn).sections.find_by(crn:crn)
 			new_sk.enrollments << s.data
-			rescue
-			end
 		end
 		
 		old_sk[:bookmarks].each do |bk|
-			begin
 			c = Course.find_by(bk)
 			u.bookmarks << {title:c.title, id:c.id.to_s, number:"#{bk[:dept]} #{bk[:number]}"}
-			rescue
-			end
 		end
 
 		u.schedules << new_sk

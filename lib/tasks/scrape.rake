@@ -255,7 +255,7 @@ class Scraper
 
       @terms.each do |term|
         puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"
-        @depts.each_with_index do |dept,i|
+        @depts[@num..-1].each_with_index do |dept,i|
           puts "#{i+1+@num}. #{dept.upcase}"
           get_dept(dept.upcase, term)
         end

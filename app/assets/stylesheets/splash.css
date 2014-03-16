@@ -45,6 +45,8 @@ hr.half
   padding-bottom: 30px;
 
   display: none;
+
+  margin-top: 20px;
 }
 
 #splash-space
@@ -78,8 +80,8 @@ small.splash
 .enormous
 {
   position: relative;
-  font-size: 10em;
-  letter-spacing: -10px;
+  font-size: 7em;
+  letter-spacing: -0.05em;
   opacity: 0.72;
   text-align: center;
   line-height: 1.2em;

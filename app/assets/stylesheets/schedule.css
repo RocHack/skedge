@@ -325,14 +325,13 @@ a.s-block:hover
 
 .top-btns
 {
-  text-align: justify;
-  margin-bottom: -8px;
+  float: right;
 }
 
-.top-btns:after {
-  content: '';
-  width: 100%; /* Ensures there are at least 2 lines of text, so justification works */
-  display: inline-block;
+.sk-top
+{
+  margin-bottom: 50px;
+  position: relative;
 }
 
 .share
@@ -343,6 +342,8 @@ a.s-block:hover
 .download
 {
   display: inline-block;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 .bkmks
@@ -350,7 +351,14 @@ a.s-block:hover
   display: inline-block;
 }
 
+.sk-selector
+{
+  float: left;
+  padding-top: 5px;
+}
+
 #current-skedge
 {
+  font-size: 1.35em;
   color: black;
 }

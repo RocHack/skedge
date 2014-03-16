@@ -54,27 +54,30 @@
   .col-md-4
     .fixed
       .row
-        .dropdown.inline
-          %p.lead{style:"margin-bottom:12px"}
+        .sk-top
+          
+
+          .dropdown.sk-selector
             %a#current-skedge.dropdown-toggle{data:{toggle:"dropdown"}}
             %span.caret{style:'margin-bottom:4px; display:none;'}
         
-        .top-btns
-          %a.share#share-link{target:"_blank", style:"display:none"}
-            %button.btn.btn-default
-              Share
-          .btn-group.center.download{style:"display:none"}
-            %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
-              Download
-              %span.caret
-            %ul.dropdown-menu{role:"menu"}
-              %li
-                %a{href:"#", onclick:"render_ics()"} Export to Calendar
-              %li
-                %a#download-img{target:"_blank" }
-                  Image
-          %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
-            Bookmarks
+          .top-btns
+            %a.share#share-link{target:"_blank", style:"display:none"}
+              %button.btn.btn-default
+                Share
+            .btn-group.center.download{style:"display:none"}
+              %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+                Download
+                %span.caret
+              %ul.dropdown-menu{role:"menu"}
+                %li
+                  %a{href:"#", onclick:"render_ics()"} Export to Calendar
+                %li
+                  %a#download-img{target:"_blank" }
+                    Image
+            %button.bkmks.btn.btn-default.right#toggle-btn{href:"#", onclick:"toggleSide(); return false;"}
+              Bookmarks
+              
       .bk{style:"display:none"}
         .panel.panel-default.bk-panel
           .panel-heading

@@ -70,7 +70,7 @@ root = exports ? this
 next_color = null
 
 root.transfer = ->
-	new_key = $('#transfer').val()
+	new_key = $('#transfer').val().trim()
 	set_cookie(new_key)
 	location.reload()
 

@@ -38,21 +38,23 @@ function prepareModal()
 
 function splashtoggle(selector)
 {
-	if (selector != null && $(selector).css('display') == 'none')
-	{
-		$('#info').hide();
-		$('#departments').hide();
-		$('#splash-space').hide();	
-		$(selector).show();
-	}
-	else
-	{
-		$('#info').hide();
-		$('#departments').hide();
-		$('#splash-space').show();	
-		if (selector != null)
-			$(selector).hide();		
-	}
+	$('.splash-options').hide();
+	$('#splash-space').hide();	
+	$(selector).show();		
+	// if (selector != null && $(selector).css('display') == 'none')
+	// {
+	// 	$('#info').hide();
+	// 	$('#departments').hide();
+	// 	$('#splash-space').hide();	
+	// }
+	// else
+	// {
+	// 	$('#info').hide();
+	// 	$('#departments').hide();
+	// 	$('#splash-space').show();	
+	// 	if (selector != null)
+	// 		$(selector).hide();		
+	// }
 }
 
 $(function() 

@@ -14,7 +14,7 @@
       .col-md-4.lead
         %a{href:"#depts", onclick:"splashtoggle('#departments');"} departments
       .col-md-4.lead
-        %a{href:"#", onclick:"$('#search-input').focus(); splashtoggle(null); return false;"} search
+        %a{href:"#", onclick:"$('#search-input').focus(); return false;"} search
       .col-md-4.lead
         %a{href:"#about", onclick:"splashtoggle('#info');"} about
 
@@ -56,15 +56,23 @@
         =bracket_link("feedback", "#", onclick:"prepareModal(); return false;", data:{toggle:"modal", target:"#bug-modal"})
         =render partial:"ticket"
 
-    %p.info-text
-      %a{href:"#", onclick:"$('#transfer-stuff').show(); $(this).hide(); return false;"} using skedge across computers?
-    %p.info-text#transfer-stuff{style:'display:none'}
-      %small
+    %p.info-text{style:"margin-top:20px;"}
+      %a{href:"#", onclick:"$('#transfer-stuff').show(); $(this).hide(); return false;"}
+        using skedge across computers?
+    
+    #transfer-stuff{style:"display:none"}
+      %p.info-text
+        -key=nil
         -if s=cookies['s_id']
-          %strong this account's key is:
-          =s.split("&").last
-          %br
-        %strong change your account key:
+          -key=s.split("&")[1]
+          -if key && !key.empty?
+            %div{style:"margin-bottom:10px"}
+              %strong this account's key is:
+              =key
+            
+        %strong
+          =key ? "change" : "set"
+          your account key:
         %input.form-control#transfer{style:"width:300px; display:inline-block; margin-left:2px;"}
         %button.btn.btn-default{onclick:"transfer();"} go
 
@@ -84,6 +92,4 @@
     splashtoggle('#info');
   else if (hash == "#depts")
     splashtoggle('#departments');
-  else
-    splashtoggle(null);
 

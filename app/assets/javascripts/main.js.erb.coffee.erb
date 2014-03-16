@@ -69,18 +69,20 @@ root = exports ? this
 
 next_color = null
 
+colors = ["#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#d35400", "#c0392b", "#5e6768"]
+
 root.transfer = ->
 	new_key = $('#transfer').val().trim()
 	set_cookie(new_key)
 	location.reload()
 
 root.generate_next_color = ->
-	colors = ["#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#d35400", "#c0392b", "#5e6768"]
+	colors_left = [1,2,3,4,5,6,7,8]
 	for c in courses
-		idx = colors.indexOf(c.color)
-		colors.splice(idx,1) if idx > -1
+		idx = colors_left.indexOf(c.color)
+		colors_left.splice(idx,1) if idx > -1
 
-	next_color = colors[Math.floor(Math.random()*colors.length)]
+	next_color = colors_left[Math.floor(Math.random()*colors_left.length)]
 
 # helpful w/ debug
 root.user = ->
@@ -165,7 +167,7 @@ add_block = (obj, op) ->
 		color = next_color
 
 	for day in obj.days.split("")
-		s = style(day,obj.time_in_hours-min,obj.duration,color)
+		s = style(day,obj.time_in_hours-min,obj.duration,colors[color])
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
 		c.attr('href',"/?q=#{obj.dept}+#{obj.num}")
 		c.find('.s-block-dept').html(obj.dept)

@@ -22,14 +22,13 @@
   .row
     %p.info-text
       %strong skedge
-      is a clone of the
-      =succeed "." do
-        %a{href:"https://cdcs.ur.rochester.edu/"} university of rochester cdcs
-      it has all of the same courses and data, but aims to display it in a more organized and user-friendly way. skedge offers:
+      is a student-made alternative to the official
+      <a href="https://cdcs.ur.rochester.edu/">cdcs</a>.
+      here are some things that it offers:
     %ul.info-text
       %li simplified search, that shows courses for both terms
       %li grouped course sections
-      %li embedded labs, recitations, and workshops
+      %li labs, recitations, and workshops embedded in the courses
       %li clickable course mentions & instructors 
       %li easy, live-updating schedule sharing
       %li.text-danger
@@ -58,7 +57,7 @@
 
     %p.info-text{style:"margin-top:20px;"}
       %a{href:"#", onclick:"$('#transfer-stuff').show(); $(this).hide(); return false;"}
-        using skedge across computers?
+        using skedge across computers or browsers?
     
     #transfer-stuff{style:"display:none"}
       %p.info-text

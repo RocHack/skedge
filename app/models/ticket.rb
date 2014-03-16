@@ -1,4 +1,5 @@
 class Ticket
 	include Mongoid::Document
-	field :content, type: String
+	field :contents, type: String
+	field :email, type: String	
 end

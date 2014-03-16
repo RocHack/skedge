@@ -24,9 +24,6 @@ class Course
 	embeds_many :lab_lectures, class_name: 'Section', inverse_of: :course
 	embeds_many :recitations,  class_name: 'Section', inverse_of: :course
 
-	has_and_belongs_to_many :enrollers, class_name: 'Schedule', inverse_of: :enrollments
-	has_and_belongs_to_many :bookmarkers, class_name: 'Schedule', inverse_of: :bookmarks
-
 	def has_prereqs?
 		prereqs && prereqs.downcase != "none"
 	end

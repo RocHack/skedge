@@ -28,7 +28,12 @@ task :unarchive => :environment do
 		new_sk = Schedule.new(year:2014, term:1, rid:old_sk[:rid])
 
 		old_sk[:sections].each do |crn|
-			s = Course.find_by('sections.crn' => crn).sections.find_by(crn:crn)
+			s = Course.where('sections.crn' => crn).first.try(:sections).try(:find_by,{crn:crn})
+			s ||= Course.where('labs.crn' => crn).first.try(:labs).try(:find_by,{crn:crn})
+			s ||= Course.where('recitations.crn' => crn).first.try(:recitations).try(:find_by,{crn:crn})
+			s ||= Course.where('lab_lectures.crn' => crn).first.try(:lab_lectures).try(:find_by,{crn:crn})
+			s ||= Course.find_by('workshops.crn' => crn).workshops.find_by(crn:crn)
+
 			new_sk.enrollments << s.data
 		end
 		

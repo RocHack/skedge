@@ -42,8 +42,10 @@ class SchedulesController < ApplicationController
 	def action(action, bookmark)
 		if cookies["s_id"]
 			secret = cookies["s_id"].split("&")[1]
-			@user = User.find_by(secret:secret)
-		else
+			@user = User.find_by(secret:secret) if secret && !secret.empty?
+		end
+
+		if !@user
 			@user = User.new
 			@user.generate_secret
 		end

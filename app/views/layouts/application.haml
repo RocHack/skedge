@@ -2,14 +2,14 @@
 %html
   %head
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
-    -if @schedule && @schedule.image_file_name
-      %meta{property:"og:image", content:"/#{@schedule.image.url}", href:"/#{@schedule.image.url}"}
-      %meta{property:"og:title", content:"#{@schedule.description} Schedule"}
-      %meta{property:"og:description", content:"#{@schedule.sections_description}"}
     %title skedge
     =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     =javascript_include_tag "application", "data-turbolinks-track" => true
     =csrf_meta_tags
+    -if @schedule && @schedule.image_file_name
+      <meta property="og:image" content="http://skedgeur.com/#{@schedule.image.url}"/>
+      <meta property="og:title" content="#{@schedule.description} Schedule"/>
+      <meta property="og:description" content="#{@schedule.sections_description}"/>
 
   %body
     #main.container.top-margin

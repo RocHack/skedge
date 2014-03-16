@@ -163,7 +163,7 @@ add_block = (obj, op) ->
 	popover = $('.wrapper').hasClass('s-big')
 
 	color = obj.color
-	if !color
+	if color == undefined
 		color = next_color
 
 	for day in obj.days.split("")

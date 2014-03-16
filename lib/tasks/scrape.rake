@@ -232,7 +232,7 @@ class Scraper
   def get_dept_list
     depts = []
     @form.field_with(:name => "ddlDept").options.each do |dept|
-      if dept.value && !dept.value.trim.empty?
+      if dept.value && !dept.value.strip.empty?
         depts << dept.value
         Department.find_or_create_by(short:dept.value, name:dept.text.split(" - ", 2).last)
       end

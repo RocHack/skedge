@@ -189,15 +189,15 @@ class Scraper
       #cache some values so we can sort faster
       if !c.min_enroll || s.enroll < c.min_enroll
         c.min_enroll = s.enroll
-      end
+      end if s.enroll
 
       if !c.min_start || s.start_time < c.min_start
         c.min_start = s.start_time
-      end
+      end if s.start_time
 
       if !c.max_start || s.start_time > c.max_start
         c.max_start = s.start_time
-      end
+      end if s.start_time
 
       c.update_attributes(c_info) 
     end

@@ -1,4 +1,4 @@
-!!! 5
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 %html
   %head
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
@@ -6,10 +6,13 @@
     =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     =javascript_include_tag "application", "data-turbolinks-track" => true
     =csrf_meta_tags
-    -if @schedule && @schedule.image_file_name
-      <meta property="og:image" content="http://skedgeur.com/#{@schedule.image.url}"/>
+    -if @schedule 
+      <meta property="og:type" content="object"/>
+      <meta property="og:url" content="http://skedgeur.com/#{@schedule.rid}"/>
       <meta property="og:title" content="#{@schedule.description} Schedule"/>
       <meta property="og:description" content="#{@schedule.sections_description}"/>
+      -if @schedule.image_file_name
+        <meta property="og:image" content="http://skedgeur.com/#{@schedule.image.url}"/>
 
   %body
     #main.container.top-margin

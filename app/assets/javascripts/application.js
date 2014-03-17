@@ -40,7 +40,7 @@ function splashtoggle(selector)
 {
 	$('.splash-options').hide();
 	$('#splash-space').hide();	
-	$(selector).show();		
+	$(selector).fadeIn(200);		
 	// if (selector != null && $(selector).css('display') == 'none')
 	// {
 	// 	$('#info').hide();

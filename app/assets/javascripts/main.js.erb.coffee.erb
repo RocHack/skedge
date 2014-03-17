@@ -77,10 +77,13 @@ root.transfer = ->
 	location.reload()
 
 root.generate_next_color = ->
-	colors_left = [1,2,3,4,5,6,7,8]
+	colors_left = [0,1,2,3,4,5,6,7]
 	for c in courses
 		idx = colors_left.indexOf(c.color)
 		colors_left.splice(idx,1) if idx > -1
+
+	if colors_left.length == 0
+		colors_left = [0,1,2,3,4,5,6,7]
 
 	next_color = colors_left[Math.floor(Math.random()*colors_left.length)]
 
@@ -269,7 +272,7 @@ root.resize_schedule = (extra, minus) ->
 
 ajax = (route, form, success, fail) -> 
 	$.post("schedule/#{route}", form, (data) ->
-		console.log(data)
+		#console.log(data)
 
 		secret = data.secret
 		if !user

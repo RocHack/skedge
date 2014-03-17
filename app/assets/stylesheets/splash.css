@@ -51,7 +51,7 @@ hr.half
 
 #splash-space
 {
-  height: 100px;
+  height: 80px;
 }
 
 #info
@@ -79,7 +79,7 @@ small.splash
 
 .enormous
 {
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
   font-size: 7em;
   letter-spacing: -0.05em;

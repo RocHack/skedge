@@ -130,6 +130,8 @@ root.load_skedge = (sk, year, term) ->
 	current_skedge = sk
 
 	if (sk)
+		next_color = generate_next_color()
+
 		skedge = user.schedules[sk]
 		load_courses(skedge.enrollments)
 
@@ -159,8 +161,6 @@ root.load_skedge = (sk, year, term) ->
 	else
 		load_courses([])
 		$('#current-skedge').html(skedge_description(null, year, term))
-
-	next_color = generate_next_color()
 
 add_block = (obj, op) ->
 	popover = $('.wrapper').hasClass('s-big')

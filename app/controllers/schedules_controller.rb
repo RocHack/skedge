@@ -72,7 +72,7 @@ class SchedulesController < ApplicationController
 			elsif action == :add
 				#save the js data hash for superspeed efficiency
 				data = course.relation(params[:course_type].to_i).where(crn:params[:crn]).first.data
-				data[:color] = params[:color]
+				data[:color] = params[:color].to_i
 				@schedule.enrollments << data
 			end
 

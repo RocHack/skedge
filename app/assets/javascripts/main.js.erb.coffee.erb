@@ -67,7 +67,7 @@ max = 0
 
 root = exports ? this
 
-next_color = null
+next_color = 0
 
 colors = ["#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#d35400", "#c0392b", "#5e6768"]
 
@@ -80,6 +80,10 @@ root.generate_next_color = ->
 	colors_left = [0,1,2,3,4,5,6,7]
 	for c in courses
 		idx = colors_left.indexOf(c.color)
+		if idx == -1 #means we went for round 2!
+			colors_left = colors_left.concat([0,1,2,3,4,5,6,7])
+			idx = colors_left.indexOf(c.color)
+
 		colors_left.splice(idx,1) if idx > -1
 
 	if colors_left.length == 0
@@ -295,6 +299,7 @@ course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type, "color":next_color},
 		( ->
 			#no maintenance here since we're updating courses from the server anyway!! 
+			generate_next_color()
 			compute_buttons()
 		),
 		( ->
@@ -335,7 +340,6 @@ remove_block = (obj) ->
 remove_section_obj = (obj) ->
 	remove_block(obj)
 	course_ajax(obj, "delete")
-	generate_next_color()
 
 
 root.remove_section = (btn) ->
@@ -352,7 +356,6 @@ root.add_section = (btn) ->
 	obj = $(btn).data('section')
 	add_block(obj)
 	course_ajax(obj, "add")
-	generate_next_color()
 
 root.undo_section = (btn) ->
 	obj = $(btn).data('section')

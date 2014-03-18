@@ -176,7 +176,8 @@ add_block = (obj, op) ->
 	for day in obj.days.split("")
 		s = style(day,obj.time_in_hours-min,obj.duration,colors[color])
 		c = $("#template").clone().addClass("b-#{obj.crn}").css(s).appendTo($('.courses'))
-		c.attr('href',"/?q=#{obj.dept}+#{obj.num}")
+		qstr = "/?q=#{obj.dept}+#{obj.num}&t=#{obj.term}&y=#{obj.year}"
+		c.attr('href',qstr)
 		c.find('.s-block-dept').html(obj.dept)
 		c.find('.s-block-cnum').html(obj.num)
 		c.find('.s-block-time').html(obj.time)

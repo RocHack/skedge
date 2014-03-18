@@ -11,15 +11,15 @@ class MainController < ApplicationController
 		end
 	end
 
-	def params_from_query(query, credits=0, term=0)
+	def params_from_query(query, credits=0, term=0, year=0)
 		status_search = nil
 		name_search = nil
 		dept_search = nil
 		num_search = nil
 		instructor_search = nil
 
-		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][credits.to_i]
-		term_search = [nil, 0, 1][term.to_i]
+		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][credits]
+		term_search = [nil, 0, 1][term]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
@@ -48,6 +48,7 @@ class MainController < ApplicationController
 		select[:dept] = dept_search           if dept_search
 		select['sections.instructors'] = /.*#{instructor_search}.*/i  if instructor_search
 		select[:title] = /.*#{query}.*/i      if name_search
+		select[:year] = year                  if year != 0
 
 		if term_search
 			select[:term] = term_search
@@ -59,8 +60,15 @@ class MainController < ApplicationController
 	end
 
 	def search_for_courses(query)
-		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][(params["sort"] || 0).to_i]
-		q = params_from_query(query, params["credits"] || 0, params["term"] || 0)
+		#these use a neat trick in ruby that nil.to_i #=> 0
+		p_sort = params["sort"].to_i
+		p_cred = params["credits"].to_i
+		p_term = params["term"].to_i
+		p_term = params["t"].to_i + 1 if p_term == 0 && params["t"]
+		p_year = params["y"].to_i
+
+		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][p_sort]
+		q = params_from_query(query, p_cred, p_term, p_year)
 		results = Course.where(q)
 		
 		if params["rand"].presence

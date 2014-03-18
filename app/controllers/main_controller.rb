@@ -27,6 +27,12 @@ class MainController < ApplicationController
 			query = query.gsub(instructor_regex,"").strip #remove from the query
 		end
 
+		term_regex = /term:(fall|spring)/i
+		if !term_search && match = query.match(term_regex)
+			term_search = {"fall" => 0, "spring" => 1}[match[1].downcase]
+			query = query.gsub(term_regex,"").strip
+		end
+
 		name_search = query
 		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
 		if match
@@ -36,12 +42,12 @@ class MainController < ApplicationController
 		end
 
 		select = {}
-		select[:credits.gte] = c_lo               if c_lo
-		select[:credits.lte] = c_hi               if c_hi
-		select[:number] = /#{num_search}.*/       if num_search
-		select[:dept] = dept_search               if dept_search
-		select[:instructors] = instructor_search  if instructor_search
-		select[:title] = /.*#{query}.*/i          if name_search
+		select[:credits.gte] = c_lo           if c_lo
+		select[:credits.lte] = c_hi           if c_hi
+		select[:number] = /#{num_search}.*/   if num_search
+		select[:dept] = dept_search           if dept_search
+		select['sections.instructors'] = /.*#{instructor_search}.*/i  if instructor_search
+		select[:title] = /.*#{query}.*/i      if name_search
 
 		if term_search
 			select[:term] = term_search

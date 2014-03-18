@@ -8,10 +8,12 @@ class SchedulesController < ApplicationController
 		user = User.find_by('schedules.rid' => rid)
 		@schedule = user.schedules.find_by(rid:rid)
 		@side = false
-		respond_to do |format|
-			format.json { render json:@schedule.enrollments.to_json }
-			format.html 
-		end
+
+		# render
+		# respond_to do |format|
+		# 	#format.json { render json:@schedule.enrollments.to_json }
+		# 	format.html 
+		# end
 	end
 
 	def decode_img(img64, rid)

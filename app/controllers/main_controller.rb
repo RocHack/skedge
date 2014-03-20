@@ -11,7 +11,7 @@ class MainController < ApplicationController
 		end
 	end
 
-	def params_from_query(query, credits=0, term=0, year=0)
+	def params_from_query(query, credits=0, term=0, year=0, random=false)
 		status_search = nil
 		name_search = nil
 		dept_search = nil
@@ -52,7 +52,9 @@ class MainController < ApplicationController
 
 		if term_search
 			select[:term] = term_search
-		else
+		end
+		
+		if !term_search || random
 			select[:latest] = 1
 		end
 
@@ -66,12 +68,13 @@ class MainController < ApplicationController
 		p_term = params["term"].to_i
 		p_term = params["t"].to_i + 1 if p_term == 0 && params["t"]
 		p_year = params["y"].to_i
+		p_rand = params["rand"].presence
 
 		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][p_sort]
-		q = params_from_query(query, p_cred, p_term, p_year)
+		q = params_from_query(query, p_cred, p_term, p_year, p_rand)
 		results = Course.where(q)
 		
-		if params["rand"].presence
+		if p_rand
 			results = results.only(:_id)
 			if !results.empty?
 				random = Course.find(results.sample.id)

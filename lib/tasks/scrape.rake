@@ -1,65 +1,6 @@
 require 'rubygems'
 require 'mechanize'
 
-class Formatter
-  def self.linkify(short, txt) 
-    #matches any strings that are like "ABC 123", and replaces them with links
-    last_dept = short #default to course's dept (ie if just "291")
-    regex = /(\A|\s)([A-Za-z]{0,3})\s*(\d{3}[A-Za-z]*)/
-    str = txt.gsub(regex) do |w|
-      match = w.match regex
-      link = w
-      not_link = ""
-      dept = match[2].strip
-      num = match[3].strip
-      if dept.empty? || dept == "or" || dept == "of" || dept == "and" || dept == "one" || dept == "two"
-        not_link = " "+dept
-        w = num
-        link = last_dept+" "+num
-      else
-        last_dept = dept
-      end
-      not_link + " " + "<a href='/?q=#{link.strip.gsub(" ","+")}'>#{w}</a>"
-    end
-    str
-  end
-
-  def self.format_clusters(clusters)
-    clusters.split(",").map do |c|
-      c.strip!
-      "<a href='http://rochack.org/clustergraph/#cluster:#{c.downcase}'>#{c}</a>"
-    end.join(", ")
-  end
-
-  def self.format_restrictions(restrictions)
-    restrictions.gsub(/\[.*\]\s*/,"") #remove [A] stuff
-  end
-
-  def self.format_name(name)
-    little = %w(and of or the to the in but as is for with)
-    exact = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI BME CHM ECE LIN CSC BIO LGBTQ iPhone)
-    prev = nil
-    name.gsub(/(\w|\.|')*/) do |w|
-      w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
-        w.downcase
-      elsif exact.include?(w)
-        w
-      elsif w =~ /^(I*|\d)([A-D]|V|)((:|\b)?)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^M?T?W?R?F?$/
-        w
-      else
-        w.capitalize
-      end
-      prev = w2 if !w2.strip.empty?
-      w2
-    end
-  end
-
-  def self.encode(txt)
-    #PH 236 has a weird encoding in its description, sanitizing everything to be sure
-    txt.encode("ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => '')
-  end
-end
-
 class Scraper
   #the resulting HTML is stuck in tables, and each field is kept in a tag, with the field name as id...
   LabelSchedule = "rpSchedule_ctl01_"
@@ -97,9 +38,9 @@ class Scraper
 
   IntFields = [:sec_enroll, :sec_cap, :tot_enroll, :tot_cap, :credits, :crn, :year]
 
-  ASE = "1"
-
-  attr_accessor :school, :terms, :num, :depts
+  Schools = {"ASE" => "1", "SIMON" => "2"}
+  
+  attr_accessor :schools, :terms, :num, :depts
 
   def pad_with_zero(num)
     num.to_s.rjust(2,"0")
@@ -115,12 +56,12 @@ class Scraper
       val = Section::Term::Terms[val.split.first] if sym == :term  #"Spring 2013" => "Spring" => 1
       val = (Section::Type::Types[val] || Section::Type::Course) if sym == :section_type
       val = Section::Status::Statuses[val] if sym == :status
-      val = Formatter.format_name(val) if sym == :title
-      val = Formatter.format_restrictions(val) if sym == :restrictions
-      val = Formatter.format_clusters(val) if sym == :clusters
-      val = Formatter.linkify(dept, val) if sym == :comments || sym == :cross || sym == :prereqs
+      val = Course::Formatter.format_name(val) if sym == :title
+      val = Course::Formatter.format_restrictions(val) if sym == :restrictions
+      val = Course::Formatter.format_clusters(val) if sym == :clusters
+      val = Course::Formatter.linkify(dept, val) if sym == :comments || sym == :cross || sym == :prereqs
       val = val.to_i if IntFields.include? sym #convert to int for some fields
-      val = Formatter.encode(val) if sym == :description
+      val = Course::Formatter.encode(val) if sym == :description
       val = val.split(";") if sym == :instructors
       val = val.split(", ") if sym == :clusters
 
@@ -242,22 +183,28 @@ class Scraper
 
   def run
     a = Mechanize.new
+    custom = @depts
     a.get('https://cdcs.ur.rochester.edu/') do |page|
       #get the main CDCS form
       form = page.form("form1")
-      #click school of arts & sciences (otherwise department list is huge)
-      form.field_with(:name => "ddlSchool").option_with(:value => @school).click
-      #but we have to load the selection so it uses the updated department popup
-      results = form.click_button
-      
-      @form = results.form("form1")
-      @depts ||= get_dept_list
 
-      @terms.each do |term|
-        puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"
-        @depts[@num..-1].each_with_index do |dept,i|
-          puts "#{i+1+@num}. #{dept.upcase}"
-          get_dept(dept.upcase, term)
+      @schools.each do |school|
+        #click school (otherwise department list is huge)
+        form.field_with(:name => "ddlSchool").option_with(:value => school).click
+        #but we have to load the selection so it uses the updated department popup
+        results = form.click_button
+        
+        @form = results.form("form1")
+        @depts = get_dept_list
+        custom ||= @depts
+
+        @terms.each do |term|
+          puts Scraper::Schools.key(school)
+          puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"
+          @depts[@num..-1].each_with_index do |dept,i|
+            puts "#{i+1+@num}. #{dept.upcase}"
+            get_dept(dept.upcase, term)
+          end
         end
       end
     end
@@ -276,7 +223,7 @@ namespace :scrape do
 
     Scraper.scrape do |s|
       s.terms = terms
-      s.school = Scraper::ASE
+      s.schools = ENV['schools'] ? ENV['schools'].split(",").map{|s|Scraper::Schools[s.upcase]} : Scraper::Schools.values
       s.num = num.to_i
       s.depts = ENV['depts'].split(",") if ENV['depts']
     end

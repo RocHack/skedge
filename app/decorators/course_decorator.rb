@@ -2,12 +2,7 @@ class CourseDecorator < Draper::Decorator
 	delegate_all
 
 	def term
-		case object.term
-		when Section::Term::Fall
-			"Fall"
-		when Section::Term::Spring
-			"Spring"
-		end
+		["Fall", "Spring", "Summer", "Winter"][object.term]
 	end
 
 	def term_and_year

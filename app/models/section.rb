@@ -10,9 +10,10 @@ class Section
 	module Term
 		Fall = 0
 		Spring = 1
-		Both = 2
+		Summer = 2
+		Winter = 3
 
-		Terms = {"Fall" => Fall, "Spring" => Spring}
+		Terms = {"Fall" => Fall, "Spring" => Spring, "Summer"=> Summer, "Winter" => Winter}
 	end
 
 	module Type

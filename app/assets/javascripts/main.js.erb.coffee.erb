@@ -128,7 +128,7 @@ root.skedge_description = (skedge, year, term) ->
 		year = skedge.year
 		term = skedge.term
 	return "" if year == null || term == null || year == undefined || term == undefined
-	"#{['Fall', 'Spring'][term]} #{year}"
+	"#{['Fall', 'Spring', 'Summer', 'Winter'][term]} #{year}"
 
 root.load_skedge = (sk, year, term) ->
 	current_skedge = sk

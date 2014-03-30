@@ -12,7 +12,7 @@
             %ul.filter-menu.dropdown-menu{role:"menu"}
               -options.each_with_index do |option, i|
                 %li=fake_a(option)
-                -if i == 0
+                -if i == 0 || (i == 2 && filter == "term")
                   %li.divider
 
             =hidden_field_tag filter, params[filter], {:class=>"dropdown-value", :id=>filter}

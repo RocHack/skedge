@@ -229,8 +229,12 @@ namespace :scrape do
     end
   end
 
-  task :all => :environment do
-    scrape(["Fall 2013", "Spring 2014", "Fall 2014"])
+  task :summer => :environment do
+    scrape(["Summer #{ENV['year'] || Time.now.year}"])
+  end
+
+  task :winter => :environment do
+    scrape(["Winter #{ENV['year'] || Time.now.year}"])
   end
 
   task :fall => :environment do

@@ -1,7 +1,7 @@
 module MainHelper
 	Filters = {
 		"credits" => ["Any", "1-2", "3-4", "5+"],
-		"term" => ["Either", "Fall", "Spring"],
+		"term" => ["Any", "Fall", "Spring", "Summer", "Winter"],
 		"sort" => ["Course #", "Start time (early to late)", "Start time (late to early)", "Class size (small to large)"]
 	}
 

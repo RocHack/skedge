@@ -19,7 +19,7 @@ class MainController < ApplicationController
 		instructor_search = nil
 
 		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][credits]
-		term_search = [nil, 0, 1][term]
+		term_search = [nil, 0, 1, 2, 3][term]
 
 		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
 		if (match = query.match instructor_regex)
@@ -27,9 +27,9 @@ class MainController < ApplicationController
 			query = query.gsub(instructor_regex,"").strip #remove from the query
 		end
 
-		term_regex = /term:(fall|spring)/i
+		term_regex = /term:(fall|spring|summer|winter)/i
 		if !term_search && match = query.match(term_regex)
-			term_search = {"fall" => 0, "spring" => 1}[match[1].downcase]
+			term_search = ["fall", "spring", "summer", "winter"].index(match[1].downcase)
 			query = query.gsub(term_regex,"").strip
 		end
 

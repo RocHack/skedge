@@ -24,7 +24,7 @@ class Schedule
 	end
 
 	def description
-		"#{['Fall', 'Spring'][term]} #{year}"
+		"#{['Fall', 'Spring', 'Summer', 'Winter'][term]} #{year}"
 	end
 
 	def sections_description

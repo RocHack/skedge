@@ -67,7 +67,7 @@ $(function()
 
 		var val = ["Any", "1-2", "3-4", "5+"].indexOf(text);
 		if (val < 0)
-			val = ["Either", "Fall", "Spring"].indexOf(text);
+			val = ["Any", "Fall", "Spring", "Summer", "Winter"].indexOf(text);
 		if (val < 0)
 			val = ["Course #", "Start time (early to late)", "Start time (late to early)", "Class size (small to large)"].indexOf(text);
 

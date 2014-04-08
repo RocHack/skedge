@@ -3,6 +3,11 @@
   margin-top: 20px;
 }
 
+.skedge-info
+{
+  font-size: 1.2em;
+}
+
 .fixed
 {
   position: fixed;

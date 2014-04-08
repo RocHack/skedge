@@ -30,6 +30,10 @@ class Schedule
 	def sections_description
 		enrollments.map {|s| s["dept"]+" "+s["num"] }.join(", ")
 	end
+
+	def total_credits
+		enrollments.inject(0) {|sum, e| sum + e["popover_title"].match(/(\d+) credit/)[1].to_i }
+	end
 	
 	def self.make_rid
 		begin

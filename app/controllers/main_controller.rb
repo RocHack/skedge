@@ -44,7 +44,7 @@ class MainController < ApplicationController
 		select = {}
 		select[:credits.gte] = c_lo           if c_lo
 		select[:credits.lte] = c_hi           if c_hi
-		select[:number] = /^#{num_search}/    if num_search
+		select[:number] = /^#{num_search}/i   if num_search
 		select[:dept] = dept_search           if dept_search
 		select['sections.instructors'] = /#{instructor_search}/i  if instructor_search
 		select[:title] = /#{query}/i          if name_search

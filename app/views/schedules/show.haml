@@ -5,14 +5,15 @@
     .skedge-info
       -if @schedule
         %p
-          =@schedule.description
+          %strong
+            =@schedule.description
         %p
           =@schedule.total_credits
           credits
-        -if @my_schedule != @schedule
-          %a{href:"#", onclick:"load_courses(#{@schedule.enrollments.to_json}); return false;"}
-            %button.btn.btn-default.s-option-btn{href:"#"}
-              Compare schedules!              
+        /-if @my_schedule != @schedule
+        /  %a{href:"#", onclick:"load_courses(#{@schedule.enrollments.to_json}); return false;"}
+        /    %button.btn.btn-default.s-option-btn{href:"#"}
+        /      Compare schedules!              
           
   .col-md-10.screenshot
     .big-schedule

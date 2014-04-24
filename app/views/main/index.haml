@@ -36,9 +36,9 @@
           .search-results
             .search-info
               Found
-              =@courses.size
+              =Array(@courses).count
               ="course#{@courses.size == 1 ? "" : "s"}"
-              -if params["capped"]
+              -if @capped
                 (capped)
               in
               %span#render-time

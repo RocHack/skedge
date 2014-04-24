@@ -67,7 +67,7 @@ class MainController < ApplicationController
 		select
 	end
 
-	def search_for_courses(query, cap=150)
+	def search_for_courses(query, cap)
 		#these use a neat trick in ruby that nil.to_i #=> 0
 		p_sort = params["sort"].to_i
 		p_cred = params["credits"].to_i
@@ -79,6 +79,7 @@ class MainController < ApplicationController
 		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][p_sort]
 		q = params_from_query(query, p_cred, p_term, p_year, p_rand)
 		results = Course.where(q)
+		results = results.limit(150) if cap
 		
 		if p_rand
 			results = results.only(:_id)
@@ -90,7 +91,7 @@ class MainController < ApplicationController
 			results = results.order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
 		end
 
-		params["capped"] = results.count == 150
+		@capped = (Array(results).count == 150 && cap)
 		results
 	end
 
@@ -98,7 +99,9 @@ class MainController < ApplicationController
 		@query = params[:q].try(:strip)
 		@courses = nil
 
-		if (params[:f] == "json" && @query == "depts")
+		json = params[:f] == "json"
+
+		if (json && @query == "depts")
 			render json:Department.all.to_json
 			return
 		end
@@ -108,13 +111,11 @@ class MainController < ApplicationController
 				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
 				return
 			end
-			@courses = search_for_courses(@query)
+			@courses = search_for_courses(@query, !json)
 		else
 			@depts = Department.all
 		end
 
-		if (params[:f] == "json")
-			render json:@courses.to_json
-		end
+		render json:@courses.to_json if json
 	end
 end

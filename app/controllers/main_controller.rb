@@ -102,7 +102,7 @@ class MainController < ApplicationController
 		json = params[:f] == "json"
 
 		if (json && @query == "depts")
-			render json:Department.all.to_json
+			render json:Department.all.to_json(:except => [:_id])
 			return
 		end
 
@@ -116,6 +116,6 @@ class MainController < ApplicationController
 			@depts = Department.all
 		end
 
-		render json:@courses.to_json if json
+		render json:@courses.to_json(:except => [:_id, :clusters]) if json
 	end
 end

@@ -37,8 +37,12 @@ class MainController < ApplicationController
 		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
 		if match
 			dept_search = match[1].upcase if !match[1].empty?
-			num_search = match[2] if !match[2].empty?
-			name_search = nil
+			if (Department.where(short:dept_search.upcase).empty?)
+				dept_search = nil
+			else
+				num_search = match[2] if !match[2].empty?
+				name_search = nil
+			end
 		end
 
 		select = {}
@@ -63,7 +67,7 @@ class MainController < ApplicationController
 		select
 	end
 
-	def search_for_courses(query)
+	def search_for_courses(query, cap=150)
 		#these use a neat trick in ruby that nil.to_i #=> 0
 		p_sort = params["sort"].to_i
 		p_cred = params["credits"].to_i
@@ -94,6 +98,11 @@ class MainController < ApplicationController
 		@query = params[:q].try(:strip)
 		@courses = nil
 
+		if (params[:f] == "json" && @query == "depts")
+			render json:Department.all.to_json
+			return
+		end
+
 		if (@query && !@query.empty?) || params["rand"].presence
 			if @query.downcase == "register" || @query.downcase == "registrar"
 				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
@@ -102,6 +111,10 @@ class MainController < ApplicationController
 			@courses = search_for_courses(@query)
 		else
 			@depts = Department.all
+		end
+
+		if (params[:f] == "json")
+			render json:@courses.to_json
 		end
 	end
 end

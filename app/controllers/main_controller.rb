@@ -11,7 +11,7 @@ class MainController < ApplicationController
 		end
 	end
 
-	def params_from_query(query, credits=0, term=0, year=0, random=false)
+	def params_from_query(query, credits=0, term=0, year=0, random=false, json=false)
 		status_search = nil
 		name_search = nil
 		dept_search = nil
@@ -56,7 +56,7 @@ class MainController < ApplicationController
 
 		if term_search
 			select[:term] = term_search
-		else
+		elsif !json
 			select[:latest] = 1
 		end
 
@@ -67,7 +67,7 @@ class MainController < ApplicationController
 		select
 	end
 
-	def search_for_courses(query, cap)
+	def search_for_courses(query, json)
 		#these use a neat trick in ruby that nil.to_i #=> 0
 		p_sort = params["sort"].to_i
 		p_cred = params["credits"].to_i
@@ -77,9 +77,9 @@ class MainController < ApplicationController
 		p_rand = params["rand"].presence
 
 		sort = ["", "min_start ASC, ", "max_start DESC, ", "min_enroll ASC, "][p_sort]
-		q = params_from_query(query, p_cred, p_term, p_year, p_rand)
+		q = params_from_query(query, p_cred, p_term, p_year, p_rand, json)
 		results = Course.where(q)
-		results = results.limit(150) if cap
+		results = results.limit(150) if !json
 		
 		if p_rand
 			results = results.only(:_id)
@@ -91,7 +91,7 @@ class MainController < ApplicationController
 			results = results.order_by("year DESC, term ASC, dept ASC, #{sort} number ASC")
 		end
 
-		@capped = (Array(results).count == 150 && cap)
+		@capped = (Array(results).count == 150 && !json)
 		results
 	end
 
@@ -111,7 +111,7 @@ class MainController < ApplicationController
 				redirect_to "https://webreg.its.rochester.edu/prod/web/RchRegDefault.jsp"
 				return
 			end
-			@courses = search_for_courses(@query, !json)
+			@courses = search_for_courses(@query, json)
 		else
 			@depts = Department.all
 		end

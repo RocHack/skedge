@@ -37,7 +37,7 @@ class MainController < ApplicationController
 		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
 		if match
 			dept_search = match[1].upcase if !match[1].empty?
-			if (Department.where(short:dept_search.upcase).empty?)
+			if (!dept_search || Department.where(short:dept_search.upcase).empty?)
 				dept_search = nil
 			else
 				num_search = match[2] if !match[2].empty?

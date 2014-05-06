@@ -57,7 +57,7 @@ class MainController < ApplicationController
 		if term_search
 			select[:term] = term_search
 		elsif !json
-			select[:latest] = 1
+			#select[:latest] = 1 #don't like this 'feature' anymore
 		end
 
 		if random

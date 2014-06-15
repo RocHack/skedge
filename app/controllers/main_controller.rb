@@ -33,6 +33,12 @@ class MainController < ApplicationController
 			query = query.gsub(term_regex,"").strip
 		end
 
+		crn_regex = /crn:(\d+)/i
+		if match = query.match(crn_regex)
+			crn_search = match[1].to_i
+			query = query.gsub(crn_regex,"").strip
+		end
+
 		name_search = query
 		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
 		if match
@@ -40,7 +46,10 @@ class MainController < ApplicationController
 			if (!dept_search || Department.where(short:dept_search.upcase).empty?)
 				dept_search = nil
 			else
-				num_search = match[2] if !match[2].empty?
+				name_search = nil
+			end
+			if !match[2].empty?
+				num_search = match[2]
 				name_search = nil
 			end
 		end
@@ -51,8 +60,9 @@ class MainController < ApplicationController
 		select[:number] = /^#{num_search}/i   if num_search
 		select[:dept] = dept_search           if dept_search
 		select['sections.instructors'] = /#{instructor_search}/i  if instructor_search
-		select[:title] = /#{query}/i          if name_search
+		select[:title] = /#{name_search}/i    if name_search
 		select[:year] = year                  if year != 0
+		select[:crn] = crn_search             if crn_search
 
 		if term_search
 			select[:term] = term_search

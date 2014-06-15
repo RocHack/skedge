@@ -62,7 +62,7 @@ class MainController < ApplicationController
 		select['sections.instructors'] = /#{instructor_search}/i  if instructor_search
 		select[:title] = /#{name_search}/i    if name_search
 		select[:year] = year                  if year != 0
-		select[:crn] = crn_search             if crn_search
+		select['sections.crn'] = crn_search   if crn_search
 
 		if term_search
 			select[:term] = term_search

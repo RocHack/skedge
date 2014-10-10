@@ -57,9 +57,6 @@
           %p.info
             %strong Time & Place:
             =section.time_and_place
-          .info
-            %strong CRN:
-            =section.CRN
           -if section.instructors
             .info
               %strong
@@ -70,6 +67,9 @@
                   =succeed (idx == list.size-1 ? "" : ",") do
                     %a{href:"#", onclick:"return false;", :class => "dropdown-toggle", data:{toggle:"dropdown"}}= i
                   =instructor_dropdown(i)
+          .info
+            %strong CRN:
+            =section.CRN
       %tr{:style => style, :class => klass}
         %td{colspan:"2"}
           .progress

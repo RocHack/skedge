@@ -3,6 +3,10 @@ class SectionDecorator < Draper::Decorator
 
 	DaysOfWeek = {"M" => "Mon", "T" => "Tues", "W" => "Wed", "R" => "Thurs", "F" => "Fri", "S" => "Sat", "U" => "Sun"}
 
+    def crn
+        "#{object.crn}"
+    end
+
 	def format_time(time, ampm=true)
 		hour = object.hour(time)
 		mins = object.minutes(time)

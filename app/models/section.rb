@@ -43,6 +43,10 @@ class Section
 	field :section_type, type: Integer
 	embedded_in :course
 
+    def crn
+        crn
+    end
+
 	def hour(start_or_end)
 		send(:"#{start_or_end}_time").to_s.rjust(4,"0")[0..1].to_i #first two, accounting for 3-digits, ie, "940"
 	end

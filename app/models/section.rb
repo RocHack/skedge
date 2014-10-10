@@ -43,7 +43,7 @@ class Section
 	field :section_type, type: Integer
 	embedded_in :course
 
-    def crn
+    def CRN
         crn
     end
 

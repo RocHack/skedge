@@ -90,7 +90,7 @@ class MainController < ApplicationController
 		q = params_from_query(query, p_cred, p_term, p_year, p_rand, json)
 		results = Course.where(q)
 		results = results.limit(150) if !json
-		
+
 		if p_rand
 			results = results.only(:_id)
 			if !results.empty?

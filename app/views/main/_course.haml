@@ -119,11 +119,11 @@
                       .info
                         =s1.time_and_place
                       .info
-                        %strong CRN:
-                        =s1.CRN
-                      .info
                         =s1.enroll_ratio
                         students are enrolled
+                      .info
+                        %strong CRN:
+                        =s1.CRN
                     -if s2
                       %td.middle.center
                         %button.btn.btn-sm.full.lab-btn{type:"button", :class => s2.add_button_class, onmouseover:"hover(this);", onmouseout:"unhover(this);", data:{section:s2.data}}
@@ -133,11 +133,11 @@
                         .info
                           =s2.time_and_place
                         .info
-                          %strong CRN:
-                          =s2.CRN
-                        .info
                           =s2.enroll_ratio
                           students are enrolled
+                        .info
+                          %strong CRN:
+                          =s2.CRN
                     -else #add extra if odd to align the columns
                       %td.middle.center
                       %td.lab-info

@@ -182,6 +182,7 @@ class Scraper
   end
 
   def run
+    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
     a = Mechanize.new
     custom = @depts
     a.get('https://cdcs.ur.rochester.edu/') do |page|

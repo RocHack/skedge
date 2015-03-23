@@ -40,7 +40,7 @@ class Scraper
 
   Schools = {"ASE" => "1", "SIMON" => "2"}
   
-  attr_accessor :schools, :terms, :num, :depts
+  attr_accessor :schools, :terms, :range, :depts
 
   def pad_with_zero(num)
     num.to_s.rjust(2,"0")
@@ -201,8 +201,8 @@ class Scraper
         @terms.each do |term|
           puts Scraper::Schools.key(school)
           puts "Starting scrape of #{term ? term : "latest term"} (#{depts.size} departments)"
-          @depts[@num..-1].each_with_index do |dept,i|
-            puts "#{i+1+@num}. #{dept.upcase}"
+          @depts[@range].each_with_index do |dept,i|
+            puts "#{i+1+@range.first}. #{dept.upcase}"
             get_dept(dept.upcase, term)
           end
         end
@@ -219,12 +219,13 @@ end
 
 namespace :scrape do
   def scrape(terms=[nil])
-    num = ENV['num'] || 0
+    range_start = ENV['start'] || 0
+    range_end = ENV['end'] || -1
 
     Scraper.scrape do |s|
       s.terms = terms
       s.schools = ENV['schools'] ? ENV['schools'].split(",").map{|s|Scraper::Schools[s.upcase]} : Scraper::Schools.values
-      s.num = num.to_i
+      s.range = range_start.to_i..range_end.to_i
       s.depts = ENV['depts'].split(",") if ENV['depts']
     end
   end

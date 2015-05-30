@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-style = (day,start,duration,color) -> 
+style = (day,start,duration,color) ->
 	width = 100.0/days.length
 	hour = 100/(max-min + 1)
 	height = duration * hour
@@ -25,14 +25,14 @@ exists_conflict = (c1, c2) ->
 		).reduce ((a, b) -> a || b)
 	if !day_overlap
 		return false
-	
-	((c1.start_time >= c2.start_time && c1.start_time < c2.end_time) || 
+
+	((c1.start_time >= c2.start_time && c1.start_time < c2.end_time) ||
 	(c1.end_time > c2.start_time && c1.end_time <= c2.end_time))
 
 MAIN = 0
 LAB = 1
 REC = 2
-LL = 3 
+LL = 3
 WRK = 4
 
 type2name = (type, short, ignore_section) ->
@@ -140,7 +140,7 @@ root.load_skedge = (sk, year, term) ->
 		load_courses(skedge.enrollments)
 
 		set_cookie(user.secret)
-	
+
 		$('#share-link').show()
 		$('.download').show()
 		$('#share-link').attr("href","#{current_skedge}")
@@ -152,7 +152,7 @@ root.load_skedge = (sk, year, term) ->
 			$('#current-skedge').parent().find('.caret').show()
 			$('#current-skedge').attr('href','#')
 			$('#current-skedge').attr('onclick', 'return false;')
-			
+
 			$('#current-skedge').parent().find('.dropdown-menu').remove()
 
 			list = $('<ul class="dropdown-menu" role="menu"></ul>').appendTo($('#current-skedge').parent())
@@ -161,7 +161,7 @@ root.load_skedge = (sk, year, term) ->
 				list.append($("<li><a href='#' onclick=\"load_skedge(#{rid}); return false;\">#{skedge_description(s)}</a></li>"))
 
 			$('#current-skedge').dropdown()
-			
+
 	else
 		load_courses([])
 		$('#current-skedge').html(skedge_description(null, year, term))
@@ -188,7 +188,7 @@ add_block = (obj, op) ->
 			c.css("opacity",op)
 
 		if !popover
-			c.data("title",obj.title)
+			c.data("title",obj.title+"<br>"+obj.time+"<br>"+obj.location)
 			c.data("placement","top")
 			c.tooltip()
 		else
@@ -216,7 +216,7 @@ hour_range = (extra, minus) ->
 			max = end
 		s = (c.days.indexOf('S') > -1)
 		u = (c.days.indexOf('U') > -1)
-		
+
 	min /= 100
 	max /= 100
 
@@ -275,7 +275,7 @@ root.resize_schedule = (extra, minus) ->
 	if full
 		$('.s-full').height(Math.max((max-min)*67, 750))
 
-ajax = (route, form, success, fail) -> 
+ajax = (route, form, success, fail) ->
 	$.post("schedule/#{route}", form, (data) ->
 		#console.log(data)
 
@@ -299,7 +299,7 @@ ajax = (route, form, success, fail) ->
 course_ajax = (obj, action) ->
 	ajax(action, {"course_id":obj.id, "crn":obj.crn, "course_type":obj.course_type, "color":next_color},
 		( ->
-			#no maintenance here since we're updating courses from the server anyway!! 
+			#no maintenance here since we're updating courses from the server anyway!!
 			generate_next_color()
 			compute_buttons()
 		),
@@ -464,7 +464,7 @@ root.unhover = (btn) ->
 	obj = $(btn).data('section')
 	if !obj.start_time
 		return
-	
+
 	if old_skedge || !current_skedge
 		#switch back
 		load_skedge(old_skedge)
@@ -478,8 +478,8 @@ root.unhover = (btn) ->
 
 	if obj.start_time/100-5 < min || obj.end_time/100+5 > max
 		resize_schedule()
-	
-	
+
+
 root.show_skedge = ->
 	if $('.popup-skedge').length == 0
 		$('.sk').clone().prependTo('.container').addClass('popup-skedge').hide()
@@ -491,7 +491,7 @@ root.show_skedge = ->
 ################
 
 bookmark_ajax = (id, action) ->
-	ajax("bookmark/#{action}", {'course_id':id}, 
+	ajax("bookmark/#{action}", {'course_id':id},
 		((is_new) -> ),
 		( -> ))
 
@@ -594,7 +594,7 @@ root.render_ics = ->
 	for obj in courses
 		cal += render_event(obj)
 	cal += "END:VCALENDAR"
-	
+
 	blob = new Blob([cal])
 	# if navigator.userAgent.indexOf('MSIE 10') > -1 # chrome or firefox
 	# else  # ie

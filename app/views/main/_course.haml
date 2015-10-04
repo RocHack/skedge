@@ -57,6 +57,11 @@
           /%p.info
           /  %strong Time & Place:
           /  =section.time_and_place
+          -if section.building != '' && section.room != ''
+            .info
+              %strong Place:
+              =section.building
+              =section.room
           -if section.instructors
             .info
               %strong
@@ -70,6 +75,7 @@
           .info
             %strong CRN:
             =section.CRN
+
       %tr{:style => style, :class => klass}
         %td{colspan:"2"}
           .progress
@@ -81,7 +87,7 @@
               enrolled
 
   -if num_hidden > 0
-    %a{href:"#", onclick:"$(this).parent().find('.showme').show(); $(this).hide(); return false;"} 
+    %a{href:"#", onclick:"$(this).parent().find('.showme').show(); $(this).hide(); return false;"}
       %strong
         Show
         =num_hidden
@@ -92,7 +98,7 @@
       -if !sections.empty?
         .subcourse
           .subcourse-show
-            %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"} 
+            %a{href:"#", onclick:"$(this).parent().parent().find('.subcourse-data').show(); $(this).parent().hide(); return false;"}
               %strong
                 Show
                 =sections.size
@@ -103,7 +109,7 @@
               %strong
                 =name.capitalize
                 sections:
-              %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"} 
+              %a{href:"#", onclick:"$(this).parent().parent().parent().find('.subcourse-show').show(); $(this).parent().parent().hide(); return false;"}
                 (hide)
             %div
               %table

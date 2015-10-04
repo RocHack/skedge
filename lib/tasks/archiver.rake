@@ -3,7 +3,7 @@ require 'yaml'
 
 #this is to be used for the transition from SQL to mongo & shouldn't really have to be used again
 
-DataFile = "#{Rails.root}/db/old_data.yml"
+DataFile = "#{Rails.root}/db/archive.yml"
 
 task :archive => :environment do
 	d = Schedule.all.map do |schedule|
@@ -14,6 +14,23 @@ task :archive => :environment do
 			{dept:b.course.short, number:b.course.num, title:b.course.name, term:b.course.term, year:b.course.year}
 		end
 		{secret:schedule.secret, rid:schedule.rid.to_i, bookmarks:bookmarks, sections:sec}
+	end
+
+	File.open(DataFile, 'w') do |out|
+		YAML.dump(d, out)
+	end
+end
+
+task :archive2 => :environment do
+	d = User.all.map do |user|
+		schedules = user.schedules.map do |schedule|
+			sec = schedule.sections.collect(&:crn)
+			{rid: schedule.rid, sections: sec}
+		end
+		bookmarks = user.bookmarks.map do |b|
+			{dept:b.course.short, number:b.course.num, title:b.course.name, term:b.course.term, year:b.course.year}
+		end
+		{secret:user.secret, schedules:schedules, bookmarks:bookmarks}
 	end
 
 	File.open(DataFile, 'w') do |out|

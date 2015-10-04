@@ -24,11 +24,12 @@ end
 task :archive2 => :environment do
 	d = User.all.map do |user|
 		schedules = user.schedules.map do |schedule|
-			sec = schedule.sections.collect(&:crn)
+			sec = schedule.enrollments.map { |s| s["crn"] }
 			{rid: schedule.rid, sections: sec}
 		end
 		bookmarks = user.bookmarks.map do |b|
-			{dept:b.course.short, number:b.course.num, title:b.course.name, term:b.course.term, year:b.course.year}
+			short, num = b["number"].split
+			{dept:short, number:num, title:b["title"]}
 		end
 		{secret:user.secret, schedules:schedules, bookmarks:bookmarks}
 	end

@@ -25,7 +25,17 @@ task :archive2 => :environment do
 	d = User.all.map do |user|
 		schedules = user.schedules.map do |schedule|
 			sec = schedule.enrollments.map { |s| s["crn"] }
-			{rid: schedule.rid, sections: sec}
+			yr_term = schedule.year
+			if schedule.term == Section::Term::Fall
+				yr_term += 1
+			end
+			terms = {Section::Term::Fall => 1,
+               Section::Term::Spring => 2,
+               Section::Term::Winter => 3,
+               Section::Term::Summer => 4}
+
+			yr_term = yr_term.to_s + terms[schedule.term].to_s
+			{rid: schedule.rid, yr_term: yr_term.to_i, sections: sec}
 		end
 		bookmarks = user.bookmarks.map do |b|
 			short, num = b["number"].split

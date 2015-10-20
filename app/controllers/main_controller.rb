@@ -14,47 +14,82 @@ class MainController < ApplicationController
 		end
 	end
 
-	def params_from_query(query, credits=0, term=0, year=0, random=false, json=false)
-		status_search = nil
-		name_search = nil
-		dept_search = nil
-		num_search = nil
-		instructor_search = nil
+	# e.g. if param is "instructor" then this would look for things like
+	# "instructor:name" or "instructor = name" in words, which should be the
+	# query slit into words. if regex != nil then it should be how to match the
+	# param in a single word as a string; e.g. "\\d{5}" for a crn.
+	# this method also removes any matched words from the words array.
+	def param_from_words(param, regex, words)
+		param = param.downcase
+		#the next word is the param
+		use_next = false
+		#try looking for "param = value"
+		try_eq = false
+		#a list of indices to delete if a match was found
+		to_delete = []
+		puts "param = " + param.to_s
+		puts "regex = " + regex.to_s
+		puts "words = " + words.to_s
+		words.each_with_index { |word, i|
+			puts "i = " + i.to_s
+			puts "word = " + word.to_s
+			if use_next
+				to_delete.push(word)
+				to_delete.each { |w| words.delete(w) }
+				return word
+			elsif try_eq
+				try_eq = false
+				if word == "="
+					use_next = true
+					to_delete.push(word)
+					to_delete.push(words[i - 1])
+					next
+				end
+			end
 
+			word = word.downcase
+			if word == "#{param}:" || word == "#{param}="
+				to_delete.push(word)
+				use_next = true
+			elsif word == param
+				try_eq = true
+			elsif match = word.match(/#{param}:(.*)/) or match = word.match(/#{param}=(.*)/)
+				to_delete.push(word)
+				return match[1]
+			elsif regex != nil and match = word.match(/^#{regex}$/)
+				words.delete(word)
+				puts "match = " + match[0]
+				return match[0]
+			end
+		}
+		nil
+	end
+
+	def params_from_query(query, credits=0, term=0, year=0, random=false, json=false)
 		c_lo, c_hi = [[nil, nil],[1,2],[3,4],[5,nil]][credits]
 		term_search = [nil, 0, 1, 2, 3][term]
 
-		instructor_regex = /instructor:\s*([A-Za-z'-_]*)/i
-		if (match = query.match instructor_regex)
-			instructor_search = match[1]
-			query = query.gsub(instructor_regex,"").strip #remove from the query
-		end
+		words = query.split(/\s+/)
+		words = words.delete_if(&:blank?)
 
-		term_regex = /term:(fall|spring|summer|winter)/i
-		if !term_search && match = query.match(term_regex)
-			term_search = ["fall", "spring", "summer", "winter"].index(match[1].downcase)
-			query = query.gsub(term_regex,"").strip
-		end
+		cn_regex = "\\d{3}[A-Za-z]?"
+		dept_regex = "[A-Za-z]{2,3}"
 
-		crn_regex = /crn:(\d+)/i
-		if match = query.match(crn_regex)
-			crn_search = match[1].to_i
-			query = query.gsub(crn_regex,"").strip
-		end
+		instructor_search = param_from_words("instructor", nil, words)
+		term_search = param_from_words("term", nil, words)
+		crn_search = param_from_words("crn", "\\d{5}", words)
+		crn_search = crn_search.to_i if crn_search
+		num_search = param_from_words("num", cn_regex, words)
+		num_search = param_from_words("cn", cn_regex, words) if !num_search
+		dept_search = param_from_words("dept", dept_regex, words)
+		dept_search = dept_search.upcase if dept_search
+		course_search = param_from_words("course", "#{cn_regex}#{dept_regex}", words)
+		name_search = words.join(" ");
+		name_search = nil if !name_search.match(/\S/)
 
-		name_search = query
-		match = query.match /^\s*([A-Za-z]{,3})\s*(\d+[A-Za-z]*|)\s*$/
-		if match
-			dept_search = match[1].upcase if !match[1].empty?
-			if (!dept_search || Department.where(short:dept_search.upcase).empty?)
-				dept_search = nil
-			else
-				name_search = nil
-			end
-			if !match[2].empty?
-				num_search = match[2]
-				name_search = nil
-			end
+		if course_search
+			num_search = course_search.match(/#{cn_regex}/)[0]
+			dept_search = course_search.match(/#{dept_regex}/)[0]
 		end
 
 		select = {}
@@ -66,16 +101,7 @@ class MainController < ApplicationController
 		select[:title] = /#{name_search}/i    if name_search
 		select[:year] = year                  if year != 0
 		select['sections.crn'] = crn_search   if crn_search
-
-		if term_search
-			select[:term] = term_search
-		elsif !json
-			#select[:latest] = 1 #don't like this 'feature' anymore
-		end
-
-		if random
-			#get the latest year so random course is up to date
-		end
+		select[:term] = term_search           if term_search
 
 		select
 	end

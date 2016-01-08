@@ -1,4 +1,4 @@
-.feedback-tab
+#feedback-tab
 {
   position: fixed;
   bottom: -9px;
@@ -52,7 +52,7 @@ textarea
 /* MOBILE */
 
 @media (max-width: 768px) {
-  .feedback-tab
+  #feedback-tab
   {
     display: none;
   }

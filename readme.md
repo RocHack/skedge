@@ -1,4 +1,4 @@
-# Skedge
+## Skedge :mouse:
 
 ### Developing
 
@@ -26,6 +26,16 @@
   $ rails s
   ```
 
+### Running tests
+
+Make sure Postgres is running and following command will run rSpec and Cucumber tests:
+
+```
+$ rake
+```
+
+Cucumber tests will require the local server to be running.
+
 ### Deploying
 
 - If you want to submit a change, make a pull request and I can deploy it to http://skedgeur.com.
@@ -42,20 +52,10 @@
     ```
     $ ansible-playbook -i inventory-prod.ini playbook.yml
     ```
-    This installs Ruby, Postgres, Nginx, and may take some time on the first run
+    This installs Ruby, Postgres, Nginx, and may take some time on the first run.
   - Then go back & deploy skedge to it:
   
     ```
     $ cd ..
     $ cap production deploy
     ```
-
-# Running tests
-
-Make sure Postgres is running and following command will run rSpec and Cucumber tests:
-
-```
-$ rake
-```
-
-Cucumber tests will require the local server to be running.

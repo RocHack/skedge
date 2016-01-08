@@ -10,3 +10,4 @@ coverage/
 infra/.vagrant/
 
 infra/galaxy/
+analytics/

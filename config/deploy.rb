@@ -1,6 +1,6 @@
 lock '3.4.0'
 set :application, 'skedgeur.com'
-set :repo_url, "git@bitbucket.org:dhassin/skedge2.git"
+set :repo_url, "git@github.com:rochack/skedge.git"
 set :use_sudo, true
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }

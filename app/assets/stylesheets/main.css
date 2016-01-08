@@ -1,0 +1,239 @@
+.container-fluid
+{
+  margin-left: 1.5%;
+  margin-right: 15px;
+}
+
+.bold-pc
+{
+  font-weight: 600;
+}
+
+.bold-mac
+{
+  font-weight: 500;
+}
+
+/* SEARCH */
+
+.btn-gray
+{
+  background-color:#EEEEEE;
+  height:50px;
+  padding-left: 15px;
+}
+
+#search-bar
+{
+  padding-left: 45px;
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.search-help
+{
+  position: absolute;
+  left: 15px;
+  color: #BABABA;
+  z-index: 50;
+  font-size: 25px;
+  margin-top: 13px;
+}
+
+.search-help:hover
+{
+  color: #888888;
+}
+
+/* Fixed stuff */
+
+.sk-fixed
+{
+  position: fixed;
+  width: 27%;
+  margin-top:30px;
+
+  right: 3%;
+
+  z-index: 1000;
+}
+
+.head-fixed
+{
+  position: fixed;
+  top: 0px;
+  left: 1.5%;
+  width: 64.5%;
+
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100px;
+
+  background-color: white;
+
+  z-index: 999;
+
+  /*border-bottom: 1px solid #CBCBCB;*/
+}
+
+.page-content
+{
+  margin-top: 80px;
+}
+
+/* MISC */
+
+i.fa-check
+{
+  margin-left: 5px;
+}
+
+i.fa-envelope
+{
+  margin-right: 6px;
+}
+
+/* Logo */
+
+h1.logo
+{
+  line-height:0.9em;
+  font-size: 3.2em;
+  margin-bottom: 10px;
+  margin-top: 3px;
+  letter-spacing: -2px;
+  font-weight: 400;
+  color: #5C5C5C;
+  font-family: 'Pontano Sans', sans-serif;
+}
+
+.logo-panel
+{
+  float: left;
+  width: 150px;
+  padding-bottom: 10px;
+}
+
+a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
+{
+  text-decoration: none;
+  color: black;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .row
+  {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
+  .sk-fixed
+  {
+    position: static;
+
+    padding-top: 10px;
+    margin-top: -2px;
+    margin-left: 9%;
+
+    width: 87%;
+
+    background-color: #FFFFFF;
+
+    display: none;
+  }
+
+  .sk
+  {
+    margin-top: -10px;
+  }
+
+  .head-fixed
+  {
+    height: 65px;
+    width: 100%;
+    left: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+
+    border-bottom: 1px solid #CBCBCB;
+  }
+
+  .logo-panel
+  {
+    display: none;
+  }
+
+  #search-bar, .btn-gray
+  {
+    height: 44px;
+  }
+
+  .container-fluid
+  {
+    padding-left: 5px;
+    padding-right: 2px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .below-bar
+  {
+    display: none;
+  }
+
+  .page-content
+  {
+    margin-top: 130px;
+  }
+
+  #search-bar
+  {
+    margin-left: 0px;
+    padding-left: 10px;
+    margin-right: 0px;
+    padding-right: 0px;
+    width: 100%;
+    height: 65px;
+    font-size: 20px;
+    border-radius: 0px;
+  }
+
+  .search-help
+  {
+    display: none;
+  }
+
+  .input-group-btn
+  {
+    border: none;
+  }
+
+  .page-content
+  {
+    margin-top: 60px;
+  }
+
+  #schedule-btn
+  {
+    display: inline-block;
+    height: 65px;
+    font-size: 20px;
+    top: 0;
+    width: 65px;
+    padding-right: 15px;
+  }
+
+  .form-control-feedback
+  {
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 65px; /* schedule button width */
+  }
+}

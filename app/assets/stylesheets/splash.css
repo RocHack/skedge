@@ -1,10 +1,6 @@
-.course-credits
+.skedge-txt
 {
-  float:right;
-  margin-right: 18px;
-  margin-left: 10px;
-  margin-top: 0px;
-  font-size: 0.9em;
+  font-weight: 400;
 }
 
 .splash-container
@@ -12,9 +8,13 @@
   text-align: center;
 }
 
-.splash
+.splash-content
 {
-  font-weight: 200;
+  font-size: 16px;
+  margin: 50px;
+  margin-top: 40px;
+  text-align: left;
+  font-weight: 300;
 }
 
 .splash-hr
@@ -31,27 +31,54 @@ hr.half
 
 .info-text
 {
-  font-size: 1.2em;
+  font-size: 18px;
   margin-bottom: 5px;
 }
 
+/* SEARCH */
 
-#departments
+ul.search-options
 {
-  -moz-column-gap:5px; /* Firefox */
-  -webkit-column-gap:5px; /* Safari and Chrome */
-  column-gap:5px;
-
-  padding-bottom: 30px;
-
-  display: none;
-
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
   margin-top: 20px;
+  font-size: 22px;
 }
+
+.search-options li
+{
+  margin-bottom: 5px;
+}
+
+/* DEPARTMENTS */
+
+.dept-heading
+{
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+/* INFO */
+
+.bracket-link
+{
+  margin: 0 2px 0 2px;
+}
+
+.credits
+{
+  margin-top: 15px;
+  font-size: 15px;
+  line-height: 12px;
+  float: right;
+  text-align: right;
+}
+
 
 #splash-space
 {
-  height: 80px;
+  height: 75px;
 }
 
 #info
@@ -66,7 +93,7 @@ hr.half
 
 small.splash
 {
-  font-weight: 100;
+  font-weight: 300;
   color:gray;
 }
 
@@ -79,7 +106,8 @@ small.splash
 
 .enormous
 {
-  margin-top: 30px;
+  font-family: 'Pontano Sans', sans-serif;
+  margin-top: 40px;
   position: relative;
   font-size: 7em;
   letter-spacing: -0.05em;
@@ -90,6 +118,7 @@ small.splash
 
 .sub
 {
+  font-family: 'Pontano Sans', sans-serif;
   opacity: 0.6;
   letter-spacing: -1.5px;
   font-size: 2.5em;
@@ -122,3 +151,78 @@ a.enormous:link, a.enormous:visited, a.enormous:hover, a.enormous:active
   color: inherit;
   display: block;
 }
+
+@media (max-width: 768px) {
+  .enormous
+  {
+    padding-top: 25px;
+    font-size: 70px;
+  }
+
+  #splash-space
+  {
+    height: 5px;
+  }
+
+  .sub
+  {
+    font-size: 30px;
+  }
+
+  .lead
+  {
+    font-size: 25px;
+  }
+
+  .splash-content
+  {
+    margin: 10px;
+  }
+}
+
+
+
+
+/*  Animations    */
+
+#splash-space.space-enter {
+  height: 0px;
+}
+
+#splash-space.space-enter.space-enter-active {
+  height: 75px;
+  transition: height 300ms;
+}
+
+#splash-space.space-leave {
+  height: 75px;
+
+}
+
+#splash-space.space-leave.space-leave-active {
+  height: 0px;
+  transition: height 300ms;
+}
+
+/**/
+
+.fade-enter {
+  opacity: 0.1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 100ms;
+}
+
+.fade-leave {
+  opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.1;
+  transition: opacity 100ms;
+}
+
+
+

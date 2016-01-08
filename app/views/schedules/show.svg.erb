@@ -1,0 +1,7 @@
+<%= react_component 'Schedule',
+                    { schedule:reactify_schedule(@schedule),
+                      big: true,
+                      svg: true,
+                      width: params[:width],
+                      height: params[:height]},
+                    prerender: true %>

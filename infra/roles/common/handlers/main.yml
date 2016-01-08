@@ -1,0 +1,6 @@
+---
+  - name: restart ntp
+    command: sudo /etc/init.d/ntp restart
+
+  - name: restart sshd
+    command: sudo /etc/init.d/sshd restart

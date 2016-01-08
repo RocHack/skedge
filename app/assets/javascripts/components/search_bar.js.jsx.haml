@@ -1,0 +1,75 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var Tooltip = ReactBootstrap.Tooltip;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+
+  window.SearchBar = React.createClass({
+    seeSearchTips: function () {
+      if (link = document.getElementById('search-link')) {
+        link.click();
+      }
+    },
+
+    logoClick: function () {
+      if (!this.props.query) {
+        document.getElementById('splash-logo').click();
+      }
+    },
+
+    render: function() {
+      var logoHref = this.props.query ? "/" : "#";
+      
+      var searchHelpOverlay = (~
+        %Tooltip
+          see ways to search with skedge
+      ~);
+
+      var sideBtn;
+      var searchPlaceholder;
+      if (!mobilecheck()) {
+        searchPlaceholder = "CSC / CSC 171 / Science of Programming";
+        sideBtn = (~
+          %span.input-group-btn.search-button
+            %button.input-lg.btn.btn-default.btn-gray(type="submit")
+              %span.fa.fa-search
+        ~);
+      }
+      else {
+        searchPlaceholder = "CSC / CSC 171 / Science...";
+        sideBtn = (~
+          %span.input-group-btn
+            %button.input-lg.btn.btn-default#schedule-btn
+              %i.fa.fa-calendar
+        ~);
+      }
+
+      return (~
+        %form(action=".")
+          .head-fixed
+            .logo-panel
+              %a.logo(href={logoHref}
+                      onClick={this.logoClick}
+                      name="logo")
+                %h1.logo
+                  skedge
+
+            .input-group.has-feedback
+              %input.form-control.input-lg#search-bar(name="q"
+                                                      type="search"
+                                                      placeholder={searchPlaceholder}
+                                                      defaultValue={this.props.query}
+                                                      onFocus={this.seeSearchTips})
+
+              %i.fa.fa-search.form-control-feedback
+
+              %a(href="/#search"
+                 name="search-help"
+                 onClick={this.seeSearchTips})
+                %OverlayTrigger(overlay={searchHelpOverlay} placement="bottom")
+                  %i.fa.fa-question-circle.search-help
+              
+              {sideBtn}
+      ~);
+    }
+  })
+})();

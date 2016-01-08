@@ -1,0 +1,49 @@
+---
+  - name: Create the deploy user
+    user: name={{user}} comment="deploy user" generate_ssh_key=yes ssh_key_bits=2048 state=present shell=/bin/bash
+
+  - name: Authorize my key for deploy user
+    authorized_key: user={{user}} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: Authorize my key as root
+    authorized_key: user=root key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: Set {{user}} as sudoer
+    lineinfile: dest=/etc/sudoers line="{{user}} ALL=(ALL) NOPASSWD ":" ALL"
+
+  - name: Remove ubuntu's user
+    user: name=ubuntu state=absent remove=yes
+
+  - name: Update apt cache if needed
+    apt: update_cache=yes cache_valid_time=3600
+
+  - name: Install needed packages
+    apt: pkg={{item}} state=installed
+    with_items:
+      - cron
+      - logrotate
+      - curl
+      - git-core
+      - git
+      - update-motd
+      - firefox
+      - xvfb
+      - vim
+
+  - name: Check if anything needs autoremoving
+    shell: apt-get -y --dry-run autoremove | grep -q "0 to remove"
+    register: check_autoremove
+    ignore_errors: True
+    changed_when: False
+    always_run: True
+
+  - name: Autoremove unused packages
+    command: apt-get -y autoremove
+    when: "check_autoremove.rc != 0"
+
+  - name: Disable periodic OS update checks
+    lineinfile: dest=/etc/apt/apt.conf.d/10periodic regexp="^APT::Periodic::Update-Package-Lists \"1\"" line="APT::Periodic::Update-Package-Lists \"0\";" state=present
+
+  - name: FW Allow everything
+    ufw: state=enabled policy=allow
+

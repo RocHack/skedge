@@ -1,0 +1,76 @@
+---
+  - name: Install needed packages for the app
+    apt: pkg={{item}} state=installed
+    with_items:
+      - autoconf
+      - automake
+      - bison
+      - gawk
+      - libcurl4-openssl-dev
+      - libxml2-dev
+      - libffi-dev
+      - libyaml-dev
+      - libssl-dev
+      - libgdbm-dev
+      - libncurses5-dev
+      - libreadline6-dev
+      - libtool
+      - libyaml-dev
+      - nfs-common
+      - pkg-config
+      - screen
+      - vim
+      - zlib1g-dev
+      - libxslt1-dev
+      - imagemagick
+      - bundler
+      - build-essential
+      - nginx
+      - libpq5
+      - libpq-dev
+
+  - name: Make directory for database.yml
+    file: path=/home/{{user}}/{{appname}}/shared/config owner={{user}} state=directory
+
+  - name: Make assets directory
+    file: path=/home/{{user}}/{{appname}}/shared/assets owner={{user}} state=directory
+
+  - name: Create dummy file for Rails 4/Cap 3 (assets will appear magically)
+    template: src=manifest.yml dest=/home/{{user}}/{{appname}}/shared/assets/manifest.yml owner={{user}}
+
+  - name: Copy database.yml
+    template: src=../../../../config/database.yml dest=/home/{{user}}/{{appname}}/shared/config/database.yml owner={{user}}
+
+  - name: chmod app top dir
+    command: chmod -R 0755 /home/{{user}}/{{appname}}
+
+  - name: Remove nginx default conf
+    file: path=/etc/nginx/sites-enabled/default state=absent
+
+  - name: Copy nginx conf file to available
+    template: src=nginx.conf dest=/etc/nginx/sites-available/{{appname}}.conf owner={{user}}
+
+  - name: Symlink it to enabled
+    file: src=/etc/nginx/sites-available/{{appname}}.conf dest=/etc/nginx/sites-enabled/01-{{appname}}.conf state=link
+
+  - name: User group operations
+    command: sudo chgrp -R www-data /home/{{user}}/{{appname}}
+
+  - name: Add www-data to deploy group
+    command: sudo usermod -a -G www-data {{user}}
+
+  - name: Set up cron for logrotate
+    cron: name="{{appname}} Logrotate" job="logrotate -v /etc/logrotate.d/{{appname}}" state=present special_time=daily user={{user}}
+
+  - name: Set up cron for course scrape
+    cron: name="Courses Scrape" job="cd /home/deploy/skedgeur.com/current && bin/bundle exec rake scrape >> log/scrape.log" state=present special_time=daily user={{user}}
+
+  - name: Set up postgres user
+    postgresql_user: name={{user}} role_attr_flags=CREATEDB
+
+  - name: Set up database
+    postgresql_db: name={{item}}
+    with_items:
+      - skedge_staging
+      - skedge_test
+      - skedge

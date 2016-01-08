@@ -1,0 +1,95 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var ButtonToolbar = ReactBootstrap.ButtonToolbar;
+  var DropdownButton = ReactBootstrap.DropdownButton;
+  var MenuItem = ReactBootstrap.MenuItem;
+  var Modal = ReactBootstrap.Modal;
+
+  window.ScheduleControls = React.createClass({
+    mixins: [Reflux.connect(SKScheduleStore, "store")],
+
+    changeSchedule: function(yrTerm, text) {
+      SKScheduleAction.changeSchedule(yrTerm);
+      $.post("change_last_schedule", {yrTerm:yrTerm},
+      function () {
+        //TODO handle error
+      });
+    },
+
+    backToSearch: function (e) {
+      toggleMobileSchedule(e);
+    },
+
+    getInitialState: function () {
+      return { showGCalModal: false };
+    },
+
+    closeModal: function () {
+      this.setState({ showGCalModal: false });
+    },
+
+    showGCal: function () {
+      this.setState({ showGCalModal: true });
+    },
+
+    render: function() {
+      if (!this.state.store.schedule) {
+        return (~
+          .sk-top.sk-top-placeholder
+            Select courses on the left to add them to your schedule
+        ~);
+      }
+
+      var self = this;
+      var currentTermAndYear = this.state.store.schedule.term+" "+this.state.store.schedule.year;
+      var menuItems = Object.keys(this.state.store.schedules).map(function(yrTerm) {
+        var schedule = self.state.store.schedules[yrTerm];
+        var selected = (schedule.yrTerm == self.state.store.schedule.yrTerm);
+        var text = schedule.term+" "+schedule.year;
+        var checkIcon;
+        if (selected) {
+          checkIcon = (~
+            %i.fa.fa-check
+          ~);
+        }
+        return (~
+          %MenuItem(key={"sk"+yrTerm} onSelect={self.changeSchedule.bind(self, yrTerm, text)} name="schedule-selection")
+            {text}
+            {checkIcon}
+        ~);
+      });
+
+      var Header = Modal.Header;
+      var Title = Modal.Title;
+
+      return (~
+        .sk-top
+          .sk-selector
+            .sk-selector-label
+              Choose a schedule:
+            %DropdownButton(id="sk-selector" bsStyle="link" title={currentTermAndYear} name="schedule-select")
+              {menuItems}
+
+          .top-btns
+            %ButtonToolbar
+              %Button.share-btn(target="_blank" href={this.state.store.schedule.rid} name="share")
+                Share
+              %DropdownButton.export-btn(title="Export" pullRight={true})
+                %MenuItem(href={this.state.store.schedule.rid+".jpg"} target="_blank" name="export-image") Image
+                %MenuItem(onSelect={this.showGCal} name="export-gcal") Google Calendar
+                %MenuItem(href={this.state.store.schedule.rid+".ics"} name="export-ics") Calendar (.ics)
+              %Button#back-to-search-btn(onClick={this.backToSearch})
+                Back to
+                {"  "}
+                %i.fa.fa-search
+
+          %Modal(show={this.state.showGCalModal} onHide={this.closeModal})
+            %Header(closeButton={true})
+              %Title Export to Google Calendar
+            %GCalendarModal(schedule={this.state.store.schedule}
+                            show={this.state.showGCalModal}
+                            closeModal={this.closeModal})
+      ~);
+    }
+  })
+})();

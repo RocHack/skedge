@@ -1,0 +1,59 @@
+.feedback-tab
+{
+  position: fixed;
+  bottom: -9px;
+  right: 3%;
+  font-size: 20px;
+  color: red;
+  border: 1px solid red;
+  padding-top: 7px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-bottom: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 9999;
+  background-color: white;
+}
+
+.bigger {
+  font-size: 18px;
+  margin-bottom: 0px;
+  margin-top: 4px;
+}
+
+.email-field {
+  margin-bottom: 10px;
+}
+
+.feedbacktype-selector {
+  margin-bottom: 10px;
+}
+
+textarea
+{
+  resize:vertical;
+}
+
+.fa-bug,
+.fa-database,
+.fa-question,
+.fa-lightbulb-o {
+  margin-right: 6px;
+  font-size: 18px;
+}
+
+.post-submit
+{
+  margin-top: 3px;
+  text-align: center;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .feedback-tab
+  {
+    display: none;
+  }
+}

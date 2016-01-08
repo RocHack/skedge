@@ -1,33 +1,43 @@
-!!! 5
+!!!
 %html
   %head
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
     %title skedge
+    <link href='https://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
     =favicon_link_tag "favicon.png"
-    =stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
-    =javascript_include_tag "application", "data-turbolinks-track" => true
+    =stylesheet_link_tag "application", media: "all"
+    =yield(:css)
+    =javascript_include_tag "application"
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
     =csrf_meta_tags
     -if @schedule 
-      <meta property="og:type" content="object"/>
-      <meta property="og:url" content="http://skedgeur.com/#{@schedule.rid}"/>
-      <meta property="og:title" content="#{@schedule.description} Schedule"/>
-      <meta property="og:description" content="#{@schedule.sections_description}"/>
-      -if @schedule.image_file_name
-        <meta property="og:image" content="http://skedgeur.com/#{@schedule.image.url}"/>
+      %meta(property="og:type" content="object")
+      %meta(property="og:url" content="http://skedgeur.com/#{@schedule.rid}")
+      %meta(property="og:title" content="#{@schedule.description} Schedule")
+      %meta(property="og:description" content="#{@schedule.sections_description}")
+      %meta(property="og:image" content="http://skedgeur.com/#{@schedule.rid}.jpg")
 
   %body
-    #main.container.top-margin
-      =yield
+    .container-fluid
+      = content_for?(:content) ? yield(:content) : yield
 
-  :javascript
-    $('#render-time').html("#{(Time.now-@start_time).round(3)} seconds.");
-  :javascript
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-35584323-3']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-      var ga = document.createElement('script');
-      ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+    =react_component 'Feedback'
+    
+
+:javascript
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69603914-1', 'auto');
+  ga('send', 'pageview');
+
+  // retroactively cross-link cookies
+  var secret = "#{current_user.try(:secret)}";
+  if (secret && secret.length > 0) {
+    var d = new Date();
+    d.setTime(d.getTime() + (4*365*24*60*60*1000));
+    document.cookie = "s_id=x&"+secret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";  
+  }
+  

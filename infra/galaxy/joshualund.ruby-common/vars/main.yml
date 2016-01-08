@@ -1,0 +1,27 @@
+---
+ruby_apt_dependencies:
+  - libreadline-dev
+  - libssl-dev
+  - libyaml-dev
+  - zlib1g-dev
+
+ruby_yum_dependencies:
+  - readline-devel
+  - openssl-devel
+  - libyaml-devel
+  - zlib-devel
+
+ruby_symlinks:
+  - bundle
+  - erb
+  - gem
+  - irb
+  - rake
+  - rdoc
+  - ri
+  - ruby
+  - testrb
+
+ruby_location: "/opt/{{ ruby_version }}"
+
+ruby_executable: "{{ ruby_location }}/bin/ruby"

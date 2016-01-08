@@ -1,0 +1,109 @@
+.logo-show
+{
+  margin-left: 10px;
+  margin-bottom: 30px;
+}
+
+.show-container
+{
+  margin-top: 30px;
+}
+
+.popover-field
+{
+}
+
+.popover-value
+{
+  margin-left: 5px;
+}
+
+.popover-course-title 
+{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.schedule-title
+{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.skedge-info
+{
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.skedge-info-sections-credits
+{
+  padding-bottom: 20px;
+}
+
+.class-list
+{
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.class-list-header
+{
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.overlay-control
+{
+  margin-top: 30px;
+}
+
+.overlay-key {
+  list-style: square;
+  margin-top: 20px;
+  font-weight: bold;
+  display: none;
+}
+
+.overlay-key-me {
+  color: #2F87B1;
+}
+
+.overlay-key-them {
+  color: #0F9A09;
+}
+
+.overlay-key-common {
+  color: #AE1F1F;
+}
+
+@media (max-width: 768px) {
+  .show-container
+  {
+    margin-top: 20px;
+  }
+
+  .class-list, .overlay-control, .class-list-header
+  {
+    display: none;
+  }
+
+  .skedge-info
+  {
+    margin-top: 6px;
+    line-height: 12px;
+  }
+
+  .logo-show
+  {
+    float: left;
+    margin-left: 0px;
+    margin-right: 30px;
+    margin-bottom: 5px;
+  }
+
+  .skedge-info
+  {
+    padding-left: 20px;
+  }
+}

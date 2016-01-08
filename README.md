@@ -1,28 +1,54 @@
-skedge
----
+### Skedge
 
-stuff to install:
-```sh
-$ [sudo] gem install rails
-$ [sudo] gem install bundler
-$ brew install mongo
+# Developing
+
+- Install Postgres 9.5 (on mac, postgres.app is great for this)
+- Install necessary gems:
+  ```
+  $ bundle install
+  ```
+- Set up the database:
+  ```
+  $ rake db:create
+  $ rake db:migrate
+  ```
+- Scrape some data (for all or some departments)
+  ```
+  $ rake scrape
+  $ rake scrape depts=csc,mth,ame
+  ```
+- Run the server
+  ```
+  $ rails s
+  ```
+
+# Deploying
+
+- If you want to submit a change, make a pull request and I will deploy it to http://skedgeur.com.
+- If you want to deploy to your own server...(?!)
+  - Set the IP of your server in `inventory-prod.ini`
+  - Install required galaxy roles:
+    ```
+    $ cd infra
+    $ ansible-galaxy install -r galaxy.txt
+    ```
+  - Configure your server with Ansible:
+    ```
+    $ ansible-playbook -i inventory-prod.ini playbook.yml
+    ```
+    This installs Ruby, Postgres, Nginx, and may take some time on the first run
+  - Then go back & deploy skedge to it:
+    ```
+    $ cd ..
+    $ cap production deploy
+    ```
+
+# Running tests
+
+Make sure Postgres is running and following command will run rSpec and Cucumber tests:
+
+```
+$ rake
 ```
 
-setup:
-```sh
-$ git clone https://github.com/RocHack/skedge.git
-$ cd skedge
-$ bundle              #install dependencies
-$ mongod              #with & if you don't want to leave a tab open
-$ rails s             #start the server
-```
-
-scraping cdcs data (do any of these):
-```sh
-$ rake scrape:all                 #this may take a really long time
-$ rake scrape:all depts=csc,lin   #this will take less time
-$ rake scrape:fall depts=csc,lin  #this will take even less time
-```
-
-then go to [http://localhost:3000](http://localhost:3000)!
-
+Cucumber tests will require the local server to be running too.

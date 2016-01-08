@@ -5,163 +5,24 @@
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
  * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
  *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
  *
-
  *= require bootstrap
+ *= require font-awesome
  *= require_tree .
  *= require_self
  */
 
-/* General */
-.inline
-{
-  display:inline;
-}
-
-.right-margin-20
-{
-  margin-right:20px;
-}
-
-.course-icon
-{
-  margin-left:7px;
-}
-
-.left-margin-20
-{
-  margin-left:20px;
-}
-
-.top-margin
-{
-  margin-top:30px;
-}
-
-.middle
-{
-  vertical-align: middle;
-}
-
-.filter-bold
-{
-  font-weight: 500;
-}
-
-p
-{
-  margin-bottom:0px;  
-}
-
-p.lead
-{
-  margin-bottom: 4px;
-}
-
 body
 {
-  font-weight: 200;
+  font-weight: normal;
+  font-size: 14.5px;
 }
 
 strong
 {
-  font-weight: 500;
-}
-
-#main
-{
-  width: 90%;
-}
-
-
-/* "Logo" */
-small.subtitle
-{
-  font-size: 1.9em;
-  line-height:15px;
-  color: gray;
-}
-
-.credits
-{
-  font-size: 0.9em;
-  min-height: 38px;
-  float: right;
-  text-align: right;
-}
-
-h1.logo
-{
-  line-height:0.9em;
-  font-size: 3.2em;
-  margin-bottom: 10px;
-  margin-top: 3px;
-  letter-spacing: -2px;
-  font-weight: 400;
-  color: #5C5C5C;
-}
-
-.logo-panel
-{
-  float: left;
-  width: 150px;
-  padding-bottom: 10px;
-}
-
-a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
-{
-  text-decoration: none;
-  color: black;
-}
-
-@media only screen and (max-device-width:640px)
-{
-  .logo-panel
-  {
-    display: none;
-  }
-  .add-course-btn
-  {
-    display: none;
-  }
-  td.course-btn
-  {
-    width: 0px;
-  }
-  .top-margin
-  {
-    margin-top: 10px;
-  }
-  .bar
-  {
-    border-bottom: 1px solid #CBCBCB;
-    margin-left: -8px;
-    width: 87%;
-    padding-bottom: 10px;
-  }
-  #search-group
-  {
-    margin-right: 100px;
-  }
-  .search-info
-  {
-    display: none;
-    margin: 0;
-    padding: 0; 
-  }
-  .searcher
-  {
-    height:40px;
-  }
-  p.desc, .info, .course-credits, .progress-num
-  {
-    font-size: 0.8em;
-  }
-  .box
-  {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
+  font-weight: bolder;
 }

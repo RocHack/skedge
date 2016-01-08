@@ -1,0 +1,116 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var ButtonToolbar = ReactBootstrap.ButtonToolbar;
+  var DropdownButton = ReactBootstrap.DropdownButton;
+  var MenuItem = ReactBootstrap.MenuItem;
+
+  var Modal = ReactBootstrap.Modal;
+  var ModalHeader = Modal.Header;
+  var ModalBody = Modal.Body;
+  var ModalFooter = Modal.Footer;
+
+  window.Feedback = React.createClass({
+    getInitialState: function () {
+      return {showForm: false, submitted: false, feedbackType: "bug"};
+    },
+
+    showForm: function () {
+      this.setState({ showForm: true })
+    },
+
+    onHide: function () {
+      this.setState(this.getInitialState());
+    },
+
+    selectFeedbackType: function (e) {
+      this.setState({ feedbackType: e });
+    },
+
+    submitFeedback: function () {
+      var self = this;
+      this.setState({ submitted: true });
+
+      var formData = $('#ticket-form').serializeArray().reduce(function(obj, item) {
+          obj[item.name] = item.value;
+          return obj;
+      }, {});
+
+      $.post("create_ticket", {ticket:formData},
+        function () {
+          setTimeout(function () {
+            setTimeout(function () {
+              self.onHide();
+            }, 500);
+            self.setState({ showForm: false });
+          }, 1000);
+        }
+      );
+    },
+
+    render: function () {
+      var body;
+
+      if (this.state.submitted) {
+        body = (~
+          .post-submit
+            %p.lead
+              Thanks for your feedback!
+        ~);
+      }
+      else {
+        var dataErrorInfo;
+        if (this.state.feedbackType == "data") {
+          dataErrorInfo = (~
+            %input.form-control.email-field(name="data_info" placeholder="Course number, section CRN, etc.")
+          ~);
+        }
+
+        body = (~
+          %form#ticket-form
+            .feedbacktype-selector
+              %input(type="hidden" name="feedback_type" value={this.state.feedbackType})
+              %ul.nav.nav-pills(role="tablist")
+                %li.active(role="presentation")
+                  %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "bug")})
+                    %i.fa.fa-bug
+                    Bug
+                %li(role="presentation")
+                  %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "data")})
+                    %i.fa.fa-database
+                    Data Error
+                %li(role="presentation")
+                  %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "question")})
+                    %i.fa.fa-question
+                    Question
+                %li(role="presentation")
+                  %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "suggestion")})
+                    %i.fa.fa-lightbulb-o
+                    Suggestion
+            %input.form-control.email-field(name="email" placeholder="Email (optional)")
+            {dataErrorInfo}
+            %textarea.form-control(name="comments" rows="3" placeholder="Comments")
+        ~);
+      }
+
+      return (~
+        .
+          .feedback-tab(onClick={this.showForm})
+            feedback
+
+          %Modal(show={this.state.showForm} onHide={this.onHide})
+            %ModalHeader
+              %button.close(type="button" onClick={this.onHide})
+                &times;
+              %h2.modal-title
+                help improve skedge!
+              %p.bigger
+                Let us know your concern and we'll take a look as soon as possible.
+            %ModalBody
+              {body}
+            %ModalFooter
+              %button.btn.btn-primary(type="submit" onClick={this.submitFeedback} disabled={this.state.submitted}) Submit!
+
+      ~);
+    }
+  });
+})();

@@ -1,69 +1,78 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.1'
-
-group :development do
-	gem 'capistrano'
-	gem 'capistrano-rails'
-	gem 'capistrano-bundler'
-end
-
-#this is bleeding edge stuff guys
-gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
-gem "mongoid-paperclip", :require => "mongoid_paperclip", git: 'git://github.com/meskyanichi/mongoid-paperclip.git'
-
-# js runtimes
-gem 'execjs'
-gem 'therubyracer'
-
-#faster than webrick
-gem 'thin'
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
-gem 'bootstrap-sass', '~> 3.0.3.0'
-
-# Use Uglifier as compressor for JavaScript assets
+##
+# Rails stuff
+#
+gem 'rails', '4.2'
+gem 'haml-rails', '~> 0.9.0'
+gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
+gem 'jbuilder'
 
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'pg', '~> 0.18.2'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+##
+# Deployment
+#
+gem 'rails_12factor', group: :production
+gem 'unicorn', group: :production
 
-# Use jquery as the JavaScript library
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+
+##
+# Frontend assets and libraries
+#
+gem 'react-rails', '1.3.1'
+gem 'react-bootstrap-rails'
 gem 'jquery-rails'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-reflux', '~> 0.2.7'
+  gem 'rails-assets-classnames', '~> 2.1.1'
+  gem 'rails-assets-font-awesome', '~> 4.3.0'
 end
 
-group :development, :test do
-    gem "rspec"
-    gem "rspec-rails"
-    gem "capybara"
-end
+gem 'hamljsx'
 
+##
+# Scraping
+#
 gem 'mechanize'
-gem 'haml'
-gem 'draper' #decorators
 
-gem 'httparty' #for scraping faculty email addresses
+##
+# Testing
+#
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+# Runtime JS
+gem 'therubyracer'
 
-# Use unicorn as the app server
-# gem 'unicorn'
+gem 'headless',           :group => [:test, :staging]
+gem 'database_cleaner',   :group => [:test, :staging]
+gem 'simplecov',          :require => false, :group => [:test, :staging]
+gem 'rspec-rails',        :group => [:test, :staging]
+gem 'rspec',              :group => [:test, :staging]
+gem 'rspec-mocks',        :group => [:test, :staging]
+gem 'cucumber-rails'    , :require => false, :group => [:test, :staging]
+gem 'vcr'               , :group => [:test, :staging]
+gem 'selenium-webdriver', :group => [:test, :staging]
+gem 'capybara'          , :group => [:test, :staging]
+# gem 'webmock'           , :group => [:test, :staging]
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'annotate'
+
+gem 'mini_magick'
+
+##
+# Debugging
+#
+# gem 'better_errors'
+gem 'binding_of_caller'
+
+##
+# Tracking
+#
+gem 'ahoy_matey'
+

@@ -1,112 +1,103 @@
-class Course
-	include Mongoid::Document
-	field :title, type: String
-	field :number, type: String
-	field :description, type: String
-	field :credits, type: Integer
-	field :restrictions, type: String
-	field :dept, type: String
-	field :clusters, type: Array
-	field :prereqs, type: String
-	field :cross, type: String
-	field :comments, type: String
+class Course < ActiveRecord::Base
+  module Term
+    Fall = 0
+    Spring = 1
+    Summer = 2
+    Winter = 3
+  end
 
-	field :term, type: Integer
-	field :year, type: Integer
-	field :latest, type: Boolean
-	field :min_enroll, type: Integer
-	field :min_start, type: Integer
-	field :max_start, type: Integer
+  def self.yr_term_to_year_and_term(yr_term)
+    terms = {"1" => Course::Term::Fall,
+             "2" => Course::Term::Spring,
+             "3" => Course::Term::Winter,
+             "4" => Course::Term::Summer}
+    term = terms[yr_term.to_s[-1]]
 
-	embeds_many :sections
-	embeds_many :labs,         class_name: 'Section', inverse_of: :course
-	embeds_many :workshops,    class_name: 'Section', inverse_of: :course
-	embeds_many :lab_lectures, class_name: 'Section', inverse_of: :course
-	embeds_many :recitations,  class_name: 'Section', inverse_of: :course
+    year = yr_term.to_s[0..-2].to_i
+    if term == Course::Term::Fall
+      year -= 1
+    end
 
-	def has_prereqs?
-		prereqs && prereqs.downcase != "none"
-	end
+    return year, term
+  end
 
-	def requires_code?
-		(restrictions && restrictions["[A]"]) || (prereqs && prereqs =~ /Permission of instructor required/)
-	end
+  FormatTerm = ["Fall", "Spring", "Summer", "Winter"]
 
-	def cancelled?
-		sections.inject(true) { |x, s| x && s.status == Section::Status::Cancelled }
-	end
+  include QueryingConcern
+  class QueryingException < Exception; end
 
-	def research?
-		(!description || description.empty?) && sections.inject(true) { |x, s| x && s.time_tba? }
-	end
+  has_many :sections, dependent: :destroy
+  has_many :instructors
+  belongs_to :department
 
-	def relation(type)
-		case type
-	    when Section::Type::Course; sections
-	    when Section::Type::Lab; labs
-	    when Section::Type::Recitation; recitations
-	    when Section::Type::LabLecture; lab_lectures
-	    when Section::Type::Workshop; workshops
-	    end
-	end
+  validates :number, uniqueness: { scope: [:department, :yr_term, :title] }
+  validates_presence_of :title, :yr_term, :number, :term, :year
 
-	class Formatter
-		def self.linkify(short, txt) 
-		  #matches any strings that are like "ABC 123", and replaces them with links
-		  last_dept = short #default to course's dept (ie if just "291")
-		  regex = /([A-Za-z]{0,3})\s*(\d{3}[A-Za-z]*)/
-		  str = txt.gsub(regex) do |w|
-		    match = w.match regex
-		    dept = match[1].strip
-		    num = match[2].strip
-		    
-		    not_link = ""
-		    if dept.empty? || dept == "or" || dept == "of" || dept == "and" || dept == "one" || dept == "two" || dept == "three"
-		      not_link = dept
-		      link = last_dept+"+"+num
-		    else
-		      last_dept = dept
-		      link = w.strip.gsub(" ","+")
-		    end
+  def self.has_subsections(name, t)
+    has_many name, -> {
+                     where section_type: t
+                   }, source: :sections, :class_name => 'Section'
+  end
 
-		    not_link + "<a href='/?q=#{link}'>#{w}</a>"
-		  end
-		  str
-		end
+  has_subsections(:course_sections, Section::Type::Course)
+  has_subsections(:labs, Section::Type::Lab)
+  has_subsections(:recitations, Section::Type::Recitation)
+  has_subsections(:lab_lectures, Section::Type::LabLecture)
+  has_subsections(:workshops, Section::Type::Workshop)
 
-	  def self.format_clusters(clusters)
-	    clusters.split(",").map do |c|
-	      c.strip!
-	      "<a href='http://rochack.org/clustergraph/#cluster:#{c.downcase}'>#{c}</a>"
-	    end.join(", ")
-	  end
+  def self.sk_query(search_string)
+    query = text_to_query(search_string)
+    raise QueryingException, query.error if query.error
+    
+    clause = Course.pg_where(query.attrs).
+                    joins(query.joins).
+                    order(:year => :desc,
+                          :term => :asc,
+                          :department_id => :asc).
+                    order(query.orders).
+                    order(:number => :asc).
+                    includes([:course_sections,
+                              :labs,
+                              :recitations,
+                              :lab_lectures,
+                              :workshops,
+                              :department]).
+                    limit(query.limit || 150)
 
-	  def self.format_restrictions(restrictions)
-	    restrictions.gsub(/\[.*\]\s*/,"") #remove [A] stuff
-	  end
+    if (query.orders == ["RANDOM()"])
+      clause = clause.reorder(query.orders)
+    end
+    
+    clause
+  end
 
-	  def self.format_name(name)
-	    little = %w(and of or the to the in but as is for with)
-	    exact = %(HIV AIDS GPU HCI VLSI VLS CMOS EAPP ABC NY MRI FMRI BME CHM ECE LIN CSC BIO LGBTQ iPhone)
-	    prev = nil
-	    name.gsub(/(\w|\.|')*/) do |w|
-	      w2 = if little.include?(w.downcase) && prev && !prev.match(/:|-|–$/)
-	        w.downcase
-	      elsif exact.include?(w)
-	        w
-	      elsif w =~ /^(I*|\d)([A-D]|V|)((:|\b)?)$/ || w =~ /^([A-Z]\.)*$/ || w =~ /^M?T?W?R?F?$/
-	        w
-	      else
-	        w.capitalize
-	      end
-	      prev = w2 if !w2.strip.empty?
-	      w2
-	    end
-	  end
-
-	  def self.encode(txt)
-	    #PH 236 has a weird encoding in its description, sanitizing everything to be sure
-	    txt.encode("ISO-8859-1", :invalid => :replace, :undef => :replace, :replace => '')
-	  end
-	end
+  def requires_code?
+    in_restrictions = restrictions && 
+                      (restrictions["[A]"] || restrictions =~ /Permission of instructor required|Instructor's permission required/i)
+    in_prereqs = prereqs &&
+                 prereqs =~ /Permission of instructor required|Instructor's permission required/i
+    !!(in_restrictions || in_prereqs)
+  end
 end
+
+# == Schema Information
+#
+# Table name: courses
+#
+#  id            :integer          not null, primary key
+#  title         :string(255)
+#  number        :string(255)
+#  description   :text
+#  restrictions  :text
+#  prereqs       :text
+#  crosslisted   :text
+#  comments      :text
+#  credits       :integer
+#  term          :integer
+#  year          :integer
+#  yr_term       :integer
+#  min_enroll    :integer
+#  min_start     :integer
+#  max_start     :integer
+#  department_id :integer
+#

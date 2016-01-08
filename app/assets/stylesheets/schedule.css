@@ -1,45 +1,47 @@
-.options
+.table
 {
-  margin-top: 20px;
-}
-
-.skedge-info
-{
-  font-size: 1.2em;
-}
-
-.fixed
-{
-  position: fixed;
-  width: 27%;
-  margin-left:30px;
-  margin-top:10px;
-  height: 81%;
-}
-
-.side
-{
-  width: 100%;
-  height: 100%;
-}
-
-.s-full
-{
-  height: 800px;
-}
-
-.schedule
-{
-  text-align: left;
   margin-bottom: 0px;
 }
 
-th
+/* Day table */
+
+th.day
 {
   text-align: center;
+}
 
-  height: 20px;
-  width: 20%;
+/* Credits */
+
+.side-info
+{
+  font-size: 16px;
+  margin-top: -15px;
+  margin-left: 0px;
+}
+
+.side-sections
+{
+  display: inline-block;
+}
+
+.side-sections::after
+{
+  margin-left: 10px;
+  content: "/";
+}
+
+.side-credits
+{
+  margin-left: 10px;
+  display: inline-block;
+}
+
+/* Courses */
+
+table.courses
+{
+  height: 100%;
+  width: 100%;
 }
 
 .time
@@ -49,18 +51,10 @@ th
   margin-left: -45px;
   margin-top: -15px;
   font-size: 0.9em;
+  color: #333333;
 }
 
-.skedge
-{
-  position: relative;
-  height: 100%;
-}
-
-.day-table
-{
-  margin-bottom: 0px;
-}
+/* Blocks */
 
 .s-block
 {
@@ -68,38 +62,65 @@ th
   box-shadow:inset 1px 1px 5px rgba(0,0,0,0.2);
   border-style:solid;
   border-width: 0px;
-  border-color: rgba(0,0,0,0.2);
-  opacity: 0.73;
+  border-color: rgba(0,0,0,1);
+  opacity: 0.95;
   overflow: hidden;
-  border-radius: 7px;
+  border-radius: 8px;
 
   z-index: 5;
+  
+  display: block;
 }
 
 .s-block:hover
 {
-  opacity: 0.8;
+  opacity: 0.99;
 }
 
-.wrapper
+.s-block-type
 {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  text-transform:uppercase;
+  font-size: 13px;
+  margin-left: 4px;
+  display: inline-block;
 }
 
-.s-side
+.s-block-cnum
 {
-  display: table;  
+  font-weight: 500;
+  display: inline-block;
+}
+
+.s-block-dept
+{
+  font-weight: 400;
+}
+
+a.s-block:hover
+{
+  text-decoration: none;
 }
 
 .s-block-p
 {
-  text-align: left;
-  color: white;
-  text-shadow: rgba(0,0,0,0.4) 0em 0em 0.15em;
   margin: 2px 8px 2px 8px;
   font-size: 1.2em;
+}
+
+/* SIDE schedule */
+
+.skedge-side
+{
+  position: relative;
+  height: 78vh;
+  min-height: 400px;
+}
+
+.s-side
+{
+  width: 100%;
+  height: 100%;
+  display: table;  
 }
 
 .s-side > .s-block-p
@@ -111,37 +132,25 @@ th
   line-height: 1.1em;
 }
 
-.s-big > .s-block-p
+.s-side > .s-block-p > .s-block-time,
+.s-side > .s-block-p > .s-block-title
 {
-  margin: 5px 8px 2px 8px;
+  display: none;
 }
 
-.s-big > .s-block-p > .s-block-dept, .s-block-cnum, .s-block-type
-{
-  display: inline;
-}
+/* BIG schedule */
 
-.s-block-type
+.skedge-big
 {
-  text-transform:uppercase;
-}
-
-.s-block-cnum
-{
-  font-weight: 400;
-}
-
-.s-block-dept
-{
-  font-weight: 300;
+  position: relative;
+  height: 95vh;
 }
 
 .s-block-title
 {
   text-align: left;
-  margin: 3px 0 0 0;
   font-size: 13.5px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1.25em;
 }
@@ -149,64 +158,29 @@ th
 .s-block-time
 {
   float:right;
-  opacity: 0.85;
+  opacity: 0.9;
   margin-top:1px;
   font-size: 12px;
 }
 
-.s-block-type
+.s-big > .s-block-p > .s-block-dept,
+.s-big > .s-block-p > .s-block-cnum,
+.s-big > .s-block-p > .s-block-type
 {
-  font-size: 13px;
+  display: inline;
 }
 
-a.s-block
+.s-big > .s-block-p > .s-block-cnum
 {
-  display: block;
+  margin-left: 3px;
 }
 
-a.s-block:hover
+.s-big > .s-block-p > .s-block-type
 {
-  text-decoration: none;
+  margin-left: 5px;
 }
 
-.popover-content
-{
-}
-
-@media (max-width: 1200px) {
-  .s-block-time
-  {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .s-block-title
-  {
-    display: none;
-  }
-  .s-big
-  {
-    display: table;  
-  }
-  .s-big > .s-block-p
-  {
-    display: table-cell; 
-    vertical-align: middle;
-    text-align: center;
-    font-weight: 300;
-    line-height: 1.1em;
-  }
-  .s-big > .s-block-p > .s-block-dept, .s-block-cnum, .s-block-type
-  {
-    display: block;
-  }
-}
-
-.sk
-{
-  height: 100%;
-}
+/* Popover */
 
 .popover-instructors
 {
@@ -218,9 +192,9 @@ a.s-block:hover
   margin-top:5px;
 }
 
-.p-title
+.popover-title
 {
-  font-weight: 300;
+  font-weight: 400;
   color: #3A3A3A;
 }
 
@@ -231,139 +205,26 @@ a.s-block:hover
   color: #A8A8A8;
 }
 
-.popup-skedge
+.p-container
 {
-  z-index: 60;
-  background-color: white;
-  position: fixed;
-  top: 94px;
-  width: 90%;
-  height: 90%;
+  max-width: 400px;
 }
 
-.bk-panel
+.tooltip-title
 {
-  height: 100%;
+  font-size:1.1em;
 }
 
-.bk
-{
-  position: relative;
-  height: 100%;
-}
+/* MOBILE */
 
-.bk-footer
-{
-  position: absolute;
-  bottom: 1px;
-  width:100%;
-  height: 55px;
-}
+@media (max-width: 768px) {
+  .skedge-big
+  {
+    margin-left: 10px;
+  }
 
-.b-b
-{
-  position: absolute;
-  height: calc(100% - 80px);
-  margin: 0;
-  width:100%;
-  overflow: scroll;
-}
-
-.check-td
-{
-  width:20px;
-}
-
-.b-check
-{
-  margin-left: 5px;
-  margin-top: 7px;
-}
-
-.b-close
-{
-  margin-top: 8px;
-  margin-right: 7px;
-}
-
-.b-a
-{
-  display: block;
-}
-
-.b-a:hover
-{
-  text-decoration: none;
-}
-
-.b-body
-{
-  color: black;
-}
-
-/*******/
-
-.no-skedge
-{
-  text-align: center;
-
-  font-size: 3em;
-  color: gray;
-
-  position: absolute;
-  left: 50%;
-  top: 23%;
-  width: 600px;
-  margin-left: -300px;
-}
-
-.screenshot
-{
-  background-color: white;
-}
-
-.big-schedule
-{
-  margin-left: 15px;
-  margin-right: 5%;
-}
-
-.top-btns
-{
-  float: right;
-}
-
-.sk-top
-{
-  margin-bottom: 50px;
-  position: relative;
-}
-
-.share
-{
-  display: inline-block;
-}
-
-.download
-{
-  display: inline-block;
-  margin-right: 2px;
-  margin-left: 2px;
-}
-
-.bkmks
-{
-  display: inline-block;
-}
-
-.sk-selector
-{
-  float: left;
-  padding-top: 5px;
-}
-
-#current-skedge
-{
-  font-size: 1.25em;
-  color: black;
+  .side-info
+  {
+    padding-bottom: 20px;
+  }
 }

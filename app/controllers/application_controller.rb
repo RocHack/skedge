@@ -3,25 +3,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :set_start_time
+  helper_method :current_user
 
-  def set_start_time
-    @start_time = Time.now
-    @side = true
-
-    @user = nil
-    if cookies["s_id"]
-      @rid, secret = cookies["s_id"].split("&")
-
-      @user = User.where(secret: secret).first
-      @rid = nil if @rid && @user && !@user.schedules.where(rid:@rid).exists?
-    end
-    if @user
-      @user_json = @user.skedge_json
-      @rid ||= @user.schedules.first.try(:rid) || "null"
-    else
-      @rid = "null"
-      @user_json = "null"
-    end
+  def current_user
+    _, secret = cookies["s_id"].try(:split, "&")
+    secret && (User.find_by(secret: secret))# || raise("Tried to access a user with secret that doesn't exist"))
   end
 end

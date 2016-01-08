@@ -1,7 +1,7 @@
 set :stage, :staging
 
-my_ip = "test.danhassin.com"
-my_user = "root"
+my_ip = "stage.skedgeur.com"
+my_user = "deploy"
 my_server = "#{my_user}@#{my_ip}"
 
 role :app, my_server

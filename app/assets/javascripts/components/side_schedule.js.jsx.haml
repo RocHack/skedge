@@ -1,0 +1,24 @@
+(function() {
+  window.SideSchedule = React.createClass({
+    mixins: [Reflux.connect(SKScheduleStore, "store")],
+    getInitialState: function() {
+      SKScheduleAction.loadSchedules(
+        this.props.schedules,
+        this.props.defaultSchedule
+      );
+    },
+
+    render: function() {
+      return (~
+        .
+          .row
+            %ScheduleControls
+          .row
+            %Schedule(schedule={this.state.store.schedule}
+                      temporaryAdds={this.state.store.temporaryAdds}
+                      temporaryDeletes={this.state.store.temporaryDeletes}
+                      temporaryGhosts={this.state.store.temporaryGhosts})
+      ~);
+    }
+  });
+})();

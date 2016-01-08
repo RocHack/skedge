@@ -1,0 +1,427 @@
+(function() {
+  window.toggleOverlayUserSchedule = function (otherSchedule) {
+    window.singletonSchedule.setState({comparingSchedule: !window.singletonSchedule.state.comparingSchedule});
+  };
+  window.Schedule = React.createClass({
+    getInitialState: function() {
+      return {
+        comparingSchedule: false
+      };
+    },
+
+    color: function(idx) {
+      var colors = [
+                    "#50B82F", //green
+                    "#2F87B1", //blue
+                    "#DC4137", // red
+                    "#D58400", // orange
+                    "#8B31BE", // purple
+                    "#0A4FC1", // dark blue
+                    "#0D8808", // dark green
+                    "#AE1F1F" // dark red
+                    ];
+      return colors[idx % colors.length];
+    },
+
+    render: function () {
+      window.singletonSchedule = this;
+      if (this.props.svg) {
+        return this.renderSVG();  
+      }
+      return this.renderHTML();
+    },
+
+    renderSVG: function () {
+      var layout = getLayout(this.props, this.state);
+
+      var self = this;
+
+      var leftOffset = 50;
+      var topOffset = 50;
+
+      var w = this.props.width ? this.props.width : 1100;
+      var h = this.props.height ? this.props.height : 800;
+      var wid = w-leftOffset;
+      var height = h-topOffset;
+
+      var days = layout.daysOfWeek.map(function(day, i, array) {
+        var style = {fontWeight: "bold", fontFamily:"Helvetica", fontSize:"15px"};
+        return (
+          <text x={leftOffset + (i+0.5)*(wid/array.length)} y={topOffset-15} style={style} key={day}>{day}</text>
+        );
+      });
+
+      var pixPerHour = height/layout.hoursRange.length;
+      var hours = layout.hoursRange.map(function(time, i) {
+        var t = ((time - 1) % 12) + 1;
+        var y = i*pixPerHour + topOffset;
+        var xoff = t >= 10 ? 0 : 7;
+        var style = {fontSize:"13.5px", fontFamily:"Helvetica"};
+        return (
+          <g key={time}>
+            <text x={leftOffset-25+xoff} y={y+4} textAnchor="start" fill="#333333" style={style}>{t}</text>
+            <line x1={leftOffset} y1={y} x2={leftOffset+wid} y2={y} style={{stroke:"#D5D5D5",strokeWidth:1}} />
+          </g>
+        );
+      });
+
+      var courses = self.props.schedule.sections.map(function(section, i) {
+        return section.days.split("").map(function (day) {
+          var boxWid = wid/layout.daysOfWeek.length-4;
+          var boxHeight = section.duration * pixPerHour;
+
+          var dayIdx = layout.daysOfWeek.indexOf(day.toUpperCase());
+
+          var left = leftOffset + dayIdx*(boxWid+4);
+          var top = topOffset + pixPerHour * (section.startTimeHours - layout.min);
+          var color = self.color(i);
+
+          var type = type2name(section.sectionType, true, true);
+          if (section.abcSection) {
+            type += " "+section.abcSection;
+          }
+
+          var cnumStyle = {fill:"#FFFFFF", fontSize:"14px", fontFamily:"Helvetica", fontWeight: "bold"};
+          var titleStyle = {fill:"#FFFFFF", fontSize:"13px", fontFamily:"Helvetica"};
+          var placeStyle = {fill:"#FFFFFF", fontSize:"11px", fontFamily:"Helvetica"};
+          var timeStyle = {fill:"#FFFFFF", fontSize:"11px", fontFamily:"Helvetica"};
+
+          var timeOffset = (((section.startTime - 100) % 1200) + 100) < 1000 ? 5 : 0;
+             timeOffset += (((section.endTime - 100) % 1200) + 100) < 1000 ? 5 : 0;
+
+          return (
+            <g>
+              <rect
+                key={"section-"+section.crn+"-"+day}
+                x={left+2}
+                y={top}
+                rx="8" 
+                ry="8"
+                width={boxWid}
+                height={boxHeight}
+                fill={color}>
+              </rect>
+
+              <text x={left+2+7} y={top+18} style={cnumStyle}>
+                {section.course.dept + " " + section.course.num + " " + type}
+              </text>
+              <text x={left+2+7} y={top+36} style={titleStyle}>
+                {section.course.title}
+              </text>
+              <text x={left+2+7} y={top+54} style={placeStyle}>
+                {section.place}
+              </text>
+
+              <text x={left+boxWid-60+timeOffset} y={top+16} style={timeStyle}>
+                {section.prettyTime}
+              </text>
+            </g>
+          );
+        });
+      });
+
+      return (
+        <svg width={wid+leftOffset}
+             height={height+40}
+             version="1.1">
+          {days}
+          
+          <line x1={leftOffset} y1={topOffset} x2={leftOffset+wid} y2={topOffset} style={{stroke:"#D5D5D5",strokeWidth:3}} />
+          
+          {hours}
+
+          {courses}
+        </svg>);
+    },
+
+    renderHTML: function() {
+      var layout = getLayout(this.props, this.state);
+
+      var courses;
+      var self = this;
+
+      var big = this.props.big && !mobilecheck();
+
+      if (this.props.schedule) {
+        var sections = self.props.schedule.sections;
+        if (self.props.temporaryAdds) {
+          sections = sections.concat(self.props.temporaryAdds);
+        }
+        if (self.state.comparingSchedule) {
+          sections = sections.concat(self.props.userSchedule.sections);
+        }
+        courses = sections.map(function(section, i) {
+          return section.days.split("").map(function (day) {
+            var width = 100.0/layout.daysOfWeek.length - 1/4;
+            var hour = 100/(layout.max-layout.min + 1);
+            var dayIdx = layout.daysOfWeek.indexOf(day.toUpperCase());
+
+            var height = section.duration * hour;
+            var left = dayIdx*width;
+            var top = hour * (section.startTimeHours - layout.min);
+            var fontColor = "#FFFFFF";
+            var borderWidth = "0px";
+
+            var time = section.prettyTime;
+            var fontSize = "1em";
+
+            if (section.sectionType != MAIN) {
+              if (height < 7.75) {
+                fontSize = "0.9em";
+              }
+            }
+
+            var color = self.color(i);
+            if (self.state.comparingSchedule) {
+              var them = (i < self.props.schedule.sections.length);
+              if (them) {
+                var conflicts = window.SKScheduleStore.sectionConflict(section, self.props.userSchedule.sections, day);
+                if (conflicts == null || conflicts.length > 0) {
+                  width = width/2 - 1/4;
+                  time = "";
+                }
+              } else {
+                borderWidth = "1px";
+                fontColor = "#191919";
+                color = "#FFFFFF";
+                var conflicts = window.SKScheduleStore.sectionConflict(section, self.props.schedule.sections, day);
+                if (conflicts == null || conflicts.length > 0) {
+                  width = width/2 - 1/4;
+                  left += width + 1/2;
+                  time = "";
+                  if (conflicts == null) {
+                    color = "#FBF8D8";
+                  }
+                }
+              }
+            }
+
+            var style = {
+              borderWidth: borderWidth,
+              color: fontColor,
+              width: width+"%",
+              left: left+"%",
+              top: top+"%",
+              height: height+"%",
+              backgroundColor: color,
+              marginLeft: dayIdx/2+"%",
+              marginRight: dayIdx/2+"%",
+              fontSize: fontSize
+            };
+
+            if (self.props.temporaryAdds) {
+              var sectionMatch = function (temp) { return (temp.crn == section.crn); };
+              if (self.props.temporaryAdds.some(sectionMatch)) {
+                style.opacity = 0.5;
+              }
+              else if (self.props.temporaryDeletes.some(sectionMatch)) {
+                style.opacity = 0.2;
+              }
+            }
+
+            var href = "/?q="+section.course.dept+"+"+section.course.num+"+"+section.course.term.toLowerCase()+"+"+section.course.year;
+
+            var Tooltip = ReactBootstrap.Tooltip;
+            var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+            var Popover = ReactBootstrap.Popover;
+
+            var overlay, placement;
+            if (big) {
+              var unescapeHtml = function(unsafe) {
+                return unsafe
+                    .replace(/&amp;/g, "&")
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&quot;/g, "\"")
+                    .replace(/&#039;/g, "'");
+              }
+
+              var title = section.course.dept + " " + section.course.num;
+              var truncatedDesc = section.course.descriptionTruncated;
+              truncatedDesc.__html = unescapeHtml(truncatedDesc.__html);
+
+              overlay = (~
+                %Popover(title={title})
+                  .p-container
+                    .popover-course-title
+                      {section.course.title}
+
+                    %p
+                      .popover-field
+                        %strong Credits:
+                        %span.popover-value
+                          {section.course.credits}
+                    
+                      .popover-field
+                        %strong Instructors:
+                        %span.popover-value
+                          {section.instructors}
+
+                    %p.popover-desc
+                      %div(dangerouslySetInnerHTML={truncatedDesc})
+              ~);
+              placement = dayIdx == 0 ? 'right' : 'left';
+            }
+            else {
+              overlay = (~
+                %Tooltip
+                  %strong.tooltip-title {section.course.title}
+                  %br
+                  {section.place}
+                  %br
+                  {section.prettyTime}
+              ~);
+              placement = 'top';
+            }
+
+            var type = type2name(section.sectionType, true, true);
+            if (section.abcSection) {
+              type += " "+section.abcSection;
+            }
+            return (~
+              %OverlayTrigger(key={"block"+section.id+day} placement={placement} overlay={overlay})
+                %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
+                  %div(className={big ? "s-big" : "s-side"})
+                    .s-block-p
+                      .s-block-time {time}
+                      .s-block-dept {section.course.dept}
+                      .s-block-cnum {section.course.num}
+                      .s-block-type {type}
+                      .s-block-title {section.course.title}
+            ~);
+          });
+        });
+      }
+
+      var days = layout.daysOfWeek.map(function(day, i, array) {
+        var style = {"width": (100.0/array.length)+"%"};
+        return (~
+          %th.day(style={style} key={"day"+day}) {day}
+        ~);
+      });
+
+      var hours = layout.hoursRange.map(function(i) {
+        var t = ((i - 1) % 12) + 1;
+        return (~
+          %tr(key={"time"+i})
+            %td
+              .time {t}
+        ~);
+      });
+
+      var credits;
+      var numSections;
+      if (self.props.schedule && !big)
+      {
+        credits = (~
+          .side-credits
+            %strong {self.props.schedule.totalCredits}
+            {" credits"}
+        ~);
+
+        numSections = (~
+          .side-sections
+            %strong {self.props.schedule.sections.length}
+            {" sections"}
+        ~);
+      }
+
+      return (~
+        .sk
+          %table.table
+            %thead
+              %tr
+                {days}
+              
+          %div(className={self.props.big ? "skedge-big" : "skedge-side"})
+            {courses}
+            %table.table.table-condensed.courses
+              %tbody
+                {hours}
+
+          .side-info
+            {numSections}
+            {credits}
+      ~);
+    }
+  });
+
+  getLayout = function (props, state) {
+    if (!props.schedule) {
+      return {
+        daysOfWeek: ["M", "T", "W", "R", "F"],
+        hoursRange: [8, 9, 10, 11, 12, 13, 14, 15, 16],
+        min: 8,
+        max: 16
+      };
+    }
+    else if (!state.comparingSchedule) {
+      return getScheduleLayout(props.schedule.sections, props.temporaryAdds, props.temporaryGhosts);
+    }
+    else {
+      return getScheduleLayout(props.schedule.sections.concat(props.userSchedule.sections));
+    }
+  };
+
+  getScheduleLayout = function (sections, temporaryAdds, temporaryGhosts) {
+    var daysOfWeek = ["M", "T", "W", "R", "F"];
+
+    var min = 2500;
+    var max = -1;
+
+    var hasSat = false;
+    var hasSun = false;
+
+    if (temporaryAdds) {
+      sections = sections.concat(temporaryAdds);
+    }
+    if (temporaryGhosts)  {
+      sections = sections.concat(temporaryGhosts);
+    }
+    sections.forEach(function(section) {
+      var start = (section.startTime-30)/100;
+      var end = (section.endTime+30)/100;
+      if (start < min) {
+        min = start;
+      }
+      if (end > max) {
+        max = end;
+      }
+      if (section.days.indexOf('S') > -1) {
+        hasSat = true;
+      }
+      if (section.days.indexOf('U') > -1) {
+        hasSun = true;
+      }
+    });
+    
+    var diff = max-min;
+    var min_hrs = 7;
+    if (diff < min_hrs) {
+      min -= (min_hrs-diff)/2;
+      max += (min_hrs-diff)/2;
+    }
+
+    min = Math.floor(min);
+    max = Math.ceil(max);
+
+    hoursRange = [];
+    for (var i = min; i <= max; i++) {
+      hoursRange.push(i);
+    }
+
+    if (hasSat) {
+      daysOfWeek.push("S");
+    }
+    if (hasSun) {
+      daysOfWeek = ["U"].concat(daysOfWeek);
+    }
+
+    return {
+      daysOfWeek: daysOfWeek,
+      hoursRange: hoursRange,
+      min: min,
+      max: max
+    };
+  };
+})();

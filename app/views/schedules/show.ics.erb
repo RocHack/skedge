@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+<% @schedule.sections.each do |section| %>
+BEGIN:VEVENT
+CLASS:PUBLIC
+DESCRIPTION:<%== section.course.title %>
+DTSTART;TZID=America/New_York:<%== section.decorate.next_start_date %>
+DTEND;TZID=America/New_York:<%== section.decorate.next_end_date %>
+LOCATION:<%== section.decorate.place %>
+SUMMARY;LANGUAGE=en-us:<%== section.course.department.short + " " + section.course.number %>
+TRANSP:TRANSPARENT
+RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=<%== section.decorate.ics_formatted_days %>;WKST=SU
+END:VEVENT
+<% end %>
+END:VCALENDAR

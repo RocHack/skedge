@@ -1,0 +1,261 @@
+.no-results
+{
+  text-align: center;
+  padding-top: 150px;
+}
+
+/* GROUP */
+.results-group
+{
+  padding-top: 20px;
+}
+
+.results-group:first-child
+{
+  padding-top: 0px;
+}
+
+.results-group-header
+{
+  font-weight: 300;
+}
+
+/* COURSE */
+
+.course-box
+{
+  width: 97%;
+
+  padding-left: 10px;
+  padding-bottom: 30px;
+  padding-top: 25px;
+
+  border-top: 1px solid #E5E5E5;
+}
+
+p.course-details
+{
+  margin-top: 10px;
+}
+
+.credits
+{
+  margin-left: 10px;
+  float: right;
+}
+
+p.desc
+{
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+
+p.lead
+{
+  margin-bottom: 5px;
+}
+
+.cnum
+{
+  margin-left: 4px;
+}
+
+/* SECTION */
+
+.section-box
+{
+  margin-top: 3px;
+}
+
+.section-btn
+{
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display:inline-block;
+}
+
+.add-course-btn
+{
+  min-width: 140px;
+}
+
+.section-info
+{
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.subsection-info-crn
+{
+  margin-left: 20px;
+}
+
+.section-info-crn
+{
+  margin-left: 30px;
+}
+
+.info
+{
+  font-weight: 300;
+}
+
+p.info
+{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.info > strong
+{
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.progress-box
+{
+  width: 100%;
+}
+
+/* enroll progress bar */
+.progress
+{
+  margin-top: 10px;
+  height: 2px;
+  width: 72%;
+
+  display:inline-block;
+  vertical-align: middle;
+}
+
+/* the number (5/20 enrolled) */
+.progress-num
+{
+  display: inline-block;
+  width:20%;
+  margin-left: 20px;
+  line-height: 12px;
+}
+
+.progress-bar-closed
+{
+  background-color:#9B9B9B;
+}
+
+.course-icon
+{
+  margin-left:7px;
+}
+
+.closed.btn-primary
+{
+  background-color: #6589A8;
+  border-color: #54728C;
+}
+
+.closed.btn-primary:hover
+{
+  background-color: #4A657B;
+}
+
+.closed.btn-danger
+{
+  background-color: #BD4944;
+  border-color: #A33F3B;
+}
+
+.closed.btn-danger:hover
+{
+  background-color: #9B3C38;
+}
+
+.cancelled
+{
+  background-color: rgb(182, 182, 182) !important;
+}
+
+
+/* SUBCOURSES */
+
+.subcourses-icon
+{
+  margin-right: 7px;
+  font-size: 19px;
+}
+
+.subcourse-show-hide
+{
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+.subcourse-btn
+{
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display:inline-block;
+}
+
+.lab-btn
+{
+  min-width: 80px;
+}
+
+.subcourse-info
+{
+  display:inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.subcourse
+{
+  margin-top: 10px;
+}
+
+.subcourse-box
+{
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 8px;
+}
+
+.subcourses
+{
+  width: 87%;
+}
+
+
+.spinner
+{
+  margin-top: 2px;
+  float: right;
+}
+
+
+@media (max-width: 768px) {
+  .results-group-header
+  {
+    margin-left: 7px;
+  }
+
+  p.lead
+  {
+    font-size: 20px;
+  }
+
+  .info
+  {
+    font-size: 13px;
+  }
+
+  .credits
+  {
+    display: none;
+  }
+
+  .mobile-wider
+  {
+    padding: 0px;
+  }
+}

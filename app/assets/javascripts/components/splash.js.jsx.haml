@@ -1,0 +1,226 @@
+(function() {
+  var Tooltip = ReactBootstrap.Tooltip;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+
+  var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+  window.Splash = React.createClass({
+    getInitialState: function() {
+      return {
+        page: window.location.hash.substring(1)
+      };
+    },
+
+    componentDidMount: function() {
+      this.select(window.location.hash.substring(1));
+    },
+
+    select: function(section) {
+      this.setState({ page: section });
+
+      if (section == "search") {
+        $('#search-bar').focus();
+      }
+    },
+
+    renderAbout: function() {
+      return (~
+        .info-text
+          %p
+            %strong skedge
+            {" "} is a student-made alternative to the official
+            {" "}
+            %a(href="https://cdcs.ur.rochester.edu/") cdcs
+            {". "}
+            here are some things that it offers:
+          %ul
+            %li simplified search
+            %li grouped course sections
+            %li labs, recitations, and workshops embedded in courses
+            %li clickable course mentions & instructors 
+            %li easy, live-updating schedule sharing
+            %li & more coming soon...
+            %li.text-danger
+              %strong please remember that you cannot register for courses using skedge (!)
+
+          .credits
+            %p
+              a {" "}
+              %a(href="http://rochack.org") rochack
+              {" "} project
+            %p
+              made by {" "}
+              %a(href="http://danhassin.com") dan
+            %p
+              [
+              %span.bracket-link
+                %a(href="https://github.com/RocHack/skedge2") source
+              ]
+
+              [
+              %span.bracket-link
+                %a(href="#" onClick={this.newTicket}) feedback
+              ]
+      ~);
+    },
+
+    renderDepts: function () {
+      var self = this;
+
+      var formatDepts = function(depts) {
+        return depts.map(function(dept) {
+          return (~
+            .dept(key={"dept-"+dept.id})
+              %strong
+                %a(href={"/?q="+dept.short} name="dept") {dept.short}
+              {" – "}
+              {dept.name}
+          ~);
+        });
+      };
+
+      var formatDeptsCols = function(depts) {
+        var midway = Math.ceil(depts.length/2);
+        var col1 = depts.slice(0,midway);
+        var col2 = depts.slice(midway,depts.length);
+        return (~
+          .row
+            .col-md-6
+              {formatDepts(col1)}
+            .col-md-6
+              {formatDepts(col2)}
+        ~);
+      };
+
+      return Object.keys(this.props.departments).map(function (school) {
+        var depts = self.props.departments[school];
+        return (~
+          .depts-page(key={"school-"+school})
+            %h3.dept-heading
+              {school}
+            .dept-list
+              {formatDeptsCols(depts)}
+        ~);
+      });
+    },
+
+    renderSearch: function () {
+      var ex_search = function (example, description, u, ex2) {
+        var tooltip = (~
+          %Tooltip {description}
+        ~);
+
+        url = "/?q="+(u ? u : example.replace(/ /g,"+"));
+
+        var other;
+        if (ex2) {
+          other = (~
+            %span
+              {" / "}
+              %a(href={"/?q="+ex2}) {ex2}
+          ~);
+        }
+
+        return (~
+          %OverlayTrigger(placement='top' overlay={tooltip})
+            %li
+              %a(href={url} name="example") {example}
+              {other}
+        ~);
+      }
+
+      return (~
+        .info-text  
+          %p
+            some ways you can search with {" "}
+            %strong skedge
+            {":"}
+
+          .row
+            .col-md-4
+              %ul.search-options
+                {ex_search("csc 172", "by course code")}
+                {ex_search("bio spring", "by term")}
+                {ex_search("psy fall 2015", "by term and year")}
+                {ex_search("his w", "fulfills a writing requirement")}
+                {ex_search("ant 2", "partial course code (i.e. upper level - 2XX)")}
+
+            .col-md-4
+              %ul.search-options
+                {ex_search("csc taught by guo", "by instructor")}
+                {ex_search("programming", "by title")}
+                {ex_search("\"buddhism\"", "by course description")}
+                {ex_search("small lin fall", "sort classes by size")}
+                {ex_search("early/late eco fall", "sort classes by start time", "early+csc+fall")}
+
+            .col-md-4
+              %ul.search-options
+                {ex_search("mur 1-2 credits", "by credit(s)")}
+                {ex_search("rel x aas", "courses crosslisted between departments")}
+                {ex_search("random fms", "feeling lucky?")}
+                {ex_search("70975", "by CRN")}
+                {ex_search("cdcs", "fast links", "cdcs", "registrar")}
+                
+      ~);
+    },
+
+    render: function() {
+      var page;
+      if (this.state.page == "about") {
+        page = this.renderAbout();
+      } else if (this.state.page == "departments") {
+        page = this.renderDepts();
+      } else if (this.state.page == "search") {
+        page = this.renderSearch();
+      }
+
+      var space = page ? null : (~
+        #splash-space(key='space')
+      ~);
+
+      if (!mobilecheck()) {
+        space = (~
+          %ReactCSSTransitionGroup(transitionName="space" transitionEnterTimeout={300} transitionLeaveTimeout={300})
+            {space}
+        ~);
+      }
+
+      var splashOptions = page ? null : (~
+        .splash-options
+          .col-md-4.lead
+            %a(href="#departments" onClick={this.select.bind(this, "departments")} name="splash-depts")
+              departments
+          .col-md-4.lead
+            %a#search-link(href="#search" onClick={this.select.bind(this, "search")})
+              search
+          .col-md-4.lead
+            %a(href="#about" onClick={this.select.bind(this, "about")} name="splash-about")
+              about
+      ~);
+
+      var subHeader = !mobilecheck() ? "a scheduling system for the u of r" : (<span>a scheduling system<br/>for the u of r</span>);
+
+      return (~
+        .col-md-12
+          {space}
+
+          #splash
+            %a#splash-logo.enormous(href="#" onClick={this.select.bind(this, null)} )
+              skedge
+            .sub
+              {subHeader}
+
+          .splash-hr
+          %hr.half
+
+          .splash-container
+            .row
+              {splashOptions}
+
+            .row
+              .splash-content(key="anim-content")
+                {page}
+      ~);
+    }
+  });
+})();

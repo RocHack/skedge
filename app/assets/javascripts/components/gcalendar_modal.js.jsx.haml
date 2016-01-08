@@ -1,0 +1,180 @@
+(function() {
+  var Modal = ReactBootstrap.Modal;
+  var Button = ReactBootstrap.Button;
+
+  window.GCalendarModal = React.createClass({
+    getInitialState: function () {
+      return { calendars: null };
+    },
+
+    authenticate: function () {
+      var self = this;
+      this.setState({ checkedCalendar: null });
+      if (gapi.client.calendar) {
+        gcal_calendarList(function (list) {
+          list = [{summary:"Create new calendar for Skedge", id:"new", skedge:true}].concat(list);
+          self.setState({calendars:list, newCalendarName:"Skedge"});
+        });
+      }
+      else {
+        gcal_authorize(false, function(success) {
+          if (success) {
+            self.authenticate();
+          }
+        });
+      }
+    },
+
+    componentDidMount: function() {
+      this.authenticate();
+    },
+
+    clickAddEvents: function () {
+      this.setState({loading: true});
+
+      var self = this;
+      var calId = this.state.checkedCalendar;
+
+      ahoy.track("$gcal", {newCal:(calId == "new"), numCourses:this.props.schedule.sections.length});
+
+      if (calId == "new") {
+        gcal_createSkedgeCalendar(this.state.newCalendarName, function (cal) {
+          console.log('New calendar created');
+          self.addEventsToGoogleCal(cal.id);
+        });
+      } else {
+        self.addEventsToGoogleCal(calId);
+      }
+    },
+
+    addEventsToGoogleCal: function (calId) {
+      var self = this;
+      gcal_createEvents(calId, this.props.schedule.rid, function (e) {
+        console.log('Event created: ' + e.htmlLink);
+        self.setState({done: true});
+      });
+    },
+
+    changeGoogleCalendar: function (event) {
+      this.setState({checkedCalendar:event.target.value});
+    },
+
+    changeGoogleAccount: function () {
+      this.setState({signOut:true});
+    },
+
+    retryPostSignOut: function () {
+      var self = this;
+      this.setState({signOut:false, calendars:null, checkedCalendar:null});
+      gapi.client.calendar = null;
+      setTimeout(function () {
+        self.authenticate();
+      }, 300);
+    },
+
+    changeCalendarName: function (event) {
+      this.setState({newCalendarName:event.target.value});
+    },
+
+    render: function () {
+      var self = this;
+
+      var Body = Modal.Body;
+      var Footer = Modal.Footer;
+
+      if (this.state.signOut) {
+        return (~
+          .
+            %Body
+              %p
+                %strong To use a different Google account, please follow this link:
+              %p
+                .signout-link
+                  %a(href="https://myaccount.google.com/security#connectedapps" target="_blank")
+                    {"https://myaccount.google.com/security#connectedapps"}
+              %ul
+                %li
+                  Under "Apps connected to your account," click "Manage apps"
+                %li
+                  Select "Skedge" and click "Remove"
+                %li
+                  Click done!
+            %Footer
+              %Button(bsStyle="primary" onClick={this.retryPostSignOut}) Done
+        ~);
+      }
+
+      if (!this.state.calendars) {
+        return (~
+          .
+            %Body
+              %p
+                %i.fa.fa-spinner.fa-spin
+                &nbsp;
+                Loading
+            %Footer
+              %Button(onClick={this.props.closeModal}) Close
+        ~);
+      }
+
+      if (this.state.done) {
+        return (~
+          .
+            %Body
+              %p.lead.export-complete
+                All done!
+            %Footer
+              %Button(onClick={this.props.closeModal}) Done
+        ~);
+      }
+
+      var calendars = self.state.calendars.map(function (cal) {
+        var checked = (!self.state.checkedCalendar && cal.primary) ||
+                      (self.state.checkedCalendar == cal.id);
+        var skedgeSpace = cal.skedge ? {marginBottom:"5px"} : {};
+        var newInput;
+        if (cal.skedge && checked) {
+          newInput = (~
+            %span
+              {":"}
+              %input.new-cal(value={self.state.newCalendarName} onChange={self.changeCalendarName})
+          ~);
+        }
+        return (~
+          %div(style={skedgeSpace} key={cal.id})
+            %label
+              %input.cal(type="radio" name="cal" value={cal.id} checked={checked} onChange={self.changeGoogleCalendar})
+              {cal.summary}
+              {newInput}
+        ~);
+      });
+
+      var loading;
+      if (this.state.loading) {
+        loading = (~
+          %span
+            &nbsp;
+            %i.fa.fa-spinner.fa-spin
+        ~);
+      }
+
+      return (~
+        .
+          %Body
+            %p
+              %strong Choose a calendar to add courses to:
+              .calendar-list
+                {calendars}
+
+            %p
+              %a(href="#" onClick={this.changeGoogleAccount})
+                Sign into different account...
+            
+          %Footer
+            %Button(bsStyle="primary" onClick={this.clickAddEvents} disabled={this.state.loading})
+              Add {this.props.schedule.sections.length} courses to your calendar
+              {loading}
+      ~);
+    }
+  });
+})();

@@ -1,104 +1,75 @@
 class SchedulesController < ApplicationController
-	def raise_404
-		raise ActionController::RoutingError.new('Not Found')
-	end
+  include ReactHelper
 
-	def show
-		rid = params[:rid].to_i
-		user = User.find_by('schedules.rid' => rid)
-		@schedule = user.schedules.find_by(rid:rid)
-		@side = false
+  layout nil
 
-		# render
-		# respond_to do |format|
-		# 	#format.json { render json:@schedule.enrollments.to_json }
-		# 	format.html 
-		# end
-	end
+  def get_svg
+    svg = render_to_string "show.svg.erb", layout: false
+    # strip outer div that react places around the SVG
+    svg.gsub!(/<div.*?\">|<\/div>/, '')
+    # get rid of reactid's
+    svg.gsub!(/data-reactid=\".*?\"/, '')
+    # replace the checksum with xmlns, which we can't include via react
+    svg.gsub!(/data-react-checksum=\".*?\"/, 'xmlns="http://www.w3.org/2000/svg"')
 
-	def decode_img(img64, rid)
-		img64["data:image/jpeg;base64,"] = ""
-		data = StringIO.new(Base64.decode64(img64))
-		data.class.class_eval { attr_accessor :original_filename, :content_type }
-		data.original_filename = "#{rid}.jpg"
-		data.content_type = "image/jpg"
-		data
-	end
+    # add xml header
+    "<?xml version=\"1.0\"?>\n" + svg
+  end
 
-	def set_image
-		if !(s=cookies["s_id"])
-			render status:500
-			return
-		end
+  def send_converted_svg(svg, format)
+    image = MiniMagick::Image.read(svg)
+    image.format(format)
+    send_data image.to_blob, type: "image/#{format}", disposition: 'inline'
+  end
 
-		secret = s.split("&").last
-		@schedule = User.find_by(secret:secret).schedules.find_by(rid:params[:rid])
+  def show
+    @schedule = Schedule.find_by_rid(params[:rid])
+    if current_user && @schedule && @schedule.user != current_user
+      @user_schedule = current_user.schedules.find_by(yr_term:@schedule.yr_term)
+    end
+    @seen_alert = cookies['seen_alert']
+    respond_to do |format|
+      format.html
+      format.ics { render layout: false }
+      format.gcal { render "gcal.json.jbuilder", layout: false }
+      format.svg { send_data get_svg, type: 'text/xml', disposition: 'inline' }
+      format.jpg { send_converted_svg get_svg, "jpg" }
+      format.png { send_converted_svg get_svg, "png" }
+    end
+  end
 
-		@schedule.image = decode_img(params[:img], @schedule.rid)
+  def change_last_schedule
+    user = current_user
+    user.last_schedule_id = user.schedules.find_by(yr_term:params[:yrTerm]).id || raise
+    user.save!
+    render json:{status:200}
+  end
 
-		@schedule.timeless.save
+  def add_drop_sections
+    user = current_user
+    if !user
+      user = User.create
+      ahoy.track("$new-user", {id:user.id})
+    end
+    params[:data].each do |crn, mod|
+      section = Section.find_by_crn(crn)
+      schedule = Schedule.find_or_create_by(user_id:user.id,
+                                            yr_term:section.course.yr_term,
+                                            term:section.course.term,
+                                            year:section.course.year)
 
-		render json:{url:@schedule.image.url}
-	end
+      if (mod.to_i == 1)
+        schedule.sections << section
+      else
+        schedule.sections.delete section
+      end
+      schedule.save
 
-	def action(action, bookmark)
-		if cookies["s_id"]
-			secret = cookies["s_id"].split("&")[1]
-			@user = User.find_by(secret:secret) if secret && !secret.empty?
-		end
-
-		if !@user
-			@user = User.new
-			@user.generate_secret
-		end
-
-		course = Course.find(params[:course_id])
-
-		if bookmark
-			if action == :delete
-				@user.bookmarks.delete_if {|e| e["id"] == params[:course_id]}
-			elsif action == :add
-				@user.bookmarks << {title:course.title,number:course.decorate.dept_and_cnum,id:course.id.to_s}
-			end
-		else
-			@schedule = @user.schedules.where(term:course.term, year:course.year).first
-
-			if !@schedule
-				@schedule = Schedule.new(term:course.term, year:course.year)
-				@schedule.generate_rid
-				@user.schedules << @schedule
-			end
-
-			if action == :delete
-				@schedule.enrollments.delete_if {|e| e["crn"] == params[:crn].to_i}
-			elsif action == :add
-				#save the js data hash for superspeed efficiency
-				data = course.relation(params[:course_type].to_i).where(crn:params[:crn]).first.data
-				data[:color] = params[:color].to_i
-				@schedule.enrollments << data
-			end
-
-			@schedule.touch
-		end
-
-		@user.save
-
-		render json:@user.skedge_json(bookmark ? nil : @schedule.rid)
-	end
-
-	def add
-		action :add, false
-	end
-
-	def delete
-		action :delete, false
-	end
-
-	def bookmark_add
-		action :add, true
-	end
-
-	def bookmark_delete
-		action :delete, true
-	end
+      user.last_schedule_id = schedule.id
+      user.save
+    end
+    render json:{status:200,
+                 schedules:reactify_schedules(user.schedules),
+                 userSecret:user.secret}
+  end
 end

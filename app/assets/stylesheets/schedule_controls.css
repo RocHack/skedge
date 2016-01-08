@@ -1,0 +1,103 @@
+.top-btns
+{
+  float: right;
+  margin-top: 10px;
+}
+
+.sk-selector
+{
+  float: left;
+}
+
+.sk-selector-label
+{
+  margin-left: 5px;
+  margin-bottom: -5px;
+}
+
+#sk-selector
+{
+  color: black;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.sk-top
+{
+  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-left: -25px;
+
+  height: 45px;
+}
+
+.sk-top-placeholder
+{
+  text-align: center;
+  font-size: 15px;
+  padding-top: 10px;
+}
+
+.calendar-list
+{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+label
+{
+  font-weight: normal;
+}
+
+input.cal
+{
+  margin-right: 10px;
+}
+
+input.new-cal
+{
+  margin-left: 5px;
+}
+
+.export-complete
+{
+  text-align: center;
+}
+
+.signout-link
+{
+  text-align: center; 
+  font-size: 15px;
+}
+
+#back-to-search-btn
+{
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .export-btn
+  {
+    display: none;
+  }
+
+  .sk-selector-label
+  {
+    display: none;
+  }
+
+  #sk-selector
+  {
+    padding-top: 3px;
+  }
+
+  #back-to-search-btn
+  {
+    display: inline-block;
+  }  
+
+  .top-btns
+  {
+    margin-top: 0px;
+  }
+}

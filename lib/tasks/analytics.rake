@@ -5,8 +5,10 @@ def data(query)
     if data.any?
       last = data.last[:time]
       diff = current - last
-      (diff - 1).times do |i|
-        data << {time: last+(i+1), count: 0 }
+      if diff > 1
+        (diff - 1).to_i.times do |i|
+          data << {time: last+(i+1), count: 0 }
+        end
       end
     end
     data << { time: current, count: result['count'].to_i }

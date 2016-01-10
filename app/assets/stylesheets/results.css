@@ -179,7 +179,8 @@ p.info
 
 .subcourses-icon
 {
-  margin-right: 7px;
+  float: left;
+  margin-right: 8px;
   font-size: 19px;
 }
 

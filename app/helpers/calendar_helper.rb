@@ -1,8 +1,21 @@
 module CalendarHelper
   include ActionView::Helpers::TextHelper
 
+  def next_semester_end_date
+    [
+      "20160428T000000Z", #April 28, 2016
+      "20161214T000000Z", #December 14, 2016
+      "20170504T000000Z" #May 4, 2017
+      # ...
+    ].each do |date|
+      if Date.parse(date) > Date.today
+        return date
+      end
+    end
+  end
+
   def recurrence_rule(section)
-    "FREQ=WEEKLY;INTERVAL=1;BYDAY="+ics_formatted_days(section)
+    "FREQ=WEEKLY;UNTIL=#{next_semester_end_date};INTERVAL=1;BYDAY=#{ics_formatted_days(section)}"
   end
 
   def ics_formatted_days(section)

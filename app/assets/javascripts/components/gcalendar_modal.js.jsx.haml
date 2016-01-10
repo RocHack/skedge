@@ -13,7 +13,15 @@
       if (gapi.client.calendar) {
         gcal_calendarList(function (list) {
           list = [{summary:"Create new calendar for Skedge", id:"new", skedge:true}].concat(list);
-          self.setState({calendars:list, newCalendarName:"Skedge"});
+          // Default check the primary calendar
+          var checked = null;
+          for (var i = 0; i < list.length; i++) {
+            if (list[i].primary) {
+              checked = list[i].id;
+              break;
+            }
+          }
+          self.setState({calendars:list, newCalendarName:"Skedge", checkedCalendar:checked});
         });
       }
       else {
@@ -129,8 +137,7 @@
       }
 
       var calendars = self.state.calendars.map(function (cal) {
-        var checked = (!self.state.checkedCalendar && cal.primary) ||
-                      (self.state.checkedCalendar == cal.id);
+        var checked = (self.state.checkedCalendar == cal.id);
         var skedgeSpace = cal.skedge ? {marginBottom:"5px"} : {};
         var newInput;
         if (cal.skedge && checked) {

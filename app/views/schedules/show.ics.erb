@@ -4,12 +4,12 @@ VERSION:2.0
 BEGIN:VEVENT
 CLASS:PUBLIC
 DESCRIPTION:<%== section.course.title %>
-DTSTART;TZID=America/New_York:<%== section.decorate.next_start_date %>
-DTEND;TZID=America/New_York:<%== section.decorate.next_end_date %>
+DTSTART;TZID=America/New_York:<%== next_start_date(section) %>
+DTEND;TZID=America/New_York:<%== next_end_date(section) %>
 LOCATION:<%== section.decorate.place %>
 SUMMARY;LANGUAGE=en-us:<%== section.course.department.short + " " + section.course.number %>
 TRANSP:TRANSPARENT
-RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=<%== section.decorate.ics_formatted_days %>;WKST=SU
+RRULE:<%== recurrence_rule(section) %>;WKST=SU
 END:VEVENT
 <% end %>
 END:VCALENDAR

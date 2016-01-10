@@ -38,38 +38,4 @@ module SectionDecorator
       [time_and_day, place].compact.join(", ")
     end
   end
-
-  # ICS stuff
-  def ics_formatted_days
-    days.chars.map do |day|
-      {"M" => "MO",
-       "T" => "TU",
-       "W" => "WE",
-       "R" => "TH",
-       "F" => "FR",
-       "S" => "SA",
-       "U" => "SU"}[day]
-    end.join(",")
-  end
-
-  def next_date(start_or_end, format=nil)
-    date = Time.new.in_time_zone(-5)
-    date = date.change(hour: hour(start_or_end),
-                       min: minutes(start_or_end),
-                       sec: 0)
-
-    while !days.include? %w(U M T W R F S)[date.wday]
-      date += 1.day
-    end
-    
-    date.strftime(format || "%Y%m%dT%H%M%S")
-  end
-
-  def next_start_date(format=nil)
-    next_date(:start, format)
-  end
-
-  def next_end_date(format=nil)
-    next_date(:end, format)
-  end
 end

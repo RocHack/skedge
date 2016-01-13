@@ -63,8 +63,8 @@
     cron: name="{{appname}} Logrotate" job="logrotate -v /etc/logrotate.d/{{appname}}" state=present special_time=daily user={{user}}
 
   - name: Set up cron for course scrape
-    cron: name="Courses Scrape" job="cd /home/deploy/skedgeur.com/current && bin/bundle exec rake scrape >> log/scrape.log" state=present special_time=daily user={{user}}
-
+    cron: name="Courses scrape" minute="0" hour="23" job="cd /home/deploy/skedgeur.com/current && bin/bundle exec rake scrape >> log/scrape.log" state=present user={{user}}
+    
   - name: Set up postgres user
     postgresql_user: name={{user}} role_attr_flags=CREATEDB
 

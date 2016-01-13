@@ -1,0 +1,43 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var ButtonToolbar = ReactBootstrap.ButtonToolbar;
+  var DropdownButton = ReactBootstrap.DropdownButton;
+  var MenuItem = ReactBootstrap.MenuItem;
+  var Modal = ReactBootstrap.Modal;
+
+  window.ExportControl = React.createClass({
+    getInitialState: function () {
+      return { showGCalModal: false };
+    },
+
+    closeModal: function () {
+      this.setState({ showGCalModal: false });
+    },
+
+    showGCal: function () {
+      this.setState({ showGCalModal: true });
+    },
+
+    render: function() {
+      var Header = Modal.Header;
+      var Title = Modal.Title;
+
+      var margin = this.props.inline ? {} : {"marginTop":"20px"};
+      var title = this.props.inline ? "Export" : "Export this schedule";
+
+      return (~
+          %DropdownButton.export-btn(title={title} pullRight={this.props.inline} style={margin})
+            %MenuItem(href={this.props.schedule.rid+".jpg"} target="_blank" name="export-image") Image
+            %MenuItem(onSelect={this.showGCal} name="export-gcal") Google Calendar
+            %MenuItem(href={this.props.schedule.rid+".ics"} name="export-ics") Calendar (.ics)
+
+            %Modal(show={this.state.showGCalModal} onHide={this.closeModal})
+              %Header(closeButton={true})
+                %Title Export to Google Calendar
+              %GCalendarModal(schedule={this.props.schedule}
+                              show={this.state.showGCalModal}
+                              closeModal={this.closeModal})
+      ~);
+    }
+  })
+})();

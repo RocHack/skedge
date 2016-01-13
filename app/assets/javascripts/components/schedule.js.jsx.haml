@@ -1,7 +1,4 @@
 (function() {
-  window.toggleOverlayUserSchedule = function (otherSchedule) {
-    window.singletonSchedule.setState({comparingSchedule: !window.singletonSchedule.state.comparingSchedule});
-  };
   window.Schedule = React.createClass({
     getInitialState: function() {
       return {
@@ -9,10 +6,14 @@
       };
     },
 
+    toggleOverlayUserSchedule: function() {
+      this.setState({comparingSchedule: !this.state.comparingSchedule});
+    },
+
     color: function(idx) {
       var colors = [
-                    "#50B82F", //green
-                    "#2F87B1", //blue
+                    "#50B82F", // green
+                    "#2F87B1", // blue
                     "#DC4137", // red
                     "#D58400", // orange
                     "#8B31BE", // purple
@@ -24,7 +25,6 @@
     },
 
     render: function () {
-      window.singletonSchedule = this;
       if (this.props.svg) {
         return this.renderSVG();  
       }

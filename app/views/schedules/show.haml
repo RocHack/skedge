@@ -8,57 +8,6 @@
         Skedge is a student-made alternative to CDCS. Try it out by
         %a(href="http://#{request.subdomain == "www" ? "" : "www."}skedgeur.com/") adding your own courses to it,
         and then come back to this page to compare schedules side-by-side.
-    .col-md-2
-      .row
-        .logo-show
-          %a.logo{href:"/"}
-            %h1.logo
-              skedge
 
-        .skedge-info
-          -if @schedule
-            %p
-              .schedule-title
-                =@schedule.description
-            %p.skedge-info-sections-credits
-              %strong= @schedule.sections.length
-              sections
-              ="/"
-              %strong= @schedule.total_credits
-              credits
-          
-            .class-list-header Courses:
-            %ul.class-list
-              -@schedule.sections.each do |s|
-                -if s.section_type == Section::Type::Course
-                  %li
-                    %a(href="/?q=#{s.course.department.short}+#{s.course.number}")
-                      =s.course.department.short
-                      =s.course.number
-
-            -if @user_schedule
-              %button.btn.btn-default.overlay-control(onClick="toggleOverlay();")
-                Overlay my schedule
-
-              %ul.overlay-key
-                %li.overlay-key-me my schedule
-                %li.overlay-key-them their schedule
-                %li.overlay-key-common in common
-            
-    .col-md-9
-      = react_component 'Schedule', schedule:reactify_schedule(@schedule),
-                                    big: true,
-                                    userSchedule:reactify_schedule(@user_schedule)
-  
-:javascript
-  //TODO this really needs to be in the component itself. bleh.
-  var overlay = true;
-  function toggleOverlay()
-  {
-    overlay = !overlay;
-    ahoy.track("$overlay", {show:overlay, page_rid:"#{@schedule.try(:rid)}", user_rid:"#{@user_schedule.try(:rid)}"});
-    window.toggleOverlayUserSchedule();
-    var txt = overlay ? "Overlay my schedule" : "Hide overlay";
-    $('.overlay-control').html(txt);
-    //$('.overlay-key').toggle();
-  }
+    = react_component 'FullSchedule', schedule:reactify_schedule(@schedule),
+                                      userSchedule:reactify_schedule(@user_schedule)

@@ -1,0 +1,77 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  window.FullSchedule = React.createClass({
+    getInitialState: function() {
+      return {
+        overlay: false
+      };
+    },
+
+    overlay: function() {
+      // ahoy.track("$overlay", {show:overlay, page_rid:"#{@schedule.try(:rid)}", user_rid:"#{@user_schedule.try(:rid)}"});
+      this.setState({overlay:!this.state.overlay});
+      this.refs.schedule.toggleOverlayUserSchedule();
+    },
+
+    render: function() {
+      if (!this.props.schedule) {
+        return (~
+          .not-found
+            404
+            <br/>
+            schedule not found :(
+          ~);
+      }
+
+      var list = this.props.schedule.sections.map(function (s) {
+          if (s.sectionType == MAIN) {
+            return (~
+              %li(key={s.id})
+                %a(href={"/?q="+s.course.dept+s.course.num})
+                  {s.course.dept}
+                  {s.course.num}
+            ~);
+          }
+        });
+
+      var schedule = (~
+        %Schedule(schedule={this.props.schedule} big={true} userSchedule={this.props.userSchedule} ref="schedule")
+      ~)
+
+      var overlayControl = !this.props.userSchedule ? null : (~
+        %Button.overlay-control(onClick={this.overlay})
+          {!this.state.overlay ? "Overlay my schedule" : "Hide overlay"}
+      ~);
+
+      return (~
+        .
+          .col-md-2
+            .row
+              .logo-show
+                %a.logo(href="/")
+                  %h1.logo
+                    skedge
+              .skedge-info
+                %p
+                  .schedule-title
+                    {this.props.schedule.description}
+                %p.skedge-info-sections-credits
+                  %strong
+                    {this.props.schedule.sections.length+" "}
+                  sections
+                  %strong
+                    {" / "+this.props.schedule.totalCredits+" "}
+                  credits
+              
+                .class-list-header Courses:
+                %ul.class-list
+                  {list}
+
+                {overlayControl}
+                
+          .col-md-9
+            {schedule}
+      ~);
+    }
+  });
+})();

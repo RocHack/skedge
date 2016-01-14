@@ -22,6 +22,7 @@
 //= require reflux
 //= require_tree ./reflux
 
+//= require schedule_style
 //= require google_calendar
 //= require shared
 //= require_tree ./components

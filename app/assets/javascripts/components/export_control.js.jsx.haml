@@ -27,7 +27,7 @@
 
       return (~
           %DropdownButton.export-btn(title={title} pullRight={this.props.inline} style={margin})
-            %MenuItem(href={this.props.schedule.rid+".jpg"} target="_blank" name="export-image") Image
+            %MenuItem(href={this.props.schedule.rid+".png"} target="_blank" name="export-image") Image
             %MenuItem(onSelect={this.showGCal} name="export-gcal") Google Calendar
             %MenuItem(href={this.props.schedule.rid+".ics"} name="export-ics") Calendar (.ics)
 

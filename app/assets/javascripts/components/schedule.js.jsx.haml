@@ -91,6 +91,11 @@
           var timeOffset = (((section.startTime - 100) % 1200) + 100) < 1000 ? 5 : 0;
              timeOffset += (((section.endTime - 100) % 1200) + 100) < 1000 ? 5 : 0;
 
+          var charLimit = 32;
+          var title = section.course.title.substring(0,charLimit);
+          if (title.length == charLimit) {
+            title = title.substring(0,charLimit-1) + "...";
+          }
           return (
             <g>
               <rect
@@ -108,7 +113,7 @@
                 {section.course.dept + " " + section.course.num + " " + type}
               </text>
               <text x={left+2+7} y={top+36} style={titleStyle}>
-                {section.course.title}
+                {title}
               </text>
               <text x={left+2+7} y={top+54} style={placeStyle}>
                 {section.place}

@@ -138,7 +138,7 @@
         </svg>);
     },
 
-    overlayAndPlacement: function(section, dayIdx, showDescription) {
+    overlayAndPlacement: function(section, showDescription) {
       var overlay, placement;
       if (showDescription) {
         var unescapeHtml = function(unsafe) {
@@ -154,7 +154,7 @@
         var truncatedDesc = section.course.descriptionTruncated;
         truncatedDesc.__html = unescapeHtml(truncatedDesc.__html);
 
-        overlay = (~
+        return (~
           %Popover(title={title})
             .p-container
               .popover-course-title
@@ -174,10 +174,9 @@
               %p.popover-desc
                 %div(dangerouslySetInnerHTML={truncatedDesc})
         ~);
-        placement = dayIdx <= 1 ? 'right' : 'left';
       }
       else {
-        overlay = (~
+        return (~
           %Tooltip
             %strong.tooltip-title {section.course.title}
             %br
@@ -185,9 +184,7 @@
             %br
             {section.prettyTime}
         ~);
-        placement = 'top';
       }
-      return [overlay, placement];
     },
 
     renderHTML: function() {
@@ -208,62 +205,20 @@
         }
         courses = sections.map(function(section, i) {
           return section.days.split("").map(function (day) {
-            var width = 100.0/layout.daysOfWeek.length - 1/4;
-            var hour = 100/(layout.max-layout.min + 1);
-            var dayIdx = layout.daysOfWeek.indexOf(day.toUpperCase());
-
-            var height = section.duration * hour;
-            var left = dayIdx*width;
-            var top = hour * (section.startTimeHours - layout.min);
-            var fontColor = "#FFFFFF";
-            var borderWidth = "0px";
-
-            var time = section.prettyTime;
-            var fontSize = "1em";
-
-            if (section.sectionType != MAIN) {
-              if (height < 7.75) {
-                fontSize = "0.9em";
-              }
-            }
-
-            var color = self.color(i);
+            var us, them, conflicts;
             if (self.state.comparingSchedule) {
-              var them = (i < self.props.schedule.sections.length);
+              us = (i >= self.props.schedule.sections.length);
+              them = (i < self.props.schedule.sections.length);
               if (them) {
-                var conflicts = window.SKScheduleStore.sectionConflict(section, self.props.userSchedule.sections, day);
-                if (conflicts == null || conflicts.length > 0) {
-                  width = width/2 - 1/4;
-                  time = "";
-                }
+                conflicts = window.SKScheduleStore.sectionConflict(section, self.props.userSchedule.sections, day);
               } else {
-                borderWidth = "1px";
-                fontColor = "#191919";
-                color = "#FFFFFF";
-                var conflicts = window.SKScheduleStore.sectionConflict(section, self.props.schedule.sections, day);
-                if (conflicts == null || conflicts.length > 0) {
-                  width = width/2 - 1/4;
-                  left += width + 1/2;
-                  time = "";
-                  if (conflicts == null) {
-                    color = "#FBF8D8";
-                  }
-                }
+                conflicts = window.SKScheduleStore.sectionConflict(section, self.props.schedule.sections, day);
               }
             }
 
-            var style = {
-              borderWidth: borderWidth,
-              color: fontColor,
-              width: width+"%",
-              left: left+"%",
-              top: top+"%",
-              height: height+"%",
-              backgroundColor: color,
-              marginLeft: dayIdx/2+"%",
-              marginRight: dayIdx/2+"%",
-              fontSize: fontSize
-            };
+            var dayIdx = layout.daysOfWeek.indexOf(day.toUpperCase());
+            var color = self.color(i);
+            var style = getBlockStyle(layout, section, day, dayIdx, color, us, them, conflicts);
 
             if (self.props.temporaryAdds) {
               var sectionMatch = function (temp) { return (temp.crn == section.crn); };
@@ -277,18 +232,19 @@
 
             var href = "/?q="+section.course.dept+"+"+section.course.num+"+"+section.course.term.toLowerCase()+"+"+section.course.year;
 
-            var overlay_placement = self.overlayAndPlacement(section, dayIdx, bigNotMobile);
+            var overlay = self.overlayAndPlacement(section, bigNotMobile);
+            var placement = bigNotMobile ? (dayIdx <= 1 ? 'right' : 'left') : 'top';
 
             var type = type2name(section.sectionType, true, true);
             if (section.abcSection) {
               type += " "+section.abcSection;
             }
             return (~
-              %OverlayTrigger(key={"block"+section.id+day} overlay={overlay_placement[0]} placement={overlay_placement[1]})
+              %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
                 %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
                   %div(className={bigNotMobile ? "s-big" : "s-side"})
                     .s-block-p
-                      .s-block-time {time}
+                      .s-block-time {style.time}
                       .s-block-dept {section.course.dept}
                       .s-block-cnum {section.course.num}
                       .s-block-type {type}
@@ -350,6 +306,60 @@
       ~);
     }
   });
+
+  getBlockStyle = function (layout, section, day, dayIdx, color, us, them, conflicts) {
+    var width = 100.0/layout.daysOfWeek.length - 1/4;
+    var hour = 100/(layout.max-layout.min + 1);
+
+    var height = section.duration * hour;
+    var left = dayIdx*width;
+    var top = hour * (section.startTimeHours - layout.min);
+    var fontColor = "#FFFFFF";
+    var borderWidth = "0px";
+
+    var time = section.prettyTime;
+    var fontSize = "1em";
+
+    if (section.sectionType != MAIN) {
+      if (height < 7.75) {
+        fontSize = "0.9em";
+      }
+    }
+    
+    if (them && (conflicts == null || conflicts.length > 0)) {
+      width = width/2 - 1/4;
+      time = "";
+    }
+
+    if (us) {
+      borderWidth = "1px";
+      fontColor = "#191919";
+      color = "#FFFFFF";
+
+      if (conflicts == null || conflicts.length > 0) {
+        width = width/2 - 1/4;
+        left += width + 1/2;
+        time = "";
+        if (conflicts == null) {
+          color = "#FBF8D8";
+        }
+      }
+    }
+
+    return {
+      borderWidth: borderWidth,
+      color: fontColor,
+      width: width+"%",
+      left: left+"%",
+      top: top+"%",
+      height: height+"%",
+      backgroundColor: color,
+      marginLeft: dayIdx/2+"%",
+      marginRight: dayIdx/2+"%",
+      fontSize: fontSize,
+      time: time
+    };
+  },
 
   getLayout = function (props, state) {
     if (!props.schedule) {

@@ -1,4 +1,8 @@
 (function() {
+  var Tooltip = ReactBootstrap.Tooltip;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Popover = ReactBootstrap.Popover;
+
   window.Schedule = React.createClass({
     getInitialState: function() {
       return {
@@ -134,13 +138,65 @@
         </svg>);
     },
 
+    overlayAndPlacement: function(section, dayIdx, showDescription) {
+      var overlay, placement;
+      if (showDescription) {
+        var unescapeHtml = function(unsafe) {
+          return unsafe
+              .replace(/&amp;/g, "&")
+              .replace(/&lt;/g, "<")
+              .replace(/&gt;/g, ">")
+              .replace(/&quot;/g, "\"")
+              .replace(/&#039;/g, "'");
+        }
+
+        var title = section.course.dept + " " + section.course.num;
+        var truncatedDesc = section.course.descriptionTruncated;
+        truncatedDesc.__html = unescapeHtml(truncatedDesc.__html);
+
+        overlay = (~
+          %Popover(title={title})
+            .p-container
+              .popover-course-title
+                {section.course.title}
+
+              %p
+                .popover-field
+                  %strong Credits:
+                  %span.popover-value
+                    {section.course.credits}
+              
+                .popover-field
+                  %strong Instructors:
+                  %span.popover-value
+                    {section.instructors}
+
+              %p.popover-desc
+                %div(dangerouslySetInnerHTML={truncatedDesc})
+        ~);
+        placement = dayIdx <= 1 ? 'right' : 'left';
+      }
+      else {
+        overlay = (~
+          %Tooltip
+            %strong.tooltip-title {section.course.title}
+            %br
+            {section.place}
+            %br
+            {section.prettyTime}
+        ~);
+        placement = 'top';
+      }
+      return [overlay, placement];
+    },
+
     renderHTML: function() {
       var layout = getLayout(this.props, this.state);
 
       var courses;
       var self = this;
 
-      var big = this.props.big && !mobilecheck();
+      var bigNotMobile = this.props.big && !mobilecheck();
 
       if (this.props.schedule) {
         var sections = self.props.schedule.sections;
@@ -221,67 +277,16 @@
 
             var href = "/?q="+section.course.dept+"+"+section.course.num+"+"+section.course.term.toLowerCase()+"+"+section.course.year;
 
-            var Tooltip = ReactBootstrap.Tooltip;
-            var OverlayTrigger = ReactBootstrap.OverlayTrigger;
-            var Popover = ReactBootstrap.Popover;
-
-            var overlay, placement;
-            if (big) {
-              var unescapeHtml = function(unsafe) {
-                return unsafe
-                    .replace(/&amp;/g, "&")
-                    .replace(/&lt;/g, "<")
-                    .replace(/&gt;/g, ">")
-                    .replace(/&quot;/g, "\"")
-                    .replace(/&#039;/g, "'");
-              }
-
-              var title = section.course.dept + " " + section.course.num;
-              var truncatedDesc = section.course.descriptionTruncated;
-              truncatedDesc.__html = unescapeHtml(truncatedDesc.__html);
-
-              overlay = (~
-                %Popover(title={title})
-                  .p-container
-                    .popover-course-title
-                      {section.course.title}
-
-                    %p
-                      .popover-field
-                        %strong Credits:
-                        %span.popover-value
-                          {section.course.credits}
-                    
-                      .popover-field
-                        %strong Instructors:
-                        %span.popover-value
-                          {section.instructors}
-
-                    %p.popover-desc
-                      %div(dangerouslySetInnerHTML={truncatedDesc})
-              ~);
-              placement = dayIdx == 0 ? 'right' : 'left';
-            }
-            else {
-              overlay = (~
-                %Tooltip
-                  %strong.tooltip-title {section.course.title}
-                  %br
-                  {section.place}
-                  %br
-                  {section.prettyTime}
-              ~);
-              placement = 'top';
-            }
+            var overlay_placement = self.overlayAndPlacement(section, dayIdx, bigNotMobile);
 
             var type = type2name(section.sectionType, true, true);
             if (section.abcSection) {
               type += " "+section.abcSection;
             }
             return (~
-              %OverlayTrigger(key={"block"+section.id+day} placement={placement} overlay={overlay})
+              %OverlayTrigger(key={"block"+section.id+day} overlay={overlay_placement[0]} placement={overlay_placement[1]})
                 %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
-                  %div(className={big ? "s-big" : "s-side"})
+                  %div(className={bigNotMobile ? "s-big" : "s-side"})
                     .s-block-p
                       .s-block-time {time}
                       .s-block-dept {section.course.dept}
@@ -311,7 +316,7 @@
 
       var credits;
       var numSections;
-      if (self.props.schedule && !big)
+      if (self.props.schedule && !bigNotMobile)
       {
         credits = (~
           .side-credits

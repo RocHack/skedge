@@ -43,6 +43,16 @@
           {!this.state.overlay ? "Overlay my schedule" : "Hide overlay"}
       ~);
 
+      var credits = mobilecheck() ? null : (~
+        %p.skedge-info-sections-credits
+          %strong
+            {this.props.schedule.sections.length+" "}
+          sections
+          %strong
+            {" / "+this.props.schedule.totalCredits+" "}
+          credits
+      ~);
+
       return (~
         .
           .col-md-2
@@ -55,13 +65,8 @@
                 %p
                   .schedule-title
                     {this.props.schedule.description}
-                %p.skedge-info-sections-credits
-                  %strong
-                    {this.props.schedule.sections.length+" "}
-                  sections
-                  %strong
-                    {" / "+this.props.schedule.totalCredits+" "}
-                  credits
+                
+                {credits}
               
                 .class-list-header Courses:
                 %ul.class-list

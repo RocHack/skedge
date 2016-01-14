@@ -57,15 +57,24 @@
           {!this.state.overlay ? "Overlay my schedule" : "Hide overlay"}
       ~);
 
-      var credits = mobilecheck() ? null : (~
-        %p.skedge-info-sections-credits
-          %strong
-            {this.props.schedule.sections.length+" "}
-          sections
-          %strong
-            {" / "+this.props.schedule.totalCredits+" "}
-          credits
-      ~);
+      var creditsOrDownload;
+      if (mobilecheck()) {
+        creditsOrDownload = (~
+          %p.skedge-info-sections-credits
+            %Button(href={this.props.schedule.rid+".ics"} target="_blank")
+              Download to phone
+        ~);
+      } else {
+        creditsOrDownload = (~
+          %p.skedge-info-sections-credits
+            %strong
+              {this.props.schedule.sections.length+" "}
+            sections
+            %strong
+              {" / "+this.props.schedule.totalCredits+" "}
+            credits
+        ~);
+      }
 
       return (~
         .
@@ -80,7 +89,7 @@
                   .schedule-title
                     {this.props.schedule.description}
                 
-                {credits}
+                {creditsOrDownload}
               
                 .class-list-header Courses:
                 %ul.class-list

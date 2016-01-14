@@ -13,6 +13,16 @@
       this.refs.schedule.toggleOverlayUserSchedule();
     },
 
+    hoverOverListItem: function(section, highlight) {
+      section.days.split("").map(function(day) {
+        var elem = $('#section-box-'+section.crn+'-'+day);
+        if (highlight)
+          elem.addClass('bubble');
+        else
+          elem.removeClass('bubble');
+      });
+    },
+
     render: function() {
       if (!this.props.schedule) {
         return (~
@@ -23,11 +33,15 @@
           ~);
       }
 
+      var self = this;
+
       var list = this.props.schedule.sections.map(function (s) {
           if (s.sectionType == MAIN) {
             return (~
               %li(key={s.id})
-                %a(href={"/?q="+s.course.dept+s.course.num})
+                %a(href={"/?q="+s.course.dept+s.course.num}
+                   onMouseEnter={self.hoverOverListItem.bind(self, s, true)}
+                   onMouseLeave={self.hoverOverListItem.bind(self, s, false)})
                   {s.course.dept}
                   {s.course.num}
             ~);

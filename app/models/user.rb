@@ -8,6 +8,22 @@ class User < ActiveRecord::Base
 
   belongs_to :last_schedule, class_name: "Schedule"
 
+  has_and_belongs_to_many :share_users_forward,
+    join_table: "user_shares",
+    foreign_key: "user_a_id",
+    association_foreign_key: "user_b_id",
+    class_name: :User
+
+  has_and_belongs_to_many :share_users_reverse,
+    join_table: "user_shares",
+    foreign_key: "user_b_id",
+    association_foreign_key: "user_a_id",
+    class_name: :User
+
+  def share_users
+    share_users_forward + share_users_reverse
+  end
+
   before_validation(on: :create) do
     self.secret ||= SecureRandom.hex
   end

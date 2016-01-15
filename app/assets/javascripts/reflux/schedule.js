@@ -8,7 +8,8 @@
     'untemporaryizeSection',
     'commitSection',
     'changeSchedule',
-    'getConflicts'
+    'getConflicts',
+    'loadUser'
   ]);
 
   window.SKScheduleStore = Reflux.createStore({
@@ -145,6 +146,16 @@
       this.trigger(this.state);
     },
 
+    loadUser: function(user) {
+      //store the secret in a cookie
+      var d = new Date();
+      d.setTime(d.getTime() + (4*365*24*60*60*1000));
+      document.cookie = "s_id=x&"+user.userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
+
+      //update schedule
+      this.state.schedules = user.schedules;
+      this.trigger(this.state);
+    },
 
     courseAjax: function(data) {
       var self = this;
@@ -152,14 +163,7 @@
         function (response)
         {
           //success
-          //store the secret in a cookie
-          var d = new Date();
-          d.setTime(d.getTime() + (4*365*24*60*60*1000));
-          document.cookie = "s_id=x&"+response.userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
-
-          //update schedule
-          self.state.schedules = response.schedules;
-          self.trigger(self.state);
+          self.loadUser(response);
         }
         ).fail(function (response)
         {

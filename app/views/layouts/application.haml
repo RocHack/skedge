@@ -1,8 +1,6 @@
 !!!
 %html
   %head
-    :javascript
-      window.needsToFBRegister = #{!current_user.try(:fb_id)};
     %meta{name:"viewport", content:"width=device-width, initial-scale=1.0"}
     %title skedge
     <link href='https://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
@@ -23,9 +21,7 @@
     .container-fluid
       = content_for?(:content) ? yield(:content) : yield
 
-      .fb-login-button(data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="false" onlogin="checkLoginState();" scope="user_friends")
-
-      %button.btn.btn-default(onclick="shareSchedules();") Share Schedules with Friends
+      =react_component 'Facebook', requests:current_user.try(:share_requests)
 
     =react_component 'Feedback'
     

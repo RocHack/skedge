@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
     association_foreign_key: "user_a_id",
     class_name: :User
 
+  has_many :share_requests,
+    foreign_key: "user_b_id"
+
   def share_users
     share_users_forward + share_users_reverse
   end

@@ -1,4 +1,6 @@
 class FacebookController < ApplicationController
+  include ReactHelper
+
   def share_request
     a, b = params[:a], params[:b]
     
@@ -34,10 +36,17 @@ class FacebookController < ApplicationController
 
   def register_user
     # Assert stuff
-    
+
     user = current_user
+    if !user
+      user = User.create
+      ahoy.track("$new-user", {id:user.id, fb:true})
+    end
     user.fb_id = params[:id]
     user.save
-    head 200
+
+    render json:{status:200,
+                 schedules:reactify_schedules(user.schedules),
+                 userSecret:user.secret}
   end
 end

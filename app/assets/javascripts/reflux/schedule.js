@@ -150,7 +150,8 @@
       //store the secret in a cookie
       var d = new Date();
       d.setTime(d.getTime() + (4*365*24*60*60*1000));
-      document.cookie = "s_id=x&"+user.userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
+      var domain = isDevReact() ? "" : "; domain=.skedgeur.com";
+      document.cookie = "s_id=x&"+user.userSecret+"; expires="+d.toUTCString()+domain;
 
       //update schedule
       this.state.schedules = user.schedules;
@@ -216,3 +217,16 @@
     return [];
   };
 })();
+
+function isDevReact() {
+  try {
+    React.createClass({});
+  } catch(e) {
+    if (e.message.indexOf('render') >= 0) {
+      return true;  // A nice, specific error message
+    } else {
+      return false;  // A generic error message
+    }
+  }
+  return false;  // should never happen, but play it safe.
+};

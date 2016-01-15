@@ -8,7 +8,8 @@
 
     componentDidMount: function() {
       // So it can be accessed by the SDK
-      window.checkLoginState = this.checkLoginState;
+      window.afterLogIn = this.checkLoginState;
+      var self = this;
 
       window.fbAsyncInit = function() {
         FB.init({
@@ -17,7 +18,7 @@
           version    : 'v2.5'
         });
 
-        checkLoginState();
+        self.checkLoginState();
       };
 
       (function(d, s, id){
@@ -30,16 +31,18 @@
     },
 
     checkLoginState: function () {
+      var self = this;
       FB.getLoginStatus(function(response) {
         console.log(response.status);
         if (response.status == 'connected') {
           //The person is logged into Facebook, and has logged into your app
-          fb_id = response.authResponse.userID;
-          console.log("user id = "+fb_id);
+          var id = response.authResponse.userID;
 
-          $.post("fb_register_user", {id:fb_id}, function (response) {
+          $.post("fb_register_user", {"id":id}, function (response) {
             SKScheduleAction.loadUser(response);
           });
+
+          self.setState({fb_id:id});
         }
         else if (response.status == 'not_authorized') {
           //The person is logged into Facebook, but has not logged into your app.
@@ -51,6 +54,7 @@
     },
 
     shareSchedules: function() {
+      var self = this;
       FB.api("/me/friends",
         function (response)
         {
@@ -59,7 +63,7 @@
             response.data.map(function(user) {
               console.log(user);
               console.log("making Request to share schedules with "+user.name);
-              $.post("fb_share_request", {a:user_id, b: user.id});
+              $.post("fb_share_request", {a:self.state.fb_id, b: user.id});
             })
           }
         }
@@ -71,7 +75,7 @@
 
       return (~
         .
-          .fb-login-button(data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="false" onlogin="checkLoginState();" scope="user_friends" data-auto-logout-link="true")
+          .fb-login-button(data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="false" data-onlogin="afterLogIn();" scope="user_friends" data-auto-logout-link="true")
 
           %button.btn.btn-default(onclick="shareSchedules();") Share Schedules with Friends
 

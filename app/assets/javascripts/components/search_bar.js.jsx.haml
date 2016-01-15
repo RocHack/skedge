@@ -4,6 +4,8 @@
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
   window.SearchBar = React.createClass({
+    mixins: [Reflux.connect(SKScheduleStore, "store")],
+
     seeSearchTips: function () {
       if (link = document.getElementById('search-link')) {
         link.click();
@@ -38,7 +40,7 @@
         searchPlaceholder = "CSC / CSC 171 / Science...";
         sideBtn = (~
           %span.input-group-btn
-            %button.input-lg.btn.btn-default#schedule-btn
+            %button.input-lg.btn.btn-default#schedule-btn(disabled={!this.state.store.schedule})
               %i.fa.fa-calendar
         ~);
       }

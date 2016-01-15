@@ -1,9 +1,15 @@
 (function() {
+  var ReactUpdate = React.addons.update;
+
   window.Facebook = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
     getInitialState: function () {
-      return {fb_id: null};
+      return {
+        fb_id: null,
+        requests: this.props.requests,
+        shareUsers: this.props.shareUsers
+      };
     },
 
     componentDidMount: function() {
@@ -70,17 +76,58 @@
       );
     },
 
+    acceptRequest: function(req) {
+      console.log(req);
+
+      var self = this;
+      $.post('fb_share_confirm', {sr_id:req.id}, function (data) {
+        var index = self.state.requests.indexOf(req);
+        self.setState({
+          requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
+          shareUsers: data.shareUsers
+        });
+      });
+    },
+
     render: function() {
-      var requests = null;
+      var self = this;
+
+      var requests = this.state.requests.map(function (req) {
+        return (~
+          .(key={req.id})
+            %a(href="#" onClick={self.acceptRequest.bind(self, req)})
+              Request
+        ~);
+      });
+
+      var shares = this.state.shareUsers.map(function (user) {
+        var schedules = user.schedules.map(function (sch) {
+          return (~
+            %a(key={sch} href={sch})
+              {sch}
+          ~);
+        });
+        return (~
+          .(key={user.id})
+            User
+            {user.id}:
+            {schedules}
+        ~);
+      });
 
       return (~
         .
           .fb-login-button(data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="false" data-onlogin="afterLogIn();" scope="user_friends" data-auto-logout-link="true")
 
-          %button.btn.btn-default(onclick="shareSchedules();") Share Schedules with Friends
+          %button.btn.btn-default(onClick={this.shareSchedules}) Share Schedules with Friends
 
-          Requests:
-          {requests}
+          .
+            Requests:
+            {requests}
+
+          .
+            Friends you're sharing schedules with:
+            {shares}
       ~);
     }
   })

@@ -102,4 +102,23 @@ module ReactHelper
     end if schedules
     hash
   end
+
+  def reactify_requests(requests)
+    requests.map do |request|
+      {
+        id: request.id,
+        requester: request.user_b.fb_id
+      }
+    end if requests
+  end
+
+  def reactify_users(users)
+    users.map do |user|
+      {
+        id: user.id,
+        fb_id: user.fb_id,
+        schedules: user.schedules.collect(&:rid)
+      }
+    end if users
+  end
 end

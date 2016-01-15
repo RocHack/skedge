@@ -1,6 +1,4 @@
 class SchedulesController < ApplicationController
-  include ReactHelper
-
   layout nil
 
   def get_svg

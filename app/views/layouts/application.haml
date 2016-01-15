@@ -21,7 +21,8 @@
     .container-fluid
       = content_for?(:content) ? yield(:content) : yield
 
-      =react_component 'Facebook', requests:current_user.try(:share_requests)
+      =react_component 'Facebook', requests:reactify_requests(current_user.try(:share_requests)),
+                                   shareUsers:reactify_users(current_user.try(:share_users))
 
     =react_component 'Feedback'
     

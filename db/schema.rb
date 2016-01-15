@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160115062542) do
+ActiveRecord::Schema.define(version: 20160115073046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,13 @@ ActiveRecord::Schema.define(version: 20160115062542) do
 
   add_index "sections", ["course_id", "section_type", "crn"], name: "index_sections_on_course_id_and_section_type_and_crn", using: :btree
 
+  create_table "share_requests", force: :cascade do |t|
+    t.integer "user_a_id"
+    t.integer "user_b_id"
+  end
+
+  add_index "share_requests", ["user_a_id", "user_b_id"], name: "index_share_requests_on_user_a_id_and_user_b_id", unique: true, using: :btree
+
   create_table "tickets", force: :cascade do |t|
     t.integer "feedback_type"
     t.string  "email"
@@ -122,6 +129,7 @@ ActiveRecord::Schema.define(version: 20160115062542) do
   create_table "users", force: :cascade do |t|
     t.string  "secret"
     t.integer "last_schedule_id"
+    t.string  "fb_id"
   end
 
   create_table "visits", id: :uuid, force: :cascade do |t|

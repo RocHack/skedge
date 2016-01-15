@@ -7,4 +7,10 @@ Rails.application.routes.draw do
   post 'create_ticket', to: 'tickets#create'
   
   get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9a-z]+/ }
+
+  # Facebook
+
+  post 'fb_share_request', to: 'facebook#share_request'
+  post 'fb_share_confirm', to: 'facebook#share_confirmation'
+  post 'fb_register_user', to: 'facebook#register_user'
 end

@@ -155,6 +155,10 @@
       //update schedule
       this.state.schedules = user.schedules;
       this.trigger(this.state);
+
+      if (user.defaultSchedule) {
+        this.changeSchedule(user.defaultSchedule);
+      }
     },
 
     courseAjax: function(data) {
@@ -171,7 +175,7 @@
           //undo everything in data!
           alert("failure :(");
         }
-        );
+      );
     }
   });
 

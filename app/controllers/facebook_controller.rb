@@ -35,18 +35,28 @@ class FacebookController < ApplicationController
   end
 
   def register_user
+    fb_id = params[:id]
+
     # Assert stuff
 
     user = current_user
+
     if !user
-      user = User.create
-      ahoy.track("$new-user", {id:user.id, fb:true})
+      user = User.find_by(fb_id:fb_id)
+      if user
+        ahoy.track("$old-user-fb", {id:user.id})
+      else
+        user = User.create
+        ahoy.track("$new-user", {id:user.id, fb:true})
+      end
     end
-    user.fb_id = params[:id]
+
+    user.fb_id = fb_id
     user.save
 
     render json:{status:200,
                  schedules:reactify_schedules(user.schedules),
-                 userSecret:user.secret}
+                 userSecret:user.secret,
+                 defaultSchedule:user.last_schedule.try(:yr_term)}
   end
 end

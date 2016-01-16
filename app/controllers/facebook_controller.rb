@@ -23,7 +23,8 @@ class FacebookController < ApplicationController
     # Will fail if the request already exists
     ShareRequest.create!(user_a: user_a,
                          user_b: user_b)
-    head 200
+    
+    render json:{requested:reactify_requests(user_a.sent_share_requests)}
   end
 
   def share_confirmation
@@ -41,9 +42,10 @@ class FacebookController < ApplicationController
     a.share_users_forward << request.user_b
     a.save
     b.save
-    request.destroy
 
     render json:{shareUsers:reactify_users(request.user_b.share_users)}
+    
+    request.destroy
   end
 
   def unshare
@@ -66,27 +68,27 @@ class FacebookController < ApplicationController
     fb_id = params[:id]
 
     # Assert stuff
-
-    user = current_user
+    user = User.find_by(fb_id:fb_id)
 
     if !user
-      user = User.find_by(fb_id:fb_id)
-      if user
-        ahoy.track("$old-user-fb", {id:user.id})
+      if current_user
+        if !current_user.fb_id
+          current_user.fb_id = fb_id
+          current_user.save
+          ahoy.track("$old-user-fb", {id:user.id})
+        end
       else
-        user = User.create
+        user = User.create(fb_id:fb_id)
         ahoy.track("$new-user", {id:user.id, fb:true})
       end
     end
-
-    user.fb_id = fb_id
-    user.save
 
     render json:{status:200,
                  schedules:reactify_schedules(user.schedules),
                  userSecret:user.secret,
                  defaultSchedule:user.last_schedule.try(:yr_term),
                  shareUsers:reactify_users(user.share_users),
-                 requests:reactify_requests(user.share_requests)}
+                 requests:reactify_requests(user.share_requests),
+                 requested:reactify_requests(user.sent_share_requests)}
   end
 end

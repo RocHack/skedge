@@ -10,7 +10,7 @@
         fb_id: null,
         requests: this.props.requests,
         shareUsers: this.props.shareUsers,
-        requested: [],
+        requested: this.props.requested,
         friends: []
       };
     },
@@ -50,8 +50,9 @@
           $.post("fb_register_user", {"id":id}, function (response) {
             SKScheduleAction.loadUser(response);
             self.setState({
-              requests:response.requests,
-              shareUsers:response.shareUsers
+              requests: response.requests,
+              shareUsers: response.shareUsers,
+              requested: response.requested
             });
           });
 
@@ -82,9 +83,9 @@
 
     sendRequest: function(friend) {
       var self = this;
-      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function () {
+      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function (data) {
         self.setState({
-          requested: ReactUpdate(self.state.requested, {$push: [friend.id]})
+          requested: data.requested
         });
       });
     },
@@ -154,27 +155,38 @@
         });
 
         var right;
-        if (!alreadySharing) {
-          var alreadyRequested = self.state.requested.some(function (id) {
-            return (id == friend.id);
+        if (alreadySharing) {
+          right = (~
+            %Button(onClick={self.unshare.bind(self, friend)}) Unshare schedules
+          ~);
+        }
+        else {
+          var alreadyRequested = self.state.requested.some(function (req) {
+            return (req.to == friend.id);
           });
 
-          if (!alreadyRequested) {
-            right = (~
-              %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
-            ~);
-          }
-          else {
+          if (alreadyRequested) {
             right = (~
               .
                 Request sent
             ~);
           }
-        }
-        else {
-          right = (~
-            %Button(onClick={self.unshare.bind(self, friend)}) Unshare schedules
-          ~);
+          else {
+            var haveRequest = self.state.requests.find(function (req) {
+              return (req.from == friend.id);
+            });
+
+            if (haveRequest) {
+              right = (~
+                %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
+              ~);
+            }
+            else {
+              right = (~
+                %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+              ~);
+            }
+          }
         }
 
         return (~

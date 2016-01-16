@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
   has_many :share_requests,
     foreign_key: "user_b_id"
 
+  has_many :sent_share_requests,
+    foreign_key: "user_a_id",
+    class_name: :ShareRequest
+
   def share_users
     share_users_forward + share_users_reverse
   end

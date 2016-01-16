@@ -107,7 +107,8 @@ module ReactHelper
     requests.map do |request|
       {
         id: request.id,
-        requester: request.user_b.fb_id
+        to: request.user_b.fb_id,
+        from: request.user_a.fb_id
       }
     end if requests
   end

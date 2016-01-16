@@ -45,6 +45,10 @@
         ~);
       }
 
+      var social = mobilecheck() ? null : (~
+        %i.fa.fa-globe.form-control-feedback
+      ~);
+
       return (~
         %form(action=".")
           .head-fixed
@@ -55,15 +59,15 @@
                 %h1.logo
                   skedge
 
-            .input-group.has-feedback
+            .input-group
               %input.form-control.input-lg#search-bar(name="q"
                                                       type="search"
                                                       placeholder={searchPlaceholder}
                                                       defaultValue={this.props.query}
                                                       onFocus={this.seeSearchTips})
 
-              %i.fa.fa-search.form-control-feedback
-
+              %i.fa.fa-search.form-control-feedback.mobile
+              
               %a(href="/#search"
                  name="search-help"
                  onClick={this.seeSearchTips})
@@ -71,6 +75,8 @@
                   %i.fa.fa-question-circle.search-help
               
               {sideBtn}
+              
+              {social}
       ~);
     }
   })

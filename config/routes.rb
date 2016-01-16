@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   post 'change_last_schedule', to: 'schedules#change_last_schedule'
   post 'create_ticket', to: 'tickets#create'
   
-  get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9a-z]+/ }
-
   # Facebook
+
+  get 'social', to: 'facebook#index'
 
   post 'fb_register_user', to: 'facebook#register_user'
 
@@ -18,4 +18,8 @@ Rails.application.routes.draw do
 
   get 'fb_get_public_sharing_friends', to: 'facebook#get_public_sharing_friends'
   get 'sharing_taking_course', to: 'facebook#sharing_taking_course'
+
+  # Schedules
+
+  get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9a-z]+/ }
 end

@@ -135,6 +135,10 @@
     },
 
     render: function() {
+      if (!this.props.visible) {
+        return null;
+      }
+
       var self = this;
 
       var loginButton = (~
@@ -161,8 +165,7 @@
       var shares = !this.state.shareUsers ? null : this.state.shareUsers.map(function (user) {
         return (~
           .(key={user.id})
-            User
-            {user.id}:
+            {window.FBID2Name[user.fb_id]}:
             {self.renderSchedules(user)}
         ~);
       });

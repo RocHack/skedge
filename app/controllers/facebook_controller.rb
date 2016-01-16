@@ -1,4 +1,10 @@
 class FacebookController < ApplicationController
+  layout 'main'
+
+  def index
+    @facebook_visible = true
+  end
+
   def share_request
     a, b = params[:a], params[:b]
     

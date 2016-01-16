@@ -23,6 +23,16 @@
   padding-left: 15px;
 }
 
+.search-container
+{
+  width: 95%;
+}
+
+.mobile
+{
+  display: none;
+}
+
 #search-bar
 {
   padding-left: 45px;
@@ -123,9 +133,19 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
   color: black;
 }
 
+.fa-globe
+{
+  margin-left: 50px;
+}
+
 /* MOBILE */
 
 @media (max-width: 768px) {
+  .mobile
+  {
+    display: block;
+  }
+
   .row
   {
     margin-right: 0px;

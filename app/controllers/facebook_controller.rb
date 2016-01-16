@@ -46,6 +46,22 @@ class FacebookController < ApplicationController
     render json:{shareUsers:reactify_users(request.user_b.share_users)}
   end
 
+  def unshare
+    # TODO: assert stuff
+    
+    user = current_user
+    nonfriend = User.find_by(fb_id:params[:nonfriend])
+
+    if user.share_users_forward.include?(nonfriend)
+      user.share_users_forward.delete(nonfriend)
+    else
+      user.share_users_reverse.delete(nonfriend)
+    end
+    user.save
+
+    render json:{shareUsers:reactify_users(user.share_users)}
+  end
+
   def register_user
     fb_id = params[:id]
 
@@ -69,6 +85,8 @@ class FacebookController < ApplicationController
     render json:{status:200,
                  schedules:reactify_schedules(user.schedules),
                  userSecret:user.secret,
-                 defaultSchedule:user.last_schedule.try(:yr_term)}
+                 defaultSchedule:user.last_schedule.try(:yr_term),
+                 shareUsers:reactify_users(user.share_users),
+                 requests:reactify_requests(user.share_requests)}
   end
 end

@@ -1,5 +1,6 @@
 (function() {
   var ReactUpdate = React.addons.update;
+  var Button = ReactBootstrap.Button;
 
   window.Facebook = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
@@ -8,7 +9,9 @@
       return {
         fb_id: null,
         requests: this.props.requests,
-        shareUsers: this.props.shareUsers
+        shareUsers: this.props.shareUsers,
+        requested: [],
+        friends: []
       };
     },
 
@@ -46,9 +49,15 @@
 
           $.post("fb_register_user", {"id":id}, function (response) {
             SKScheduleAction.loadUser(response);
+            self.setState({
+              requests:response.requests,
+              shareUsers:response.shareUsers
+            });
           });
 
           self.setState({fb_id:id});
+
+          self.getFriendsList();
         }
         else if (response.status == 'not_authorized') {
           //The person is logged into Facebook, but has not logged into your app.
@@ -59,21 +68,25 @@
       });
     },
 
-    shareSchedules: function() {
+    getFriendsList: function() {
       var self = this;
       FB.api("/me/friends",
         function (response)
         {
           if (response && !response.error) {
-            console.log("pick:");
-            response.data.map(function(user) {
-              console.log(user);
-              console.log("making Request to share schedules with "+user.name);
-              $.post("fb_share_request", {a:self.state.fb_id, b: user.id});
-            })
+            self.setState({friends:response.data});
           }
         }
       );
+    },
+
+    sendRequest: function(friend) {
+      var self = this;
+      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function () {
+        self.setState({
+          requested: ReactUpdate(self.state.requested, {$push: [friend.id]})
+        });
+      });
     },
 
     acceptRequest: function(req) {
@@ -89,10 +102,30 @@
       });
     },
 
+    unshare: function(friend) {
+      var self = this;
+      $.post("fb_unshare", {nonfriend: friend.id}, function (data) {
+        self.setState({shareUsers: data.shareUsers});
+      });
+    },
+
     render: function() {
       var self = this;
 
-      var requests = this.state.requests.map(function (req) {
+      var loginButton = (~
+        .fb-login-button(data-max-rows="1"
+                         data-size="large"
+                         data-show-faces="true"
+                         data-onlogin="afterLogIn();"
+                         scope="user_friends"
+                         data-auto-logout-link="true")
+      ~);
+
+      if (!this.state.fb_id) {
+        return loginButton;
+      }
+
+      var requests = !this.state.requests ? null : this.state.requests.map(function (req) {
         return (~
           .(key={req.id})
             %a(href="#" onClick={self.acceptRequest.bind(self, req)})
@@ -100,7 +133,7 @@
         ~);
       });
 
-      var shares = this.state.shareUsers.map(function (user) {
+      var shares = !this.state.shareUsers ? null : this.state.shareUsers.map(function (user) {
         var schedules = user.schedules.map(function (sch) {
           return (~
             %a(key={sch} href={sch})
@@ -115,11 +148,47 @@
         ~);
       });
 
+      var friends = this.state.friends.map(function (friend) {
+        var alreadySharing = self.state.shareUsers.some(function (user) {
+          return (user.fb_id == friend.id);
+        });
+
+        var right;
+        if (!alreadySharing) {
+          var alreadyRequested = self.state.requested.some(function (id) {
+            return (id == friend.id);
+          });
+
+          if (!alreadyRequested) {
+            right = (~
+              %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+            ~);
+          }
+          else {
+            right = (~
+              .
+                Request sent
+            ~);
+          }
+        }
+        else {
+          right = (~
+            %Button(onClick={self.unshare.bind(self, friend)}) Unshare schedules
+          ~);
+        }
+
+        return (~
+          .(key={friend.id})
+            {friend.name}
+            {right}
+        ~);
+      });
+
       return (~
         .
-          .fb-login-button(data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="false" data-onlogin="afterLogIn();" scope="user_friends" data-auto-logout-link="true")
+          {loginButton}
 
-          %button.btn.btn-default(onClick={this.shareSchedules}) Share Schedules with Friends
+          {friends}
 
           .
             Requests:

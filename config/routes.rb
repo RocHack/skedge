@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   # Facebook
 
   post 'fb_register_user', to: 'facebook#register_user'
-  
+
   post 'fb_share_request', to: 'facebook#share_request'
   post 'fb_share_confirm', to: 'facebook#share_confirmation'
   post 'fb_unshare', to: 'facebook#unshare'
+
+  post 'fb_get_public_sharing_friends', to: 'facebook#get_public_sharing_friends'
 end

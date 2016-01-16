@@ -91,4 +91,13 @@ class FacebookController < ApplicationController
                  requests:reactify_requests(user.share_requests),
                  requested:reactify_requests(user.sent_share_requests)}
   end
+
+  def get_public_sharing_friends
+    public_friends = params[:friends].map do |i, friend|
+      u = User.find_by(fb_id: friend["id"])
+      u.public_sharing ? u : nil
+    end.compact
+
+    render json:{friends:reactify_users(public_friends)}
+  end
 end

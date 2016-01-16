@@ -11,6 +11,7 @@
         requests: this.props.requests,
         shareUsers: this.props.shareUsers,
         requested: this.props.requested,
+        publicFriends: [],
         friends: []
       };
     },
@@ -76,6 +77,10 @@
         {
           if (response && !response.error) {
             self.setState({friends:response.data});
+
+            $.post('fb_get_public_sharing_friends', {friends: response.data}, function (resp) {
+              self.setState({publicFriends: resp.friends});
+            })
           }
         }
       );
@@ -110,6 +115,15 @@
       });
     },
 
+    renderSchedules: function(user) {
+      return user.schedules.map(function (sch) {
+        return (~
+          %a(key={sch} href={sch})
+            {sch}
+        ~);
+      });
+    },
+
     render: function() {
       var self = this;
 
@@ -135,17 +149,11 @@
       });
 
       var shares = !this.state.shareUsers ? null : this.state.shareUsers.map(function (user) {
-        var schedules = user.schedules.map(function (sch) {
-          return (~
-            %a(key={sch} href={sch})
-              {sch}
-          ~);
-        });
         return (~
           .(key={user.id})
             User
             {user.id}:
-            {schedules}
+            {self.renderSchedules(user)}
         ~);
       });
 
@@ -161,30 +169,43 @@
           ~);
         }
         else {
-          var alreadyRequested = self.state.requested.some(function (req) {
-            return (req.to == friend.id);
+          var haveRequest = self.state.requests.find(function (req) {
+            return (req.from == friend.id);
           });
 
-          if (alreadyRequested) {
+          if (haveRequest) {
             right = (~
-              .
-                Request sent
+              %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
             ~);
           }
           else {
-            var haveRequest = self.state.requests.find(function (req) {
-              return (req.from == friend.id);
+            var publicFriend = self.state.publicFriends.find(function (p) {
+              return (p.fb_id == friend.id);
             });
 
-            if (haveRequest) {
+            if (publicFriend) {
               right = (~
-                %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
+                .
+                  Publicly sharing:
+                  {self.renderSchedules(publicFriend)}
               ~);
             }
             else {
-              right = (~
-                %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
-              ~);
+              var alreadyRequested = self.state.requested.some(function (req) {
+                return (req.to == friend.id);
+              });
+
+              if (alreadyRequested) {
+                right = (~
+                  .
+                    Request sent
+                ~);
+              }
+              else {
+                right = (~
+                  %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+                ~);
+              }
             }
           }
         }

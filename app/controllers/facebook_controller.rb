@@ -92,12 +92,33 @@ class FacebookController < ApplicationController
                  requested:reactify_requests(user.sent_share_requests)}
   end
 
-  def get_public_sharing_friends
-    public_friends = params[:friends].map do |i, friend|
+  def sharing_users(friends, user=nil)
+    friends.map do |i, friend|
       u = User.find_by(fb_id: friend["id"])
-      u.public_sharing ? u : nil
+      private_sharing = user && user.share_users.include?(u)
+      if u.public_sharing || private_sharing
+        u
+      else
+        nil
+      end
     end.compact
+  end
 
-    render json:{friends:reactify_users(public_friends)}
+  def get_public_sharing_friends
+    friends = sharing_users(params[:friends])
+    render json:{friends:reactify_users(friends)}
+  end
+
+  def sharing_taking_course
+    user = current_user
+    friends = sharing_users(params[:friends], user) #also get privately sharing
+    course = Course.find(params[:course_id])
+
+    taking = friends.select do |friend|
+      schedule = friend.schedules.find_by(yr_term:course.yr_term)
+      schedule && schedule.sections.collect(&:course).include?(course)
+    end
+
+    render json:{users:reactify_users(taking)}
   end
 end

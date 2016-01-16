@@ -78,7 +78,16 @@
           if (response && !response.error) {
             self.setState({friends:response.data});
 
-            $.post('fb_get_public_sharing_friends', {friends: response.data}, function (resp) {
+            window.FBFriends = response.data;
+            window.FBID2Name = {};
+            for (var i = 0; i < response.data.length; i++) {
+              window.FBID2Name[response.data[i].id] = response.data[i].name;
+            };
+
+            var event = new CustomEvent("newMessage");
+            document.dispatchEvent(event);
+
+            $.get('fb_get_public_sharing_friends', {friends: response.data}, function (resp) {
               self.setState({publicFriends: resp.friends});
             })
           }

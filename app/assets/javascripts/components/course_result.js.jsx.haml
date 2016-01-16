@@ -6,7 +6,8 @@
   window.CourseResult = React.createClass({
     getInitialState: function() {
       return {
-        subcoursesOpened: {}
+        subcoursesOpened: {},
+        friendsTakingCourse: []
       };
     },
 
@@ -19,6 +20,19 @@
         }
         this.setState({subcoursesOpened:opened});
       }
+    },
+
+    componentDidMount: function() {
+      var self = this;
+      document.addEventListener("newMessage", function (event) {
+        $.get('sharing_taking_course', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
+          self.setState({friendsTakingCourse: data.users});
+        });
+      }, false);
+    },
+
+    componentWillUnmount: function () {
+      document.removeEventListener("newMessage");
     },
 
     courseDetail: function (course, detail) {
@@ -365,6 +379,21 @@
         });
       }
 
+      var friendsList = this.state.friendsTakingCourse.map(function (friend) {
+        var imgURL = "http://graph.facebook.com/v2.5/"+friend.fb_id+"/picture?type=square&width=50&height=50";
+        return (~
+          .(key={friend.fb_id})
+            %img(src={imgURL})
+            {window.FBID2Name[friend.fb_id]}
+        ~)
+      });
+
+      var friends = this.state.friendsTakingCourse.length == 0 ? null : (~
+        .
+          Friends taking this course:
+          {friendsList}
+      ~);
+
       var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
       var cnumClass = mac ? "bold-mac" : "bold-pc";
 
@@ -394,6 +423,9 @@
             {self.subcourses("recitation")}
             {self.subcourses("workshop")}
             {self.subcourses("labLecture")}
+
+          .friends-taking
+            {friends}
       ~);
     }
   });

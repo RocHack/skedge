@@ -81,10 +81,11 @@
             window.FBFriends = response.data;
             window.FBID2Name = {};
             for (var i = 0; i < response.data.length; i++) {
-              window.FBID2Name[response.data[i].id] = response.data[i].name;
+              var user = response.data[i];
+              window.FBID2Name[user.id] = user.name;
             };
 
-            var event = new CustomEvent("newMessage");
+            var event = new CustomEvent("gotFriendsList");
             document.dispatchEvent(event);
 
             $.get('fb_get_public_sharing_friends', {friends: response.data}, function (resp) {

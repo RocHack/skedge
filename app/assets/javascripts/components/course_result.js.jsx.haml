@@ -24,7 +24,7 @@
 
     componentDidMount: function() {
       var self = this;
-      document.addEventListener("newMessage", function (event) {
+      document.addEventListener("gotFriendsList", function (event) {
         $.get('sharing_taking_course', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
           self.setState({friendsTakingCourse: data.users});
         });
@@ -32,7 +32,7 @@
     },
 
     componentWillUnmount: function () {
-      document.removeEventListener("newMessage");
+      document.removeEventListener("gotFriendsList");
     },
 
     courseDetail: function (course, detail) {
@@ -383,8 +383,10 @@
         var imgURL = "http://graph.facebook.com/v2.5/"+friend.fb_id+"/picture?type=square&width=50&height=50";
         return (~
           .(key={friend.fb_id})
-            %img(src={imgURL})
-            {window.FBID2Name[friend.fb_id]}
+            %a(href={"http://facebook.com/"+friend.fb_id})
+              %img(src={imgURL})
+              .
+                {window.FBID2Name[friend.fb_id]}
         ~)
       });
 

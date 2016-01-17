@@ -134,6 +134,22 @@
       });
     },
 
+    miniSchedule: function (user, buttonFunc, buttonTitle) {
+      var imgURL = "http://graph.facebook.com/v2.5/"+user.fb_id+"/picture?type=square&width=50&height=50";
+      var button = (~
+        %Button(onClick={buttonFunc})
+          {buttonTitle}
+      ~);
+      return (~
+        .(key={user.id})
+          %a(href={"http://facebook.com/"+user.fb_id})
+            %img(src={imgURL})
+            {window.FBID2Name[user.fb_id]}
+          {buttonFunc ? button : null}
+          %Schedule(schedule={user.schedules[0]} mini={true})
+      ~);
+    },
+
     render: function() {
       if (!this.props.visible) {
         return null;
@@ -182,15 +198,7 @@
       var shares = null;
       if (this.state.shareUsers && this.state.shareUsers.length > 0) {
         var users = this.state.shareUsers.map(function (user) {
-          var imgURL = "http://graph.facebook.com/v2.5/"+user.fb_id+"/picture?type=square&width=50&height=50";
-          return (~
-            .(key={user.id})
-              %img(src={imgURL})
-              .
-                {window.FBID2Name[user.fb_id]}:
-              %Button(onClick={self.unshare.bind(self, user.fb_id)}) Unshare schedules
-              %Schedule(schedule={user.schedules[0]} mini={true})
-          ~);
+          return self.miniSchedule(user, self.unshare.bind(self, user.fb_id), "Unshare schedules");
         });
         shares = (~
           .
@@ -207,11 +215,7 @@
 
       if (publicFriends && publicFriends.length > 0) {
         var users = publicFriends.map(function (user) {
-          return (~
-            .(key={user.id})
-              {window.FBID2Name[user.fb_id]}:
-              {self.renderSchedules(user)}
-          ~);
+          return self.miniSchedule(user);
         });
         publics = (~
           .
@@ -254,9 +258,12 @@
               ~);
             }
           }
+          var imgURL = "http://graph.facebook.com/v2.5/"+friend.id+"/picture?type=square&width=50&height=50";
           return (~
             .(key={friend.id})
-              {friend.name}
+              %a(href={"http://facebook.com/"+friend.id})
+                %img(src={imgURL})
+                {friend.name}
               {right}
           ~);
         });

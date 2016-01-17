@@ -162,13 +162,13 @@
 
       var self = this;
 
-      var loginButton = (~
+      var loginButton = self.state.fb_id ? null : (~
         .fb-login-button(data-max-rows="1"
                          data-size="large"
                          data-show-faces="true"
                          data-onlogin="afterLogIn();"
                          scope="user_friends"
-                         data-auto-logout-link="true")
+                         data-auto-logout-link="false")
       ~);
 
       if (!this.state.fb_id || !window.FBID2Name) {

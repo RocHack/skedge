@@ -135,15 +135,23 @@
     },
 
     miniSchedule: function (user, buttonFunc, buttonTitle) {
-      var button = (~
-        %Button(onClick={buttonFunc})
+      var schedule = user.schedules[0];
+      var button = !buttonFunc ? null : (~
+        %Button.share-request-btn.mini-btn(onClick={buttonFunc})
           {buttonTitle}
       ~);
+      var yrTerm = (~
+        %a(href={"/"+schedule.rid})
+          {schedule.term}
+          {schedule.year}
+      ~);
       return (~
-        .(key={user.id})
-          %FacebookUser(id={user.fb_id})
-          {buttonFunc ? button : null}
-          %Schedule(schedule={user.schedules[0]} mini={true})
+        .friend-box(key={user.fb_id})
+          .row
+            %FacebookUser(id={user.fb_id} lineUnderneath={yrTerm})
+            {button}
+          .row
+            %Schedule(schedule={schedule} mini={true})
       ~);
     },
 
@@ -175,7 +183,6 @@
         reqs = this.state.requests.map(function (req) {
           return (~
             .(key={req.id})
-              Request from
               %FacebookUser(id={req.from})
               %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
           ~);
@@ -230,7 +237,7 @@
 
           if (haveRequest) {
             right = (~
-              %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
+              %Button.share-request-btn(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
             ~);
           }
           else {
@@ -246,7 +253,7 @@
             }
             else {
               right = (~
-                %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+                %Button.share-request-btn(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
               ~);
             }
           }

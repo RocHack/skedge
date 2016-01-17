@@ -278,20 +278,17 @@
         ~);
       });
 
-      var credits;
-      var numSections;
-      if (self.props.schedule && !bigNotMobile)
+      var sideInfo;
+      if (self.props.schedule && !bigNotMobile && !self.props.mini)
       {
-        credits = (~
-          .side-credits
-            %strong {self.props.schedule.totalCredits}
-            {" credits"}
-        ~);
-
-        numSections = (~
-          .side-sections
-            %strong {self.props.schedule.sections.length}
-            {" sections"}
+        sideInfo = (~
+          .side-info
+            .side-sections
+              %strong {self.props.schedule.sections.length}
+              {" sections"}
+            .side-credits
+              %strong {self.props.schedule.totalCredits}
+              {" credits"}
         ~);
       }
 
@@ -310,9 +307,8 @@
               %tbody
                 {hours}
 
-          .side-info
-            {numSections}
-            {credits}
+          
+          {sideInfo}
       ~);
     }
   });

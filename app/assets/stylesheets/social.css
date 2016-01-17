@@ -9,6 +9,14 @@
   margin-bottom: 50px;
 }
 
+.friend-box
+{
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 40px;
+  margin-top: 25px;
+}
+
 .mini-schedule
 {
   width: 300px;
@@ -18,4 +26,26 @@
 .skedge-mini
 {
   height: 300px;
+}
+
+.fbimg
+{
+  float: left;
+  margin-right: 5px;
+}
+
+.share-request-btn
+{
+  margin-left: 10px;
+}
+
+.facebook-user
+{
+  float: left;
+  width: 170px;
+}
+
+.mini-btn
+{
+  float: right;
 }

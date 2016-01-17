@@ -1,0 +1,12 @@
+(function() {
+  window.FacebookUser = React.createClass({
+    render: function () {
+      var imgURL = "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width=50&height=50";
+      return (~
+        %a(href={"http://facebook.com/"+this.props.id})
+          %img(src={imgURL})
+          {window.FBID2Name[this.props.id]}
+      ~);
+    }
+  })
+})();

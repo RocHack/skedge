@@ -380,13 +380,8 @@
       }
 
       var friendsList = this.state.friendsTakingCourse.map(function (friend) {
-        var imgURL = "http://graph.facebook.com/v2.5/"+friend.fb_id+"/picture?type=square&width=50&height=50";
         return (~
-          .(key={friend.fb_id})
-            %a(href={"http://facebook.com/"+friend.fb_id})
-              %img(src={imgURL})
-              .
-                {window.FBID2Name[friend.fb_id]}
+          %FacebookUser(key={friend.fb_id} id={friend.fb_id})
         ~)
       });
 

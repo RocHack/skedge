@@ -135,16 +135,13 @@
     },
 
     miniSchedule: function (user, buttonFunc, buttonTitle) {
-      var imgURL = "http://graph.facebook.com/v2.5/"+user.fb_id+"/picture?type=square&width=50&height=50";
       var button = (~
         %Button(onClick={buttonFunc})
           {buttonTitle}
       ~);
       return (~
         .(key={user.id})
-          %a(href={"http://facebook.com/"+user.fb_id})
-            %img(src={imgURL})
-            {window.FBID2Name[user.fb_id]}
+          %FacebookUser(id={user.fb_id})
           {buttonFunc ? button : null}
           %Schedule(schedule={user.schedules[0]} mini={true})
       ~);
@@ -176,16 +173,11 @@
       var requests = null;
       if (this.state.requests && this.state.requests.length > 0) {
         reqs = this.state.requests.map(function (req) {
-          var imgURL = "http://graph.facebook.com/v2.5/"+req.from+"/picture?type=square&width=50&height=50";
           return (~
             .(key={req.id})
               Request from
-              %a(href={"http://facebook.com/"+req.from})
-                %img(src={imgURL})
-                .
-                  {window.FBID2Name[req.from]}
-
-                  %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
+              %FacebookUser(id={req.from})
+              %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
           ~);
         });
         requests = (~
@@ -258,12 +250,9 @@
               ~);
             }
           }
-          var imgURL = "http://graph.facebook.com/v2.5/"+friend.id+"/picture?type=square&width=50&height=50";
           return (~
             .(key={friend.id})
-              %a(href={"http://facebook.com/"+friend.id})
-                %img(src={imgURL})
-                {friend.name}
+              %FacebookUser(id={friend.id})
               {right}
           ~);
         });

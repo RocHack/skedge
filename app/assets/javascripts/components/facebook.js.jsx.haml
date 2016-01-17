@@ -118,9 +118,9 @@
       });
     },
 
-    unshare: function(friend) {
+    unshare: function(friend_id) {
       var self = this;
-      $.post("fb_unshare", {nonfriend: friend.id}, function (data) {
+      $.post("fb_unshare", {nonfriend: friend_id}, function (data) {
         self.setState({shareUsers: data.shareUsers});
       });
     },
@@ -150,38 +150,73 @@
                          data-auto-logout-link="true")
       ~);
 
-      if (!this.state.fb_id) {
-        return loginButton;
+      if (!this.state.fb_id || !window.FBID2Name) {
+        return (~
+          .social-container
+            {loginButton}
+        ~);
       }
 
       var requests = !this.state.requests ? null : this.state.requests.map(function (req) {
+        var imgURL = "http://graph.facebook.com/v2.5/"+req.from+"/picture?type=square&width=50&height=50";
         return (~
           .(key={req.id})
-            %a(href="#" onClick={self.acceptRequest.bind(self, req)})
-              Request
+            Request from
+            %a(href={"http://facebook.com/"+req.from})
+              %img(src={imgURL})
+              .
+                {window.FBID2Name[req.from]}
+
+                %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
         ~);
       });
 
-      var shares = !this.state.shareUsers ? null : this.state.shareUsers.map(function (user) {
-        return (~
-          .(key={user.id})
-            {window.FBID2Name[user.fb_id]}:
-            {self.renderSchedules(user)}
-        ~);
-      });
-
-      var friends = this.state.friends.map(function (friend) {
-        var alreadySharing = self.state.shareUsers.some(function (user) {
-          return (user.fb_id == friend.id);
-        });
-
-        var right;
-        if (alreadySharing) {
-          right = (~
-            %Button(onClick={self.unshare.bind(self, friend)}) Unshare schedules
+      var shares = null;
+      if (this.state.shareUsers && this.state.shareUsers.length > 0) {
+        var users = this.state.shareUsers.map(function (user) {
+          return (~
+            .(key={user.id})
+              {window.FBID2Name[user.fb_id]}:
+              {self.renderSchedules(user)}
+              %Button(onClick={self.unshare.bind(self, user.fb_id)}) Unshare schedules
           ~);
-        }
-        else {
+        });
+        shares = (~
+          .
+            %h3 Users sharing their schedules with you
+            {users}
+        ~);
+      }
+
+      var publics = null;
+      var publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
+        var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
+        return !s;
+      });
+
+      if (publicFriends && publicFriends.length > 0) {
+        var users = publicFriends.map(function (user) {
+          return (~
+            .(key={user.id})
+              {window.FBID2Name[user.fb_id]}:
+              {self.renderSchedules(user)}
+          ~);
+        });
+        publics = (~
+          .
+            %h3 Users with public schedules
+            {users}
+        ~);
+      }
+
+      var others = null;
+      var otherFriends = this.state.friends.filter(function (friend) {
+        var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
+        var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
+        return !p && !s;
+      });
+      if (otherFriends.length > 0) {
+        var users = otherFriends.map(function(friend) {
           var haveRequest = self.state.requests.find(function (req) {
             return (req.from == friend.id);
           });
@@ -192,57 +227,47 @@
             ~);
           }
           else {
-            var publicFriend = self.state.publicFriends.find(function (p) {
-              return (p.fb_id == friend.id);
+            var alreadyRequested = self.state.requested.some(function (req) {
+              return (req.to == friend.id);
             });
 
-            if (publicFriend) {
+            if (alreadyRequested) {
               right = (~
                 .
-                  Publicly sharing:
-                  {self.renderSchedules(publicFriend)}
+                  Request sent
               ~);
             }
             else {
-              var alreadyRequested = self.state.requested.some(function (req) {
-                return (req.to == friend.id);
-              });
-
-              if (alreadyRequested) {
-                right = (~
-                  .
-                    Request sent
-                ~);
-              }
-              else {
-                right = (~
-                  %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
-                ~);
-              }
+              right = (~
+                %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+              ~);
             }
           }
-        }
-
-        return (~
-          .(key={friend.id})
-            {friend.name}
-            {right}
+          return (~
+            .(key={friend.id})
+              {friend.name}
+              {right}
+          ~);
+        });
+        others = (~
+          .
+            %h3 Users you can request...
+            {users}
         ~);
-      });
+      }
 
       return (~
-        .
+        .social-container
           {loginButton}
-
-          {friends}
 
           .
             Requests:
             {requests}
 
           .
-            Friends you're sharing schedules with:
             {shares}
+            {publics}
+            {others}
       ~);
     }
   })

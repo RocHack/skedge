@@ -118,7 +118,7 @@ module ReactHelper
       {
         id: user.id,
         fb_id: user.fb_id,
-        schedules: user.schedules.collect(&:rid)
+        schedules: reactify_schedules(user.schedules).values
       }
     end if users
   end

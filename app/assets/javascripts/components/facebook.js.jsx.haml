@@ -157,28 +157,39 @@
         ~);
       }
 
-      var requests = !this.state.requests ? null : this.state.requests.map(function (req) {
-        var imgURL = "http://graph.facebook.com/v2.5/"+req.from+"/picture?type=square&width=50&height=50";
-        return (~
-          .(key={req.id})
-            Request from
-            %a(href={"http://facebook.com/"+req.from})
-              %img(src={imgURL})
-              .
-                {window.FBID2Name[req.from]}
+      var requests = null;
+      if (this.state.requests && this.state.requests.length > 0) {
+        reqs = this.state.requests.map(function (req) {
+          var imgURL = "http://graph.facebook.com/v2.5/"+req.from+"/picture?type=square&width=50&height=50";
+          return (~
+            .(key={req.id})
+              Request from
+              %a(href={"http://facebook.com/"+req.from})
+                %img(src={imgURL})
+                .
+                  {window.FBID2Name[req.from]}
 
-                %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
+                  %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
+          ~);
+        });
+        requests = (~
+          .
+            %h3 Requests
+            {reqs}
         ~);
-      });
+      }
 
       var shares = null;
       if (this.state.shareUsers && this.state.shareUsers.length > 0) {
         var users = this.state.shareUsers.map(function (user) {
+          var imgURL = "http://graph.facebook.com/v2.5/"+user.fb_id+"/picture?type=square&width=50&height=50";
           return (~
             .(key={user.id})
-              {window.FBID2Name[user.fb_id]}:
-              {self.renderSchedules(user)}
+              %img(src={imgURL})
+              .
+                {window.FBID2Name[user.fb_id]}:
               %Button(onClick={self.unshare.bind(self, user.fb_id)}) Unshare schedules
+              %Schedule(schedule={user.schedules[0]} mini={true})
           ~);
         });
         shares = (~
@@ -261,7 +272,6 @@
           {loginButton}
 
           .
-            Requests:
             {requests}
 
           .

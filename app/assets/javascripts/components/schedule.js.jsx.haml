@@ -295,14 +295,16 @@
         ~);
       }
 
+      var miniStyle = this.props.mini ? {height: "300px", minHeight: "300px"} : null;
+
       return (~
-        .sk
+        .sk(className={this.props.mini ? "mini-schedule" : ""})
           %table.table
             %thead
               %tr
                 {days}
               
-          %div(className={self.props.big ? "skedge-big" : "skedge-side"})
+          %div(className={self.props.big ? "skedge-big" : "skedge-side"} style={miniStyle})
             {courses}
             %table.table.table-condensed.courses
               %tbody

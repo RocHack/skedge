@@ -33,6 +33,7 @@ class SchedulesController < ApplicationController
       format.svg { send_data get_svg, type: 'text/xml', disposition: 'inline' }
       format.jpg { send_converted_svg get_svg, "jpg" }
       format.png { send_converted_svg get_svg, "png" }
+      format.json { render json:reactify_schedule(@schedule) }
     end
   end
 

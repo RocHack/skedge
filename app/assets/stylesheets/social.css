@@ -1,9 +1,21 @@
 .social-container
 {
   margin-top: 125px;
+  margin-bottom: 50px;
 }
 
 .fb-login-button
 {
   margin-bottom: 50px;
+}
+
+.mini-schedule
+{
+  width: 300px;
+  margin-left: 30px;
+}
+
+.skedge-mini
+{
+  height: 300px;
 }

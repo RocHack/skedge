@@ -23,11 +23,6 @@
   padding-left: 15px;
 }
 
-.search-container
-{
-  width: 95%;
-}
-
 .mobile
 {
   display: none;
@@ -133,9 +128,19 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
   color: black;
 }
 
-.fa-globe
+.social-btn
 {
-  margin-left: 50px;
+  float: right;
+  height: 50px;
+  font-size: 25px;
+  padding: 0px 6px;
+  margin-left: 10px;
+}
+
+.social-btn:focus, .social-btn:active 
+{
+  outline: none !important;
+  border: none !important;
 }
 
 /* MOBILE */

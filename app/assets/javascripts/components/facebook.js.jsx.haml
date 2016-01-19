@@ -7,6 +7,7 @@
 
     getInitialState: function () {
       return {
+        checkedLoginState: false,
         fb_id: null,
         requests: this.props.requests,
         shareUsers: this.props.shareUsers,
@@ -57,7 +58,7 @@
             });
           });
 
-          self.setState({fb_id:id});
+          self.setState({fb_id: id});
 
           self.getFriendsList();
         }
@@ -67,6 +68,7 @@
         else if (response.status == 'unknown') {
           //The person is not logged into Facebook, so you don't know if they've logged into your app
         }
+        self.setState({checkedLoginState: true});
       });
     },
 
@@ -162,14 +164,18 @@
 
       var self = this;
 
-      var loginButton = self.state.fb_id ? null : (~
+      // needs to be present when the FB API call is made to work, so we can't just add it in later
+      // once it's needed, need to have it but hide it
+      var showButton = (!self.state.checkedLoginState || self.state.fb_id) ? {display:"none"} : null;
+      var loginButton = (~
         .social-login
           .fb-login-button(data-max-rows="1"
                            data-size="xlarge"
                            data-show-faces="true"
                            data-onlogin="afterLogIn();"
                            scope="user_friends"
-                           data-auto-logout-link="false")
+                           data-auto-logout-link="false"
+                           style={showButton})
       ~);
 
       var requests = null;
@@ -183,13 +189,13 @@
           reqs = this.state.requests.map(function (req) {
             return (~
               .(key={req.id})
-                %FacebookUser(id={req.from})
+                %FacebookUser(id={req.from} size=35)
                 %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
             ~);
           });
           requests = (~
             .
-              %h3 Requests
+              %h3.social-heading Requests
               {reqs}
           ~);
         }
@@ -200,7 +206,7 @@
           });
           shares = (~
             .
-              %h3 Users sharing their schedules with you
+              %h3.social-heading Users sharing their schedules with you
               {users}
           ~);
         }
@@ -216,7 +222,7 @@
           });
           publics = (~
             .
-              %h3 Users with public schedules
+              %h3.social-heading Friends sharing their schedules
               {users}
           ~);
         }
@@ -256,29 +262,35 @@
             }
             return (~
               .(key={friend.id})
-                %FacebookUser(id={friend.id})
+                %FacebookUser(id={friend.id} size=35)
                 {right}
             ~);
           });
           others = (~
             .
-              %h3 Users you can request...
+              %h3.social-heading Friends with private schedules
               {users}
           ~);
         }
       }
 
+      var noFriends = !(this.state.fb_id && !requests && !shares && !publics && !others) ? null : (~
+        .social-no-friends
+          You have no friends using skedge!
+      ~);
+
       return (~
         .social-container
           {loginButton}
 
+          {noFriends}
+
           .
             {requests}
 
-          .
-            {shares}
-            {publics}
-            {others}
+          {shares}
+          {publics}
+          {others}
       ~);
     }
   })

@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.social-no-friends
+{
+  text-align: center;
+}
+
 .social-container
 {
   margin-top: 125px;
@@ -19,7 +24,6 @@
   display: inline-block;
   margin-left: 10px;
   margin-right: 40px;
-  margin-top: 25px;
 }
 
 .mini-schedule
@@ -36,7 +40,7 @@
 .fbimg
 {
   float: left;
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 .share-request-btn
@@ -61,4 +65,10 @@
   position:relative;
   top: -10px;
   left: -10px;
+}
+
+h3.social-heading
+{
+  margin-top: 50px;
+  margin-bottom: 15px;
 }

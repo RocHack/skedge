@@ -13,13 +13,13 @@
     },
 
     logoClick: function () {
-      if (!this.props.query) {
-        document.getElementById('splash-logo').click();
+      if (splash = document.getElementById('splash-logo')) {
+        splash.click();
       }
     },
 
     render: function() {
-      var logoHref = this.props.query ? "/" : "#";
+      var logoHref = document.getElementById('splash-logo') ? "#" : "/";
       
       var searchHelpOverlay = (~
         %Tooltip

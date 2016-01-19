@@ -108,8 +108,6 @@
     },
 
     acceptRequest: function(req) {
-      console.log(req);
-
       var self = this;
       $.post('fb_share_confirm', {sr_id:req.id}, function (data) {
         var index = self.state.requests.indexOf(req);
@@ -168,14 +166,39 @@
       // once it's needed, need to have it but hide it
       var showButton = (!self.state.checkedLoginState || self.state.fb_id) ? {display:"none"} : null;
       var loginButton = (~
-        .social-login
-          .fb-login-button(data-max-rows="1"
-                           data-size="xlarge"
-                           data-show-faces="true"
-                           data-onlogin="afterLogIn();"
-                           scope="user_friends"
-                           data-auto-logout-link="false"
-                           style={showButton})
+        .social-login(style={showButton})
+          .row
+            .col-md-1
+            .col-md-5
+              %p.social-login-text
+                Connect Skedge with Facebook to:
+                %ul
+                  %li Keep your schedule synced across devices
+                  %li Keep up to date with your friends’ schedules
+                  %li See friends’ names next to classes that they’re taking or have liked
+              %p.social-login-text
+                Skedge will 
+                %strong
+                  {" never:"}
+                %ul
+                  %li Post to Facebook without your permission
+                  %li
+                    Keep or store
+                    %strong= {" any "}
+                    of your Facebook data on its servers, not even your name
+                    .
+                      %a(href="https://github.com/RocHack/skedge")
+                        %small
+                          {" [You can check the source code!]"}
+            
+            .col-md-1    
+            .col-md-5
+              .fb-login-button(data-max-rows="1"
+                               data-size="xlarge"
+                               data-show-faces="true"
+                               data-onlogin="afterLogIn();"
+                               scope="user_friends"
+                               data-auto-logout-link="false")
       ~);
 
       var requests = null;
@@ -274,13 +297,18 @@
         }
       }
 
-      var noFriends = !(this.state.fb_id && !requests && !shares && !publics && !others) ? null : (~
+      var noFriends = !(this.state.fb_id && window.FBID2Name && !requests && !shares && !publics && !others) ? null : (~
         .social-no-friends
-          You have no friends using skedge!
+          %p
+            You have no friends using skedge!
+          %p
+            Share your schedule and spread the word!
       ~);
 
       return (~
         .social-container
+          .social-splash
+            skedge social
           {loginButton}
 
           {noFriends}

@@ -1,6 +1,12 @@
 .social-login
 {
-  text-align: center;
+  margin-top: 50px;
+  font-size: 16px;
+}
+
+.social-login-text
+{
+  font-size: 18px;
 }
 
 .social-no-friends
@@ -10,7 +16,7 @@
 
 .social-container
 {
-  margin-top: 125px;
+  margin-top: 100px;
   margin-bottom: 50px;
 }
 
@@ -69,6 +75,17 @@
 
 h3.social-heading
 {
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 15px;
+}
+
+.social-splash
+{
+  padding-top: 10px;
+  margin-bottom: 15px;
+  font-size: 4em;
+  font-family: 'Pontano Sans', sans-serif;
+  letter-spacing: -0.05em;
+  color: gray;
+  text-align: center;
 }

@@ -1,6 +1,6 @@
 -content_for :content do
   .row
-    =react_component 'SearchBar', query: @query
+    =react_component 'SearchBar', query: @query, requests: current_user.try(:share_requests)
 
     .sk-fixed
       =react_component 'SideSchedule', yrTermMappings: reactify_yr_term_mappings(current_user.try(:schedules)),

@@ -1,3 +1,8 @@
+.social-login
+{
+  text-align: center;
+}
+
 .social-container
 {
   margin-top: 125px;
@@ -48,4 +53,12 @@
 .mini-btn
 {
   float: right;
+}
+
+.badge.badge-notifications
+{
+  background:red;
+  position:relative;
+  top: -10px;
+  left: -10px;
 }

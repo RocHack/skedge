@@ -99,6 +99,7 @@ class FacebookController < ApplicationController
   end
 
   def sharing_users(friends, user=nil)
+    return [] if !friends
     friends.map do |i, friend|
       u = User.find_by(fb_id: friend["id"])
       private_sharing = user && user.share_users.include?(u)

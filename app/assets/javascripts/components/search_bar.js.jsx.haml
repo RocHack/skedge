@@ -45,10 +45,16 @@
         ~);
       }
 
+      var badge = (!this.props.requests || this.props.requests.length == 0) ? null : (~
+        %span.badge.badge-notifications
+          {this.props.requests.length}
+      ~);
+
       var social = mobilecheck() ? null : (~
         %a(href="social")
           %Button.social-btn(bsStyle="link")
             %i.fa.fa-globe
+            {badge}
       ~);
 
       return (~

@@ -49,8 +49,10 @@ class SchedulesController < ApplicationController
     course = Course.find(params[:course_id])
     if user.bookmarked_courses.include?(course)
       user.bookmarked_courses.delete course
+      ahoy.track("$bookmark", {add: false, course_id: course.id})
     else
       user.bookmarked_courses << course
+      ahoy.track("$bookmark", {add: true, course_id: course.id})
     end
     user.save
 

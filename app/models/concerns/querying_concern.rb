@@ -42,6 +42,8 @@ module QueryingConcern
     end
 
     def self.text_to_query(text)
+      text = text.clone
+      
       if not defined? Struct::Query
         Struct.new('Query', :attrs, :joins, :orders, :limit, :error)
       end

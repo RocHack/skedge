@@ -139,7 +139,7 @@
           return (~
             .results-group(key={"group-"+groupName})
               %h2.results-group-header
-                {groupName}
+                {self.props.bookmarks ? "My Bookmarks" : groupName}
 
               {group}
           ~);

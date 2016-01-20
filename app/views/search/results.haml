@@ -1,4 +1,6 @@
-= react_component 'Results', courseGroups:reactify_course_groups(@course_groups), searchError:@search_error
+= react_component 'Results', courseGroups: reactify_course_groups(@course_groups),
+                             searchError: @search_error,
+                             bookmarks: @bookmarks
 
 - content_for :query do
   = @query

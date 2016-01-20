@@ -13,6 +13,11 @@ class SearchController < ApplicationController
     when "cdcs"
       ahoy.track "$fast", {location:"cdcs"}
       redirect_to "https://cdcs.ur.rochester.edu/"
+    when "bookmarks"
+      ahoy.track "$bookmarks"
+      @course_groups = {group: current_user.bookmarked_courses}
+      @bookmarks = true
+      render 'results'
     else
       begin
         sk_query = Course.sk_query(@query)

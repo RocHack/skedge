@@ -15,8 +15,12 @@ class SearchController < ApplicationController
       redirect_to "https://cdcs.ur.rochester.edu/"
     when "bookmarks"
       ahoy.track "$bookmarks"
-      @course_groups = {group: current_user.bookmarked_courses}
-      @bookmarks = true
+      if !current_user || current_user.bookmarked_courses.empty?
+        @search_error = "You haven't bookmarked any courses yet!"
+      else
+        @course_groups = {group: current_user.bookmarked_courses}
+        @bookmarks = true
+      end
       render 'results'
     else
       begin

@@ -26,6 +26,11 @@
           see ways to search with skedge
       ~);
 
+      var bookmarksOverlay = (~
+        %Tooltip
+          see my bookmarks
+      ~);
+
       var sideBtn;
       var searchPlaceholder;
       if (!mobilecheck()) {
@@ -63,6 +68,10 @@
                                                       onFocus={this.seeSearchTips})
 
               %i.fa.fa-search.form-control-feedback
+
+              %a(href="/?q=bookmarks")
+                %OverlayTrigger(overlay={bookmarksOverlay} placement="bottom")
+                  %span.glyphicon.glyphicon-bookmark.search-bkmk
 
               %a(href="/#search"
                  name="search-help"

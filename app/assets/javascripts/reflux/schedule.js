@@ -9,7 +9,8 @@
     'changeSchedule',
     'getConflicts',
     'loadBookmarks',
-    'changeBookmark'
+    'changeBookmark',
+    'loadUser'
   ]);
 
   window.SKScheduleStore = Reflux.createStore({
@@ -31,7 +32,7 @@
     },
 
     loadBookmarks: function(bookmarks) {
-      this.state.bookmarks = bookmarks;
+      this.state.bookmarks = bookmarks || [];
       this.trigger(this.state);
     },
 
@@ -52,8 +53,10 @@
       }
       this.trigger(this.state);
 
-      $.post("bookmark", {course_id:course.id}, function () {
+      var self = this;
+      $.post("bookmark", {course_id:course.id}, function (response) {
         //success
+        self.loadUser(response.userSecret);
       }).fail(function (response) {
         //failure
         //undo everything in data!
@@ -174,6 +177,12 @@
       this.trigger(this.state);
     },
 
+    loadUser: function(userSecret) {
+      //store the secret in a cookie
+      var d = new Date();
+      d.setTime(d.getTime() + (4*365*24*60*60*1000));
+      document.cookie = "s_id=x&"+userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
+    },
 
     courseAjax: function(data) {
       var self = this;
@@ -181,10 +190,7 @@
         function (response)
         {
           //success
-          //store the secret in a cookie
-          var d = new Date();
-          d.setTime(d.getTime() + (4*365*24*60*60*1000));
-          document.cookie = "s_id=x&"+response.userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
+          self.loadUser(response.userSecret);
 
           //update schedule
           self.state.schedules = response.schedules;

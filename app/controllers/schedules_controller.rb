@@ -42,6 +42,10 @@ class SchedulesController < ApplicationController
 
   def bookmark
     user = current_user
+    if !user
+      user = User.create
+      ahoy.track("$new-user", {id:user.id, bookmark: true})
+    end
     course = Course.find(params[:course_id])
     if user.bookmarked_courses.include?(course)
       user.bookmarked_courses.delete course
@@ -50,7 +54,7 @@ class SchedulesController < ApplicationController
     end
     user.save
 
-    head 200
+    render json:{status:200, userSecret: user.secret}
   end
 
   def change_last_schedule

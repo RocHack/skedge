@@ -295,6 +295,10 @@
       this.props.commitSection(section, fromReadd);
     },
 
+    bookmark: function () {
+      this.props.changeBookmark(this.props.course);
+    },
+
     render: function() {
       var self = this;
       var course = this.props.course;
@@ -368,8 +372,15 @@
       var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
       var cnumClass = mac ? "bold-mac" : "bold-pc";
 
+      var bookmarkText = (this.props.bookmarked ? "Unbookmark" : "Bookmark") + " this course";
+      var bookmarkTooltip = (~ %Tooltip {bookmarkText} ~);
+      var bookmarkClass = this.props.bookmarked ? "enabled" : "";
       return (~
         .course-box
+          %a(onClick={this.bookmark} class={"bookmark " + bookmarkClass})
+            %OverlayTrigger(placement='left' overlay={bookmarkTooltip})
+              %span.glyphicon.glyphicon-bookmark
+
           .credits
             {course.credits + " credit" + (course.credits == "1" ? "" : "s")}
 

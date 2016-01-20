@@ -5,7 +5,8 @@
     .sk-fixed
       =react_component 'SideSchedule', yrTermMappings: reactify_yr_term_mappings(current_user.try(:schedules)),
                                        schedules: reactify_schedules(current_user.try(:schedules)),
-                                       defaultSchedule:current_user.try(:last_schedule).try(:yr_term)
+                                       defaultSchedule:current_user.try(:last_schedule).try(:yr_term),
+                                       bookmarks: current_user.try(:bookmarked_courses)
 
     .col-sm-8.mobile-wider
       .page-content

@@ -34,6 +34,10 @@
       }
     },
 
+    changeBookmark: function(course) {
+      SKScheduleAction.changeBookmark(course);
+    },
+
     commitSection: function(section, fromReadd) {
       if (!section.startTime) {
         return;
@@ -118,13 +122,18 @@
           var groupName = courses[0].term + " " + courses[0].year;
           var group = courses.map(function (course) {
             var type = self.getOpenedSubsections(course);
+            var bookmarked = self.state.store.bookmarks.some(function(bk) {
+              return bk.id == course.id;
+            });
             return (~
               %CourseResult(course={course}
                             readds={self.state.readds}
                             openedSubsections={type}
                             key={"course-"+course.id}
                             hover={self.hover}
-                            commitSection={self.commitSection})
+                            commitSection={self.commitSection}
+                            bookmarked={bookmarked}
+                            changeBookmark={self.changeBookmark})
             ~);
           });
           return (~

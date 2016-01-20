@@ -1,14 +1,15 @@
 (function() {
-  //
-  // Schedules
-  //
+  var ReactUpdate = React.addons.update;
+
   window.SKScheduleAction = Reflux.createActions([
     'loadSchedules',
     'temporaryizeSection',
     'untemporaryizeSection',
     'commitSection',
     'changeSchedule',
-    'getConflicts'
+    'getConflicts',
+    'loadBookmarks',
+    'changeBookmark'
   ]);
 
   window.SKScheduleStore = Reflux.createStore({
@@ -21,15 +22,35 @@
         pretempYrTerm: null,
         temporaryAdds: [],
         temporaryDeletes: [],
-        temporaryGhosts: []
+        temporaryGhosts: [],
+
+        bookmarks: []
       };
 
       return this.state;
     },
 
+    loadBookmarks: function(bookmarks) {
+      this.state.bookmarks = bookmarks;
+      this.trigger(this.state);
+    },
+
     loadSchedules: function(schedules, defaultSchedule) {
       this.state.schedules = schedules;
       this.changeSchedule(defaultSchedule);
+    },
+
+    changeBookmark: function(course) {
+      var idx = this.state.bookmarks.findIndex(function (bk) {
+        return bk.id == course.id;
+      });
+
+      if (idx < 0) {
+        this.state.bookmarks = this.state.bookmarks.concat(course);
+      } else {
+        this.state.bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
+      }
+      this.trigger(this.state);
     },
 
     changeSchedule: function(yrTerm) {

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   
   has_many :schedules, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_courses, through: :bookmarks, source: :course
 
   belongs_to :last_schedule, class_name: "Schedule"
 

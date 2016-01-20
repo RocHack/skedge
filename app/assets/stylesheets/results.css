@@ -33,6 +33,28 @@
   border-top: 1px solid #E5E5E5;
 }
 
+.bookmark
+{
+  float: right;
+
+  top: -32px;
+  position: relative;
+
+  font-size: 3em;
+  color:#EFEFEF;
+  cursor: pointer;
+}
+
+a.bookmark:active
+{
+  color:#1D4466;
+}
+
+.bookmark.enabled
+{
+  color:#3785C8;  
+}
+
 p.course-details
 {
   margin-top: 10px;
@@ -41,6 +63,7 @@ p.course-details
 .credits
 {
   margin-left: 10px;
+  margin-right: 10px;
   float: right;
 }
 

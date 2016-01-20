@@ -51,6 +51,14 @@
         this.state.bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
       }
       this.trigger(this.state);
+
+      $.post("bookmark", {course_id:course.id}, function () {
+        //success
+      }).fail(function (response) {
+        //failure
+        //undo everything in data!
+        alert("failure :(");
+      });
     },
 
     changeSchedule: function(yrTerm) {

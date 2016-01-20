@@ -38,6 +38,21 @@ class SchedulesController < ApplicationController
     end
   end
 
+  ### API
+
+  def bookmark
+    user = current_user
+    course = Course.find(params[:course_id])
+    if user.bookmarked_courses.include?(course)
+      user.bookmarked_courses.delete course
+    else
+      user.bookmarked_courses << course
+    end
+    user.save
+
+    head 200
+  end
+
   def change_last_schedule
     user = current_user
     user.last_schedule_id = user.schedules.find_by(yr_term:params[:yrTerm]).id || raise

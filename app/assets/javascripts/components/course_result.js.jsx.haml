@@ -377,7 +377,7 @@
       var bookmarkClass = this.props.bookmarked ? "enabled" : "";
       return (~
         .course-box
-          %a(onClick={this.bookmark} class={"bookmark " + bookmarkClass})
+          .(onClick={this.bookmark} class={"bookmark " + bookmarkClass})
             %OverlayTrigger(placement='left' overlay={bookmarkTooltip})
               %span.glyphicon.glyphicon-bookmark
 

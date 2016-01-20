@@ -14,6 +14,12 @@
   font-weight: 500;
 }
 
+a.no-link
+{
+  color: inherit;
+  text-decoration: inherit;
+}
+
 /* SEARCH */
 
 .btn-gray
@@ -67,7 +73,7 @@
 {
   position: absolute;
   top: 3px;
-  left: 16px;
+  left: 15px;
   font-size: 15px;
   color: white;
   font-weight: bold;

@@ -375,6 +375,8 @@
       var bookmarkText = (this.props.bookmarked ? "Unbookmark" : "Bookmark") + " this course";
       var bookmarkTooltip = (~ %Tooltip {bookmarkText} ~);
       var bookmarkClass = this.props.bookmarked ? "enabled" : "";
+
+      var deptLink = "/?q="+course.dept;
       return (~
         .course-box
           .(onClick={this.bookmark} class={"bookmark " + bookmarkClass})
@@ -385,7 +387,8 @@
             {course.credits + " credit" + (course.credits == "1" ? "" : "s")}
 
           %p.lead
-            {course.dept}
+            %a.no-link(href={deptLink} name="course-dept")
+              {course.dept}
             %span(class={"cnum "+cnumClass}) {course.num + ": "}
             {course.title}
 

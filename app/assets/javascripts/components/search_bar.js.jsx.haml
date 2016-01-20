@@ -50,6 +50,11 @@
         ~);
       }
 
+      var numBookmarks = this.state.store.bookmarks.length;
+      if (numBookmarks == 0 || numBookmarks > 9) {
+        numBookmarks = null;
+      }
+
       return (~
         %form(action=".")
           .head-fixed
@@ -72,6 +77,8 @@
               %a(href="/?q=bookmarks")
                 %OverlayTrigger(overlay={bookmarksOverlay} placement="bottom")
                   %span.glyphicon.glyphicon-bookmark.search-bkmk
+                    %span.num-bookmarks
+                      {numBookmarks}
 
               %a(href="/#search"
                  name="search-help"

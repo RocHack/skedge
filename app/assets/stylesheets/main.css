@@ -55,12 +55,23 @@
 {
   position: absolute;
   right: 60px;
-  top: 1px;
+  top: 2px;
   
-  color: #EAEAEA;
-  font-size: 2.35em;
+  color: #E1E1E1;
+  font-size: 2.5em;
   cursor: pointer;
   z-index: 100;
+}
+
+.num-bookmarks
+{
+  position: absolute;
+  top: 3px;
+  left: 16px;
+  font-size: 15px;
+  color: white;
+  font-weight: bold;
+  font-family: sans-serif;  
 }
 
 /* Fixed stuff */

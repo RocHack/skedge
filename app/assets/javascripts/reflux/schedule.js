@@ -77,7 +77,8 @@
         pretempYrTerm: this.state.pretempYrTerm,
         temporaryAdds: this.state.temporaryAdds,
         temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts
+        temporaryGhosts: this.state.temporaryGhosts,
+        bookmarks: this.state.bookmarks
       };
 
       //we might need to switch schedules (if it's a different term)
@@ -123,7 +124,8 @@
         pretempYrTerm: this.state.pretempYrTerm,
         temporaryAdds: [],
         temporaryDeletes: [],
-        temporaryGhosts: []
+        temporaryGhosts: [],
+        bookmarks: this.state.bookmarks
       };
 
       this.trigger(this.state);
@@ -136,7 +138,8 @@
         pretempYrTerm: this.state.pretempYrTerm,
         temporaryAdds: this.state.temporaryAdds,
         temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts
+        temporaryGhosts: this.state.temporaryGhosts,
+        bookmarks: this.state.bookmarks
       };
 
       //full switch to this (don't undo when we unhover)

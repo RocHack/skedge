@@ -34,10 +34,23 @@ task :unarchive_no_bookmarks => :environment do
     end
     u.last_schedule = u.schedules.sort_by(&:yr_term).last
     u.save
+  end
+end
 
-    # user[:bookmarks].each do |bookmark|
-    #   d = Department.find_by(short: bookmark[:dept])
-    #   c = Course.where(department:d, number:bookmark[:number], title:title)
-    # end
+task :unarchive_bookmarks => :environment do
+  data = YAML.load_file(DataFile)
+  data.each do |user|
+    u = User.find_by(secret: user[:secret])
+    user[:bookmarks].each do |bookmark|
+      d = Department.find_by(short: bookmark[:dept])
+      c = Course.find_by(department:d, number:bookmark[:number], title:bookmark[:title])
+
+      if c
+        u.bookmarked_courses << c
+      else
+        puts "Couldn't find course #{bookmark[:dept]} #{bookmark[:number]}: #{bookmark[:title]}"
+      end
+    end
+    u.save
   end
 end

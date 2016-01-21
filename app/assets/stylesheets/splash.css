@@ -1,8 +1,3 @@
-.skedge-txt
-{
-  font-weight: 400;
-}
-
 .splash-container
 {
   text-align: center;
@@ -114,6 +109,7 @@ small.splash
   opacity: 0.72;
   text-align: center;
   line-height: 1.2em;
+  font-weight: 300;
 }
 
 .sub
@@ -125,6 +121,7 @@ small.splash
   line-height: 0.9em;
   text-align: center;
   color: black;
+  font-weight: 300;
 }
 
 .info-link

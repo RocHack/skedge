@@ -54,9 +54,13 @@
   margin-left: 10px;
 }
 
-.facebook-user
+.float-left
 {
   float: left;
+}
+
+.facebook-user
+{
   width: 170px;
 }
 

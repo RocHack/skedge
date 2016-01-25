@@ -1,3 +1,23 @@
+.fb-myself
+{
+  display: inline-block;
+  height: 50px;
+  margin-left: 40px;
+  padding-top: 5px;
+}
+
+.fb-footnote
+{
+  margin-top: 5px;
+  line-height: 1em;
+}
+
+.fb-check-source
+{
+  display: block;
+  margin-top: 5px;
+}
+
 .social-login
 {
   margin-top: 50px;
@@ -23,6 +43,11 @@
 .fb-login-button
 {
   margin-bottom: 50px;
+}
+
+.fb-logout-button
+{
+  margin-top: 5px;
 }
 
 .friend-box
@@ -62,6 +87,7 @@
 .facebook-user
 {
   width: 170px;
+  text-align: left;
 }
 
 .mini-btn
@@ -85,11 +111,17 @@ h3.social-heading
 
 .social-splash
 {
-  padding-top: 10px;
+  margin-top: 10px;
   margin-bottom: 15px;
   font-size: 4em;
   font-family: 'Pontano Sans', sans-serif;
   letter-spacing: -0.05em;
   color: gray;
+  text-align: center;
+  display: inline-block;
+}
+
+.social-head
+{
   text-align: center;
 }

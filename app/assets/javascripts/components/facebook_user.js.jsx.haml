@@ -2,12 +2,13 @@
   window.FacebookUser = React.createClass({
     render: function () {
       var size = this.props.size ? this.props.size : 50;
-      var imgURL = "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
+      var imgURL = !window.FBID2Name ? null : "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
+      var name = window.FBID2Name ? window.FBID2Name[this.props.id] : "";
       return (~
         .facebook-user.float-left
           %a(href={"http://facebook.com/"+this.props.id})
             %img.fbimg(src={imgURL})
-            {window.FBID2Name[this.props.id]}
+            {name}
             %br
             {this.props.lineUnderneath}
       ~);

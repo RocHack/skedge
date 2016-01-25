@@ -165,6 +165,8 @@
             {button}
           .row
             %Schedule(schedule={schedule} mini={true})
+          .row
+            %Button Compare with my schedule
       ~);
     },
 
@@ -313,12 +315,15 @@
         }
       }
 
-      var noFriends = !(this.state.fb_id && window.FBID2Name && !requests && !shares && !publics && !others) ? null : (~
-        .social-no-friends
+      var showNoFriends = (this.state.fb_id && window.FBID2Name && !requests && !shares && !publics && !others) ? null : {display:"none"};
+      var noFriends = (~
+        .social-no-friends(style={showNoFriends})
           %p
-            You have no friends using skedge!
+            You have no friends using Skedge!
           %p
             Share your schedule and spread the word!
+          %p
+            .fb-share-button(data-href="https://developers.facebook.com/docs/plugins/" data-layout="button")
       ~);
 
       var logout = (~

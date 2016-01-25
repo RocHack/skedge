@@ -383,15 +383,19 @@
         });
       }
 
-      var friendsList = this.state.friendsTakingCourse.map(function (friend) {
+      var array = this.state.friendsTakingCourse;
+      var friendsList = array.map(function (friend, i) {
         return (~
-          %FacebookUser(key={friend.fb_id} id={friend.fb_id})
+          .ftc-user(key={friend.fb_id+i})
+            %FacebookUser(id={friend.fb_id})
         ~)
       });
 
       var friends = this.state.friendsTakingCourse.length == 0 ? null : (~
         .
-          Friends taking this course:
+          .ftc-header
+            %i.fa.fa-globe.ftc-icon
+            Friends taking this course:
           .
             {friendsList}
       ~);

@@ -223,7 +223,7 @@
         }
 
         if (this.state.shareUsers && this.state.shareUsers.length > 0) {
-          var array = this.state.shareUsers.concat(this.state.shareUsers).concat(this.state.shareUsers);
+          var array = this.state.shareUsers;
           var users = array.map(function (user, i) {
             return (~
               %MiniSchedule(key={user.fb_id+i}

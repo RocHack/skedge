@@ -91,7 +91,6 @@
 
 .facebook-user
 {
-  min-width: 170px;
   text-align: left;
 }
 
@@ -134,4 +133,24 @@ h3.social-heading
 .social-head
 {
   text-align: center;
+}
+
+.ftc-icon
+{
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.ftc-header
+{
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.ftc-user
+{
+  margin-right: 30px;
+  margin-bottom: 10px;
+  display: inline-block;
 }

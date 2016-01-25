@@ -385,9 +385,20 @@
 
       var array = this.state.friendsTakingCourse;
       var friendsList = array.map(function (friend, i) {
+        var yearTerm;
+        for (i = 0; i < friend.schedules.length; i++) {
+          var schedule = friend.schedules[i];
+          if (schedule.yrTerm == self.props.course.yrTerm) {
+            yearTerm = (~
+              %a.block-link(href={"/"+schedule.rid})
+                {schedule.term}
+                {schedule.year}
+            ~);
+          }
+        }
         return (~
           .ftc-user(key={friend.fb_id+i})
-            %FacebookUser(id={friend.fb_id})
+            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
         ~)
       });
 

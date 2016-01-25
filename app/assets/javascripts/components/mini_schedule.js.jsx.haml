@@ -23,23 +23,24 @@
       var schedule = this.props.user.schedules[0]; //TODO
 
       var button = !this.props.buttonFunc ? null : (~
-        %Button.share-request-btn.mini-btn(onClick={this.props.buttonFunc})
-          {this.props.buttonTitle}
+        %a.block-link(href="#" onClick={this.props.buttonFunc})
+          %small
+            {this.props.buttonTitle}
       ~);
       var yrTerm = (~
-        %a(href={"/"+schedule.rid})
+        %a.block-link(href={"/"+schedule.rid})
           {schedule.term}
           {schedule.year}
+      ~);
+      var compare = (~
+        %Button.mini-compare.mini-btn(onClick={this.overlay}) Compare schedules
       ~);
       return (~
         .friend-box
           .row
-            %FacebookUser(id={this.props.user.fb_id} lineUnderneath={yrTerm})
-            {button}
+            %FacebookUser(id={this.props.user.fb_id} linesUnderneath={[compare, yrTerm, button]} size=60 width=350)
           .row
-            %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")
-          .row.overlay-mini
-            %Button(onClick={this.overlay}) Compare with my schedule
+            %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")            
       ~);
     }
   });

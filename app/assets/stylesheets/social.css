@@ -42,21 +42,24 @@
   margin-bottom: 50px;
 }
 
-.fb-login-button
+.login
 {
   margin-bottom: 50px;
 }
 
-.fb-logout-button
+.logout.fb-login-button
 {
   margin-top: 5px;
+  display: block;
 }
 
 .friend-box
 {
   display: inline-block;
   margin-left: 10px;
-  margin-right: 40px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .mini-schedule
@@ -70,21 +73,15 @@
   height: 300px;
 }
 
-.overlay-mini
+.mini-compare
 {
-  margin-top: -15px; /* schedule runs a bit over bc of the table */
-  text-align: center;
+  margin-top: 3px;
 }
 
 .fbimg
 {
   float: left;
   margin-right: 8px;
-}
-
-.share-request-btn
-{
-  margin-left: 10px;
 }
 
 .float-left
@@ -94,13 +91,18 @@
 
 .facebook-user
 {
-  width: 170px;
+  min-width: 170px;
   text-align: left;
 }
 
 .mini-btn
 {
   float: right;
+}
+
+.block-link
+{
+  display: block;
 }
 
 .badge.badge-notifications

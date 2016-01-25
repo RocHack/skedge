@@ -73,12 +73,16 @@
 
           self.getFriendsList();
         }
-        else if (response.status == 'not_authorized') {
+        else {
+          self.setState({fb_id: null});
+
+          if (response.status == 'not_authorized') {
           //The person is logged into Facebook, but has not logged into your app.
-        }
-        else if (response.status == 'unknown') {
-          //The person is not logged into Facebook, so you don't know if they've logged into your app
-        }
+          }
+          else if (response.status == 'unknown') {
+            //The person is not logged into Facebook, so you don't know if they've logged into your app
+          }
+        } 
         self.setState({checkedLoginState: true});
       });
     },
@@ -188,7 +192,7 @@
             
             .col-md-1    
             .col-md-5
-              .fb-login-button(data-max-rows="1"
+              .fb-login-button.login(data-max-rows="1"
                                data-size="xlarge"
                                data-show-faces="true"
                                data-onlogin="afterLogIn();"
@@ -219,9 +223,10 @@
         }
 
         if (this.state.shareUsers && this.state.shareUsers.length > 0) {
-          var users = this.state.shareUsers.map(function (user) {
+          var array = this.state.shareUsers.concat(this.state.shareUsers).concat(this.state.shareUsers);
+          var users = array.map(function (user, i) {
             return (~
-              %MiniSchedule(key={user.fb_id}
+              %MiniSchedule(key={user.fb_id+i}
                             user={user}
                             buttonFunc={self.unshare.bind(self, user.fb_id)}
                             buttonTitle={"Unshare schedules"}
@@ -266,7 +271,7 @@
 
             if (haveRequest) {
               right = (~
-                %Button.share-request-btn(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
+                %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
               ~);
             }
             else {
@@ -282,7 +287,7 @@
               }
               else {
                 right = (~
-                  %Button.share-request-btn(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+                  %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
                 ~);
               }
             }
@@ -312,7 +317,7 @@
       ~);
 
       var logout = (~
-        .fb-logout-button.fb-login-button(data-max-rows="1"
+        .fb-login-button.logout(data-max-rows="1"
                          data-size="medium"
                          data-show-faces="false"
                          data-onlogin="afterLogIn();"
@@ -323,7 +328,7 @@
       var showMyself = (self.state.fb_id && window.FBID2Name && window.FBID2Name[self.state.fb_id]) ? null : {display:"none"};
       var myself = (~
         .fb-myself(style={showMyself})
-          %FacebookUser(id={self.state.fb_id} lineUnderneath={logout})
+          %FacebookUser(id={self.state.fb_id} linesUnderneath={[logout]})
       ~);
 
       return (~

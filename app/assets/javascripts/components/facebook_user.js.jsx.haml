@@ -4,13 +4,13 @@
       var size = this.props.size ? this.props.size : 50;
       var imgURL = !window.FBID2Name ? null : "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
       var name = window.FBID2Name ? window.FBID2Name[this.props.id] : "";
+      var width = !this.props.width ? null : {width: this.props.width};
       return (~
-        .facebook-user.float-left
+        .facebook-user.float-left(style={width})
           %a(href={"http://facebook.com/"+this.props.id})
             %img.fbimg(src={imgURL})
             {name}
-            %br
-            {this.props.lineUnderneath}
+          {this.props.linesUnderneath}
       ~);
     }
   })

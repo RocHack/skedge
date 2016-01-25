@@ -1,0 +1,46 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  window.MiniSchedule = React.createClass({
+    getInitialState: function() {
+      return {
+        overlay: false
+      };
+    },
+
+    overlay: function() {
+      ahoy.track("$overlay", {
+        show: !this.state.overlay, 
+        mini: true, 
+        page_rid:this.refs.schedule.rid, 
+        user_rid:this.props.userSchedule.rid
+      });
+
+      this.setState({overlay:!this.state.overlay});
+      this.refs.schedule.toggleOverlayUserSchedule();
+    },
+
+    render: function() {
+      var schedule = this.props.user.schedules[0]; //TODO
+
+      var button = !this.props.buttonFunc ? null : (~
+        %Button.share-request-btn.mini-btn(onClick={this.props.buttonFunc})
+          {this.props.buttonTitle}
+      ~);
+      var yrTerm = (~
+        %a(href={"/"+schedule.rid})
+          {schedule.term}
+          {schedule.year}
+      ~);
+      return (~
+        .friend-box
+          .row
+            %FacebookUser(id={this.props.user.fb_id} lineUnderneath={yrTerm})
+            {button}
+          .row
+            %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")
+          .row.overlay-mini
+            %Button(onClick={this.overlay}) Compare with my schedule
+      ~);
+    }
+  });
+})();

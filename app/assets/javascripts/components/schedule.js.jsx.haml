@@ -247,10 +247,11 @@
             if (section.abcSection) {
               type += " "+section.abcSection;
             }
+            var className = (bigNotMobile ? "s-big" : "s-side") + (self.props.mini ? " s-mini" : "");
             return (~
               %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
                 %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
-                  %div(className={bigNotMobile ? "s-big" : "s-side"})
+                  .(className={className})
                     .s-block-p
                       .s-block-time {style.time}
                       .s-block-dept {section.course.dept}

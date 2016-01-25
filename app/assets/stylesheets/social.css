@@ -70,6 +70,12 @@
   height: 300px;
 }
 
+.overlay-mini
+{
+  margin-top: -15px; /* schedule runs a bit over bc of the table */
+  text-align: center;
+}
+
 .fbimg
 {
   float: left;

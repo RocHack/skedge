@@ -170,6 +170,18 @@ a.s-block:hover
   display: inline;
 }
 
+.s-mini > .s-block-p > .s-block-dept,
+.s-mini > .s-block-p > .s-block-cnum,
+.s-mini > .s-block-p > .s-block-type
+{
+  font-size: 14px;
+}
+
+.s-mini > .s-block-p
+{
+  line-height: 14px;
+}
+
 .s-big > .s-block-p > .s-block-cnum
 {
   margin-left: 3px;

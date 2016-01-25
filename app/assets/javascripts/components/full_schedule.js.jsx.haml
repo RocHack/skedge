@@ -8,7 +8,13 @@
     },
 
     overlay: function() {
-      ahoy.track("$overlay", {show: !this.state.overlay, page_rid:this.props.schedule.rid, user_rid:this.props.userSchedule.rid});
+      ahoy.track("$overlay", {
+        mini: false,
+        show: !this.state.overlay,
+        page_rid:this.props.schedule.rid,
+        user_rid:this.props.userSchedule.rid
+      });
+      
       this.setState({overlay:!this.state.overlay});
       this.refs.schedule.toggleOverlayUserSchedule();
     },

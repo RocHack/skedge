@@ -147,29 +147,6 @@
       });
     },
 
-    miniSchedule: function (user, buttonFunc, buttonTitle) {
-      var schedule = user.schedules[0];
-      var button = !buttonFunc ? null : (~
-        %Button.share-request-btn.mini-btn(onClick={buttonFunc})
-          {buttonTitle}
-      ~);
-      var yrTerm = (~
-        %a(href={"/"+schedule.rid})
-          {schedule.term}
-          {schedule.year}
-      ~);
-      return (~
-        .friend-box(key={user.fb_id})
-          .row
-            %FacebookUser(id={user.fb_id} lineUnderneath={yrTerm})
-            {button}
-          .row
-            %Schedule(schedule={schedule} mini={true})
-          .row
-            %Button Compare with my schedule
-      ~);
-    },
-
     render: function() {
       if (!this.props.visible) {
         return null;
@@ -243,7 +220,13 @@
 
         if (this.state.shareUsers && this.state.shareUsers.length > 0) {
           var users = this.state.shareUsers.map(function (user) {
-            return self.miniSchedule(user, self.unshare.bind(self, user.fb_id), "Unshare schedules");
+            return (~
+              %MiniSchedule(key={user.fb_id}
+                            user={user}
+                            buttonFunc={self.unshare.bind(self, user.fb_id)}
+                            buttonTitle={"Unshare schedules"}
+                            userSchedule={self.state.store.schedule})
+            ~);
           });
           shares = (~
             .
@@ -259,7 +242,9 @@
 
         if (publicFriends && publicFriends.length > 0) {
           var users = publicFriends.map(function (user) {
-            return self.miniSchedule(user);
+            return (~ %MiniSchedule(key={user.fb_id}
+                                    user={user}
+                                    userSchedule={self.state.store.schedule}) ~);
           });
           publics = (~
             .

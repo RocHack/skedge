@@ -23,27 +23,41 @@
         ~);
       }
 
-      var users = this.props.otherFriends.map(function(friend) {
+      var users = this.props.otherFriends.map(function(friend, i) {
         var alreadyRequested = self.props.requested.some(function (req) {
           return (req.to == friend.id);
         });
 
+        var isPublic = self.props.publicFriends.some(function (fr) {
+          return (fr.fb_id == friend.id);
+        });
+
+        var request;
         if (alreadyRequested) {
-          right = (~
+          request = (~
             .mini-btn(key="sent")
               %i.fa.fa-envelope
               Request sent
           ~);
         }
         else {
-          right = (~
+          request = (~
             %Button.mini-btn(onClick={self.sendRequest.bind(self, friend)} key="request")
               Request to share schedules
           ~);
         }
+
+        var publicText;
+        if (isPublic) {
+          publicText = (~
+            .
+              %small Already sharing with all their friends
+          ~);
+        }
+
         return (~
-          .(key={friend.id})
-            %FacebookUser(id={friend.id} size=35 width=350 linesUnderneath={[right]})
+          .(key={friend.id+i})
+            %FacebookUser(id={friend.id} size=45 height=80 width=450 linesUnderneath={[request, publicText]})
         ~);
       });
 

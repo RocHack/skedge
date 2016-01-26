@@ -1,0 +1,56 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.SocialSchedules = React.createClass({
+    mixins: [Reflux.connect(SKScheduleStore, "store")],
+
+    unshare: function(friend_id) {
+      var self = this;
+      $.post("fb_unshare", {nonfriend: friend_id}, function (data) {
+        self.props.parent.setState({shareUsers: data.shareUsers});
+      });
+    },
+
+    render: function() {
+      var self = this;
+
+      var shares = null;
+      var publics = null;
+
+      if (this.props.shareUsers && this.props.shareUsers.length > 0) {
+        var array = this.props.shareUsers;
+        shares = array.map(function (user, i) {
+          return (~
+            %MiniSchedule(key={user.fb_id}
+                          user={user}
+                          thirdLineFunc={self.unshare.bind(self, user.fb_id)}
+                          thirdLineTitle="Unshare my schedule with them"
+                          userSchedule={self.state.store.schedule})
+          ~);
+        });
+      }
+
+      var publicFriends = !this.props.publicFriends ? null : this.props.publicFriends.filter(function (friend) {
+        var s = self.props.shareUsers && self.props.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
+        return !s;
+      });
+
+      if (publicFriends && publicFriends.length > 0) {
+        publics = publicFriends.map(function (user) {
+          return (~ 
+            %MiniSchedule(key={user.fb_id}
+                          user={user}
+                          userSchedule={self.state.store.schedule}
+                          thirdLineTitle="Shared with all their friends")
+          ~);
+        });
+      }
+
+      return (~
+        .
+          {shares}
+          {publics}
+      ~);
+    }
+  })
+})();

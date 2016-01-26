@@ -142,15 +142,6 @@
       });
     },
 
-    renderSchedules: function(user) {
-      return user.schedules.map(function (sch) {
-        return (~
-          %a(key={sch} href={sch})
-            {sch}
-        ~);
-      });
-    },
-
     navState: function (nav) {
       this.setState({nav: nav});
     },
@@ -213,8 +204,6 @@
       ~);
 
       var requests = null;
-      var shares = null;
-      var publics = null;
       var others = null;
 
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
@@ -233,35 +222,6 @@
             return (~
               .share-request-box(key={req.id})
                 %FacebookUser(id={req.from} size=35 height=80 width=500 linesUnderneath={[accept]})
-            ~);
-          });
-        }
-
-        if (this.state.shareUsers && this.state.shareUsers.length > 0) {
-          var array = this.state.shareUsers;
-          shares = array.map(function (user, i) {
-            return (~
-              %MiniSchedule(key={user.fb_id}
-                            user={user}
-                            thirdLineFunc={self.unshare.bind(self, user.fb_id)}
-                            thirdLineTitle="Unshare my schedule with them"
-                            userSchedule={self.state.store.schedule})
-            ~);
-          });
-        }
-
-        var publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
-          var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
-          return !s;
-        });
-
-        if (publicFriends && publicFriends.length > 0) {
-          publics = publicFriends.map(function (user) {
-            return (~ 
-              %MiniSchedule(key={user.fb_id}
-                            user={user}
-                            userSchedule={self.state.store.schedule}
-                            thirdLineTitle="Shared with all their friends")
             ~);
           });
         }
@@ -315,9 +275,9 @@
       }
 
       var schedules = (~
-        .
-          {shares}
-          {publics}
+        %SocialSchedules(shareUsers={this.state.shareUsers}
+                         publicFriends={this.state.publicFriends}
+                         parent={self})
       ~);
 
       var scheduleURL = "http://skedgeur.com/";

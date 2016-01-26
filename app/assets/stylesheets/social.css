@@ -36,6 +36,11 @@
   text-align: center;
 }
 
+.social-contents
+{
+  margin-top: 20px;
+}
+
 .social-container
 {
   margin-top: 100px;
@@ -51,6 +56,11 @@
 {
   margin-top: 5px;
   display: block;
+}
+
+.nav-badge
+{
+  margin-left: 5px;  
 }
 
 .friend-box

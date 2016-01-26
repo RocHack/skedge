@@ -2,7 +2,7 @@
   var ReactUpdate = React.addons.update;
   var Button = ReactBootstrap.Button;
 
-  window.Facebook = React.createClass({
+  window.Social = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
     getInitialState: function () {
@@ -13,7 +13,8 @@
         shareUsers: this.props.shareUsers,
         requested: this.props.requested,
         publicFriends: [],
-        friends: []
+        friends: [],
+        nav: 0
       };
     },
 
@@ -150,6 +151,18 @@
       });
     },
 
+    navState: function (nav) {
+      this.setState({nav: nav});
+    },
+
+    renderNavTab: function (idx, contents) {
+      return (~
+        %li(className={this.state.nav == idx ? "active" : ""})
+          %a(href="#" onClick={this.navState.bind(this, idx)})
+            {contents}
+      ~);
+    },
+
     render: function() {
       if (!this.props.visible) {
         return null;
@@ -207,10 +220,10 @@
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
         if (this.state.requests && this.state.requests.length > 0) {
-          reqs = this.state.requests.map(function (req, i) {
+          requests = this.state.requests.map(function (req, i) {
             var accept = (~
-              .mini-btn
-                %Button(onClick={self.acceptRequest.bind(self, req)} key="accept")
+              .mini-btn(key="accept")
+                %Button(onClick={self.acceptRequest.bind(self, req)})
                   Accept share request
                 .accept-info
                   Accepting this request will allow
@@ -222,11 +235,6 @@
                 %FacebookUser(id={req.from} size=35 height=80 width=500 linesUnderneath={[accept]})
             ~);
           });
-          requests = (~
-            .
-              %h3.social-heading Share requests
-              {reqs}
-          ~);
         }
 
         if (this.state.shareUsers && this.state.shareUsers.length > 0) {
@@ -253,7 +261,7 @@
               %MiniSchedule(key={user.fb_id}
                             user={user}
                             userSchedule={self.state.store.schedule}
-                            thirdLineTitle="Shared with all friends")
+                            thirdLineTitle="Shared with all their friends")
             ~);
           });
         }
@@ -306,6 +314,12 @@
         }
       }
 
+      var schedules = (~
+        .
+          {shares}
+          {publics}
+      ~);
+
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {
         scheduleURL += this.state.store.schedule.rid;
@@ -337,6 +351,24 @@
           %FacebookUser(id={self.state.fb_id} linesUnderneath={[logout]})
       ~);
 
+      var numRequests = this.state.requests ? this.state.requests.length : null;
+
+      var page = [schedules, requests, others, null][this.state.nav];
+
+      var requestsTab = (~
+        .
+          Share requests
+          %span.badge.nav-badge
+            {numRequests}
+      ~);
+
+      var unconnectedTab = (~
+        .
+          Unconnected friends
+          %span.badge.nav-badge
+            {others ? others.length : null}
+      ~);
+
       return (~
         .social-container
 
@@ -349,12 +381,14 @@
 
           {noFriends}
 
-          .
-            {requests}
+          %ul.nav.nav-tabs
+            {this.renderNavTab(0, "Schedules")}
+            {this.renderNavTab(1, requestsTab)}
+            {this.renderNavTab(2, unconnectedTab)}
+            {this.renderNavTab(3, "Settings")}
 
-          {shares}
-          {publics}
-          {others}
+          .social-contents
+            {page}
       ~);
     }
   })

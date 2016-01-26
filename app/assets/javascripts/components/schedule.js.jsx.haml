@@ -247,15 +247,24 @@
             if (section.abcSection) {
               type += " "+section.abcSection;
             }
+
+            var timeField = !bigNotMobile ? null : (~
+              .s-block-time {style.time}
+            ~);
+
+            var typeField = !bigNotMobile && !type ? null : (~
+              .s-block-type {type}
+            ~);
+
             return (~
               %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
                 %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
                   %div(className={bigNotMobile ? "s-big" : "s-side"})
                     .s-block-p
-                      .s-block-time {style.time}
+                      {timeField}
                       .s-block-dept {section.course.dept}
                       .s-block-cnum {section.course.num}
-                      .s-block-type {type}
+                      {typeField}
                       .s-block-title {section.course.title}
             ~);
           });

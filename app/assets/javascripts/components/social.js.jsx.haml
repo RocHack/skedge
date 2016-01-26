@@ -6,6 +6,7 @@
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
     getInitialState: function () {
+      var nav = parseInt(window.location.hash.substring(1)) || 0;
       return {
         checkedLoginState: false,
         fb_id: null,
@@ -14,7 +15,7 @@
         requested: this.props.requested,
         publicFriends: [],
         friends: [],
-        nav: 0,
+        nav: Math.min(Math.max(nav, 0), 4),
         privacy: null
       };
     },
@@ -153,7 +154,7 @@
       className += (margin ? " margin-tab" : "");
       return (~
         %li(className={className})
-          %a(href="#" onClick={this.navState.bind(this, idx)})
+          %a(href={"#"+idx} onClick={this.navState.bind(this, idx)})
             {contents}
       ~);
     },

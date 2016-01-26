@@ -257,3 +257,8 @@ h3.social-heading
 {
   line-height: 14px;
 }
+
+li.margin-tab
+{
+  margin-right: 50px;
+}

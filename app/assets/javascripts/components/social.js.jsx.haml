@@ -148,9 +148,11 @@
       this.setState({nav: nav});
     },
 
-    renderNavTab: function (idx, contents) {
+    renderNavTab: function (idx, contents, margin) {
+      var className = (this.state.nav == idx ? "active" : "");
+      className += (margin ? " margin-tab" : "");
       return (~
-        %li(className={this.state.nav == idx ? "active" : ""})
+        %li(className={className})
           %a(href="#" onClick={this.navState.bind(this, idx)})
             {contents}
       ~);
@@ -195,6 +197,7 @@
       var requests = null;
       var schedules = null;
       var settings = null;
+      var trends = null;
 
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
@@ -228,6 +231,10 @@
 
         settings = (~
           %SocialSettings(privacy={this.state.privacy})
+        ~);
+
+        trends = (~
+          %SocialTrends
         ~);
       }
 
@@ -277,10 +284,11 @@
             {this.renderNavTab(0, "Schedule feed")}
             {this.renderNavTab(1, requestsTab)}
             {this.renderNavTab(2, unconnectedTab)}
-            {this.renderNavTab(3, "Settings")}
+            {this.renderNavTab(3, "Settings", true)}
+            {this.renderNavTab(4, "Trends")}
 
           .social-contents
-            {[schedules, requests, others, settings][this.state.nav]}
+            {[schedules, requests, others, settings, trends][this.state.nav]}
       ~);
 
       return (~

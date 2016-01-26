@@ -243,9 +243,10 @@ h3.social-heading
   margin-right: 8px;
 }
 
-.social-settings
+.social-settings-header
 {
-  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 20px;
 }
 
 .social-settings > .radio

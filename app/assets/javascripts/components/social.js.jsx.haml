@@ -231,7 +231,10 @@
         ~);
 
         settings = (~
-          %SocialSettings(privacy={this.state.privacy})
+          %SocialSettings(privacy={this.state.privacy}
+                          coursesLiked={this.state.store.likes}
+                          numPrivate={this.state.shareUsers.length}
+                          numPublic={this.state.friends.length})
         ~);
 
         trends = (~
@@ -282,7 +285,7 @@
       var contents = !self.state.fb_id ? null : (~
         .
           %ul.nav.nav-tabs
-            {this.renderNavTab(0, "Schedule feed")}
+            {this.renderNavTab(0, "Schedule")}
             {this.renderNavTab(1, requestsTab)}
             {this.renderNavTab(2, unconnectedTab)}
             {this.renderNavTab(3, "Settings", true)}

@@ -22,18 +22,38 @@
     render: function() {
       var self = this;
 
+      var list = this.props.coursesLiked.map(function(course) {
+        return (~
+          %li(key={course.id})
+            %a(href={"/?q="+course.dept+course.num})
+              {course.dept}
+              {course.num}
+        ~);
+      });
+
+      var liked = (list.length == 0) ? null : (~
+        .
+          .social-settings-header Courses liked
+          %ul.class-list
+            {list}
+      ~);
+
       return (~
-        .social-settings
-          %h4 Privacy settings:
+        .
+          .social-settings-header Privacy settings:
           .radio
             %label
               %input(type="radio" name="privacy" checked={this.state.privacy == 0} onChange={this.changePrivacy.bind(this, 0)})
                 Share my schedule and likes with all my friends
+                ({this.props.numPublic} friend{this.props.numPublic == 1 ? "" : "s"})
           .radio
             %label
               %input(type="radio" name="privacy" checked={this.state.privacy == 1} onChange={this.changePrivacy.bind(this, 1)})
                 Share my schedule and likes only with friends I approve
+                ({this.props.numPrivate} friend{this.props.numPrivate == 1 ? "" : "s"})
           #saved(hidden={true}) Saved.
+
+          {liked}
       ~);
     }
   })

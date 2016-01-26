@@ -33,10 +33,9 @@
         ~);
       }
 
-      var yrTerm = (~
-        %a.block-link(href={"/"+schedule.rid} key="yrterm")
-          {schedule.term}
-          {schedule.year}
+      var likes = (~
+        %a.block-link(href="#" key="likes")
+          See Likes
       ~);
       var compare = (~
         %Button.mini-compare.mini-btn(onClick={this.overlay} key="compare") Compare schedules
@@ -44,7 +43,7 @@
       return (~
         .friend-box
           .row
-            %FacebookUser(id={this.props.user.fb_id} linesUnderneath={[compare, yrTerm, thirdLine]} size=60 width=350)
+            %FacebookUser(id={this.props.user.fb_id} linesUnderneath={[compare, likes, thirdLine]} size=60 width=350)
           .row
             %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")            
       ~);

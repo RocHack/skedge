@@ -149,13 +149,13 @@
       this.setState({nav: nav});
     },
 
-    renderNavTab: function (idx, contents, margin) {
+    renderNavTab: function (idx, contents, extraClasses="") {
       var className = (this.state.nav == idx ? "active" : "");
-      className += (margin ? " margin-tab" : "");
+      className += " "+extraClasses;
       return (~
         %li(className={className})
           %a(href={"#"+idx} onClick={this.navState.bind(this, idx)})
-            {contents}
+            {contents}  
       ~);
     },
 
@@ -282,14 +282,18 @@
             {numUnconnected}
       ~);
 
+      var schedulesTab = (~
+        .social-tab-schedules
+          Schedules
+      ~);
+
       var contents = !self.state.fb_id ? null : (~
         .
           %ul.nav.nav-tabs
-            {this.renderNavTab(0, "Schedule")}
+            {this.renderNavTab(0, schedulesTab, "margin-tab")}
             {this.renderNavTab(1, requestsTab)}
             {this.renderNavTab(2, unconnectedTab)}
-            {this.renderNavTab(3, "Settings", true)}
-            {this.renderNavTab(4, "Trends")}
+            {this.renderNavTab(3, "Settings")}
 
           .social-contents
             {[schedules, requests, others, settings, trends][this.state.nav]}

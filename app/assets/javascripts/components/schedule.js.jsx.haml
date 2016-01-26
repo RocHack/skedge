@@ -304,19 +304,22 @@
       }
 
       var miniStyle = this.props.mini ? {height: "300px", minHeight: "300px"} : null;
+      var linkFull = this.props.mini ? "/"+this.props.schedule.rid : null;
 
       return (~
         .sk(className={this.props.mini ? "mini-schedule" : ""})
-          %table.table
-            %thead
-              %tr
-                {days}
+          %a.no-link(href={linkFull})
+            %table.table
+              %thead
+                %tr
+                  {days}
               
           %div(className={self.props.big ? "skedge-big" : "skedge-side"} style={miniStyle})
             {courses}
-            %table.table.table-condensed.courses
-              %tbody
-                {hours}
+            %a.no-link(href={linkFull})
+              %table.table.table-condensed.courses
+                %tbody
+                  {hours}
 
           
           {sideInfo}

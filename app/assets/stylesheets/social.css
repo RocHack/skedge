@@ -188,7 +188,7 @@ h3.social-heading
 {
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: #525252;
   font-weight: 500;
 }
@@ -201,7 +201,7 @@ h3.social-heading
 
 .results-social-icon
 {
-  font-size: 20px;
+  font-size: 18px;
   margin-right: 5px;
 }
 
@@ -239,6 +239,7 @@ h3.social-heading
 
 .results-social-icon-like
 {
+  font-size: 20px;
   margin-right: 8px;
 }
 

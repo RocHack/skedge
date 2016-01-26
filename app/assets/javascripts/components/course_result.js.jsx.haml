@@ -8,7 +8,8 @@
       return {
         subcoursesOpened: {},
         friendsTakingCourse: [],
-        friendsLikeCourse: []
+        friendsLikeCourse: [],
+        like: this.props.like
       };
     },
 
@@ -313,6 +314,11 @@
       this.props.changeBookmark(this.props.course);
     },
 
+    like: function (event) {
+      event.preventDefault();
+      this.setState({like: !this.state.like});
+    },
+
     listFriends: function (friends) {
       if (friends.length == 0) {
         return (~
@@ -432,10 +438,11 @@
             {friendsLikeList}
       ~);
 
+      var likeVerb = this.state.like ? "Unlike" : "Like";
       var friends = (~
-        %a.results-social-like(href="#")
-          %i.fa.fa-thumbs-o-up.results-social-icon.results-social-icon-like
-          Like this course
+        %a.results-social-like(href="#" onClick={this.like})
+          %i.fa.fa-thumbs-o-up.results-social-icon-like
+          {likeVerb} this course
       ~);
       if (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length > 0) {
         friends = (~

@@ -28,8 +28,11 @@
     componentDidMount: function() {
       var self = this;
       document.addEventListener("gotFriendsList", function (event) {
-        $.get('sharing_taking_course', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
-          self.setState({friendsTakingCourse: data.users});
+        $.get('fb_courses', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
+          self.setState({
+            friendsTakingCourse: data.taking,
+            friendsLikeCourse: data.like,
+          });
         });
       }, false);
     },

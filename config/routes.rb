@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   post 'fb_unshare', to: 'facebook#unshare'
 
   get 'fb_get_public_sharing_friends', to: 'facebook#get_public_sharing_friends'
-  get 'sharing_taking_course', to: 'facebook#sharing_taking_course'
+  get 'fb_courses', to: 'facebook#courses'
 
   # Schedules
 

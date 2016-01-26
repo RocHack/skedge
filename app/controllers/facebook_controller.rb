@@ -142,7 +142,7 @@ class FacebookController < ApplicationController
     render json:{friends:reactify_users(friends)}
   end
 
-  def sharing_taking_course
+  def courses
     user = current_user
     friends = sharing_users(params[:friends], user) #also get privately sharing
     course = Course.find(params[:course_id])
@@ -152,6 +152,10 @@ class FacebookController < ApplicationController
       schedule && schedule.sections.collect(&:course).include?(course)
     end
 
-    render json:{users:reactify_users(taking)}
+    like = friends.select do |friend|
+      friend.liked_courses.include?(course)
+    end
+
+    render json:{taking:reactify_users(taking), like: reactify_users(like)}
   end
 end

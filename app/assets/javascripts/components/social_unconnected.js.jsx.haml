@@ -17,9 +17,7 @@
         return (~
           .social-none
             %p
-              No friends with privacy that you aren’t already sharing with.
-            %p
-              Yay!
+              All of your friends are already sharing their schedules with you.
         ~);
       }
 
@@ -50,8 +48,8 @@
         var publicText;
         if (isPublic) {
           publicText = (~
-            .
-              %small Already sharing with all their friends
+            .unconnected-public-text
+              %small (Already sharing with all their friends)
           ~);
         }
 

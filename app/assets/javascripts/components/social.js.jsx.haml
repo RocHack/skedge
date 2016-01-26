@@ -189,7 +189,7 @@
       // NOW, for content
 
       var otherFriends = [];
-      var publicFriends = [];
+      var publicFriends = null;
 
       var others = null;
       var requests = null;
@@ -198,7 +198,7 @@
 
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
-        publicFriends = !this.state.publicFriends ? [] : this.state.publicFriends.filter(function (friend) {
+        publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
           return self.state.shareUsers && !self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
         });
 
@@ -237,13 +237,14 @@
                           this.state.requests.length +
                           otherFriends.length) :
                          -1;
-      var showNoFriends = (this.state.nav == 0 && this.state.fb_id && window.FBID2Name && totalCount == 0) ? null : {display:"none"};
+      var hideNoFriends = (this.state.nav == 0 && this.state.fb_id && window.FBID2Name && totalCount == 0) ? null : {display:"none"};
+      schedules = hideNoFriends ? schedules : null;
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {
         scheduleURL += this.state.store.schedule.rid;
       }
       var noFriends = (~
-        .social-none(style={showNoFriends})
+        .social-none(style={hideNoFriends})
           %p
             You have no friends using Skedge!
           %p
@@ -260,8 +261,9 @@
             {numRequests}
       ~);
 
-      var numUnconnected = (this.state.requested && (otherFriends.length - publicFriends.length - this.state.requested.length) > 0) ?
-        otherFriends.length : null;
+      var numUnconnected = (this.state.requested && publicFriends) ? 
+                            otherFriends.length - publicFriends.length - this.state.requested.length : 0;
+      numUnconnected = (numUnconnected > 0) ? numUnconnected : null;
       var unconnectedTab = (~
         .
           Non-sharing friends
@@ -272,7 +274,7 @@
       var contents = !self.state.fb_id ? null : (~
         .
           %ul.nav.nav-tabs
-            {this.renderNavTab(0, "Schedules")}
+            {this.renderNavTab(0, "Schedule feed")}
             {this.renderNavTab(1, requestsTab)}
             {this.renderNavTab(2, unconnectedTab)}
             {this.renderNavTab(3, "Settings")}

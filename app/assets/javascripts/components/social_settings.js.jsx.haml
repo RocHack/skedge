@@ -27,11 +27,11 @@
           %h4 Privacy settings:
           .radio
             %label
-              %input(type="radio" name="privacy" checked={this.state.privacy == 0} onClick={this.changePrivacy.bind(this, 0)})
+              %input(type="radio" name="privacy" checked={this.state.privacy == 0} onChange={this.changePrivacy.bind(this, 0)})
                 Share my schedule and likes with all my friends
           .radio
             %label
-              %input(type="radio" name="privacy" checked={this.state.privacy == 1} onClick={this.changePrivacy.bind(this, 1)})
+              %input(type="radio" name="privacy" checked={this.state.privacy == 1} onChange={this.changePrivacy.bind(this, 1)})
                 Share my schedule and likes only with friends I first approve
           #saved(hidden={true}) Saved.
       ~);

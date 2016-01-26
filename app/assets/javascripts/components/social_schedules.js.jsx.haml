@@ -28,13 +28,8 @@
         });
       }
 
-      var publicFriends = !this.props.publicFriends ? null : this.props.publicFriends.filter(function (friend) {
-        var s = self.props.shareUsers && self.props.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
-        return !s;
-      });
-
-      if (publicFriends && publicFriends.length > 0) {
-        publics = publicFriends.map(function (user) {
+      if (this.props.publicFriends && this.props.publicFriends.length > 0) {
+        publics = this.props.publicFriends.map(function (user) {
           return (~ 
             %MiniSchedule(key={user.fb_id}
                           user={user}

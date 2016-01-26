@@ -14,7 +14,8 @@
         requested: this.props.requested,
         publicFriends: [],
         friends: [],
-        nav: 0
+        nav: 0,
+        privacy: null
       };
     },
 
@@ -65,7 +66,8 @@
             self.setState({
               requests: response.requests,
               shareUsers: response.shareUsers,
-              requested: response.requested
+              requested: response.requested,
+              privacy: response.privacy
             });
           });
 
@@ -187,6 +189,7 @@
       // NOW, for content
 
       var otherFriends = [];
+      var publicFriends = [];
 
       var others = null;
       var requests = null;
@@ -195,9 +198,13 @@
 
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
+        publicFriends = !this.state.publicFriends ? [] : this.state.publicFriends.filter(function (friend) {
+          return self.state.shareUsers && !self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
+        });
+
         schedules = (~
           %SocialSchedules(shareUsers={this.state.shareUsers}
-                           publicFriends={this.state.publicFriends}
+                           publicFriends={publicFriends}
                            userSchedule={self.state.store.schedule}
                            parent={self})
         ~);
@@ -214,13 +221,13 @@
 
         others = (~
           %SocialUnconnected(otherFriends={otherFriends}
-                             parent={this}
                              requested={self.state.requested}
-                             publicFriends={self.state.publicFriends})
+                             publicFriends={self.state.publicFriends}
+                             parent={this})
         ~);
 
         settings = (~
-          %SocialSettings(privacy=0)
+          %SocialSettings(privacy={this.state.privacy})
         ~);
       }
 
@@ -253,7 +260,8 @@
             {numRequests}
       ~);
 
-      var numUnconnected = (this.state.requested && (otherFriends.length - this.state.requested.length) > 0) ? otherFriends.length : null;
+      var numUnconnected = (this.state.requested && (otherFriends.length - publicFriends.length - this.state.requested.length) > 0) ?
+        otherFriends.length : null;
       var unconnectedTab = (~
         .
           Non-sharing friends

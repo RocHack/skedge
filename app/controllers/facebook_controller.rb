@@ -105,7 +105,8 @@ class FacebookController < ApplicationController
                  defaultSchedule:user.last_schedule.try(:yr_term),
                  shareUsers:reactify_users(user.share_users),
                  requests:reactify_requests(user.share_requests),
-                 requested:reactify_requests(user.sent_share_requests)}
+                 requested:reactify_requests(user.sent_share_requests),
+                 privacy:user.public_sharing ? 0 : 1}
   end
 
   def sharing_users(friends, user=nil)

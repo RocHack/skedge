@@ -44,7 +44,6 @@
     checkLoginState: function () {
       var self = this;
       FB.getLoginStatus(function(response) {
-        console.log(response.status);
         if (response.status == 'connected') {
           //The person is logged into Facebook, and has logged into your app
           var id = response.authResponse.userID;
@@ -208,16 +207,24 @@
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
         if (this.state.requests && this.state.requests.length > 0) {
-          reqs = this.state.requests.map(function (req) {
+          reqs = this.state.requests.map(function (req, i) {
+            var accept = (~
+              .mini-btn
+                %Button(onClick={self.acceptRequest.bind(self, req)} key="accept")
+                  Accept share request
+                .accept-info
+                  Accepting this request will allow
+                  {window.FBID2Name[req.from]}
+                  to see your schedule and the classes you’ve liked.
+            ~);
             return (~
-              .(key={req.id})
-                %FacebookUser(id={req.from} size=35)
-                %Button(onClick={self.acceptRequest.bind(self, req)}) Accept Share Request
+              .share-request-box(key={req.id})
+                %FacebookUser(id={req.from} size=35 height=80 width=500 linesUnderneath={[accept]})
             ~);
           });
           requests = (~
             .
-              %h3.social-heading Requests
+              %h3.social-heading Share requests
               {reqs}
           ~);
         }
@@ -226,16 +233,16 @@
           var array = this.state.shareUsers;
           var users = array.map(function (user, i) {
             return (~
-              %MiniSchedule(key={user.fb_id+i}
+              %MiniSchedule(key={user.fb_id}
                             user={user}
                             buttonFunc={self.unshare.bind(self, user.fb_id)}
-                            buttonTitle={"Unshare schedules"}
+                            buttonTitle={"Unshare my schedule with them"}
                             userSchedule={self.state.store.schedule})
             ~);
           });
           shares = (~
             .
-              %h3.social-heading Users sharing their schedules with you
+              %h3.social-heading Friends sharing their schedules with you
               {users}
           ~);
         }
@@ -253,7 +260,7 @@
           });
           publics = (~
             .
-              %h3.social-heading Friends sharing their schedules
+              %h3.social-heading Friends sharing their schedules with all friends
               {users}
           ~);
         }
@@ -281,20 +288,21 @@
 
               if (alreadyRequested) {
                 right = (~
-                  .
+                  .mini-btn(key="sent")
+                    %i.fa.fa-envelope
                     Request sent
                 ~);
               }
               else {
                 right = (~
-                  %Button(onClick={self.sendRequest.bind(self, friend)}) Request to Share Schedules
+                  %Button.mini-btn(onClick={self.sendRequest.bind(self, friend)} key="request")
+                    Request to share schedules
                 ~);
               }
             }
             return (~
               .(key={friend.id})
-                %FacebookUser(id={friend.id} size=35)
-                {right}
+                %FacebookUser(id={friend.id} size=35 width=350 linesUnderneath={[right]})
             ~);
           });
           others = (~
@@ -305,6 +313,10 @@
         }
       }
 
+      var scheduleURL = "http://skedgeur.com/";
+      if (this.state.store.schedule) {
+        scheduleURL += this.state.store.schedule.rid;
+      }
       var showNoFriends = (this.state.fb_id && window.FBID2Name && !requests && !shares && !publics && !others) ? null : {display:"none"};
       var noFriends = (~
         .social-no-friends(style={showNoFriends})
@@ -313,7 +325,7 @@
           %p
             Share your schedule and spread the word!
           %p
-            .fb-share-button(data-href="https://developers.facebook.com/docs/plugins/" data-layout="button")
+            .fb-share-button(data-href={scheduleURL} data-layout="button")
       ~);
 
       var logout = (~
@@ -322,7 +334,8 @@
                          data-show-faces="false"
                          data-onlogin="afterLogIn();"
                          scope="user_friends"
-                         data-auto-logout-link="true")
+                         data-auto-logout-link="true"
+                         key="logout")
       ~);
 
       var showMyself = (self.state.fb_id && window.FBID2Name && window.FBID2Name[self.state.fb_id]) ? null : {display:"none"};

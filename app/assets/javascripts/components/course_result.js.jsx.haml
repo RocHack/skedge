@@ -390,14 +390,14 @@
           var schedule = friend.schedules[i];
           if (schedule.yrTerm == self.props.course.yrTerm) {
             yearTerm = (~
-              %a.block-link(href={"/"+schedule.rid})
+              %a.block-link(href={"/"+schedule.rid} key="yrterm")
                 {schedule.term}
                 {schedule.year}
             ~);
           }
         }
         return (~
-          .ftc-user(key={friend.fb_id+i})
+          .ftc-user(key={friend.fb_id})
             %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
         ~)
       });

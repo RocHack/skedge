@@ -114,14 +114,14 @@
 
 h3.social-heading
 {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 15px;
 }
 
 .social-splash
 {
   margin-top: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   font-size: 4em;
   font-family: 'Pontano Sans', sans-serif;
   letter-spacing: -0.05em;
@@ -133,6 +133,19 @@ h3.social-heading
 .social-head
 {
   text-align: center;
+}
+
+.accept-info
+{
+  width: 300px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.share-request-box
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .ftc-icon

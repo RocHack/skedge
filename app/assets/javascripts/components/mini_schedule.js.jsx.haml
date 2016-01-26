@@ -23,17 +23,17 @@
       var schedule = this.props.user.schedules[0]; //TODO
 
       var button = !this.props.buttonFunc ? null : (~
-        %a.block-link(href="#" onClick={this.props.buttonFunc})
+        %a.block-link(href="#" onClick={this.props.buttonFunc} key="button")
           %small
             {this.props.buttonTitle}
       ~);
       var yrTerm = (~
-        %a.block-link(href={"/"+schedule.rid})
+        %a.block-link(href={"/"+schedule.rid} key="yrterm")
           {schedule.term}
           {schedule.year}
       ~);
       var compare = (~
-        %Button.mini-compare.mini-btn(onClick={this.overlay}) Compare schedules
+        %Button.mini-compare.mini-btn(onClick={this.overlay} key="compare") Compare schedules
       ~);
       return (~
         .friend-box

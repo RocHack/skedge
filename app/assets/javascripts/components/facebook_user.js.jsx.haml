@@ -4,9 +4,12 @@
       var size = this.props.size ? this.props.size : 50;
       var imgURL = !window.FBID2Name ? null : "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
       var name = window.FBID2Name ? window.FBID2Name[this.props.id] : "";
-      var style = {minHeight:size, minWidth:size+100};
+      var style = {minHeight:parseInt(size)+10, minWidth:parseInt(size)+100};
       if (this.props.width) {
         style.width = this.props.width;
+      }
+      if (this.props.height) {
+        style.height = this.props.height;
       }
 
       return (~

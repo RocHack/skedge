@@ -172,8 +172,7 @@ a.s-block:hover
 }
 
 .s-mini > .s-block-p > .s-block-dept,
-.s-mini > .s-block-p > .s-block-cnum,
-.s-mini > .s-block-p > .s-block-type
+.s-mini > .s-block-p > .s-block-cnum
 {
   font-size: 14px;
 }

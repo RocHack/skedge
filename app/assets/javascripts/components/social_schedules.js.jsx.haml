@@ -2,8 +2,6 @@
   var Button = ReactBootstrap.Button;
 
   window.SocialSchedules = React.createClass({
-    mixins: [Reflux.connect(SKScheduleStore, "store")],
-
     unshare: function(friend_id) {
       var self = this;
       $.post("fb_unshare", {nonfriend: friend_id}, function (data) {
@@ -25,7 +23,7 @@
                           user={user}
                           thirdLineFunc={self.unshare.bind(self, user.fb_id)}
                           thirdLineTitle="Unshare my schedule with them"
-                          userSchedule={self.state.store.schedule})
+                          userSchedule={self.props.userSchedule})
           ~);
         });
       }
@@ -40,7 +38,7 @@
           return (~ 
             %MiniSchedule(key={user.fb_id}
                           user={user}
-                          userSchedule={self.state.store.schedule}
+                          userSchedule={self.props.userSchedule}
                           thirdLineTitle="Shared with all their friends")
           ~);
         });

@@ -1,5 +1,6 @@
 (function() {
   var Button = ReactBootstrap.Button;
+  var ReactUpdate = React.addons.update;
 
   window.Social = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
@@ -197,7 +198,8 @@
         schedules = (~
           %SocialSchedules(shareUsers={this.state.shareUsers}
                            publicFriends={this.state.publicFriends}
-                           parent={self})
+                           parent={self}
+                           userSchedule={self.state.store.schedule})
         ~);
 
         requests = (~
@@ -243,18 +245,20 @@
             .fb-share-button(data-href={scheduleURL} data-layout="button")
       ~);
 
+      var numRequests = this.state.requests ? (this.state.requests.length == 0 ? null : this.state.requests.length) : null;
       var requestsTab = (~
         .
           Share requests
           %span.badge.nav-badge
-            {this.state.requests ? (this.state.requests.length == 0 ? null : this.state.requests.length) : null}
+            {numRequests}
       ~);
 
+      var numUnconnected = (this.state.requested && (otherFriends.length - this.state.requested.length) > 0) ? otherFriends.length : null;
       var unconnectedTab = (~
         .
           Unconnected friends
           %span.badge.nav-badge
-            {others ? others.length : null}
+            {numUnconnected}
       ~);
 
       var contents = !self.state.fb_id ? null : (~

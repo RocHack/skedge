@@ -2,12 +2,34 @@
   var Button = ReactBootstrap.Button;
 
   window.SocialSettings = React.createClass({
+    getInitialState: function() {
+      return {
+        privacy: this.props.privacy
+      };
+    },
+
+    changePrivacy: function (option) {
+      this.setState({privacy: option});
+      $('#saved').attr('hidden', false);
+      $('#saved').show();
+      $('#saved').delay(750).fadeOut(500);
+    },
+
     render: function() {
       var self = this;
 
       return (~
-        .
-          Settings...
+        .social-settings
+          %h4 Privacy settings:
+          .radio
+            %label
+              %input(type="radio" name="privacy" checked={this.state.privacy == 0} onClick={this.changePrivacy.bind(this, 0)})
+                Share my schedule and likes with all my friends
+          .radio
+            %label
+              %input(type="radio" name="privacy" checked={this.state.privacy == 1} onClick={this.changePrivacy.bind(this, 1)})
+                Share my schedule and likes only with friends I first approve
+          #saved(hidden={true}) Saved.
       ~);
     }
   })

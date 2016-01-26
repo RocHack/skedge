@@ -220,7 +220,7 @@
         ~);
 
         settings = (~
-          %SocialSettings
+          %SocialSettings(privacy=0)
         ~);
       }
 
@@ -236,7 +236,7 @@
         scheduleURL += this.state.store.schedule.rid;
       }
       var noFriends = (~
-        .social-no-friends(style={showNoFriends})
+        .social-none(style={showNoFriends})
           %p
             You have no friends using Skedge!
           %p

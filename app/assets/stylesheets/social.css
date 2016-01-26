@@ -29,7 +29,7 @@
   font-size: 18px;
 }
 
-.social-no-friends
+.social-none
 {
   margin-top: 15px;
   font-size: 16px;
@@ -239,4 +239,14 @@ h3.social-heading
 .results-social-icon-like
 {
   margin-right: 8px;
+}
+
+.social-settings
+{
+  margin-left: 20px;
+}
+
+.social-settings > .radio
+{
+  margin-left: 10px;
 }

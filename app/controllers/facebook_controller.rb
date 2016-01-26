@@ -70,6 +70,16 @@ class FacebookController < ApplicationController
     render json:{shareUsers:reactify_users(user.share_users)}
   end
 
+  def change_privacy
+    # TODO: assert stuff?
+
+    user = current_user
+    user.public_sharing = (params[:option].to_i == 0)
+    user.save
+
+    head 200
+  end
+
   def register_user
     fb_id = params[:id]
 

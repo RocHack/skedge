@@ -10,9 +10,13 @@
 
     changePrivacy: function (option) {
       this.setState({privacy: option});
-      $('#saved').attr('hidden', false);
-      $('#saved').show();
-      $('#saved').delay(750).fadeOut(500);
+
+      var self = this;
+      $.post("fb_change_privacy", {option: option}, function (data) {
+        $('#saved').attr('hidden', false);
+        $('#saved').show();
+        $('#saved').delay(750).fadeOut(500);
+      });
     },
 
     render: function() {

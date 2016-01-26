@@ -198,8 +198,8 @@
         schedules = (~
           %SocialSchedules(shareUsers={this.state.shareUsers}
                            publicFriends={this.state.publicFriends}
-                           parent={self}
-                           userSchedule={self.state.store.schedule})
+                           userSchedule={self.state.store.schedule}
+                           parent={self})
         ~);
 
         requests = (~
@@ -256,7 +256,7 @@
       var numUnconnected = (this.state.requested && (otherFriends.length - this.state.requested.length) > 0) ? otherFriends.length : null;
       var unconnectedTab = (~
         .
-          Unconnected friends
+          Non-sharing friends
           %span.badge.nav-badge
             {numUnconnected}
       ~);

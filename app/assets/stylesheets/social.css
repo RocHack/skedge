@@ -39,6 +39,7 @@
 .social-contents
 {
   margin-top: 30px;
+  margin-left: 20px;
 }
 
 .social-container
@@ -66,8 +67,8 @@
 .friend-box
 {
   display: inline-block;
-  margin-left: 10px;
-  margin-right: 100px;
+  margin-left: 20px;
+  margin-right: 55px;
   margin-bottom: 20px;
   margin-top: 10px;
 }
@@ -85,7 +86,7 @@
 
 .mini-compare
 {
-  margin-top: 3px;
+  margin-top: 0px;
 }
 
 .fbimg

@@ -19,7 +19,7 @@
         var array = this.props.shareUsers;
         shares = array.map(function (user, i) {
           return (~
-            %MiniSchedule(key={user.fb_id}
+            %MiniSchedule(key={user.fb_id+i}
                           user={user}
                           thirdLineFunc={self.unshare.bind(self, user.fb_id)}
                           thirdLineTitle="Unshare my schedule with them"

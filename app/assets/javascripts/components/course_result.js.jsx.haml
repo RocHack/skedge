@@ -167,15 +167,14 @@
       }
 
       return (~
-        %div
-          .subcourse-show-hide
-            %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
-              %strong
-                {subcourseIcon}
-                Show
-                {numSections}
-                {type}
-                {numSections == 1 ? "section" : "sections"}
+        .subcourse-show-hide
+          %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
+            %strong
+              {subcourseIcon}
+              Show
+              {numSections}
+              {type}
+              {numSections == 1 ? "section" : "sections"}
       ~);
     },
 
@@ -315,13 +314,6 @@
     },
 
     listFriends: function (friends) {
-      if (friends.length == 0) {
-        return (~
-          .results-social-none
-            None
-        ~);
-      }
-
       var self = this;
       return friends.map(function (friend, idx) {
         var yearTerm;
@@ -415,6 +407,13 @@
       var friendsTakingList = this.listFriends(this.state.friendsTakingCourse);
       var friendsLikeList = this.listFriends(this.state.friendsLikeCourse);
 
+      if (friendsTakingList.length == 0) {
+        friendsTakingList = (~
+          .results-social-none
+            None
+        ~);
+      }
+
       var ftc = (~
         .results-social-box
           .results-social-box-header
@@ -430,20 +429,34 @@
             %i.fa.fa-thumbs-o-up.results-social-icon
             Friends that like this course:
           .
+            %a.results-social-box-like.results-social-like(href="#")
+              %i.fa.fa-thumbs-o-up.results-social-icon.results-social-icon-like
+              Like this course
+          .
             {friendsLikeList}
       ~);
 
-      var friends = (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length == 0) ? null : (~
-        .results-social
-          .results-social-header
-            %i.fa.fa-globe.results-social-icon
-            skedge social
-          .row
-            .col-md-6
-              {ftc}
-            .col-md-6
-              {likes}
-      ~);
+      var friends = null;
+      if (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length > 0) {
+        friends = (~
+          .results-social
+            .results-social-header
+              %i.fa.fa-globe.results-social-globe
+              skedge social
+            .row
+              .col-md-6
+                {ftc}
+              .col-md-6
+                {likes}
+        ~);
+      }
+      else if (window.FBFriends) {
+        friends = (~
+          %a.results-social-like(href="#")
+            %i.fa.fa-thumbs-o-up.results-social-icon.results-social-icon-like
+            Like this course
+        ~);
+      }
 
       var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
       var cnumClass = mac ? "bold-mac" : "bold-pc";
@@ -485,7 +498,7 @@
             {self.subcourses("workshop")}
             {self.subcourses("labLecture")}
 
-          .friends-taking
+          .
             {friends}
       ~);
     }

@@ -127,7 +127,13 @@
         var subcourses = Object.keys(sectionsByAbc).sort().map(function (abc) {
           var sections = sectionsByAbc[abc];
           if (abc) {
-            return (<div><h4>{abc} {type}s</h4>{self.renderSubcourses(sections)}</div>);
+            return (~
+              .(key={abc})
+                %h4
+                  {abc}
+                  {type+"s"}
+                {self.renderSubcourses(sections)}
+            ~);
           } else {
             return self.renderSubcourses(sections);
           }

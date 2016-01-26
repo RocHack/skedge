@@ -231,20 +231,15 @@
 
         if (this.state.shareUsers && this.state.shareUsers.length > 0) {
           var array = this.state.shareUsers;
-          var users = array.map(function (user, i) {
+          shares = array.map(function (user, i) {
             return (~
               %MiniSchedule(key={user.fb_id}
                             user={user}
-                            buttonFunc={self.unshare.bind(self, user.fb_id)}
-                            buttonTitle={"Unshare my schedule with them"}
+                            thirdLineFunc={self.unshare.bind(self, user.fb_id)}
+                            thirdLineTitle="Unshare my schedule with them"
                             userSchedule={self.state.store.schedule})
             ~);
           });
-          shares = (~
-            .
-              %h3.social-heading Friends sharing their schedules with you
-              {users}
-          ~);
         }
 
         var publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
@@ -253,16 +248,14 @@
         });
 
         if (publicFriends && publicFriends.length > 0) {
-          var users = publicFriends.map(function (user) {
-            return (~ %MiniSchedule(key={user.fb_id}
-                                    user={user}
-                                    userSchedule={self.state.store.schedule}) ~);
+          publics = publicFriends.map(function (user) {
+            return (~ 
+              %MiniSchedule(key={user.fb_id}
+                            user={user}
+                            userSchedule={self.state.store.schedule}
+                            thirdLineTitle="Shared with all friends")
+            ~);
           });
-          publics = (~
-            .
-              %h3.social-heading Friends sharing their schedules with all friends
-              {users}
-          ~);
         }
 
         var otherFriends = this.state.friends.filter(function (friend) {

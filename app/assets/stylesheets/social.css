@@ -121,7 +121,7 @@ h3.social-heading
 .social-splash
 {
   margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   font-size: 4em;
   font-family: 'Pontano Sans', sans-serif;
   letter-spacing: -0.05em;
@@ -159,12 +159,12 @@ h3.social-heading
 
 .results-social
 {
-  margin-left: 20px;
+  margin-left: 25px;
 }
 
 .results-social-box
 {
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .results-social-box-header
@@ -172,6 +172,8 @@ h3.social-heading
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 16px;
+  color: #525252;
+  font-weight: 500;
 }
 
 .results-social-globe
@@ -196,6 +198,8 @@ h3.social-heading
 .results-social-none
 {
   margin-left: 30px;
+  font-size: 16px;
+  color: gray;
 }
 
 .results-social-box-like
@@ -209,6 +213,11 @@ h3.social-heading
   margin-top: 5px;
   font-weight: 500;
   color: gray;
+}
+
+.results-social-like:hover
+{
+  color: black;
 }
 
 .results-social-icon-like

@@ -219,52 +219,17 @@
         ~);
 
         var otherFriends = this.state.friends.filter(function (friend) {
-          var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
+          var r = self.state.requests && self.state.requests.some(function (req) { return req.from == friend.id; });
           var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
-          return !p && !s;
+          return !r && !s;
         });
-        
-        if (otherFriends.length > 0) {
-          var users = otherFriends.map(function(friend) {
-            var haveRequest = self.state.requests.find(function (req) {
-              return (req.from == friend.id);
-            });
 
-            if (haveRequest) {
-              right = (~
-                %Button(onClick={self.acceptRequest.bind(self, haveRequest)}) Accept Share Request
-              ~);
-            }
-            else {
-              var alreadyRequested = self.state.requested.some(function (req) {
-                return (req.to == friend.id);
-              });
-
-              if (alreadyRequested) {
-                right = (~
-                  .mini-btn(key="sent")
-                    %i.fa.fa-envelope
-                    Request sent
-                ~);
-              }
-              else {
-                right = (~
-                  %Button.mini-btn(onClick={self.sendRequest.bind(self, friend)} key="request")
-                    Request to share schedules
-                ~);
-              }
-            }
-            return (~
-              .(key={friend.id})
-                %FacebookUser(id={friend.id} size=35 width=350 linesUnderneath={[right]})
-            ~);
-          });
-          others = (~
-            .
-              %h3.social-heading Friends with private schedules
-              {users}
-          ~);
-        }
+        others = (~
+          %SocialUnconnected(otherFriends={otherFriends}
+                             parent={this}
+                             requested={self.state.requested}
+                             publicFriends={self.state.publicFriends})
+        ~);
       }
 
       var scheduleURL = "http://skedgeur.com/";

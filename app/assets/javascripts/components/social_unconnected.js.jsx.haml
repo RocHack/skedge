@@ -1,0 +1,53 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.SocialUnconnected = React.createClass({
+    acceptRequest: function(req) {
+      props.parent.acceptRequest(req);
+    },
+
+    sendRequest: function(friend) {
+      props.parent.sendRequest(friend);
+    },
+
+    render: function() {
+      var self = this;
+
+      if (this.props.otherFriends.length == 0) {
+        return (~
+          .
+            No friends at the moment.
+        ~);
+      }
+
+      var users = this.props.otherFriends.map(function(friend) {
+        var alreadyRequested = self.props.requested.some(function (req) {
+          return (req.to == friend.id);
+        });
+
+        if (alreadyRequested) {
+          right = (~
+            .mini-btn(key="sent")
+              %i.fa.fa-envelope
+              Request sent
+          ~);
+        }
+        else {
+          right = (~
+            %Button.mini-btn(onClick={self.sendRequest.bind(self, friend)} key="request")
+              Request to share schedules
+          ~);
+        }
+        return (~
+          .(key={friend.id})
+            %FacebookUser(id={friend.id} size=35 width=350 linesUnderneath={[right]})
+        ~);
+      });
+
+      return (~
+        .
+          {users}
+      ~);
+    }
+  })
+})();

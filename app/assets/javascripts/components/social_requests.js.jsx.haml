@@ -1,0 +1,42 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var ReactUpdate = React.addons.update;
+
+  window.SocialRequests = React.createClass({
+    acceptRequest: function(req) {
+      props.parent.acceptRequest(req);
+    },
+
+    render: function() {
+      var self = this;
+
+      if (!this.props.requests || this.props.requests.length == 0) {
+        return (~
+          .
+            No share requests at the moment.
+        ~);
+      }
+
+      var requests = this.props.requests.map(function (req, i) {
+        var accept = (~
+          .mini-btn(key="accept")
+            %Button(onClick={self.acceptRequest.bind(self, req)})
+              Accept share request
+            .accept-info
+              Accepting this request will allow
+              {window.FBID2Name[req.from]}
+              to see your schedule and the classes you’ve liked.
+        ~);
+
+        return (~
+          .share-request-box(key={req.id})
+            %FacebookUser(id={req.from} size=45 height=80 width=500 linesUnderneath={[accept]})
+        ~);
+      });
+      return (~
+        .
+          {requests}
+      ~);
+    }
+  })
+})();

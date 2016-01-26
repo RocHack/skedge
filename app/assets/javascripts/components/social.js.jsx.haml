@@ -1,5 +1,4 @@
 (function() {
-  var ReactUpdate = React.addons.update;
   var Button = ReactBootstrap.Button;
 
   window.Social = React.createClass({
@@ -115,15 +114,6 @@
       );
     },
 
-    sendRequest: function(friend) {
-      var self = this;
-      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function (data) {
-        self.setState({
-          requested: data.requested
-        });
-      });
-    },
-
     acceptRequest: function(req) {
       var self = this;
       $.post('fb_share_confirm', {sr_id:req.id}, function (data) {
@@ -131,6 +121,15 @@
         self.setState({
           requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
           shareUsers: data.shareUsers
+        });
+      });
+    },
+
+    sendRequest: function(friend) {
+      var self = this;
+      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function (data) {
+        self.setState({
+          requested: data.requested
         });
       });
     },
@@ -203,34 +202,28 @@
                                data-auto-logout-link="false")
       ~);
 
-      var requests = null;
       var others = null;
+      var requests = null;
+      var schedules = null;
 
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
-        if (this.state.requests && this.state.requests.length > 0) {
-          requests = this.state.requests.map(function (req, i) {
-            var accept = (~
-              .mini-btn(key="accept")
-                %Button(onClick={self.acceptRequest.bind(self, req)})
-                  Accept share request
-                .accept-info
-                  Accepting this request will allow
-                  {window.FBID2Name[req.from]}
-                  to see your schedule and the classes you’ve liked.
-            ~);
-            return (~
-              .share-request-box(key={req.id})
-                %FacebookUser(id={req.from} size=35 height=80 width=500 linesUnderneath={[accept]})
-            ~);
-          });
-        }
+        requests = (~
+          %SocialRequests(requests={this.state.requests} parent={this})
+        ~);
+
+        schedules = (~
+          %SocialSchedules(shareUsers={this.state.shareUsers}
+                           publicFriends={this.state.publicFriends}
+                           parent={self})
+        ~);
 
         var otherFriends = this.state.friends.filter(function (friend) {
           var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
           var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
           return !p && !s;
         });
+        
         if (otherFriends.length > 0) {
           var users = otherFriends.map(function(friend) {
             var haveRequest = self.state.requests.find(function (req) {
@@ -273,12 +266,6 @@
           ~);
         }
       }
-
-      var schedules = (~
-        %SocialSchedules(shareUsers={this.state.shareUsers}
-                         publicFriends={this.state.publicFriends}
-                         parent={self})
-      ~);
 
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {

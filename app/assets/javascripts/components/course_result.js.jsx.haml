@@ -22,6 +22,7 @@
         }
         this.setState({subcoursesOpened:opened});
       }
+      this.setState({like:nextProps.like});
     },
 
     componentDidMount: function() {
@@ -317,6 +318,9 @@
     like: function (event) {
       event.preventDefault();
       this.setState({like: !this.state.like});
+
+      $.post("fb_like", {id: this.props.course.id}, function (data) {
+      });
     },
 
     listFriends: function (friends) {

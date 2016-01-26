@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160116012657) do
+ActiveRecord::Schema.define(version: 20160126080427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,13 @@ ActiveRecord::Schema.define(version: 20160116012657) do
   create_table "instructors", force: :cascade do |t|
     t.string "name"
   end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "likes", ["course_id", "user_id"], name: "index_likes_on_course_id_and_user_id", using: :btree
 
   create_table "schedules", force: :cascade do |t|
     t.string  "rid"

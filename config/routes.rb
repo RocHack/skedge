@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post 'fb_register_user', to: 'facebook#register_user'
   post 'fb_change_privacy', to: 'facebook#change_privacy'
 
+  post 'fb_like', to: 'facebook#like'
+
   post 'fb_share_request', to: 'facebook#share_request'
   post 'fb_share_confirm', to: 'facebook#share_confirmation'
   post 'fb_unshare', to: 'facebook#unshare'

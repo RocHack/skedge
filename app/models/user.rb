@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_courses, through: :bookmarks, source: :course
 
+  has_many :likes, dependent: :destroy
+  has_many :liked_courses, through: :likes, source: :course
+
   belongs_to :last_schedule, class_name: "Schedule"
 
   has_and_belongs_to_many :share_users_forward,

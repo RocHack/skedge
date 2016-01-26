@@ -80,6 +80,21 @@ class FacebookController < ApplicationController
     head 200
   end
 
+  def like
+    # TODO: assert stuff?
+
+    user = current_user
+    course = Course.find(params[:id])
+    if user.liked_courses.include? course
+      user.liked_courses.delete course
+    else
+      user.liked_courses << course
+    end
+    user.save
+
+    head 200
+  end
+
   def register_user
     fb_id = params[:id]
 

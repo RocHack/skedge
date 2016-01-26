@@ -2,7 +2,7 @@
 {
   display: inline-block;
   height: 50px;
-  margin-left: 40px;
+  margin-left: 50px;
   padding-top: 5px;
 }
 
@@ -138,6 +138,12 @@ h3.social-heading
   color: gray;
   text-align: center;
   display: inline-block;
+}
+
+.social-splash > .fa-globe
+{
+  font-size: 50px;
+  margin-right: 10px;
 }
 
 .social-head

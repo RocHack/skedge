@@ -7,7 +7,8 @@
     getInitialState: function() {
       return {
         subcoursesOpened: {},
-        friendsTakingCourse: []
+        friendsTakingCourse: [],
+        friendsLikeCourse: []
       };
     },
 
@@ -313,6 +314,34 @@
       this.props.changeBookmark(this.props.course);
     },
 
+    listFriends: function (friends) {
+      if (friends.length == 0) {
+        return (~
+          .results-social-none
+            None
+        ~);
+      }
+
+      var self = this;
+      return friends.map(function (friend, idx) {
+        var yearTerm;
+        for (i = 0; i < friend.schedules.length; i++) {
+          var schedule = friend.schedules[i];
+          if (schedule.yrTerm == self.props.course.yrTerm) {
+            yearTerm = (~
+              %a.block-link(href={"/"+schedule.rid} key="yrterm")
+                {schedule.term}
+                {schedule.year}
+            ~);
+          }
+        }
+        return (~
+          .results-social-user(key={friend.fb_id+idx})
+            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
+        ~)
+      });
+    },
+
     render: function() {
       var self = this;
       var course = this.props.course;
@@ -383,32 +412,37 @@
         });
       }
 
-      var array = this.state.friendsTakingCourse;
-      var friendsList = array.map(function (friend, i) {
-        var yearTerm;
-        for (i = 0; i < friend.schedules.length; i++) {
-          var schedule = friend.schedules[i];
-          if (schedule.yrTerm == self.props.course.yrTerm) {
-            yearTerm = (~
-              %a.block-link(href={"/"+schedule.rid} key="yrterm")
-                {schedule.term}
-                {schedule.year}
-            ~);
-          }
-        }
-        return (~
-          .ftc-user(key={friend.fb_id})
-            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
-        ~)
-      });
+      var friendsTakingList = this.listFriends(this.state.friendsTakingCourse);
+      var friendsLikeList = this.listFriends(this.state.friendsLikeCourse);
 
-      var friends = this.state.friendsTakingCourse.length == 0 ? null : (~
-        .
-          .ftc-header
-            %i.fa.fa-globe.ftc-icon
+      var ftc = (~
+        .results-social-box
+          .results-social-box-header
+            %i.fa.fa-check-square-o.results-social-icon
             Friends taking this course:
           .
-            {friendsList}
+            {friendsTakingList}
+      ~);
+
+      var likes = (~
+        .results-social-box
+          .results-social-box-header
+            %i.fa.fa-thumbs-o-up.results-social-icon
+            Friends that like this course:
+          .
+            {friendsLikeList}
+      ~);
+
+      var friends = (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length == 0) ? null : (~
+        .results-social
+          .results-social-header
+            %i.fa.fa-globe.results-social-icon
+            skedge social
+          .row
+            .col-md-6
+              {ftc}
+            .col-md-6
+              {likes}
       ~);
 
       var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);

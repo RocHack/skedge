@@ -148,22 +148,46 @@ h3.social-heading
   margin-bottom: 10px;
 }
 
-.ftc-icon
+.results-social-header
+{
+  margin-top: 15px;
+  font-size: 30px;
+  font-family: 'Pontano Sans', sans-serif;
+  letter-spacing: -0.05em;
+  color: gray;
+}
+
+.results-social
+{
+  margin-left: 20px;
+}
+
+.results-social-box
+{
+  margin-left: 10px;
+}
+
+.results-social-box-header
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.results-social-icon
 {
   font-size: 20px;
   margin-right: 5px;
 }
 
-.ftc-header
-{
-  margin-top: 15px;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.ftc-user
+.results-social-user
 {
   margin-right: 30px;
   margin-bottom: 10px;
   display: inline-block;
+}
+
+.results-social-none
+{
+  margin-left: 30px;
 }

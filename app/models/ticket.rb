@@ -4,6 +4,7 @@ class Ticket < ActiveRecord::Base
     DataError = 2
     Question = 3
     Suggestion = 4
+    Social = 5
   end
 
   validates :comments, :feedback_type, presence: true

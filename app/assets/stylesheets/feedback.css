@@ -35,10 +35,7 @@ textarea
   resize:vertical;
 }
 
-.fa-bug,
-.fa-database,
-.fa-question,
-.fa-lightbulb-o {
+.feedback-icon {
   margin-right: 6px;
   font-size: 18px;
 }

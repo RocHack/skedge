@@ -72,20 +72,24 @@
               %ul.nav.nav-pills(role="tablist")
                 %li.active(role="presentation")
                   %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "bug")})
-                    %i.fa.fa-bug
+                    %i.fa.fa-bug.feedback-icon
                     Bug
                 %li(role="presentation")
                   %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "data")})
-                    %i.fa.fa-database
+                    %i.fa.fa-database.feedback-icon
                     Data Error
                 %li(role="presentation")
                   %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "question")})
-                    %i.fa.fa-question
+                    %i.fa.fa-question.feedback-icon
                     Question
                 %li(role="presentation")
                   %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "suggestion")})
-                    %i.fa.fa-lightbulb-o
+                    %i.fa.fa-lightbulb-o.feedback-icon
                     Suggestion
+                %li(role="presentation")
+                  %a(href="#" data-toggle="pill" onClick={this.selectFeedbackType.bind(this, "social")})
+                    %i.fa.fa-globe.feedback-icon
+                    Social
             %input.form-control.email-field(name="email" placeholder="Email (optional)")
             {dataErrorInfo}
             %textarea.form-control(name="comments" rows="3" placeholder="Comments")

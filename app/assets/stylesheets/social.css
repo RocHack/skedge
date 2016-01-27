@@ -66,6 +66,8 @@
   margin-right: 55px;
   margin-bottom: 20px;
   margin-top: 10px;
+
+  min-height: 450px;
 }
 
 .mini-schedule
@@ -286,6 +288,12 @@ li.margin-tab
   margin-top: 6px;
 }
 
+.mini-yrterm
+{
+  float: left;
+  margin-top: 5px;
+}
+
 .mini-controls
 {
   margin-top: 5px;
@@ -310,5 +318,6 @@ li.margin-tab
 
 .mini-course-list
 {
+  display: table; /* works, dont ask why */
   margin-left: 10px;
 }

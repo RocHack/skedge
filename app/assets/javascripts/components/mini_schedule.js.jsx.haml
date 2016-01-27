@@ -47,11 +47,20 @@
 
       var toggle;
       if (this.state.showingSchedule) {
-        toggle = this.props.user.likes.length == 0 ? null : (~
-          %a.block-link.social-toggle-likes-schedule(href="#" onClick={this.toggleLikesSchedule} key="toggle")
-            %i.fa.fa-thumbs-up.social-toggle-icon
-            See liked courses
-        ~);
+        if (this.props.user.likes.length > 0) {
+          toggle = (~
+            %a.block-link.social-toggle-likes-schedule(href="#" onClick={this.toggleLikesSchedule} key="toggle")
+              %i.fa.fa-thumbs-up.social-toggle-icon
+              See {this.props.user.likes.length} liked course{this.props.user.likes.length == 1 ? "" : "s"}
+          ~);
+        }
+        else {
+          toggle = (~
+            %a.block-link.mini-yrterm(href={"/"+schedule.rid} key="yrterm")
+              {schedule.term}
+              {schedule.year}
+          ~);
+        }
       }
       else {
         toggle = (~
@@ -72,9 +81,9 @@
         ~);
       }
       else {
-        var list = this.props.user.likes.map(function(course) {
+        var list = this.props.user.likes.map(function(course,i) {
           return (~
-            %li(key={course.id})
+            %li(key={course.id+""+i})
               %a(href={"/?q="+course.dept+course.num})
                 {course.dept}
                 {course.num}

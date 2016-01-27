@@ -8,15 +8,30 @@
       if (this.props.width) {
         style.width = this.props.width;
       }
+      if (this.props.maxWidth) {
+        style.maxWidth = this.props.maxWidth;
+      }
       if (this.props.height) {
         style.height = this.props.height;
+      }
+
+      var nameStyle = {display:"inline-block"};
+
+      if (this.props.nameWidth) {
+        nameStyle.maxWidth = this.props.nameWidth;
+        nameStyle.display = "block";
+      }
+
+      if (this.props.nameSize) {
+        nameStyle.fontSize = this.props.nameSize+"px";
       }
 
       return (~
         .facebook-user(style={style})
           %a(href={"http://facebook.com/"+this.props.id})
             %img.fbimg(src={imgURL})
-            {name}
+            .(style={nameStyle})
+              {name}
           {this.props.linesUnderneath}
       ~);
     }

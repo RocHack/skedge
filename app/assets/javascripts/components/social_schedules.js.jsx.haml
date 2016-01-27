@@ -21,8 +21,8 @@
           return (~
             %MiniSchedule(key={user.fb_id+i}
                           user={user}
-                          thirdLineFunc={self.unshare.bind(self, user.fb_id)}
-                          thirdLineTitle="Stop sharing schedules"
+                          sharing={true}
+                          unshareFunc={self.unshare.bind(self, user.fb_id)}
                           userSchedule={self.props.userSchedule})
           ~);
         });
@@ -33,6 +33,7 @@
           return (~ 
             %MiniSchedule(key={user.fb_id}
                           user={user}
+                          sharing={false}
                           userSchedule={self.props.userSchedule}
                           thirdLineTitle="Shared with all friends")
           ~);

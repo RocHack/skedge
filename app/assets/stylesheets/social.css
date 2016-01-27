@@ -81,7 +81,12 @@
 
 .mini-compare
 {
-  margin-top: 0px;
+  margin-left: 5px;
+}
+
+.social-toggle-icon
+{
+  margin-right: 5px;
 }
 
 .fbimg
@@ -272,4 +277,38 @@ li.margin-tab
 {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.social-toggle-likes-schedule
+{
+  float: left;
+  font-size: 15px;
+  margin-top: 6px;
+}
+
+.mini-controls
+{
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+
+.social-unshare
+{
+  color: gray;
+}
+
+.social-unshare > .fa
+{
+  margin-right: 4px;
+}
+
+.mini-course-list-header
+{
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.mini-course-list
+{
+  margin-left: 10px;
 }

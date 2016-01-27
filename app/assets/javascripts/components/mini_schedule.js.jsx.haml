@@ -3,7 +3,8 @@
   window.MiniSchedule = React.createClass({
     getInitialState: function() {
       return {
-        overlay: false
+        overlay: false,
+        showingSchedule: true
       };
     },
 
@@ -19,33 +20,84 @@
       this.refs.schedule.toggleOverlayUserSchedule();
     },
 
+    toggleLikesSchedule: function (event) {
+      this.setState({showingSchedule: !this.state.showingSchedule});
+      event.preventDefault();
+    },
+
     render: function() {
       var schedule = this.props.user.schedules[0]; //TODO
 
-      var thirdLine = !this.props.thirdLineTitle ? null : (~
-        %small(key="third")
-          {this.props.thirdLineTitle}
-      ~);
-      if (this.props.thirdLineFunc) {
-        thirdLine = (~
-          %a.block-link(href="#" onClick={this.props.thirdLineFunc} key="button")
-            {thirdLine}
+      var under;
+
+      if (this.props.sharing) {
+        under = (~
+          %a.block-link(href="#" onClick={this.props.unshareFunc} key="button")
+            %small.social-unshare
+              %i.fa.fa-times
+              Stop sharing schedules
+        ~);
+      }
+      else {
+        under = (~
+          %small(key="third")
+            Shared with all friends
         ~);
       }
 
-      var likes = (~
-        %a.block-link(href="#" key="likes")
-          See Likes
-      ~);
-      var compare = (~
+      var toggle;
+      if (this.state.showingSchedule) {
+        toggle = this.props.user.likes.length == 0 ? null : (~
+          %a.block-link.social-toggle-likes-schedule(href="#" onClick={this.toggleLikesSchedule} key="toggle")
+            %i.fa.fa-thumbs-up.social-toggle-icon
+            See liked courses
+        ~);
+      }
+      else {
+        toggle = (~
+          %a.block-link.social-toggle-likes-schedule(href="#" onClick={this.toggleLikesSchedule} key="toggle")
+            %i.fa.fa-calendar.social-toggle-icon
+            See schedule
+        ~);
+      }
+
+      var compare = !this.state.showingSchedule ? null : (~
         %Button.mini-compare.mini-btn(onClick={this.overlay} key="compare") Compare schedules
       ~);
+
+      var contents;
+      if (this.state.showingSchedule) {
+        contents = (~
+          %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")
+        ~);
+      }
+      else {
+        var list = this.props.user.likes.map(function(course) {
+          return (~
+            %li(key={course.id})
+              %a(href={"/?q="+course.dept+course.num})
+                {course.dept}
+                {course.num}
+          ~);
+        });
+          
+        contents = (~
+          .mini-course-list
+            .mini-course-list-header Courses liked
+            %ul.class-list
+              {list}
+        ~);
+      }
+
       return (~
         .friend-box
           .row
-            %FacebookUser(id={this.props.user.fb_id} linesUnderneath={[compare, likes, thirdLine]} size=60 width=350)
+            %FacebookUser(id={this.props.user.fb_id} linesUnderneath={[under]} size=60 width=350 nameSize=16)
+          .row.mini-controls
+            {toggle}
+            {compare}
           .row
-            %Schedule(schedule={schedule} mini={true} userSchedule={this.props.userSchedule} ref="schedule")            
+            {contents}
       ~);
     }
   });

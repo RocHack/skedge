@@ -222,7 +222,8 @@
         otherFriends = this.state.friends.filter(function (friend) {
           var r = self.state.requests && self.state.requests.some(function (req) { return req.from == friend.id; });
           var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
-          return !r && !s;
+          var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
+          return !r && !s && (!p || self.state.privacy == 1);
         });
 
         others = (~

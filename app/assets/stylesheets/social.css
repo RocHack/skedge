@@ -179,6 +179,11 @@
   display: block;
 }
 
+.social-request-sent
+{
+  width: 200px;
+}
+
 .badge.badge-notifications
 {
   background:red;

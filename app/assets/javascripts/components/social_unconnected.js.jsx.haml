@@ -33,7 +33,7 @@
         var request;
         if (alreadyRequested) {
           request = (~
-            .mini-btn(key="sent")
+            .social-request-sent.mini-btn(key="sent")
               %i.fa.fa-envelope
               Request sent
           ~);
@@ -49,13 +49,16 @@
         if (isPublic) {
           publicText = (~
             .unconnected-public-text
-              %small (Already sharing with all their friends)
+              %small
+                (Already sharing with all their friends, but you can
+                %br
+                send a request to share your schedule with them)
           ~);
         }
 
         return (~
           .(key={friend.id+i})
-            %FacebookUser(id={friend.id} size=45 height=80 width=450 linesUnderneath={[request, publicText]})
+            %FacebookUser(id={friend.id} size=45 height=80 width=600 linesUnderneath={[request, publicText]})
         ~);
       });
 

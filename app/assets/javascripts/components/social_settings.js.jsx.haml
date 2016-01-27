@@ -2,14 +2,8 @@
   var Button = ReactBootstrap.Button;
 
   window.SocialSettings = React.createClass({
-    getInitialState: function() {
-      return {
-        privacy: this.props.privacy
-      };
-    },
-
     changePrivacy: function (option) {
-      this.setState({privacy: option});
+      this.props.parent.setState({privacy: option});
 
       var self = this;
       $.post("fb_change_privacy", {option: option}, function (data) {
@@ -33,22 +27,24 @@
 
       var liked = (list.length == 0) ? null : (~
         .
-          .social-settings-header Courses liked
+          .social-settings-header Courses I’ve liked
           %ul.class-list
             {list}
       ~);
+
+      var privacy = this.props.parent.state.privacy;
 
       return (~
         .
           .social-settings-header Privacy settings:
           .radio
             %label
-              %input(type="radio" name="privacy" checked={this.state.privacy == 0} onChange={this.changePrivacy.bind(this, 0)})
+              %input(type="radio" name="privacy" checked={privacy == 0} onChange={this.changePrivacy.bind(this, 0)})
                 Share my schedule and likes with all my friends
                 ({this.props.numPublic} friend{this.props.numPublic == 1 ? "" : "s"})
           .radio
             %label
-              %input(type="radio" name="privacy" checked={this.state.privacy == 1} onChange={this.changePrivacy.bind(this, 1)})
+              %input(type="radio" name="privacy" checked={privacy == 1} onChange={this.changePrivacy.bind(this, 1)})
                 Share my schedule and likes only with friends I approve
                 ({this.props.numPrivate} friend{this.props.numPrivate == 1 ? "" : "s"})
           #saved(hidden={true}) Saved.

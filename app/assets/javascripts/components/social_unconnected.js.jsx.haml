@@ -48,7 +48,7 @@
         var publicText;
         if (isPublic) {
           publicText = (~
-            .unconnected-public-text
+            .unconnected-public-text(key="publictext")
               %small
                 (Already sharing with all their friends, but you can
                 %br
@@ -56,9 +56,11 @@
           ~);
         }
 
+        var width = isPublic ? 550 : 400;
+
         return (~
           .(key={friend.id+i})
-            %FacebookUser(id={friend.id} size=45 height=80 width=600 linesUnderneath={[request, publicText]})
+            %FacebookUser(id={friend.id} size=45 height=80 width={width} linesUnderneath={[request, publicText]})
         ~);
       });
 

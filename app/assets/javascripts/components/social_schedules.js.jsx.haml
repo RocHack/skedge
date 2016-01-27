@@ -9,7 +9,21 @@
       });
     },
 
+    switchToNonSharing: function () {
+      this.props.parent.navState(2);
+    },
+
     render: function() {
+      if (this.props.noFriends) {
+        return (~
+          .social-none
+            %p
+              You have no friends using Skedge!
+            %p
+              Share your schedule and spread the word!
+        ~);
+      }
+
       var self = this;
 
       var shares = null;
@@ -42,7 +56,13 @@
       if (!shares && !publics) {
         return (~
           .social-none
-            No friends are sharing their schedules.
+            %p
+              No friends are sharing their schedules.
+            %p
+              %a(href="#2" onClick={this.switchToNonSharing})
+                You might need to request some of your friends to see their schedules,
+              %br
+              or spread the word about Skedge!
         ~);
       }
 

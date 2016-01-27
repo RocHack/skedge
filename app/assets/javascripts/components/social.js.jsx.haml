@@ -191,8 +191,16 @@
 
       // NOW, for content
 
-      var otherFriends = [];
-      var publicFriends = null;
+      var otherFriends = !this.state.fb_id || !window.FBID2Name ? [] : this.state.friends.filter(function (friend) {
+        var r = self.state.requests && self.state.requests.some(function (req) { return req.from == friend.id; });
+        var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
+        var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
+        return !r && !s && (!p || self.state.privacy == 1);
+      });
+
+      var publicFriends = !this.state.publicFriends ? [] : this.state.publicFriends.filter(function (friend) {
+        return self.state.shareUsers && !self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
+      });
 
       var others = null;
       var requests = null;
@@ -202,29 +210,42 @@
 
       var loading = null;
 
+      var totalCount = this.state.requests ?
+                         (this.state.shareUsers.length +
+                          this.state.publicFriends.length +
+                          this.state.requests.length +
+                          otherFriends.length) :
+                         -1;
+
+      var hasNoFriends = (this.state.fb_id && window.FBID2Name && totalCount == 0);
+      var noOneSharing = (!this.props.shareUsers || this.props.shareUsers.length == 0) &&
+                         (publicFriends.length == 0);
+      var showShare = this.state.checkedLoginState && this.state.nav == 0 && (hasNoFriends || noOneSharing) ?
+                      null :
+                      {display:"none"};
+      var scheduleURL = "http://skedgeur.com/";
+      if (this.state.store.schedule) {
+        scheduleURL += this.state.store.schedule.rid;
+      }
+      var shareButton = (~
+        .social-none(style={showShare})
+          %p
+            .fb-share-button(data-href={scheduleURL} data-layout="button")
+      ~);
+
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
-        publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
-          return self.state.shareUsers && !self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.fb_id; });
-        });
-
         schedules = (~
           %SocialSchedules(shareUsers={this.state.shareUsers}
                            publicFriends={publicFriends}
                            userSchedule={self.state.store.schedule}
-                           parent={self})
+                           parent={self}
+                           noFriends={hasNoFriends})
         ~);
 
         requests = (~
           %SocialRequests(requests={this.state.requests} parent={this})
         ~);
-
-        otherFriends = this.state.friends.filter(function (friend) {
-          var r = self.state.requests && self.state.requests.some(function (req) { return req.from == friend.id; });
-          var s = self.state.shareUsers && self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
-          var p = self.state.publicFriends && self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
-          return !r && !s && (!p || self.state.privacy == 1);
-        });
 
         others = (~
           %SocialUnconnected(otherFriends={otherFriends}
@@ -234,10 +255,10 @@
         ~);
 
         settings = (~
-          %SocialSettings(privacy={this.state.privacy}
-                          coursesLiked={this.state.store.likes}
+          %SocialSettings(coursesLiked={this.state.store.likes}
                           numPrivate={this.state.shareUsers.length}
-                          numPublic={this.state.friends.length})
+                          numPublic={this.state.friends.length}
+                          parent={this})
         ~);
 
         trends = (~
@@ -253,28 +274,6 @@
         ~);
       }
 
-      var totalCount = this.state.requests ?
-                         (this.state.shareUsers.length +
-                          this.state.publicFriends.length +
-                          this.state.requests.length +
-                          otherFriends.length) :
-                         -1;
-      var hideNoFriends = (this.state.nav == 0 && this.state.fb_id && window.FBID2Name && totalCount == 0) ? null : {display:"none"};
-      schedules = hideNoFriends ? schedules : null;
-      var scheduleURL = "http://skedgeur.com/";
-      if (this.state.store.schedule) {
-        scheduleURL += this.state.store.schedule.rid;
-      }
-      var noFriends = (~
-        .social-none(style={hideNoFriends})
-          %p
-            You have no friends using Skedge!
-          %p
-            Share your schedule and spread the word!
-          %p
-            .fb-share-button(data-href={scheduleURL} data-layout="button")
-      ~);
-
       var numRequests = this.state.requests ? (this.state.requests.length == 0 ? null : this.state.requests.length) : null;
       var requestsTab = (~
         .
@@ -283,8 +282,11 @@
             {numRequests}
       ~);
 
-      var numUnconnected = (this.state.requested && publicFriends) ? 
-                            otherFriends.length - publicFriends.length - this.state.requested.length : 0;
+      var numUnconnected = (this.state.requested) ? 
+                            otherFriends.length - this.state.requested.length : 0;
+      if (publicFriends && this.state.privacy == 1) {
+        numUnconnected -= publicFriends.length;
+      }
       numUnconnected = (numUnconnected > 0) ? numUnconnected : null;
       var unconnectedTab = (~
         .
@@ -323,7 +325,7 @@
           {loginButton}
 
           {contents}
-          {noFriends}
+          {shareButton}
       ~);
     }
   })

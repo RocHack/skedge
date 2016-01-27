@@ -40,7 +40,7 @@
       }
       else {
         under = (~
-          %small.block-link(key="third")
+          %small.social-unshare.block-link(key="third")
             Schedule shared with all friends
         ~);
       }
@@ -57,8 +57,7 @@
         else {
           toggle = (~
             %a.block-link.mini-yrterm(href={"/"+schedule.rid} key="yrterm")
-              {schedule.term}
-              {schedule.year}
+              {schedule.term + " " + schedule.year}
           ~);
         }
       }

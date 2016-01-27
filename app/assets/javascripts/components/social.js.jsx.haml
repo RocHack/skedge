@@ -200,6 +200,8 @@
       var settings = null;
       var trends = null;
 
+      var loading = null;
+
       if (this.state.fb_id && window.FBID2Name) //has friends downloaded
       {
         publicFriends = !this.state.publicFriends ? null : this.state.publicFriends.filter(function (friend) {
@@ -239,6 +241,14 @@
 
         trends = (~
           %SocialTrends
+        ~);
+      }
+      else if (!this.state.checkedLoginState)
+      {
+        loading = (~
+          .social-loading
+            %i.fa.fa-spinner.fa-spin
+            Loading...
         ~);
       }
 
@@ -308,6 +318,7 @@
               skedge social
             {myself}
           
+          {loading}
           {loginButton}
 
           {contents}

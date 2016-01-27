@@ -20,13 +20,75 @@
 
 .social-login
 {
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: 16px;
 }
 
-.social-login-text
+.social-login-sign-up
 {
-  font-size: 18px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.social-login-icon
+{
+  margin-left: 3px;
+  margin-right: 3px;
+  font-size: 26px;
+}
+
+.fa-refresh.social-login-icon
+{
+  font-size: 15px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+}
+
+.social-login-never-text
+{
+  margin-top: 50px;
+}
+
+.social-login-never-list
+{
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.social-login-text-features
+{
+  padding-left: 0px;
+  list-style: none;
+  text-align: center;
+  font-size: 16px;
+}
+
+.fa-arrow-right
+{
+  margin-left: 10px;
+}
+
+.social-login-text-features > li
+{
+  margin-bottom: 20px;
+}
+
+.fa-calendar-check-o.social-login-icon,
+.fa-check-square-o.social-login-icon,
+.fa-thumbs-o-up.social-login-icon,
+.fa-rss.social-login-icon
+{
+  font-size: 23px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.social-login-text-features-header
+{
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-size: 20px;
 }
 
 .social-none
@@ -50,7 +112,7 @@
 
 .login
 {
-  margin-bottom: 50px;
+  margin-bottom: 80px;
 }
 
 .logout.fb-login-button

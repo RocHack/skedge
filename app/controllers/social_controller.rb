@@ -3,6 +3,7 @@ class SocialController < ApplicationController
 
   def index
     @social_visible = true
+    @social_state = reactify_social(current_user)
   end
 
   def share_request
@@ -114,22 +115,23 @@ class SocialController < ApplicationController
       end
     end
 
-    render json:{status:200,
-                 schedules:reactify_schedules(user.schedules),
-                 userSecret:user.secret,
-                 defaultSchedule:user.last_schedule.try(:yr_term),
-                 shareUsers:reactify_users(user.share_users),
-                 requests:reactify_requests(user.share_requests),
-                 requested:reactify_requests(user.sent_share_requests),
-                 privacy:user.public_sharing ? 0 : 1}
+    render json:{status: 200,
+                 social: reactify_social(user),
+                 user: {
+                  schedules:reactify_schedules(user.schedules),
+                   userSecret:user.secret,
+                   defaultSchedule:user.last_schedule.try(:yr_term)
+                  }
+                }
   end
 
-  def sharing_users(friends, user=nil)
+  def sharing_users(friends, user, include_private=true)
     return [] if !friends
     friends.map do |i, friend|
       u = User.find_by(fb_id: friend["id"])
-      private_sharing = user && user.share_users.include?(u)
-      if u.public_sharing || private_sharing
+      private_sharing = user.share_users.include?(u)
+      if ((u.public_sharing && (include_private || !private_sharing)) || #mutex
+          (include_private && private_sharing))
         u
       else
         nil
@@ -138,7 +140,8 @@ class SocialController < ApplicationController
   end
 
   def get_public_sharing_friends
-    friends = sharing_users(params[:friends])
+    user = current_user
+    friends = sharing_users(params[:friends], user, false) #don't get privately sharing
     render json:{friends:reactify_users(friends)}
   end
 

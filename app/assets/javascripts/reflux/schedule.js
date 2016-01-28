@@ -10,7 +10,6 @@
     'getConflicts',
     'loadBookmarks',
     'changeBookmark',
-    'loadLikes',
     'loadUser'
   ]);
 

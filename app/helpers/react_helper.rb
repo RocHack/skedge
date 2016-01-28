@@ -123,4 +123,14 @@ module ReactHelper
       }
     end if users
   end
+
+  def reactify_social(user)
+    {
+      shareUsers: reactify_users(user.share_users),
+      requests: reactify_requests(user.share_requests),
+      requested: reactify_requests(user.sent_share_requests),
+      privacy: user.public_sharing ? 0 : 1,
+      likes: reactify_courses(user.liked_courses)
+    }
+  end
 end

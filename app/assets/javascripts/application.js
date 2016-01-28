@@ -35,7 +35,8 @@ mobilecheck = function() {
   return check;
 };
 
-toggleMobileSchedule = function(){
+toggleMobileSchedule = function(event) {
+  event.preventDefault();
   if (document.cookie.indexOf("s_id") > -1) {
     $('.sk-fixed').toggle();
     $('.page-content').toggle();
@@ -62,8 +63,7 @@ $(document).ready(function(){
   if (document.getElementById('schedule-btn')) {
     document.getElementById('schedule-btn').addEventListener("click", function (event) {
       if (document.activeElement.id != "search-bar") {
-        event.preventDefault();
-        toggleMobileSchedule();
+        toggleMobileSchedule(event);
       }
     });
   }

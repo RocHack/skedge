@@ -36,6 +36,7 @@
   margin-right: 3px;
   font-size: 26px;
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 .fa-refresh.social-login-icon
@@ -83,7 +84,7 @@
 
 .social-login-text-features-header
 {
-  margin-bottom: 35px;
+  margin-bottom: 15px;
   font-weight: 500;
   font-size: 18px;
   margin-left: 50px;
@@ -110,7 +111,7 @@
 
 .login-button-container
 {
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   margin-left: 100px;
   text-align: center;
 }

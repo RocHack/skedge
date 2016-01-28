@@ -6,8 +6,9 @@
       };
     },
 
-    showFootnote: function () {
+    showFootnote: function (event) {
       this.setState({showFootnote: true});
+      event.preventDefault();
     },
 
     render: function() {

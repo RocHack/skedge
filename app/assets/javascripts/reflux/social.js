@@ -16,7 +16,8 @@
 
     getInitialState: function() {
       this.state = {
-        checkedLoginState: false,
+        ready: false,
+        loggedIn: false,
         fb_id: null,
 
         requests: [],
@@ -95,17 +96,24 @@
             }
           );
 
-          $.post("social/register_user", {"id":id}, function (response) {
-            SKScheduleAction.loadUser(response.user);
-            self.load(response.social);
-          });
-
-          self.state.fb_id = id;
+          //signing in under different FB account than we thought, or is first time
+          if (self.state.fb_id != id)
+          {
+            self.state.fb_id = id;
+            $.post("social/register_user", {"id":id}, function (response) {
+              SKScheduleAction.loadUser(response.user);
+              self.load(response.social);
+            });
+          }
+          self.state.loggedIn = true;
+          self.trigger(self.state);
 
           self.getFriendsList();
         }
         else {
-          self.state.fb_id = null;
+          self.state.loggedIn = false;
+          self.state.ready = true;
+          self.trigger(self.state);
 
           if (response.status == 'not_authorized') {
           //The person is logged into Facebook, but has not logged into your app.
@@ -114,8 +122,6 @@
             //The person is not logged into Facebook, so you don't know if they've logged into your app
           }
         } 
-        self.state.checkedLoginState = true;
-        self.trigger(self.state);
       });
     },
 
@@ -125,14 +131,12 @@
         function (response)
         {
           if (response && !response.error) {
-            self.state.friends = response.data;
-
             for (var i = 0; i < response.data.length; i++) {
               var user = response.data[i];
               self.state.friendNames[user.id] = user.name;
             }
 
-            self.load({});
+            self.load({friends: response.data, ready: true});
 
             var event = new CustomEvent("gotFriendsList");
             document.dispatchEvent(event);
@@ -151,6 +155,7 @@
         var index = self.state.requests.indexOf(req);
         self.load({
           requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
+          publicFriends: data.publicFriends,
           shareUsers: data.shareUsers
         });
       });

@@ -13,9 +13,8 @@
     render: function() {
       var self = this;
 
-      var style = this.props.hide ? {display:"none"} : null;
       return (~
-        .social-login(style={style})
+        .social-login(hidden={this.props.hide})
           .row
             .login-button-container
               .fb-login-button(data-max-rows="1"

@@ -127,6 +127,7 @@ module ReactHelper
 
   def reactify_social(user)
     {
+      fb_id: user.fb_id,
       shareUsers: reactify_users(user.share_users),
       requests: reactify_requests(user.share_requests),
       requested: reactify_requests(user.sent_share_requests),

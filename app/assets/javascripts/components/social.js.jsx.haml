@@ -38,7 +38,7 @@
       // needs to be present when the FB API call is made to work, so we can't just add it in later
       // once it's needed, need to have it but hide it
       var loginButton = (~
-        %SocialLogin(hide={(!social.checkedLoginState || social.fb_id)})
+        %SocialLogin(hide={(!social.ready || social.loggedIn)})
       ~);
 
       // again, same thing
@@ -52,10 +52,9 @@
                          key="logout")
       ~);
 
-      var showMyself = (social.fb_id && social.friendNames[social.fb_id])
-                        ? null : {display:"none"};
+      var showMyself = (social.fb_id && social.friendNames[social.fb_id]);
       var myself = (~
-        .fb-myself(style={showMyself})
+        .fb-myself(hidden={!showMyself})
           %FacebookUser(id={social.fb_id} linesUnderneath={[logout]})
       ~);
 
@@ -76,20 +75,18 @@
       var hasNoFriends = (social.fb_id && totalCount == 0);
       var noOneSharing = (!social.shareUsers || social.shareUsers.length == 0) &&
                          (social.publicFriends.length == 0);
-      var showShare = social.fb_id && this.state.nav == 0 && (hasNoFriends || noOneSharing) ?
-                      null :
-                      {display:"none"};
+      var showShare = social.loggedIn && this.state.nav == 0 && (hasNoFriends || noOneSharing);
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {
         scheduleURL += this.state.store.schedule.rid;
       }
       var shareButton = (~
-        .social-none(style={showShare})
+        .social-none(hidden={!showShare})
           %p
             .fb-share-button(data-href={scheduleURL} data-layout="button")
       ~);
 
-      if (social.fb_id) //has friends downloaded
+      if (social.ready)
       {
         schedules = (~
           %SocialSchedules(shareUsers={social.shareUsers}
@@ -121,7 +118,7 @@
           %SocialTrends
         ~);
       }
-      else if (!social.checkedLoginState)
+      else
       {
         loading = (~
           .social-loading
@@ -156,7 +153,7 @@
           Schedules &amp; Likes
       ~);
 
-      var contents = !social.fb_id ? null : (~
+      var contents = (!social.loggedIn || !social.ready) ? null : (~
         .
           %ul.nav.nav-tabs
             {this.renderNavTab(0, schedulesTab, "margin-tab")}

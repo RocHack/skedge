@@ -28,7 +28,7 @@
     componentDidMount: function() {
       var self = this;
       document.addEventListener("gotFriendsList", function (event) {
-        $.get('fb_courses', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
+        $.get('social/courses', {friends: window.FBFriends, course_id:self.props.course.id}, function (data) {
           self.setState({
             friendsTakingCourse: data.taking,
             friendsLikeCourse: data.like,
@@ -328,7 +328,7 @@
       event.preventDefault();
       this.setState({like: !this.state.like});
 
-      $.post("fb_like", {id: this.props.course.id}, function (data) {
+      $.post("social/like", {id: this.props.course.id}, function (data) {
       });
     },
 

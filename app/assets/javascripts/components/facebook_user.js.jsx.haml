@@ -15,7 +15,7 @@
         style.height = this.props.height;
       }
 
-      var nameStyle = {display:"inline-block"};
+      var nameStyle = {};
 
       if (this.props.nameWidth) {
         nameStyle.maxWidth = this.props.nameWidth;
@@ -30,7 +30,7 @@
         .facebook-user(style={style})
           %a(href={"http://facebook.com/"+this.props.id})
             %img.fbimg(src={imgURL})
-            .(style={nameStyle})
+            %span(style={nameStyle})
               {name}
           {this.props.linesUnderneath}
       ~);

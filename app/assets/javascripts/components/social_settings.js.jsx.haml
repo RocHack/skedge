@@ -6,7 +6,7 @@
       this.props.parent.setState({privacy: option});
 
       var self = this;
-      $.post("fb_change_privacy", {option: option}, function (data) {
+      $.post("social/change_privacy", {option: option}, function (data) {
         $('#saved').attr('hidden', false);
         $('#saved').show();
         $('#saved').delay(750).fadeOut(500);

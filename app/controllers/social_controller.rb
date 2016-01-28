@@ -1,8 +1,8 @@
-class FacebookController < ApplicationController
+class SocialController < ApplicationController
   layout 'main'
 
   def index
-    @facebook_visible = true
+    @social_visible = true
   end
 
   def share_request

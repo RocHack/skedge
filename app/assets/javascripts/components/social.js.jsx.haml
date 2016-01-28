@@ -62,7 +62,7 @@
             }
           );
 
-          $.post("fb_register_user", {"id":id}, function (response) {
+          $.post("social/register_user", {"id":id}, function (response) {
             SKScheduleAction.loadUser(response);
             self.setState({
               requests: response.requests,
@@ -110,7 +110,7 @@
             var event = new CustomEvent("gotFriendsList");
             document.dispatchEvent(event);
 
-            $.get('fb_get_public_sharing_friends', {friends: response.data}, function (resp) {
+            $.get('social/get_public_sharing_friends', {friends: response.data}, function (resp) {
               self.setState({publicFriends: resp.friends});
             })
           }
@@ -120,7 +120,7 @@
 
     acceptRequest: function(req) {
       var self = this;
-      $.post('fb_share_confirm', {sr_id:req.id}, function (data) {
+      $.post('social/share_confirm', {sr_id:req.id}, function (data) {
         var index = self.state.requests.indexOf(req);
         self.setState({
           requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
@@ -131,7 +131,7 @@
 
     sendRequest: function(friend) {
       var self = this;
-      $.post("fb_share_request", {a:this.state.fb_id, b: friend.id}, function (data) {
+      $.post("social/share_request", {a:this.state.fb_id, b: friend.id}, function (data) {
         self.setState({
           requested: data.requested
         });
@@ -140,7 +140,7 @@
 
     unshare: function(friend_id) {
       var self = this;
-      $.post("fb_unshare", {nonfriend: friend_id}, function (data) {
+      $.post("social/unshare", {nonfriend: friend_id}, function (data) {
         self.setState({shareUsers: data.shareUsers});
       });
     },
@@ -218,9 +218,9 @@
                          -1;
 
       var hasNoFriends = (this.state.fb_id && window.FBID2Name && totalCount == 0);
-      var noOneSharing = (!this.props.shareUsers || this.props.shareUsers.length == 0) &&
+      var noOneSharing = (!this.state.shareUsers || this.state.shareUsers.length == 0) &&
                          (publicFriends.length == 0);
-      var showShare = this.state.checkedLoginState && this.state.nav == 0 && (hasNoFriends || noOneSharing) ?
+      var showShare = this.state.fb_id && this.state.nav == 0 && (hasNoFriends || noOneSharing) ?
                       null :
                       {display:"none"};
       var scheduleURL = "http://skedgeur.com/";

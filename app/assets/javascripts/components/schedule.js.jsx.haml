@@ -238,6 +238,15 @@
               }
             }
 
+            if (self.props.mini) {
+              if (self.state.comparingSchedule && (conflicts == null || conflicts.length > 0)) {
+                style.fontSize = "10px";
+              }
+              else {
+                style.fontSize = "13px";
+              }
+            }
+
             var href = "/?q="+section.course.dept+"+"+section.course.num+"+"+section.course.term.toLowerCase()+"+"+section.course.year;
 
             var overlay = self.overlayAndPlacement(section, bigNotMobile);

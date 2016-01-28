@@ -80,7 +80,7 @@ table.courses
 .s-block-type
 {
   text-transform:uppercase;
-  font-size: 13px;
+  font-size: 0.9em;
   display: inline-block;
 }
 
@@ -169,12 +169,6 @@ a.s-block:hover
 .s-big > .s-block-p > .s-block-type
 {
   display: inline;
-}
-
-.s-mini > .s-block-p > .s-block-dept,
-.s-mini > .s-block-p > .s-block-cnum
-{
-  font-size: 14px;
 }
 
 .s-mini > .s-block-p

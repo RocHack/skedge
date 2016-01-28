@@ -4,7 +4,7 @@
   window.SocialSchedules = React.createClass({
     unshare: function(friend_id) {
       var self = this;
-      $.post("fb_unshare", {nonfriend: friend_id}, function (data) {
+      $.post("social/unshare", {nonfriend: friend_id}, function (data) {
         self.props.parent.setState({shareUsers: data.shareUsers});
       });
     },
@@ -60,9 +60,9 @@
               No friends are sharing their schedules.
             %p
               %a(href="#2" onClick={this.switchToNonSharing})
-                You might need to request some of your friends to see their schedules,
+                You might need to send a request to some of your friends to share,
               %br
-              or spread the word about Skedge!
+              or share your schedule on Facebook and spread the word about Skedge!
         ~);
       }
 

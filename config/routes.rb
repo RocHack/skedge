@@ -7,21 +7,21 @@ Rails.application.routes.draw do
   post 'change_last_schedule', to: 'schedules#change_last_schedule'
   post 'create_ticket', to: 'tickets#create'
   
-  # Facebook
+  # Social
 
-  get 'social', to: 'facebook#index'
+  get 'social', to: 'social#index'
 
-  post 'fb_register_user', to: 'facebook#register_user'
-  post 'fb_change_privacy', to: 'facebook#change_privacy'
+  post 'social/register_user', to: 'social#register_user'
+  post 'social/change_privacy', to: 'social#change_privacy'
 
-  post 'fb_like', to: 'facebook#like'
+  post 'social/like', to: 'social#like'
 
-  post 'fb_share_request', to: 'facebook#share_request'
-  post 'fb_share_confirm', to: 'facebook#share_confirmation'
-  post 'fb_unshare', to: 'facebook#unshare'
+  post 'social/share_request', to: 'social#share_request'
+  post 'social/share_confirm', to: 'social#share_confirmation'
+  post 'social/unshare', to: 'social#unshare'
 
-  get 'fb_get_public_sharing_friends', to: 'facebook#get_public_sharing_friends'
-  get 'fb_courses', to: 'facebook#courses'
+  get 'social/get_public_sharing_friends', to: 'social#get_public_sharing_friends'
+  get 'social/courses', to: 'social#courses'
 
   # Schedules
 

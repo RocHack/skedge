@@ -23,6 +23,7 @@
         requested: [],
 
         friends: [],
+        friendNames: {},
         shareUsers: [],
         publicFriends: [],
         otherFriends: [],
@@ -30,6 +31,8 @@
         likes: [],
         privacy: null
       };
+
+      window.SKSocialStoreSingleton = this;
 
       return this.state;
     },
@@ -42,7 +45,7 @@
           this.state[key] = socialState[key];
         }
         var self = this;
-        this.state.otherFriends = !this.state.fb_id || !window.FBID2Name ? [] : this.state.friends.filter(function (friend) {
+        this.state.otherFriends = this.state.friends.filter(function (friend) {
           var r = self.state.requests.some(function (req) { return req.from == friend.id; });
           var s = self.state.shareUsers.some(function (sf) { return sf.fb_id == friend.id; });
           var p = self.state.publicFriends.some(function (pf) { return pf.fb_id == friend.id; });
@@ -86,10 +89,8 @@
             "/"+id,
             function (response) {
               if (response && !response.error) {
-                if (!window.FBID2Name) {
-                  window.FBID2Name = {};
-                }
-                window.FBID2Name[id] = response.name;
+                self.state.friendNames[id] = response.name;
+                self.load({}); //reload otherFriends & notify
               }
             }
           );
@@ -125,16 +126,13 @@
         {
           if (response && !response.error) {
             self.state.friends = response.data;
-            self.trigger(self.state);
 
-            window.FBFriends = response.data;
-            if (!window.FBID2Name) {
-              window.FBID2Name = {};
-            }
             for (var i = 0; i < response.data.length; i++) {
               var user = response.data[i];
-              window.FBID2Name[user.id] = user.name;
+              self.state.friendNames[user.id] = user.name;
             }
+
+            self.load({});
 
             var event = new CustomEvent("gotFriendsList");
             document.dispatchEvent(event);

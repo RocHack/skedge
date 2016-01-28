@@ -52,7 +52,7 @@
                          key="logout")
       ~);
 
-      var showMyself = (social.fb_id && window.FBID2Name && window.FBID2Name[social.fb_id])
+      var showMyself = (social.fb_id && social.friendNames[social.fb_id])
                         ? null : {display:"none"};
       var myself = (~
         .fb-myself(style={showMyself})
@@ -73,7 +73,7 @@
                         social.requests.length +
                         social.otherFriends.length);
 
-      var hasNoFriends = (social.fb_id && window.FBID2Name && totalCount == 0);
+      var hasNoFriends = (social.fb_id && totalCount == 0);
       var noOneSharing = (!social.shareUsers || social.shareUsers.length == 0) &&
                          (social.publicFriends.length == 0);
       var showShare = social.fb_id && this.state.nav == 0 && (hasNoFriends || noOneSharing) ?
@@ -89,7 +89,7 @@
             .fb-share-button(data-href={scheduleURL} data-layout="button")
       ~);
 
-      if (social.fb_id && window.FBID2Name) //has friends downloaded
+      if (social.fb_id) //has friends downloaded
       {
         schedules = (~
           %SocialSchedules(shareUsers={social.shareUsers}
@@ -100,7 +100,8 @@
         ~);
 
         requests = (~
-          %SocialRequests(requests={social.requests})
+          %SocialRequests(requests={social.requests}
+                          friendNames={social.friendNames})
         ~);
 
         others = (~

@@ -33,6 +33,7 @@
             %MiniSchedule(key={user.fb_id+i}
                           user={user}
                           sharing={true}
+                          public={user.privacy == 0}
                           unshareFunc={self.unshare.bind(self, user.fb_id)}
                           userSchedule={self.props.userSchedule})
           ~);
@@ -45,6 +46,7 @@
             %MiniSchedule(key={user.fb_id}
                           user={user}
                           sharing={false}
+                          public={true}
                           userSchedule={self.props.userSchedule})
           ~);
         });

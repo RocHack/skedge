@@ -119,7 +119,8 @@ module ReactHelper
         id: user.id,
         fb_id: user.fb_id,
         schedules: reactify_schedules(user.schedules).values,
-        likes: reactify_courses(user.liked_courses)
+        likes: reactify_courses(user.liked_courses),
+        privacy: user.public_sharing ? 0 : 1
       }
     end if users
   end

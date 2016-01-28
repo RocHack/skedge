@@ -6,7 +6,9 @@
 
     'acceptRequest',
     'sendRequest',
-    'unshare'
+    'unshare',
+
+    'changePrivacy'
   ]);
 
   window.SKSocialStore = Reflux.createStore({
@@ -138,8 +140,7 @@
             document.dispatchEvent(event);
 
             $.get('social/get_public_sharing_friends', {friends: response.data}, function (resp) {
-              self.state.publicFriends = resp.friends;
-              self.trigger(self.state);
+              self.load({publicFriends: resp.friends});
             })
           }
         }
@@ -148,27 +149,33 @@
 
     acceptRequest: function(req) {
       var self = this;
-      $.post('social/share_confirm', {sr_id:req.id}, function (data) {
+      $.post('social/share_confirm', {sr_id:req.id, friends: this.state.friends}, function (data) {
         var index = self.state.requests.indexOf(req);
-        self.state.requests = ReactUpdate(self.state.requests, {$splice: [[index, 1]]});
-        self.state.shareUsers = data.shareUsers;
-        self.trigger(self.state);
+        self.load({
+          requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
+          shareUsers: data.shareUsers
+        });
       });
     },
 
     sendRequest: function(friend) {
       var self = this;
       $.post("social/share_request", {a: this.state.fb_id, b: friend.id}, function (data) {
-        self.state.requested = data.requested;
-        self.trigger(self.state);
+        self.load({requested: data.requested});
       });
     },
 
     unshare: function(friend_id) {
       var self = this;
-      $.post("social/unshare", {nonfriend: friend_id}, function (data) {
-        self.state.shareUsers = data.shareUsers;
-        self.trigger(self.state);
+      $.post("social/unshare", {nonfriend: friend_id, friends: this.state.friends}, function (data) {
+        self.load({shareUsers: data.shareUsers, publicFriends: data.publicFriends})
+      });
+    },
+
+    changePrivacy: function(option) {
+      var self = this;
+      $.post("social/change_privacy", {option: option}, function (data) {
+        self.load({privacy: option});
       });
     }
   });

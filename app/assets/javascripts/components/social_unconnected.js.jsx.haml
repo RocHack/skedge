@@ -3,11 +3,11 @@
 
   window.SocialUnconnected = React.createClass({
     acceptRequest: function(req) {
-      this.props.parent.acceptRequest(req);
+      SKSocialAction.acceptRequest(req);
     },
 
     sendRequest: function(friend) {
-      this.props.parent.sendRequest(friend);
+      SKSocialAction.sendRequest(friend);
     },
 
     render: function() {

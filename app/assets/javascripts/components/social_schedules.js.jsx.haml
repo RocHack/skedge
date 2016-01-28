@@ -3,14 +3,11 @@
 
   window.SocialSchedules = React.createClass({
     unshare: function(friend_id) {
-      var self = this;
-      $.post("social/unshare", {nonfriend: friend_id}, function (data) {
-        self.props.parent.setState({shareUsers: data.shareUsers});
-      });
+      SKSocialAction.unshare(friend_id);
     },
 
     switchToNonSharing: function () {
-      this.props.parent.navState(2);
+      this.props.changeNavState(2);
     },
 
     render: function() {
@@ -29,7 +26,7 @@
       var shares = null;
       var publics = null;
 
-      if (this.props.shareUsers && this.props.shareUsers.length > 0) {
+      if (this.props.shareUsers.length > 0) {
         var array = this.props.shareUsers;
         shares = array.map(function (user, i) {
           return (~
@@ -42,7 +39,7 @@
         });
       }
 
-      if (this.props.publicFriends && this.props.publicFriends.length > 0) {
+      if (this.props.publicFriends.length > 0) {
         publics = this.props.publicFriends.map(function (user) {
           return (~ 
             %MiniSchedule(key={user.fb_id}

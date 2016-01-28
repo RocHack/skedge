@@ -95,26 +95,25 @@
           %SocialSchedules(shareUsers={social.shareUsers}
                            publicFriends={social.publicFriends}
                            userSchedule={this.state.store.schedule}
-                           parent={self}
-                           noFriends={hasNoFriends})
+                           noFriends={hasNoFriends}
+                           changeNavState={this.navState})
         ~);
 
         requests = (~
-          %SocialRequests(requests={social.requests} parent={this})
+          %SocialRequests(requests={social.requests})
         ~);
 
         others = (~
           %SocialUnconnected(otherFriends={social.otherFriends}
-                             requested={social.requested}
                              publicFriends={social.publicFriends}
-                             parent={this})
+                             requested={social.requested})
         ~);
 
         settings = (~
           %SocialSettings(coursesLiked={social.likes}
                           numPrivate={social.shareUsers.length}
                           numPublic={social.friends.length}
-                          parent={this})
+                          privacy={social.privacy})
         ~);
 
         trends = (~

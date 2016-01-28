@@ -2,13 +2,13 @@
   var Button = ReactBootstrap.Button;
   window.SocialRequests = React.createClass({
     acceptRequest: function(req) {
-      this.props.parent.acceptRequest(req);
+      SKSocialAction.acceptRequest(req);
     },
 
     render: function() {
       var self = this;
 
-      if (!this.props.requests || this.props.requests.length == 0) {
+      if (this.props.requests.length == 0) {
         return (~
           .social-none
             No share requests at the moment.
@@ -31,6 +31,7 @@
             %FacebookUser(id={req.from} size=45 height=80 width=500 linesUnderneath={[accept]})
         ~);
       });
+
       return (~
         .
           {requests}

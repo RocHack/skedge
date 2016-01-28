@@ -35,42 +35,40 @@
   margin-left: 3px;
   margin-right: 3px;
   font-size: 26px;
+  margin-bottom: 10px;
 }
 
 .fa-refresh.social-login-icon
 {
   font-size: 15px;
   margin-bottom: 10px;
+  margin-left: 6px;
   vertical-align: middle;
 }
 
 .social-login-never-text
 {
-  margin-top: 50px;
+  margin-top: 40px;
+  font-size: 18px;
 }
 
 .social-login-never-list
 {
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .social-login-text-features
 {
-  padding-left: 0px;
-  list-style: none;
   text-align: center;
   font-size: 16px;
+  width: 90%;
+  margin-left: 5%;
 }
 
 .fa-arrow-right
 {
   margin-left: 10px;
-}
-
-.social-login-text-features > li
-{
-  margin-bottom: 20px;
 }
 
 .fa-calendar-check-o.social-login-icon,
@@ -85,10 +83,10 @@
 
 .social-login-text-features-header
 {
-  text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 35px;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
+  margin-left: 50px;
 }
 
 .social-none
@@ -110,9 +108,11 @@
   margin-bottom: 50px;
 }
 
-.login
+.login-button-container
 {
-  margin-bottom: 80px;
+  margin-bottom: 60px;
+  margin-left: 100px;
+  text-align: center;
 }
 
 .logout.fb-login-button

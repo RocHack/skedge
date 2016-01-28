@@ -3,7 +3,7 @@ class SocialController < ApplicationController
 
   def index
     @social_visible = true
-    @social_state = reactify_social(current_user)
+    @social_state = reactify_social(current_user) if current_user
   end
 
   def share_request

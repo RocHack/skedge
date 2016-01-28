@@ -17,31 +17,42 @@
       return (~
         .social-login(style={style})
           .row
-            .col-md-1
-            .col-md-5
-              .social-login-text-features-header
-                Connect Skedge with Facebook!
-                %i.fa.fa-arrow-right
-              %ul.social-login-text-features
-                %li
-                  %i.fa.fa-mobile.social-login-icon
-                  %i.fa.fa-refresh.social-login-icon
-                  %i.fa.fa-laptop.social-login-icon
-                  .
-                    Keep your schedule synced across devices
-                %li
-                  %i.fa.fa-calendar-check-o.social-login-icon
-                  .
-                    Keep up to date with your friends’ schedules
-                %li
-                  %i.fa.fa-thumbs-o-up.social-login-icon
-                  .
-                    See friends next to classes they’ve added or liked
-                %li
-                  %i.fa.fa-lock.social-login-icon
-                  .
-                    Control privacy settings by choosing friends you want to share with
-          
+            .login-button-container
+              .fb-login-button(data-max-rows="1"
+                               data-size="xlarge"
+                               data-show-faces="true"
+                               data-onlogin="afterLogIn();"
+                               scope="user_friends"
+                               data-auto-logout-link="false")
+
+
+          .row
+            .social-login-text-features-header
+              Connect Skedge with Facebook to:
+
+          .row.social-login-text-features
+            .col-md-3
+              %i.fa.fa-mobile.social-login-icon
+              %i.fa.fa-refresh.social-login-icon
+              %i.fa.fa-laptop.social-login-icon
+              .
+                Keep your schedule synced across devices
+            .col-md-3
+              %i.fa.fa-calendar-check-o.social-login-icon
+              .
+                Keep up to date with your friends’ schedules
+            .col-md-3
+              %i.fa.fa-thumbs-o-up.social-login-icon
+              .
+                See friends next to classes they’ve added or liked
+            .col-md-3
+              %i.fa.fa-lock.social-login-icon
+              .
+                Control privacy settings by choosing friends you want to share with
+
+          .row
+            .col-md-3
+            .col-md-6
               .social-login-never-text
                 Skedge will 
                 %strong
@@ -64,15 +75,6 @@
                         time they are displayed. That’s why there’s some delay each time!
                         %a.fb-check-source(href="https://github.com/RocHack/skedge")
                           [You can check the source code!]
-
-            .col-md-1    
-            .col-md-5
-              .fb-login-button.login(data-max-rows="1"
-                               data-size="xlarge"
-                               data-show-faces="true"
-                               data-onlogin="afterLogIn();"
-                               scope="user_friends"
-                               data-auto-logout-link="false")
       ~);
     }
   })

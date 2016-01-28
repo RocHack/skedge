@@ -317,7 +317,7 @@
 
       return (~
         .sk(className={this.props.mini ? "mini-schedule" : ""})
-          %a.no-link(href={linkFull})
+          %a.no-link(href={linkFull} target="_blank")
             %table.table
               %thead
                 %tr
@@ -325,7 +325,7 @@
               
           %div(className={self.props.big ? "skedge-big" : "skedge-side"} style={miniStyle})
             {courses}
-            %a.no-link(href={linkFull})
+            %a.no-link(href={linkFull} target="_blank")
               %table.table.table-condensed.courses
                 %tbody
                   {hours}

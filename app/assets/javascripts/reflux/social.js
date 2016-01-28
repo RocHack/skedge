@@ -151,7 +151,7 @@
 
     acceptRequest: function(req) {
       var self = this;
-      $.post('social/share_confirm', {sr_id:req.id, friends: this.state.friends}, function (data) {
+      $.post('social/share_accept', {sr_id:req.id, friends: this.state.friends}, function (data) {
         var index = self.state.requests.indexOf(req);
         self.load({
           requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),

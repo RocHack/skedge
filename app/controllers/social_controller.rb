@@ -34,7 +34,7 @@ class SocialController < ApplicationController
     render json:{requested:reactify_requests(user_a.sent_share_requests)}
   end
 
-  def share_confirmation
+  def share_accept
     request = ShareRequest.find(params[:sr_id])
 
     a = request.user_a

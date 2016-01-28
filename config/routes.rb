@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post 'social/like', to: 'social#like'
 
   post 'social/share_request', to: 'social#share_request'
-  post 'social/share_confirm', to: 'social#share_confirmation'
+  post 'social/share_accept', to: 'social#share_accept'
   post 'social/unshare', to: 'social#unshare'
 
   get 'social/get_public_sharing_friends', to: 'social#get_public_sharing_friends'

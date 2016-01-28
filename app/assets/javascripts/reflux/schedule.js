@@ -26,7 +26,6 @@
         temporaryGhosts: [],
 
         bookmarks: [],
-        likes: []
       };
 
       return this.state;
@@ -34,11 +33,6 @@
 
     loadBookmarks: function(bookmarks) {
       this.state.bookmarks = bookmarks || [];
-      this.trigger(this.state);
-    },
-
-    loadLikes: function(likes) {
-      this.state.likes = likes || [];
       this.trigger(this.state);
     },
 
@@ -84,8 +78,7 @@
         temporaryAdds: this.state.temporaryAdds,
         temporaryDeletes: this.state.temporaryDeletes,
         temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks,
-        likes: this.state.likes
+        bookmarks: this.state.bookmarks
       };
 
       //we might need to switch schedules (if it's a different term)
@@ -132,8 +125,7 @@
         temporaryAdds: [],
         temporaryDeletes: [],
         temporaryGhosts: [],
-        bookmarks: this.state.bookmarks,
-        likes: this.state.likes
+        bookmarks: this.state.bookmarks
       };
 
       this.trigger(this.state);
@@ -147,8 +139,7 @@
         temporaryAdds: this.state.temporaryAdds,
         temporaryDeletes: this.state.temporaryDeletes,
         temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks,
-        likes: this.state.likes
+        bookmarks: this.state.bookmarks
       };
 
       //full switch to this (don't undo when we unhover)

@@ -3,7 +3,8 @@
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   
   window.Results = React.createClass({
-    mixins: [Reflux.connect(SKScheduleStore, "store")],
+    mixins: [Reflux.connect(SKScheduleStore, "store"),
+             Reflux.connect(SKSocialStore, "social")],
 
     getInitialState: function() {
       return {
@@ -125,7 +126,7 @@
             var bookmarked = self.state.store.bookmarks.some(function(bk) {
               return bk.id == course.id;
             });
-            var liked = self.state.store.likes.some(function(like) {
+            var liked = self.state.social.likes.some(function(like) {
               return like.id == course.id;
             });
 

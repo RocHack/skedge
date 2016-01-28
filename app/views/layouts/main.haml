@@ -10,7 +10,9 @@
 
     .col-sm-8.mobile-wider
       .page-content
-        =react_component 'Social', visible: @social_visible, socialState: @social_state
+        =react_component 'Social',
+                          visible: @social_visible,
+                          socialState: (@social_state || {likes: reactify_courses(current_user.try(:liked_courses))})
         =yield
 
 

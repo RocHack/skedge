@@ -407,3 +407,5 @@ li.margin-tab
 {
   margin-right: 10px;
 }
+
+*[hidden] { display: none; }

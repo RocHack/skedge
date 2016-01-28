@@ -52,7 +52,7 @@
                          key="logout")
       ~);
 
-      var showMyself = (social.fb_id && social.friendNames[social.fb_id]);
+      var showMyself = (social.loggedIn && social.friendNames[social.fb_id]);
       var myself = (~
         .fb-myself(hidden={!showMyself})
           %FacebookUser(id={social.fb_id} linesUnderneath={[logout]})
@@ -72,9 +72,8 @@
                         social.requests.length +
                         social.otherFriends.length);
 
-      var hasNoFriends = (social.fb_id && totalCount == 0);
-      var noOneSharing = (!social.shareUsers || social.shareUsers.length == 0) &&
-                         (social.publicFriends.length == 0);
+      var hasNoFriends = (social.loggedIn && totalCount == 0);
+      var noOneSharing = (social.shareUsers.length + social.publicFriends.length == 0);
       var showShare = social.loggedIn && this.state.nav == 0 && (hasNoFriends || noOneSharing);
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {

@@ -2,7 +2,8 @@
   window.FacebookUser = React.createClass({
     render: function () {
       var size = this.props.size ? this.props.size : 50;
-      var imgURL = "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
+      var imgURL = !this.props.id ? null :
+                   "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
       var name = SKSocialStoreSingleton.state.friendNames[this.props.id];
       var style = {minHeight:parseInt(size)+10, minWidth:parseInt(size)+100};
       if (this.props.width) {

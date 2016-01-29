@@ -43,6 +43,7 @@
   margin-right: 30px;
   margin-bottom: 10px;
   display: inline-block;
+  vertical-align: top;
 }
 
 .results-social-none

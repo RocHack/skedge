@@ -75,13 +75,14 @@
 
       var hasNoFriends = (social.loggedIn && totalCount == 0);
       var noOneSharing = (social.shareUsers.length + social.publicFriends.length == 0);
-      var showShare = social.loggedIn && this.state.nav == 0 && (hasNoFriends || noOneSharing);
+      var showShare = social.loggedIn && social.ready && this.state.nav == 0 && (hasNoFriends || noOneSharing);
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {
         scheduleURL += this.state.store.schedule.rid;
       }
+      var shareStyle = showShare ? null : {display:"none"};
       var shareButton = (~
-        .social-none(hidden={!showShare})
+        .social-none(style={shareStyle})
           %p
             .fb-share-button(data-href={scheduleURL} data-layout="button")
       ~);

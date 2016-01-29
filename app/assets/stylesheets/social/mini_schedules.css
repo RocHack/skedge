@@ -1,6 +1,8 @@
 .friend-box
 {
   display: inline-block;
+  vertical-align: top;
+  
   margin-left: 20px;
   margin-right: 55px;
   margin-bottom: 20px;

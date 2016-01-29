@@ -31,8 +31,8 @@ def print(outer, inner, file, collection)
   file = File.join(dir, file) + ".txt"
   
   File.open(file, 'w') do |file|
-    collection.each_with_index do |x, idx|
-      row = yield x, idx
+    collection.each_with_index do |a, b|
+      row = block_given? ? (yield a, b) : a
       file.puts(row.join("\t"))
     end
   end
@@ -126,6 +126,9 @@ namespace :analytics do
 
     empty = 0
     total = 0
+
+    types = Hash.new(0)
+
     ActiveRecord::Base.connection.execute(query).each do |result|
       properties = JSON.parse(result["properties"])
 
@@ -137,14 +140,30 @@ namespace :analytics do
         total += 1
       rescue Exception => e
       end
+
+      q = Course.text_to_query(properties["q"])
+
+      types[:description] += 1   if q.attrs[:description]
+      types[:credits] += 1       if q.attrs[:credits] != { :> => "0" }
+      types[:department_id] += 1 if q.attrs[:department_id]
+      types[:crosslisted] += 1   if q.attrs[:crosslisted]
+      types[:crn] += 1           if q.attrs[:sections].try(:[], :crn)
+      types[:year] += 1          if q.attrs[:year] #
+      types[:number] += 1        if q.attrs[:number] #
+      types[:instructor] += 1    if q.attrs[:sections].try(:[], :instructors)
+      types[:term] += 1          if q.attrs[:term] #
+      types[:random] += 1        if q.orders == ["RANDOM()"] #
+      types[:w] += 1             if q.attrs[:number].try(:end_with?, "W%") #
+      types[:title] += 1         if q.attrs[:title] #
     end
 
-    print("search", ".", "empty", [empty, total]) do |x, idx|
-      [["empty", "total"][idx], x]
-    end
+    p types
+
+    # percentage of searches that come up empty
+    print("search", ".", "empty", {empty:empty, total:total})
 
     # percentage of search types
-    # percentage of searches that come up empty
+    print("search", ".", "types", types)
   end
 end
 

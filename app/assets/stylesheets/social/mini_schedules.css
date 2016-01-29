@@ -1,0 +1,67 @@
+.friend-box
+{
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 55px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+
+  min-height: 450px;
+}
+
+.mini-schedule
+{
+  width: 300px;
+  margin-left: 30px;
+}
+
+.skedge-mini
+{
+  height: 300px;
+}
+
+.mini-compare
+{
+  margin-left: 5px;
+}
+
+.social-toggle-icon
+{
+  margin-right: 5px;
+}
+
+.mini-yrterm
+{
+  float: left;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.mini-controls
+{
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+
+.social-unshare
+{
+  margin-top: 3px;
+  color: gray;
+}
+
+.social-unshare > .fa
+{
+  margin-right: 4px;
+}
+
+.mini-course-list-header
+{
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.mini-course-list
+{
+  display: table; /* works, dont ask why */
+  margin-left: 10px;
+}

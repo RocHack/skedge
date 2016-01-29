@@ -53,6 +53,25 @@ def print_basic(folder, file, name, property=nil, value=nil)
   end
 end
 
+def count_search_types_in_query(types=Hash.new(0), query)
+  q = Course.text_to_query(query)
+
+  types[:description] += 1   if q.attrs[:description]
+  types[:credits] += 1       if q.attrs[:credits] != { :> => "0" }
+  types[:department_id] += 1 if q.attrs[:department_id]
+  types[:crosslisted] += 1   if q.attrs[:crosslisted]
+  types[:crn] += 1           if q.attrs[:sections].try(:[], :crn)
+  types[:year] += 1          if q.attrs[:year]
+  types[:number] += 1        if q.attrs[:number]
+  types[:instructor] += 1    if q.attrs[:sections].try(:[], :instructors)
+  types[:term] += 1          if q.attrs[:term]
+  types[:random] += 1        if q.orders == ["RANDOM()"]
+  types[:w] += 1             if q.attrs[:number].try(:end_with?, "W%")
+  types[:title] += 1         if q.attrs[:title]
+
+  types
+end
+
 namespace :analytics do
   task :basic => [:environment] do
     print_basic(".", "submit", "$submit") # search
@@ -84,6 +103,8 @@ namespace :analytics do
 
     data = []
     nav_names = ["crosslist", "instructor", "prereqs"]
+    num_types_of_search_dt = {}
+
     User.all.each do |u|
       query = <<-SQL
         select * from ahoy_events
@@ -91,8 +112,11 @@ namespace :analytics do
         order by time;
       SQL
 
+      num_types_of_search_dt[u.id] = []
+
       navs = 0
       current_visit = nil
+
       ActiveRecord::Base.connection.execute(query).each do |result|
         if current_visit && result["visit_id"] != current_visit
           navs = 0
@@ -110,11 +134,23 @@ namespace :analytics do
           data[navs] = data[navs].to_i + 1
           navs = 0
         end
+
+        if result["name"] == "$submit"
+          types = count_search_types_in_query(properties["q"])
+          types.delete :department_id
+          types.delete :number
+          num_types_of_search_dt[u.id] << types.length
+        end
       end
     end
 
     print("per_person", ".", "clicks2add", data) do |x, idx|
       [idx, x || 0]
+    end
+
+    print("per_person", ".", "search_types", num_types_of_search_dt) do |x, idx|
+      user, values_dt = x
+      [user, *values_dt]
     end
   end
 
@@ -141,23 +177,8 @@ namespace :analytics do
       rescue Exception => e
       end
 
-      q = Course.text_to_query(properties["q"])
-
-      types[:description] += 1   if q.attrs[:description]
-      types[:credits] += 1       if q.attrs[:credits] != { :> => "0" }
-      types[:department_id] += 1 if q.attrs[:department_id]
-      types[:crosslisted] += 1   if q.attrs[:crosslisted]
-      types[:crn] += 1           if q.attrs[:sections].try(:[], :crn)
-      types[:year] += 1          if q.attrs[:year] #
-      types[:number] += 1        if q.attrs[:number] #
-      types[:instructor] += 1    if q.attrs[:sections].try(:[], :instructors)
-      types[:term] += 1          if q.attrs[:term] #
-      types[:random] += 1        if q.orders == ["RANDOM()"] #
-      types[:w] += 1             if q.attrs[:number].try(:end_with?, "W%") #
-      types[:title] += 1         if q.attrs[:title] #
+      count_search_types_in_query(types, properties["q"])
     end
-
-    p types
 
     # percentage of searches that come up empty
     print("search", ".", "empty", {empty:empty, total:total})

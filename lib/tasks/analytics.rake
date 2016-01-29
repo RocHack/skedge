@@ -16,8 +16,8 @@ def data(query)
   data
 end
 
-def print(folder, file, name, property=nil, value=nil)
-  and_clause = property ? "AND properties->'#{property}' = '#{value}'" : nil
+def print_basic(folder, file, name, property=nil, value=nil)
+  and_clause = property ? "AND properties->'#{property}' = '#{value.inspect}'" : nil
   sql = <<-SQL
   SELECT date_trunc('day', time) AS "day", count(*)
   FROM ahoy_events
@@ -27,13 +27,15 @@ def print(folder, file, name, property=nil, value=nil)
   SQL
 
   analytics_root = File.join(Rails.root, "analytics")
-
   Dir.mkdir(analytics_root) unless File.directory?(analytics_root)
 
-  dir = File.join(analytics_root, folder)
-  file = File.join(dir, file) + ".txt"
-
+  dir = File.join(analytics_root, "basic")
   Dir.mkdir(dir) unless File.directory?(dir)
+
+  dir = File.join(dir, folder)
+  Dir.mkdir(dir) unless File.directory?(dir)
+
+  file = File.join(dir, file) + ".txt"
   
   File.open(file, 'w') do |file|
     data(sql).each do |row|
@@ -42,37 +44,25 @@ def print(folder, file, name, property=nil, value=nil)
   end
 end
 
-task :analytics => [:environment] do
-  # search
-  print(".", "submit", "$submit")
+namespace :analytics do
+  task :basic => [:environment] do
+    print_basic(".", "submit", "$submit") # search
 
+    print_basic("scheduling", "add", "$click", "add", true)
+    print_basic("scheduling", "remove", "$click", "add", false)
+    print_basic("scheduling", "readd", "$click", "readd", true)
 
-  # add to schedule
-  print("scheduling", "add", "$click","add",'true')
-  # remove from schedule
-  print("scheduling", "remove", "$click","add",'false')
-  # re-add to schedule
-  print("scheduling", "readd", "$click","readd",'true')
+    print_basic("searchbyclick", "instructor", "$click", "name", "instructor")
+    print_basic("searchbyclick", "block", "$click", "name", "block")
+    print_basic("searchbyclick", "prerequisites", "$click", "name", "prerequisites")
+    print_basic("searchbyclick", "crosslisted", "$click", "name", "crosslisted")
 
+    print_basic("export", "gcal", "$click", "name", "export-ics")
+    print_basic("export", "ics", "$click", "name", "export-gcal")
+    print_basic("export", "image", "$click", "name", "export-image")
 
-  # click on instructor 
-  print("searchbyclick", "instructor", "$click","name",'"instructor"')
-  # click on block 
-  print("searchbyclick", "block", "$click","name",'"block"')
-  # click on prerequisites 
-  print("searchbyclick", "prerequisites", "$click","name",'"prerequisites"')
-  # click on crosslisted 
-  print("searchbyclick", "crosslisted", "$click","name",'"crosslisted"')
-
-
-  # export gcal
-  print("export", "gcal", "$click","name",'"export-ics"')
-  # export ics
-  print("export", "ics", "$click","name",'"export-gcal"')
-  # export image
-  print("export", "image", "$click","name",'"export-image"')
-
-
-  # show subcourses
-  print(".", "subcourses", "$click","hide",'false')
+    print_basic(".", "subcourses", "$click", "hide", false)
+  end  
 end
+
+task :analytics => ["analytics:basic"]

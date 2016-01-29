@@ -36,10 +36,6 @@ class Schedule < ActiveRecord::Base
   def description
     "#{Course::FormatTerm[term]} #{year}"
   end
-
-  def image_file_name
-    nil #TODO
-  end
 end
 
 # == Schema Information

@@ -26,7 +26,14 @@
     },
 
     render: function() {
-      var schedule = this.props.user.schedules[0]; //TODO
+      var schedule = null;
+      //find latest schedule to display
+      for (i = 0; i < this.props.user.schedules.length; i++) {
+        var sch = this.props.user.schedules[i];
+        if (!schedule || sch.yrTerm > schedule.yrTerm) {
+          schedule = sch;
+        }
+      }
 
       var under = [];
 

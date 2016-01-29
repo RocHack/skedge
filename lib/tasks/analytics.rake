@@ -28,6 +28,8 @@ def print(folder, file, name, property=nil, value=nil)
 
   analytics_root = File.join(Rails.root, "analytics")
 
+  Dir.mkdir(analytics_root) unless File.directory?(analytics_root)
+
   dir = File.join(analytics_root, folder)
   file = File.join(dir, file) + ".txt"
 
@@ -64,11 +66,11 @@ task :analytics => [:environment] do
 
 
   # export gcal
-  print("exort", "gcal", "$click","name",'"export-ics"')
+  print("export", "gcal", "$click","name",'"export-ics"')
   # export ics
-  print("exort", "ics", "$click","name",'"export-gcal"')
+  print("export", "ics", "$click","name",'"export-gcal"')
   # export image
-  print("exort", "image", "$click","name",'"export-image"')
+  print("export", "image", "$click","name",'"export-image"')
 
 
   # show subcourses

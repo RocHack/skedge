@@ -94,7 +94,6 @@ namespace :analytics do
 
   task :per_person => [:environment] do
     # number of re-adds/conflicts = playing around with the schedule
-    # search diversity over time
 
     # 1) A) avg number of seaches/clicks between adds
     #    B) % browsing vs % direct search
@@ -125,6 +124,7 @@ namespace :analytics do
   
         properties = JSON.parse(result["properties"])
 
+        # compute number of navigations between adds
         if result["name"] == "$submit" ||
            result["name"] == "$click" && nav_names.include?(properties["name"])
           navs += 1
@@ -135,6 +135,7 @@ namespace :analytics do
           navs = 0
         end
 
+        # compute diversity of search type over time per user
         if result["name"] == "$submit"
           types = count_search_types_in_query(properties["q"])
           types.delete :department_id

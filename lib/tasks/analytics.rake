@@ -118,10 +118,34 @@ namespace :analytics do
     end
   end
 
-  task :search_type => [:environment] do
+  task :search => [:environment] do
+    query = <<-SQL
+      select * from ahoy_events
+      where name = '$submit';
+    SQL
+
+    empty = 0
+    total = 0
+    ActiveRecord::Base.connection.execute(query).each do |result|
+      properties = JSON.parse(result["properties"])
+
+      begin
+        q = Course.sk_query(properties["q"])
+        if (q.empty?)
+          empty += 1
+        end
+        total += 1
+      rescue Exception => e
+      end
+    end
+
+    print("search", ".", "empty", [empty, total]) do |x, idx|
+      [["empty", "total"][idx], x]
+    end
+
     # percentage of search types
     # percentage of searches that come up empty
   end
 end
 
-task :analytics => ["analytics:basic", "analytics:per_person"]
+task :analytics => ["analytics:basic", "analytics:per_person", "analytics:search"]

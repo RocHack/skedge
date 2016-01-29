@@ -53,8 +53,9 @@
       ~);
 
       var showMyself = (social.loggedIn && social.friendNames[social.fb_id]);
+      var myselfStyle = showMyself ? null : {display:"none"};
       var myself = (~
-        .fb-myself(hidden={!showMyself})
+        .fb-myself(style={myselfStyle})
           %FacebookUser(id={social.fb_id} linesUnderneath={[logout]})
       ~);
 

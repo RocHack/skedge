@@ -313,7 +313,7 @@
       }
 
       var miniStyle = this.props.mini ? {height: "300px", minHeight: "300px"} : null;
-      var linkFull = this.props.mini ? "/"+this.props.schedule.rid : null;
+      var linkFull = this.props.mini && this.props.schedule ? "/"+this.props.schedule.rid : null;
 
       return (~
         .sk(className={this.props.mini ? "mini-schedule" : ""})

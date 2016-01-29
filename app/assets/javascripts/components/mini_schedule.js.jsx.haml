@@ -55,7 +55,7 @@
           ~);
         }
         else {
-          toggle = (~
+          toggle = !schedule ? null : (~
             %a.block-link.mini-yrterm(href={"/"+schedule.rid} key="yrterm")
               {schedule.term + " " + schedule.year}
           ~);
@@ -69,7 +69,7 @@
         ~);
       }
 
-      var compare = !this.state.showingSchedule ? null : (~
+      var compare = !this.state.showingSchedule || !schedule ? null : (~
         %Button.mini-compare.mini-btn(onClick={this.overlay} key="compare") Compare schedules
       ~);
 

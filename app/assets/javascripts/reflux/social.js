@@ -33,6 +33,8 @@
         privacy: null
       };
 
+      //for use in facebook_user component, so friendNames doesn't
+      //have to be passed all over the place
       window.SKSocialStoreSingleton = this;
 
       return this.state;
@@ -137,9 +139,6 @@
             }
 
             self.load({friends: response.data, ready: true});
-
-            var event = new CustomEvent("gotFriendsList");
-            document.dispatchEvent(event);
 
             $.get('social/get_public_sharing_friends', {friends: response.data}, function (resp) {
               self.load({publicFriends: resp.friends});

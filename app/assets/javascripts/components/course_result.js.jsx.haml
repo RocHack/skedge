@@ -23,22 +23,16 @@
         this.setState({subcoursesOpened:opened});
       }
       this.setState({like:nextProps.like});
-    },
 
-    componentDidMount: function() {
       var self = this;
-      document.addEventListener("gotFriendsList", function (event) {
-        $.get('social/courses', {friends: SKSocialStoreSingleton.state.friends, course_id:self.props.course.id}, function (data) {
+      if (nextProps.friends.length > this.props.friends) {
+        $.get('social/courses', {friends: nextProps.friends, course_id:nextProps.course.id}, function (data) {
           self.setState({
             friendsTakingCourse: data.taking,
-            friendsLikeCourse: data.like,
+            friendsLikeCourse: data.like
           });
         });
-      }, false);
-    },
-
-    componentWillUnmount: function () {
-      document.removeEventListener("gotFriendsList");
+      }
     },
 
     courseDetail: function (course, detail) {

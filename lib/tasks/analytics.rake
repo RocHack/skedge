@@ -124,4 +124,4 @@ namespace :analytics do
   end
 end
 
-task :analytics => ["analytics:basic", "analytics:advanced"]
+task :analytics => ["analytics:basic", "analytics:per_person"]

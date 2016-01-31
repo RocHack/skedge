@@ -4,7 +4,8 @@
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
 
   window.SearchBar = React.createClass({
-    mixins: [Reflux.connect(SKScheduleStore, "store")],
+    mixins: [Reflux.connect(SKScheduleStore, "store"),
+             Reflux.connect(SKSocialStore, "social")],
 
     seeSearchTips: function () {
       if (link = document.getElementById('search-link')) {
@@ -50,7 +51,7 @@
         ~);
       }
 
-      var badge = (!this.props.requests || this.props.requests.length == 0) ? null : (~
+      var badge = (this.state.social.requests.length == 0) ? null : (~
         %span.badge.badge-notifications
           {this.props.requests.length}
       ~);

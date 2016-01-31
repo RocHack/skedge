@@ -133,6 +133,6 @@ module ReactHelper
       requested: reactify_requests(user.sent_share_requests),
       privacy: user.public_sharing ? 0 : 1,
       likes: reactify_courses(user.liked_courses)
-    }
+    } if user
   end
 end

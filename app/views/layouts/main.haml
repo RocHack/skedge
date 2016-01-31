@@ -1,6 +1,6 @@
 -content_for :content do
   .row
-    =react_component 'SearchBar', query: @query, requests: current_user.try(:share_requests)
+    =react_component 'SearchBar', query: @query
 
     .sk-fixed
       =react_component 'SideSchedule', yrTermMappings: reactify_yr_term_mappings(current_user.try(:schedules)),
@@ -12,7 +12,7 @@
       .page-content
         =react_component 'Social',
                           visible: @social_visible,
-                          socialState: (@social_state || {likes: reactify_courses(current_user.try(:liked_courses))})
+                          socialState: reactify_social(current_user)
         =yield
 
 

@@ -446,7 +446,7 @@
       ~);
 
       var likeVerb = this.state.like ? "Unlike" : "Like";
-      var friends = (~
+      var friends = !this.props.socialLoggedIn ? null : (~
         %a.results-social-like(href="#" onClick={this.like})
           %i.fa.fa-thumbs-o-up.results-social-icon-like
           {likeVerb} this course

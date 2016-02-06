@@ -148,6 +148,7 @@
         //adding it
         this.state.schedule.sections.push(section);
         ajaxBody[section.crn] = 1;
+        
         //remove any conflicts
         var self = this;
         conflicts.some(function (conflict) {
@@ -162,7 +163,7 @@
         temporaryAdds: [],
         temporaryGhosts: this.state.temporaryDeletes,
         temporaryDeletes: []
-      }, false);
+      }, section.course.id);
 
       this.courseAjax(ajaxBody);
     },

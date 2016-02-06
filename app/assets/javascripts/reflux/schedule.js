@@ -24,6 +24,7 @@
         temporaryAdds: [],
         temporaryDeletes: [],
         temporaryGhosts: [],
+        shouldRerenderResults: false,
 
         bookmarks: []
       };
@@ -31,9 +32,18 @@
       return this.state;
     },
 
+    load: function (props, shouldRerenderResults) {
+      if (props) {
+        for (key in props) {
+          this.state[key] = props[key];
+        }
+        this.state.shouldRerenderResults = shouldRerenderResults;
+        this.trigger(this.state);
+      }
+    },
+
     loadBookmarks: function(bookmarks) {
-      this.state.bookmarks = bookmarks || [];
-      this.trigger(this.state);
+      this.load({bookmarks: bookmarks || []}, true);
     },
 
     loadSchedules: function(schedules, defaultSchedule) {
@@ -46,12 +56,13 @@
         return bk.id == course.id;
       });
 
+      var bookmarks;
       if (idx < 0) {
-        this.state.bookmarks = this.state.bookmarks.concat(course);
+        bookmarks = this.state.bookmarks.concat(course);
       } else {
-        this.state.bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
+        bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
       }
-      this.trigger(this.state);
+      this.load({bookmarks: bookmarks}, true);
 
       var self = this;
       $.post("bookmark", {course_id:course.id}, function (response) {
@@ -65,22 +76,10 @@
     },
 
     changeSchedule: function(yrTerm) {
-      this.state.schedule = this.state.schedules[yrTerm];
-      this.state.pretempYrTerm = yrTerm;
-      this.trigger(this.state);
+      this.load({schedule: this.state.schedules[yrTerm], pretempYrTerm: yrTerm}, false);
     },
 
     temporaryizeSection: function(section) {
-      this.state = {
-        schedule: this.state.schedule,
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
-        temporaryAdds: this.state.temporaryAdds,
-        temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks
-      };
-
       //we might need to switch schedules (if it's a different term)
       //save the yrTerm, create a new schedule if needed, and switch to it
       var yrTerm = section.course.yrTerm;
@@ -88,6 +87,7 @@
         this.state.pretempYrTerm = this.state.schedule.yrTerm;
       }
       if (!this.state.schedules[yrTerm]) {
+        // New, temporary schedule
         this.state.schedules[yrTerm] = {
           yrTerm: yrTerm,
           term: section.course.term,
@@ -113,35 +113,22 @@
         }
       }
 
+      this.state.shouldRerenderResults = true;
+
       this.trigger(this.state);
     },
 
     untemporaryizeSection: function(section) {
       //undo everything in the method above, basically
-      this.state = {
+      this.load({
         schedule: this.state.schedules[this.state.pretempYrTerm],
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
         temporaryAdds: [],
         temporaryDeletes: [],
-        temporaryGhosts: [],
-        bookmarks: this.state.bookmarks
-      };
-
-      this.trigger(this.state);
+        temporaryGhosts: []
+      }, false);
     },
 
     commitSection: function(section) {
-      this.state = {
-        schedule: this.state.schedule,
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
-        temporaryAdds: this.state.temporaryAdds,
-        temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks
-      };
-
       //full switch to this (don't undo when we unhover)
       this.state.pretempYrTerm = section.course.yrTerm;
 
@@ -171,13 +158,13 @@
         });
       }
 
-      this.state.temporaryAdds = [];
-      this.state.temporaryGhosts = this.state.temporaryDeletes;
-      this.state.temporaryDeletes = [];
+      this.load({
+        temporaryAdds: [],
+        temporaryGhosts: this.state.temporaryDeletes,
+        temporaryDeletes: []
+      }, false);
 
       this.courseAjax(ajaxBody);
-
-      this.trigger(this.state);
     },
 
     loadUser: function(userSecret) {
@@ -196,8 +183,7 @@
           self.loadUser(response.userSecret);
 
           //update schedule
-          self.state.schedules = response.schedules;
-          self.trigger(self.state);
+          self.load({schedules: response.schedules}, true);
         }
         ).fail(function (response)
         {

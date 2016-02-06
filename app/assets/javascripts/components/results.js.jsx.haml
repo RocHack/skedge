@@ -12,13 +12,10 @@
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
-      if (this.state.store.temporaryAdds.length ||
-          this.state.store.temporaryDeletes.length ||
-          nextState.store.temporaryAdds.length ||
-          nextState.store.temporaryDeletes.length) {
-        return false;
+      if (this.state.store.shouldRerenderResults) {
+        return true;
       }
-      return true;
+      return false;
     },
 
     hover: function(section, inTrue_outFalse) {

@@ -2,13 +2,12 @@
   var ReactUpdate = React.addons.update;
 
   window.SKScheduleAction = Reflux.createActions([
-    'loadSchedules',
+    'loadSchedulesAndBookmarks',
     'temporaryizeSection',
     'untemporaryizeSection',
     'commitSection',
     'changeSchedule',
     'getConflicts',
-    'loadBookmarks',
     'changeBookmark',
     'loadUser'
   ]);
@@ -42,12 +41,9 @@
       }
     },
 
-    loadBookmarks: function(bookmarks) {
-      this.load({bookmarks: bookmarks || []}, true);
-    },
-
-    loadSchedules: function(schedules, defaultSchedule) {
+    loadSchedulesAndBookmarks: function(schedules, defaultSchedule, bookmarks) {
       this.state.schedules = schedules;
+      this.state.bookmarks = bookmarks || [];
       this.changeSchedule(defaultSchedule);
     },
 
@@ -148,7 +144,7 @@
         //adding it
         this.state.schedule.sections.push(section);
         ajaxBody[section.crn] = 1;
-        
+
         //remove any conflicts
         var self = this;
         conflicts.some(function (conflict) {

@@ -130,7 +130,8 @@
                             hover={self.hover}
                             commitSection={self.commitSection}
                             bookmarked={bookmarked}
-                            changeBookmark={self.changeBookmark})
+                            changeBookmark={self.changeBookmark}
+                            rerender={self.state.store.shouldRerenderResults})
             ~);
           });
           return (~

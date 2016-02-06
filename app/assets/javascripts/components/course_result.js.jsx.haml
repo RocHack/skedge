@@ -21,6 +21,11 @@
       }
     },
 
+    shouldComponentUpdate: function(nextProps, nextState) {
+      return (nextProps.rerender == true ||
+              nextProps.rerender == this.props.course.id);
+    },
+
     courseDetail: function (course, detail) {
       var value = course[detail.toLowerCase()];
       if (value && value.__html && value.__html.length > 0) {

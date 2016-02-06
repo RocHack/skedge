@@ -62,7 +62,7 @@
       } else {
         bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
       }
-      this.load({bookmarks: bookmarks}, true);
+      this.load({bookmarks: bookmarks}, course.id);
 
       var self = this;
       $.post("bookmark", {course_id:course.id}, function (response) {
@@ -113,7 +113,7 @@
         }
       }
 
-      this.state.shouldRerenderResults = true;
+      this.state.shouldRerenderResults = false;
 
       this.trigger(this.state);
     },

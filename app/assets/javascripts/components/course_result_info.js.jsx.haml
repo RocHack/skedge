@@ -1,0 +1,47 @@
+(function() {
+  window.CourseResultInfo = React.createClass({
+    shouldComponentUpdate: function(nextProps, nextState) {
+      return false;  
+    },
+
+    courseDetail: function (course, detail) {
+      var value = course[detail.toLowerCase()];
+      if (value && value.__html && value.__html.length > 0) {
+        return (~
+          .info
+            %strong {detail}:
+            %span(dangerouslySetInnerHTML={value} name={detail.toLowerCase()})
+        ~);
+      }
+    },
+
+    render: function () {
+      var course = this.props.course;
+
+      var deptLink = "/?q="+course.dept;
+      var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
+      var cnumClass = mac ? "bold-mac" : "bold-pc";
+
+      return (~
+        .
+          .credits
+            {course.credits + " credit" + (course.credits == "1" ? "" : "s")}
+
+          %p.lead
+            %a.no-link(href={deptLink} name="course-dept")
+              {course.dept}
+            %span(class={"cnum "+cnumClass}) {course.num + ": "}
+            {course.title}
+
+          %p.course-details
+            {this.courseDetail(course, "Comments")}
+            {this.courseDetail(course, "Restrictions")}
+            {this.courseDetail(course, "Prerequisites")}
+            {this.courseDetail(course, "Crosslisted")}
+            {this.courseDetail(course, "Clusters")}
+          %p.desc
+            %span(dangerouslySetInnerHTML={course.description})
+      ~);
+    }
+  });
+})();

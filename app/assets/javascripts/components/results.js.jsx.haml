@@ -5,98 +5,11 @@
   window.Results = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
-    getInitialState: function() {
-      return {
-        readds: {}
-      };
-    },
-
     shouldComponentUpdate: function(nextProps, nextState) {
       if (this.state.store.shouldRerenderResults) {
         return true;
       }
       return false;
-    },
-
-    hover: function(section, inTrue_outFalse) {
-      if (!section.startTime || section.status == CANCELLED) {
-        return;
-      }
-
-      if (inTrue_outFalse) {
-        SKScheduleAction.temporaryizeSection(section);
-      }
-      else {
-        SKScheduleAction.untemporaryizeSection(section); 
-      }
-    },
-
-    changeBookmark: function(course) {
-      SKScheduleAction.changeBookmark(course);
-    },
-
-    commitSection: function(section, fromReadd) {
-      if (!section.startTime) {
-        return;
-      }
-
-      // calculate readds
-      // see if this was contained in any re-adds, if so, remove the readd button
-      for (sectionCRN in this.state.readds) {
-        var readdsPerSection = this.state.readds[sectionCRN];
-        for (var i = readdsPerSection.length - 1; i >= 0; i--) {
-          if (readdsPerSection[i].crn == section.crn) {
-            readdsPerSection.splice(i, 1);
-
-            this.setState({readds:this.state.readds});
-            break;
-          }
-        }
-      }
-
-      var trackingProps = {crn: section.crn};
-
-      // calculate any new readds to place, if it wasn't from a readd
-      if (!fromReadd) {
-        var conflicts = SKScheduleStore.getConflicts(section);
-
-        trackingProps.name = "commit-section";
-        trackingProps.readd = false;
-        trackingProps.add = (conflicts != null);
-        trackingProps.conflicts = (conflicts != null && conflicts.length > 0);
-
-        if (conflicts && conflicts.length > 0) {
-          var readds = this.state.readds;
-          if (!readds[section.crn]) {
-            readds[section.crn] = [];
-          }
-          readds[section.crn] = readds[section.crn].concat(conflicts);
-          this.setState({readds:readds});
-        }
-      }
-      else {
-        trackingProps.readd = true;
-        trackingProps.add = true;
-      }
-
-      ahoy.track("$click", trackingProps);
-
-      SKScheduleAction.commitSection(section);
-    },
-
-    getOpenedSubsections: function(course) {
-      if (!this.state.store.schedules[course.yrTerm]) {
-        return null;
-      }
-      var sections = this.state.store.schedules[course.yrTerm].sections;
-      var opened = [];
-      for (var i = 0; i < sections.length; i++) {
-        if (sections[i].sectionType != MAIN && sections[i].course.id == course.id)
-        {
-          opened.push(sections[i].sectionType);
-        }
-      }
-      return opened;
     },
 
     render: function() {
@@ -118,20 +31,13 @@
         results = this.props.courseGroups.map(function(courses) {
           var groupName = courses[0].term + " " + courses[0].year;
           var group = courses.map(function (course) {
-            var type = self.getOpenedSubsections(course);
             var bookmarked = self.state.store.bookmarks.some(function(bk) {
               return bk.id == course.id;
             });
             return (~
               %CourseResult(course={course}
-                            readds={self.state.readds}
-                            openedSubsections={type}
                             key={"course-"+course.id}
-                            hover={self.hover}
-                            commitSection={self.commitSection}
-                            bookmarked={bookmarked}
-                            changeBookmark={self.changeBookmark}
-                            rerender={self.state.store.shouldRerenderResults})
+                            bookmarked={bookmarked})
             ~);
           });
           return (~

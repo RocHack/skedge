@@ -21,9 +21,12 @@
         schedule: existingState.schedule,
         schedules: existingState.schedules || {},
         pretempYrTerm: existingState.pretempYrTerm,
+
         temporaryAdds: [],
         temporaryDeletes: [],
         temporaryGhosts: [],
+
+        readds: {},
         shouldRerenderResults: false,
 
         bookmarks: existingState.bookmarks || []
@@ -125,7 +128,36 @@
       }, false);
     },
 
-    commitSection: function(section) {
+    readds: function(section, fromReadd, conflicts) {
+      // calculate readds
+      var readds = {};
+
+      // see if this was contained in any re-adds, if so, remove the readd button
+      for (sectionCRN in this.state.readds) {
+        var readdsPerSection = this.state.readds[sectionCRN];
+        for (var i = 0; i < readdsPerSection.length; i++) {
+          readds[sectionCRN] = [];
+          if (readdsPerSection[i].crn != section.crn) {
+            readds[sectionCRN].push(readdsPerSection[i]);
+            break;
+          }
+        }
+      }
+
+      // calculate any new readds to place, if it wasn't from a readd
+      if (!fromReadd) {
+        if (conflicts && conflicts.length > 0) {
+          if (!readds[section.crn]) {
+            readds[section.crn] = [];
+          }
+          readds[section.crn] = readds[section.crn].concat(conflicts);
+        }
+      }
+
+      return readds;
+    },   
+
+    commitSection: function(section, fromReadd) {
       //full switch to this (don't undo when we unhover)
       this.state.pretempYrTerm = section.course.yrTerm;
 
@@ -134,6 +166,10 @@
       var conflicts = this.getConflicts(section);
 
       if (conflicts == null) {
+        if (section.sectionType == MAIN) {
+          this.state.schedule.totalCredits -= parseInt(section.course.credits);
+        }
+
         //removing it
         var idx = -1;
         while (this.state.schedule.sections[++idx].crn != section.crn);
@@ -142,6 +178,10 @@
         ajaxBody[section.crn] = -1;
       }
       else {
+        if (section.sectionType == MAIN) {
+          this.state.schedule.totalCredits += parseInt(section.course.credits);
+        }
+
         //adding it
         this.state.schedule.sections.push(section);
         ajaxBody[section.crn] = 1;
@@ -156,11 +196,16 @@
         });
       }
 
+      var newReadds = this.readds(section, fromReadd, conflicts);
+
       this.load({
         temporaryAdds: [],
-        temporaryGhosts: this.state.temporaryDeletes,
-        temporaryDeletes: []
-      }, section.course.id);
+        temporaryGhosts: [],
+        temporaryDeletes: [],
+        readds: newReadds
+      }, section.course.id); //update only that button for perceived speedup
+
+      // the rest of the results will be updated when the ajax is done
 
       this.courseAjax(ajaxBody);
     },
@@ -181,7 +226,10 @@
           self.loadUser(response.userSecret);
 
           //update schedule
-          self.load({schedules: response.schedules}, true);
+          self.load({
+            schedules: response.schedules,
+            schedule: response.schedules[self.state.pretempYrTerm]},
+            true);
         }
         ).fail(function (response)
         {

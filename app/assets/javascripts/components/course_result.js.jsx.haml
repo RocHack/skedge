@@ -2,319 +2,21 @@
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Button = ReactBootstrap.Button;
-  var ReactUpdate = React.addons.update;
-
+  
   window.CourseResult = React.createClass({
-    getInitialState: function() {
-      return {
-        subcoursesOpened: {}
-      };
-    },
-
-    componentWillReceiveProps: function(nextProps) {
-      if (nextProps.openedSubsections) {
-        var opened = this.state.subcoursesOpened;
-        for (var i = 0; i < nextProps.openedSubsections.length; i++) {
-          var type = ["", "lab", "recitation", "lab lecture", "workshop"][nextProps.openedSubsections[i]];
-          opened[type] = true;
-        }
-        this.setState({subcoursesOpened:opened});
-      }
+    bookmark: function () {
+      SKScheduleAction.changeBookmark(this.props.course);
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
-      return (this.state.subcoursesOpened != nextState.subcoursesOpened ||
-              nextProps.rerender == true ||
-              nextProps.rerender == this.props.course.id);
-    },
-
-    courseDetail: function (course, detail) {
-      var value = course[detail.toLowerCase()];
-      if (value && value.__html && value.__html.length > 0) {
-        return (~
-          .info
-            %strong {detail}:
-            %span(dangerouslySetInnerHTML={value} name={detail.toLowerCase()})
-        ~);
+      if (SKScheduleStore.state.shouldRerenderResults == true ||
+          SKScheduleStore.state.shouldRerenderResults == this.props.course.id) {
+        return true;
       }
-    },
-
-    toggleSubcourses: function (type, event) {
-      var updateHash = {};
-      if (!this.state.subcoursesOpened[type] || this.state.subcoursesOpened[type] == false) {
-        updateHash[type] = {$set: true};
-      } else {
-        updateHash[type] = {$set: false};
-      }
-      this.setState({subcoursesOpened: ReactUpdate(this.state.subcoursesOpened, updateHash)});
-
-      event.preventDefault();
-
-      ahoy.track("$click", {name:"toggle-subcourses",
-                            type:type,
-                            hide:!this.state.subcoursesOpened[type],
-                            courseId:this.props.course.id});
-    },
-
-    readdButtons: function(section, subcourse) {
-      var self = this;
-      if (self.props.readds && self.props.readds[section.crn]) {
-        return self.props.readds[section.crn].map(function(readdSection) {
-          var button = self.formattedButton(readdSection.course, readdSection, subcourse, true);
-          var c = subcourse ? "subcourse-btn" : "section-btn";
-          return (~
-            %div(className={c} key={"readd-btn-"+readdSection.id})
-              {button}
-          ~);
-        });
-      }
-    },
-
-    renderSubcourses: function (subcourses) {
-      var self = this;
-      return subcourses.map(function(section, i) {
-        var button = self.formattedButton(self.props.course, section, true);
-        var week;
-        if (section.abcWeek) {
-          week = (~
-            %strong.subsection-info-crn Week {section.abcWeek}
-          ~);
-        }
-        return (~
-          .subcourse-box(key={"subsection-"+section.id})
-            .subcourse-btn
-              {button}
-
-            {self.readdButtons(section, true)}
-
-            .subcourse-info
-              %p.info
-                {section.timeAndPlace}
-
-                {week}
-
-              %p.info
-                {section.enrollRatio}
-                enrolled
-
-                %strong.subsection-info-crn CRN:
-                {section.crn}
-        ~);
-      });
-    },
-
-    subcourses: function (type) {
-      var self = this;
-      var sectionsByAbc = this.props.course.subcourses[type];
-      
-      var numSections = 0;
-      for (var abc in sectionsByAbc) {
-        numSections += sectionsByAbc[abc].length;
-      }
-
-      if (numSections == 0) {
-        return;
-      }
-
-      if (type == "labLecture") {
-        type = "lab lecture";
-      }
-
-      var subcourseIcons = {
-        workshop: "comments",
-        lab: "flask",
-        recitation: "book",
-        "lab lecture": "cubes"
-      };
-
-      var subcourseIcon = (~
-        %i(class={"subcourses-icon fa fa-"+subcourseIcons[type]})
-      ~);
-
-      if (self.state.subcoursesOpened[type]) {
-        var subcourses = Object.keys(sectionsByAbc).sort().map(function (abc) {
-          var sections = sectionsByAbc[abc];
-          if (abc) {
-            return (~
-              .(key={abc})
-                %h4
-                  {abc}
-                  {type+"s"}
-                {self.renderSubcourses(sections)}
-            ~);
-          } else {
-            return self.renderSubcourses(sections);
-          }
-        });
-
-        return (~
-          .
-            %p.subcourse-show-hide
-              %strong
-                {subcourseIcon}
-
-                {type.charAt(0).toUpperCase() + type.toLowerCase().slice(1)}
-                sections:
-
-              {" "}
-
-              %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
-                (hide)
-            
-            {subcourses}
-        ~);
-      }
-
-      return (~
-        %div
-          .subcourse-show-hide
-            %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
-              %strong
-                {subcourseIcon}
-                Show
-                {numSections}
-                {type}
-                {numSections == 1 ? "section" : "sections"}
-      ~);
-    },
-
-    crosslisted: function(course1, course2) {
-      return (course1.crosslisted.__html &&
-              course1.crosslisted.__html.indexOf(course2.dept + " " + course2.num) >= 0);
-    },
-
-    formattedButton: function(course, section, subsection, readd) {
-      var bsClass, btnText, btnIcons;
-      var btnClass = "add-course-btn";
-      var btnSize = "medium";
-      var type = subsection ? "" : type2name(section.sectionType, false, false);
-      var self = this;
-      
-      var conflicts;
-      if (!section.startTime) {
-        bsClass = "default"; //default (white)
-        btnText = "Time & Place TBA";
-      }
-      else {
-        conflicts = SKScheduleStore.getConflicts(section);
-        if (conflicts == null) {
-          bsClass = "success"; //green
-          btnText = "Remove";
-          if (section.sectionType == MAIN) {
-            btnText += " "+type;
-          }
-        }
-        else if (conflicts.length == 0) {
-          bsClass = "primary"; // blue
-          btnText = "Add";
-          if (section.sectionType == MAIN) {
-            btnText += " "+type;
-          }
-          if (section.abcSection) {
-            btnText += " "+section.abcSection;
-          }
-        }
-        else {
-          var deptAndCnum = function (s) {
-            return [s.course.dept, s.course.num, type2name(s.sectionType, false, true)].join(" ");
-          };
-
-          if (conflicts.length == 1 && !subsection &&
-              this.crosslisted(conflicts[0].course, course)) {
-            bsClass = "info";
-            btnText = "Crosslisted with "+deptAndCnum(conflicts[0]);
-          }
-          else {
-            bsClass = "danger"; // red
-            btnText = "Conflict"; 
-            if (!subsection) {
-              btnText += " with " + conflicts.map(function(s) {
-                return deptAndCnum(s);
-              }).join(" and ");
-            }
-          }
-        }
-      }
-
-      if (subsection) {
-        btnSize = "small";
-        btnClass += " lab-btn";
-      }
-
-      if (readd) {
-        bsClass = "warning";
-        btnText = "Re-add "+course.dept+" "+course.num;
-      }
-
-      if (section.status == CANCELLED) {
-        btnClass += " cancelled";
-        bsClass = "default";
-        btnText = "Cancelled";
-      }
-
-      var tooltipText = "";
-
-      if (section.status == CLOSED) {
-        btnClass += " closed";
-        btnIcons = (~
-          %span.course-icon.fa.fa-ban
-        ~);
-        tooltipText += "This "+type.toLowerCase()+" has reached its cap\n";
-      }
-
-      if (course.requiresCode && conflicts != null) {
-        btnIcons = (~
-          %span
-            {btnIcons}
-            %span.course-icon.fa.fa-lock
-        ~);
-        tooltipText += "Instructor's permission will be required\n";
-      }
-
-      //don't want to disable if the course is already added, since it won't
-      //be removable
-      var disabled = (section.status == CANCELLED && conflicts != null);
-
-      var button = (~
-        %Button(bsStyle={bsClass}
-                bsSize={btnSize}
-                className={btnClass}
-                onMouseEnter={this.hover.bind(this, section, true)}
-                onMouseLeave={this.hover.bind(this, section, false)}
-                onClick={this.commitSection.bind(this, section, readd)}
-                disabled={disabled}
-                id={"add-button-"+section.crn})
-          {btnText}
-          {btnIcons}
-      ~);
-
-      if (btnIcons) {
-        var tooltip = (~
-          %Tooltip {tooltipText}
-        ~);
-        button = (~
-          %OverlayTrigger(placement='top' overlay={tooltip})
-            {button}
-        ~);
-      }
-
-      return button;
-    },
-
-    hover: function (section, inTrue_outFalse) {
-      this.props.hover(section, inTrue_outFalse);
-    },
-
-    commitSection: function (section, fromReadd) {
-      this.props.commitSection(section, fromReadd);
-    },
-
-    bookmark: function () {
-      this.props.changeBookmark(this.props.course);
+      return false;
     },
 
     render: function() {
-      console.log("rerender a xourse");
       var self = this;
       var course = this.props.course;
       var sectionRows;
@@ -322,107 +24,33 @@
       if (course.num[course.num.length-1] == "P" &&
           Object.keys(course.subcourses["lab"]).length == 0) {
         //it in itself is a lab, so use lab buttons
-        sectionRows = self.renderSubcourses(course.sections);
+        sectionRows = (~
+          %CourseResultSubcourses(sections={course.sections})
+        ~);
       }
       else {
         sectionRows = course.sections.map(function(section) {
-          var button = self.formattedButton(course, section);
-          var barStyle = {width:section.enrollBarPercentage+"%"};
-          var barClassName = "progress-bar progress-bar-";
-          if (section.enrollBarPercentage == 100) barClassName += "info";
-          else if (section.enrollBarPercentage < 75)  barClassName += "success";
-          else if (section.enrollBarPercentage < 90)  barClassName += "warning";
-          else if (section.enrollBarPercentage < 100) barClassName += "danger";
-          else barClassName += "closed";
-
-          var instructors;
-          if (section.instructors != "TBA") {
-            instructors = section.instructors.split("; ").map(function (instructor, idx) {
-              var delimiter = idx == 0 ? "" : ", ";
-              var lastName = instructor.split(" ")[0];
-              var url = "/?q=taught+by+"+lastName.toLowerCase();
-              return (~
-                %span(key={section.crn+"-ins"+idx})
-                  {delimiter}
-                  %a(href={url} name="instructor") {instructor}
-              ~);
-            });
-          } else {
-            instructors = "TBA";
-          }
-
           return (~
-            %div(key={"section-"+section.id})
-              .section-box
-                .section-btn
-                  {button}
-
-                {self.readdButtons(section)}
-
-                .section-info
-                  %p.info
-                    %strong Time & Place:
-                    {section.timeAndPlace}
-                  
-                  %p.info
-                    %strong Instructor:
-                    {instructors}                  
-
-                    %strong.section-info-crn CRN:
-                    {section.crn}
-
-
-              .progress-box
-                .progress
-                  %div(style={barStyle} className={barClassName})
-
-                .progress-num
-                  %small
-                    {section.enrollRatio}
-                    enrolled
+            %CourseResultSection(key={section.id} course={course} section={section})
           ~);
         });
       }
-
-      var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
-      var cnumClass = mac ? "bold-mac" : "bold-pc";
 
       var bookmarkText = (this.props.bookmarked ? "Unbookmark" : "Bookmark") + " this course";
       var bookmarkTooltip = (~ %Tooltip {bookmarkText} ~);
       var bookmarkClass = this.props.bookmarked ? "enabled" : "";
 
-      var deptLink = "/?q="+course.dept;
       return (~
         .course-box
           .(onClick={this.bookmark} class={"bookmark " + bookmarkClass})
             %OverlayTrigger(placement='left' overlay={bookmarkTooltip})
               %span.glyphicon.glyphicon-bookmark
 
-          .credits
-            {course.credits + " credit" + (course.credits == "1" ? "" : "s")}
-
-          %p.lead
-            %a.no-link(href={deptLink} name="course-dept")
-              {course.dept}
-            %span(class={"cnum "+cnumClass}) {course.num + ": "}
-            {course.title}
-
-          %p.course-details
-            {self.courseDetail(course, "Comments")}
-            {self.courseDetail(course, "Restrictions")}
-            {self.courseDetail(course, "Prerequisites")}
-            {self.courseDetail(course, "Crosslisted")}
-            {self.courseDetail(course, "Clusters")}
-          %p.desc
-            %span(dangerouslySetInnerHTML={course.description})
+          %CourseResultInfo(course={course})
           
           {sectionRows}
 
-          .subcourses
-            {self.subcourses("lab")}
-            {self.subcourses("recitation")}
-            {self.subcourses("workshop")}
-            {self.subcourses("labLecture")}
+          %CourseResultSubcoursesToggle(course={course})
       ~);
     }
   });

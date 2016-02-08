@@ -1,0 +1,188 @@
+(function() {
+  var Tooltip = ReactBootstrap.Tooltip;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Button = ReactBootstrap.Button;
+
+  window.CourseResultButton = React.createClass({
+    readdButtons: function() {
+      var section = this.props.section;
+
+      var self = this;
+      var readds = SKScheduleStore.state.readds;
+
+      if (readds && readds[section.crn]) {
+        return readds[section.crn].map(function(readdSection) {
+          var button = self.button(readdSection.course, readdSection, true);
+          var c = self.props.subsection ? "subcourse-btn" : "section-btn";
+          return (~
+            %div(className={c} key={"readd-btn-"+readdSection.id})
+              {button}
+          ~);
+        });
+      }
+    },
+
+    crosslisted: function(course1, course2) {
+      return (course1.crosslisted.__html &&
+              course1.crosslisted.__html.indexOf(course2.dept + " " + course2.num) >= 0);
+    },
+
+    button: function(course, section, readd) {
+      var bsClass, btnText, btnIcons;
+      var btnClass = "add-course-btn";
+      var btnSize = "medium";
+      var type = this.props.subsection ? "" : type2name(section.sectionType, false, false);
+      var self = this;
+      
+      var conflicts;
+      if (!section.startTime) {
+        bsClass = "default"; //default (white)
+        btnText = "Time & Place TBA";
+      }
+      else {
+        conflicts = SKScheduleStore.getConflicts(section);
+        if (conflicts == null) {
+          bsClass = "success"; //green
+          btnText = "Remove";
+          if (section.sectionType == MAIN) {
+            btnText += " "+type;
+          }
+        }
+        else if (conflicts.length == 0) {
+          bsClass = "primary"; // blue
+          btnText = "Add";
+          if (section.sectionType == MAIN) {
+            btnText += " "+type;
+          }
+          if (section.abcSection) {
+            btnText += " "+section.abcSection;
+          }
+        }
+        else {
+          var deptAndCnum = function (s) {
+            return [s.course.dept, s.course.num, type2name(s.sectionType, false, true)].join(" ");
+          };
+
+          if (conflicts.length == 1 && !this.props.subsection &&
+              this.crosslisted(conflicts[0].course, course)) {
+            bsClass = "info";
+            btnText = "Crosslisted with "+deptAndCnum(conflicts[0]);
+          }
+          else {
+            bsClass = "danger"; // red
+            btnText = "Conflict"; 
+            if (!this.props.subsection) {
+              btnText += " with " + conflicts.map(function(s) {
+                return deptAndCnum(s);
+              }).join(" and ");
+            }
+          }
+        }
+      }
+
+      if (this.props.subsection) {
+        btnSize = "small";
+        btnClass += " lab-btn";
+      }
+
+      if (readd) {
+        bsClass = "warning";
+        btnText = "Re-add "+course.dept+" "+course.num;
+      }
+
+      if (section.status == CANCELLED) {
+        btnClass += " cancelled";
+        bsClass = "default";
+        btnText = "Cancelled";
+      }
+
+      var tooltipText = "";
+
+      if (section.status == CLOSED) {
+        btnClass += " closed";
+        btnIcons = (~
+          %span.course-icon.fa.fa-ban
+        ~);
+        tooltipText += "This "+type.toLowerCase()+" has reached its cap\n";
+      }
+
+      if (course.requiresCode && conflicts != null) {
+        btnIcons = (~
+          %span
+            {btnIcons}
+            %span.course-icon.fa.fa-lock
+        ~);
+        tooltipText += "Instructor's permission will be required\n";
+      }
+
+      //don't want to disable if the course is already added, since it won't
+      //be removable
+      var disabled = (section.status == CANCELLED && conflicts != null);
+
+      var button = (~
+        %Button(bsStyle={bsClass}
+                bsSize={btnSize}
+                className={btnClass}
+                onMouseEnter={this.hover.bind(this, section, true)}
+                onMouseLeave={this.hover.bind(this, section, false)}
+                onClick={this.commitSection.bind(this, section, readd)}
+                disabled={disabled}
+                id={"add-button-"+section.crn})
+          {btnText}{btnIcons}
+      ~);
+
+      if (btnIcons) {
+        var tooltip = (~
+          %Tooltip {tooltipText}
+        ~);
+        button = (~
+          %OverlayTrigger(placement='top' overlay={tooltip})
+            {button}
+        ~);
+      }
+
+      return button;
+    },
+
+    hover: function(section, inTrue_outFalse) {
+      if (!section.startTime || section.status == CANCELLED) {
+        return;
+      }
+
+      if (inTrue_outFalse) {
+        SKScheduleAction.temporaryizeSection(section);
+      }
+      else {
+        SKScheduleAction.untemporaryizeSection(section); 
+      }
+    },
+
+    commitSection: function (section, fromReadd) {
+      if (!section.startTime) {
+        return;
+      }
+
+      var conflicts = this.props.conflicts;
+
+      var trackingProps = {crn: section.crn};
+      trackingProps.name = "commit-section";
+      trackingProps.readd = fromReadd;
+      trackingProps.add = (fromReadd || conflicts != null);
+      trackingProps.conflicts = (!fromReadd && conflicts != null && conflicts.length > 0);
+
+      ahoy.track("$click", trackingProps);
+
+      SKScheduleAction.commitSection(section, fromReadd);
+    },
+
+    render: function () {
+      return (~
+        %span
+          .section-btn
+            {this.button(this.props.course, this.props.section)}
+
+          {this.readdButtons()}
+      ~);
+    }
+  });
+})();

@@ -16,16 +16,17 @@
     listenables: [SKScheduleAction],
 
     getInitialState: function() {
+      var existingState = this.state || {};
       this.state = {
-        schedule: null,
-        schedules: {},
-        pretempYrTerm: null,
+        schedule: existingState.schedule,
+        schedules: existingState.schedules || {},
+        pretempYrTerm: existingState.pretempYrTerm,
         temporaryAdds: [],
         temporaryDeletes: [],
         temporaryGhosts: [],
         shouldRerenderResults: false,
 
-        bookmarks: []
+        bookmarks: existingState.bookmarks || []
       };
 
       return this.state;
@@ -44,7 +45,7 @@
     loadSchedulesAndBookmarks: function(schedules, defaultSchedule, bookmarks) {
       this.state.schedules = schedules;
       this.state.bookmarks = bookmarks || [];
-      this.changeSchedule(defaultSchedule);
+      this.changeSchedule(defaultSchedule, true);
     },
 
     changeBookmark: function(course) {
@@ -71,8 +72,8 @@
       });
     },
 
-    changeSchedule: function(yrTerm) {
-      this.load({schedule: this.state.schedules[yrTerm], pretempYrTerm: yrTerm}, false);
+    changeSchedule: function(yrTerm, rerender=false) {
+      this.load({schedule: this.state.schedules[yrTerm], pretempYrTerm: yrTerm}, rerender);
     },
 
     temporaryizeSection: function(section) {

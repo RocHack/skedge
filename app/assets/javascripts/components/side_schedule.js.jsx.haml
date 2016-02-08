@@ -1,8 +1,9 @@
 (function() {
   window.SideSchedule = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
-    getInitialState: function() {
-      SKScheduleAction.loadSchedulesAndBookmarks(
+    
+    componentWillMount: function() {
+      SKScheduleAction.loadSchedulesAndBookmarks.trigger(
         this.props.schedules,
         this.props.defaultSchedule,
         this.props.bookmarks

@@ -2,6 +2,7 @@
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Button = ReactBootstrap.Button;
+  var ReactUpdate = React.addons.update;
 
   window.CourseResult = React.createClass({
     getInitialState: function() {
@@ -22,7 +23,8 @@
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
-      return (nextProps.rerender == true ||
+      return (this.state.subcoursesOpened != nextState.subcoursesOpened ||
+              nextProps.rerender == true ||
               nextProps.rerender == this.props.course.id);
     },
 
@@ -38,12 +40,13 @@
     },
 
     toggleSubcourses: function (type, event) {
+      var updateHash = {};
       if (!this.state.subcoursesOpened[type] || this.state.subcoursesOpened[type] == false) {
-        this.state.subcoursesOpened[type] = true;
+        updateHash[type] = {$set: true};
       } else {
-        this.state.subcoursesOpened[type] = false;
+        updateHash[type] = {$set: false};
       }
-      this.setState({subcoursesOpened:this.state.subcoursesOpened});
+      this.setState({subcoursesOpened: ReactUpdate(this.state.subcoursesOpened, updateHash)});
 
       event.preventDefault();
 
@@ -311,6 +314,7 @@
     },
 
     render: function() {
+      console.log("rerender a xourse");
       var self = this;
       var course = this.props.course;
       var sectionRows;

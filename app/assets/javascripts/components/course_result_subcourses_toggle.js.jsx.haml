@@ -22,6 +22,11 @@
     },
 
     toggleSubcourses: function (type, event) {
+      ahoy.track("$click", {name:"toggle-subcourses",
+                            type:type,
+                            hide:this.state.subcoursesOpened[type],
+                            courseId:this.props.course.id});
+
       var updateHash = {};
       if (!this.state.subcoursesOpened[type] || this.state.subcoursesOpened[type] == false) {
         updateHash[type] = {$set: true};
@@ -32,11 +37,6 @@
       this.setState({subcoursesOpened: ReactUpdate(this.state.subcoursesOpened, updateHash)});
 
       event.preventDefault();
-
-      ahoy.track("$click", {name:"toggle-subcourses",
-                            type:type,
-                            hide:!this.state.subcoursesOpened[type],
-                            courseId:this.props.course.id});
     },
 
     subcourses: function (type) {

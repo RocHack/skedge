@@ -187,7 +187,7 @@
         return;
       }
 
-      var conflicts = this.props.conflicts;
+      var conflicts = SKScheduleStore.getConflicts(section);
 
       var trackingProps = {crn: section.crn};
       trackingProps.name = "commit-section";

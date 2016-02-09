@@ -22,8 +22,6 @@
         return like.id == self.props.course.id;
       });
 
-      console.log("onStoreChange!!!");
-
       if (!this.state.fbLoaded && social.friends.length > 0) {
         console.log("doing social/courses");
         $.get('social/courses', {friends: social.friends, course_id:this.props.course.id}, function (data) {

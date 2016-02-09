@@ -132,14 +132,15 @@
       // calculate readds
       var readds = {};
 
-      // see if this was contained in any re-adds, if so, remove the readd button
+      // copy all readds from before, minus this one
       for (sectionCRN in this.state.readds) {
         var readdsPerSection = this.state.readds[sectionCRN];
         for (var i = 0; i < readdsPerSection.length; i++) {
-          readds[sectionCRN] = [];
           if (readdsPerSection[i].crn != section.crn) {
+            if (!readds[sectionCRN]) {
+              readds[sectionCRN] = [];
+            }
             readds[sectionCRN].push(readdsPerSection[i]);
-            break;
           }
         }
       }
@@ -157,7 +158,7 @@
       return readds;
     },   
 
-    commitSection: function(section, fromReadd) {
+    commitSection: function(section, fromReadd, originalFromReaddSection) {
       //full switch to this (don't undo when we unhover)
       this.state.pretempYrTerm = section.course.yrTerm;
 
@@ -203,7 +204,7 @@
         temporaryGhosts: [],
         temporaryDeletes: [],
         readds: newReadds
-      }, section.course.id); //update only that button for perceived speedup
+      }, originalFromReaddSection.course.id); //update only that button for perceived speedup
 
       // the rest of the results will be updated when the ajax is done
 

@@ -1,9 +1,5 @@
 (function() {
   window.CourseResultInfo = React.createClass({
-    shouldComponentUpdate: function(nextProps, nextState) {
-      return false;  
-    },
-
     courseDetail: function (course, detail) {
       var value = course[detail.toLowerCase()];
       if (value && value.__html && value.__html.length > 0) {

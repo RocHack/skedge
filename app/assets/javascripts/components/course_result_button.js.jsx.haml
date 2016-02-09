@@ -4,13 +4,35 @@
   var Button = ReactBootstrap.Button;
 
   window.CourseResultButton = React.createClass({
+    mixins: [Reflux.ListenerMixin],
+
+    getInitialState: function() {
+      return {
+        readds: {}
+      };
+    },
+
+    onStoreChange: function(store) {
+      if (store.shouldRerenderResults === true ||
+          store.shouldRerenderResults == this.props.course.id)
+      {
+        this.setState({
+          readds: store.readds
+        });
+      }
+    },
+
+    componentDidMount: function() {
+      this.listenTo(SKScheduleStore, this.onStoreChange);
+    },
+
     readdButtons: function() {
       var section = this.props.section;
 
       var self = this;
-      var readds = SKScheduleStore.state.readds;
+      var readds = this.state.readds;
 
-      if (readds && readds[section.crn]) {
+      if (readds[section.crn]) {
         return readds[section.crn].map(function(readdSection) {
           var button = self.button(readdSection.course, readdSection, true);
           var c = self.props.subsection ? "subcourse-btn" : "section-btn";
@@ -19,6 +41,9 @@
               {button}
           ~);
         });
+      }
+      else {
+        return null;
       }
     },
 
@@ -172,16 +197,18 @@
 
       ahoy.track("$click", trackingProps);
 
-      SKScheduleAction.commitSection(section, fromReadd);
+      SKScheduleAction.commitSection(section, fromReadd, this.props.section);
     },
 
     render: function () {
+      var button = this.button(this.props.course, this.props.section);
+      var readds = this.readdButtons();
       return (~
         %span
           .section-btn
-            {this.button(this.props.course, this.props.section)}
+            {button}
 
-          {this.readdButtons()}
+          {readds}
       ~);
     }
   });

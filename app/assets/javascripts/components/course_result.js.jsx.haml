@@ -9,11 +9,9 @@
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
-      if (SKScheduleStore.state.shouldRerenderResults == true ||
-          SKScheduleStore.state.shouldRerenderResults == this.props.course.id) {
-        return true;
-      }
-      return false;
+      //only update if bookmarks change. otherwise, nothing changes, so don't change!
+      // (only thing that would change is button, which handles its own changes)
+      return this.props.bookmarked != nextProps.bookmarked;
     },
 
     render: function() {

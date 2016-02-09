@@ -80,6 +80,11 @@ a.no-link
   font-family: sans-serif;  
 }
 
+.num-bookmarks > .fa-archive
+{
+  margin-left: -3px;
+}
+
 /* Fixed stuff */
 
 .sk-fixed

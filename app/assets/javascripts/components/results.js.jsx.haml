@@ -35,14 +35,10 @@
             var bookmarked = self.state.store.bookmarks.some(function(bk) {
               return bk.id == course.id;
             });
-            var liked = self.state.social.likes.some(function(like) {
-              return like.id == course.id;
-            });
-
+            
             return (~
               %CourseResult(course={course}
                             key={"course-"+course.id}
-                            like={liked}
                             friends={self.state.social.friends}
                             socialLoggedIn={self.state.social.loggedIn})
                             bookmarked={bookmarked})

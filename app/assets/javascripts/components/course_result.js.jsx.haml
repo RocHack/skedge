@@ -4,28 +4,6 @@
   var Button = ReactBootstrap.Button;
   
   window.CourseResult = React.createClass({
-    getInitialState: function() {
-      return {
-        friendsTakingCourse: [],
-        friendsLikeCourse: [],
-        like: this.props.like
-      };
-    },
-
-    componentWillReceiveProps: function(nextProps) {
-      this.setState({like:nextProps.like});
-
-      var self = this;
-      if (nextProps.friends.length > this.props.friends) {
-        $.get('social/courses', {friends: nextProps.friends, course_id:nextProps.course.id}, function (data) {
-          self.setState({
-            friendsTakingCourse: data.taking,
-            friendsLikeCourse: data.like
-          });
-        });
-      }
-    },
-
     bookmark: function () {
       SKScheduleAction.changeBookmark(this.props.course);
     },
@@ -34,42 +12,6 @@
       //only update if bookmarks change. otherwise, nothing changes, so don't change!
       // (only thing that would change is button, which handles its own changes)
       return this.props.bookmarked != nextProps.bookmarked;
-    },
-
-    like: function (event) {
-      event.preventDefault();
-      this.setState({like: !this.state.like});
-
-      $.post("social/like", {id: this.props.course.id}, function (data) {
-      });
-    },
-
-    listFriends: function (friends) {
-      if (friends.length == 0) {
-        return (~
-          .results-social-none
-            None so far!
-        ~);
-      }
-
-      var self = this;
-      return friends.map(function (friend, idx) {
-        var yearTerm;
-        for (i = 0; i < friend.schedules.length; i++) {
-          var schedule = friend.schedules[i];
-          if (schedule.yrTerm == self.props.course.yrTerm) {
-            yearTerm = (~
-              %a.block-link(href={"/"+schedule.rid} key="yrterm")
-                {schedule.term}
-                {schedule.year}
-            ~);
-          }
-        }
-        return (~
-          .results-social-user(key={friend.fb_id+idx})
-            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
-        ~)
-      });
     },
 
     render: function() {
@@ -92,50 +34,6 @@
         });
       }
 
-      var friendsTakingList = this.listFriends(this.state.friendsTakingCourse);
-      var friendsLikeList = this.listFriends(this.state.friendsLikeCourse);
-
-      var ftc = (~
-        .results-social-box
-          .results-social-box-header
-            %i.fa.fa-check-square-o.results-social-icon
-            Friends taking this course:
-          .
-            {friendsTakingList}
-      ~);
-
-      var likes = (~
-        .results-social-box
-          .results-social-box-header
-            %i.fa.fa-thumbs-o-up.results-social-icon
-            Friends that like this course:
-          .
-            {friendsLikeList}
-      ~);
-
-      var likeVerb = this.state.like ? "Unlike" : "Like";
-      var friends = !this.props.socialLoggedIn ? null : (~
-        %a.results-social-like(href="#" onClick={this.like})
-          %i.fa.fa-thumbs-o-up.results-social-icon-like
-          {likeVerb} this course
-      ~);
-      if (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length > 0) {
-        friends = (~
-          .
-            .
-              {friends}
-            .results-social
-              %a.results-social-header.no-link(href="/social")
-                %i.fa.fa-globe.results-social-globe
-                skedge social
-              .row
-                .col-md-6
-                  {ftc}
-                .col-md-6
-                  {likes}
-        ~);
-      }
-
       var bookmarkText = (this.props.bookmarked ? "Unbookmark" : "Bookmark") + " this course";
       var bookmarkTooltip = (~ %Tooltip {bookmarkText} ~);
       var bookmarkClass = this.props.bookmarked ? "enabled" : "";
@@ -152,7 +50,7 @@
 
           %CourseResultSubcoursesToggle(course={course})
           
-          {friends}
+          %CourseResultSocial(course={course})
       ~);
     }
   });

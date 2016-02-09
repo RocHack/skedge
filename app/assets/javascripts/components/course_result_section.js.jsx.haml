@@ -1,0 +1,59 @@
+(function() {
+  window.CourseResultSection = React.createClass({
+    render: function () {
+      var section = this.props.section;
+      var course = this.props.course;
+
+      var barStyle = {width:section.enrollBarPercentage+"%"};
+      var barClassName = "progress-bar progress-bar-";
+      if (section.enrollBarPercentage == 100) barClassName += "info";
+      else if (section.enrollBarPercentage < 75)  barClassName += "success";
+      else if (section.enrollBarPercentage < 90)  barClassName += "warning";
+      else if (section.enrollBarPercentage < 100) barClassName += "danger";
+      else barClassName += "closed";
+
+      var instructors;
+      if (section.instructors != "TBA") {
+        instructors = section.instructors.split("; ").map(function (instructor, idx) {
+          var delimiter = idx == 0 ? "" : ", ";
+          var lastName = instructor.split(" ")[0];
+          var url = "/?q=taught+by+"+lastName.toLowerCase();
+          return (~
+            %span(key={section.crn+"-ins"+idx})
+              {delimiter}
+              %a(href={url} name="instructor") {instructor}
+          ~);
+        });
+      } else {
+        instructors = "TBA";
+      }
+
+      return (~
+        %div(key={"section-"+section.id})
+          .section-box
+            %CourseResultButton(course={course} section={section})
+
+            .section-info
+              %p.info
+                %strong Time & Place:
+                {section.timeAndPlace}
+              
+              %p.info
+                %strong Instructor:
+                {instructors}                  
+
+                %strong.section-info-crn CRN:
+                {section.crn}
+
+          .progress-box
+            .progress
+              .(style={barStyle} className={barClassName})
+
+            .progress-num
+              %small
+                {section.enrollRatio}
+                enrolled
+      ~);
+    }
+  });
+})();

@@ -2,13 +2,12 @@
   var ReactUpdate = React.addons.update;
 
   window.SKScheduleAction = Reflux.createActions([
-    'loadSchedules',
+    'loadSchedulesAndBookmarks',
     'temporaryizeSection',
     'untemporaryizeSection',
     'commitSection',
     'changeSchedule',
     'getConflicts',
-    'loadBookmarks',
     'changeBookmark',
     'loadUser'
   ]);
@@ -17,28 +16,39 @@
     listenables: [SKScheduleAction],
 
     getInitialState: function() {
+      var existingState = this.state || {};
       this.state = {
-        schedule: null,
-        schedules: {},
-        pretempYrTerm: null,
+        schedule: existingState.schedule,
+        schedules: existingState.schedules || {},
+        pretempYrTerm: existingState.pretempYrTerm,
+
         temporaryAdds: [],
         temporaryDeletes: [],
         temporaryGhosts: [],
 
-        bookmarks: [],
+        readds: {},
+        shouldRerenderResults: false,
+
+        bookmarks: existingState.bookmarks || []
       };
 
       return this.state;
     },
 
-    loadBookmarks: function(bookmarks) {
-      this.state.bookmarks = bookmarks || [];
-      this.trigger(this.state);
+    load: function (props, shouldRerenderResults) {
+      if (props) {
+        for (key in props) {
+          this.state[key] = props[key];
+        }
+        this.state.shouldRerenderResults = shouldRerenderResults;
+        this.trigger(this.state);
+      }
     },
 
-    loadSchedules: function(schedules, defaultSchedule) {
+    loadSchedulesAndBookmarks: function(schedules, defaultSchedule, bookmarks) {
       this.state.schedules = schedules;
-      this.changeSchedule(defaultSchedule);
+      this.state.bookmarks = bookmarks || [];
+      this.changeSchedule(defaultSchedule, true);
     },
 
     changeBookmark: function(course) {
@@ -46,12 +56,13 @@
         return bk.id == course.id;
       });
 
+      var bookmarks;
       if (idx < 0) {
-        this.state.bookmarks = this.state.bookmarks.concat(course);
+        bookmarks = this.state.bookmarks.concat(course);
       } else {
-        this.state.bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
+        bookmarks = ReactUpdate(this.state.bookmarks, {$splice: [[idx, 1]]});
       }
-      this.trigger(this.state);
+      this.load({bookmarks: bookmarks}, course.id);
 
       var self = this;
       $.post("bookmark", {course_id:course.id}, function (response) {
@@ -64,23 +75,11 @@
       });
     },
 
-    changeSchedule: function(yrTerm) {
-      this.state.schedule = this.state.schedules[yrTerm];
-      this.state.pretempYrTerm = yrTerm;
-      this.trigger(this.state);
+    changeSchedule: function(yrTerm, rerender) {
+      this.load({schedule: this.state.schedules[yrTerm], pretempYrTerm: yrTerm}, rerender);
     },
 
     temporaryizeSection: function(section) {
-      this.state = {
-        schedule: this.state.schedule,
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
-        temporaryAdds: this.state.temporaryAdds,
-        temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks
-      };
-
       //we might need to switch schedules (if it's a different term)
       //save the yrTerm, create a new schedule if needed, and switch to it
       var yrTerm = section.course.yrTerm;
@@ -88,6 +87,7 @@
         this.state.pretempYrTerm = this.state.schedule.yrTerm;
       }
       if (!this.state.schedules[yrTerm]) {
+        // New, temporary schedule
         this.state.schedules[yrTerm] = {
           yrTerm: yrTerm,
           term: section.course.term,
@@ -113,35 +113,52 @@
         }
       }
 
+      this.state.shouldRerenderResults = false;
+
       this.trigger(this.state);
     },
 
     untemporaryizeSection: function(section) {
       //undo everything in the method above, basically
-      this.state = {
+      this.load({
         schedule: this.state.schedules[this.state.pretempYrTerm],
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
         temporaryAdds: [],
         temporaryDeletes: [],
-        temporaryGhosts: [],
-        bookmarks: this.state.bookmarks
-      };
-
-      this.trigger(this.state);
+        temporaryGhosts: []
+      }, false);
     },
 
-    commitSection: function(section) {
-      this.state = {
-        schedule: this.state.schedule,
-        schedules: this.state.schedules,
-        pretempYrTerm: this.state.pretempYrTerm,
-        temporaryAdds: this.state.temporaryAdds,
-        temporaryDeletes: this.state.temporaryDeletes,
-        temporaryGhosts: this.state.temporaryGhosts,
-        bookmarks: this.state.bookmarks
-      };
+    readds: function(section, fromReadd, conflicts) {
+      // calculate readds
+      var readds = {};
 
+      // copy all readds from before, minus this one
+      for (sectionCRN in this.state.readds) {
+        var readdsPerSection = this.state.readds[sectionCRN];
+        for (var i = 0; i < readdsPerSection.length; i++) {
+          if (readdsPerSection[i].crn != section.crn) {
+            if (!readds[sectionCRN]) {
+              readds[sectionCRN] = [];
+            }
+            readds[sectionCRN].push(readdsPerSection[i]);
+          }
+        }
+      }
+
+      // calculate any new readds to place, if it wasn't from a readd
+      if (!fromReadd) {
+        if (conflicts && conflicts.length > 0) {
+          if (!readds[section.crn]) {
+            readds[section.crn] = [];
+          }
+          readds[section.crn] = readds[section.crn].concat(conflicts);
+        }
+      }
+
+      return readds;
+    },   
+
+    commitSection: function(section, fromReadd, originalFromReaddSection) {
       //full switch to this (don't undo when we unhover)
       this.state.pretempYrTerm = section.course.yrTerm;
 
@@ -150,6 +167,10 @@
       var conflicts = this.getConflicts(section);
 
       if (conflicts == null) {
+        if (section.sectionType == MAIN) {
+          this.state.schedule.totalCredits -= parseInt(section.course.credits);
+        }
+
         //removing it
         var idx = -1;
         while (this.state.schedule.sections[++idx].crn != section.crn);
@@ -158,9 +179,14 @@
         ajaxBody[section.crn] = -1;
       }
       else {
+        if (section.sectionType == MAIN) {
+          this.state.schedule.totalCredits += parseInt(section.course.credits);
+        }
+
         //adding it
         this.state.schedule.sections.push(section);
         ajaxBody[section.crn] = 1;
+
         //remove any conflicts
         var self = this;
         conflicts.some(function (conflict) {
@@ -171,13 +197,18 @@
         });
       }
 
-      this.state.temporaryAdds = [];
-      this.state.temporaryGhosts = this.state.temporaryDeletes;
-      this.state.temporaryDeletes = [];
+      var newReadds = this.readds(section, fromReadd, conflicts);
+
+      this.load({
+        temporaryAdds: [],
+        temporaryGhosts: [],
+        temporaryDeletes: [],
+        readds: newReadds
+      }, originalFromReaddSection.course.id); //update only that button for perceived speedup
+
+      // the rest of the results will be updated when the ajax is done
 
       this.courseAjax(ajaxBody);
-
-      this.trigger(this.state);
     },
 
     loadUser: function(user) {
@@ -189,12 +220,11 @@
 
       //update schedule
       if (user.schedules) {
-        this.state.schedules = user.schedules;
-        this.trigger(this.state);
-
-        if (user.defaultSchedule) {
-          this.changeSchedule(user.defaultSchedule);
-        }
+        var defaultSchedule = (this.state && this.state.pretempYrTerm) || user.defaultSchedule;
+        this.load({
+          schedules: user.schedules,
+          schedule: user.schedules[defaultSchedule]},
+          true);
       }
     },
 

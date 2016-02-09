@@ -55,6 +55,15 @@ task :scrape do
   end
 end rescue nil
 
+desc "Analytics"
+task :analytics do
+  on roles(:app, :web), in: :sequence do
+    type = ENV['type'] ? ":#{ENV['type']}" : nil
+    execute "source /home/deploy/.profile && cd #{current_path} && bundle exec rake analytics#{type}"
+    download! "#{current_path}/analytics/", ".", :recursive => true
+  end
+end rescue nil
+
 desc "Tail log"
 task :log do
   on roles(:app, :web), in: :sequence do

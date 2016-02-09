@@ -1,0 +1,36 @@
+(function() {
+  window.CourseResultSubcourses = React.createClass({
+    render: function () {
+      var self = this;
+      var subs = this.props.sections.map(function(section, i) {
+        var week;
+        if (section.abcWeek) {
+          week = (~
+            %strong.subsection-info-crn Week {section.abcWeek}
+          ~);
+        }
+        return (~
+          .subcourse-box(key={"subsection-"+section.id})
+            %CourseResultButton(section={section} course={self.props.course} subsection={true})
+
+            .subcourse-info
+              %p.info
+                {section.timeAndPlace}
+
+                {week}
+
+              %p.info
+                {section.enrollRatio}
+                enrolled
+
+                %strong.subsection-info-crn CRN:
+                {section.crn}
+        ~);
+      });
+      return (~
+        .
+          {subs}
+      ~);
+    }
+  });
+})();

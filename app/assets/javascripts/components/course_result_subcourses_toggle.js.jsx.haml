@@ -1,0 +1,129 @@
+(function() {
+  var ReactUpdate = React.addons.update;
+
+  window.CourseResultSubcoursesToggle = React.createClass({
+    getInitialState: function() {
+      var opened = {};
+
+      var schedule;
+      if (schedule = SKScheduleStore.state.schedules[this.props.course.yrTerm]) {
+        var sections = schedule.sections;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].sectionType != MAIN && sections[i].course.id == this.props.course.id) {
+            var type = ["", "lab", "recitation", "lab lecture", "workshop"][sections[i].sectionType];
+            opened[type] = true;
+          }
+        }
+      }
+
+      return {
+        subcoursesOpened: opened
+      };
+    },
+
+    toggleSubcourses: function (type, event) {
+      ahoy.track("$click", {name:"toggle-subcourses",
+                            type:type,
+                            hide:this.state.subcoursesOpened[type],
+                            courseId:this.props.course.id});
+
+      var updateHash = {};
+      if (!this.state.subcoursesOpened[type] || this.state.subcoursesOpened[type] == false) {
+        updateHash[type] = {$set: true};
+      } else {
+        updateHash[type] = {$set: false};
+      }
+
+      this.setState({subcoursesOpened: ReactUpdate(this.state.subcoursesOpened, updateHash)});
+
+      event.preventDefault();
+    },
+
+    subcourses: function (type) {
+      var self = this;
+      var sectionsByAbc = this.props.course.subcourses[type];
+      
+      var numSections = 0;
+      for (var abc in sectionsByAbc) {
+        numSections += sectionsByAbc[abc].length;
+      }
+
+      if (numSections == 0) {
+        return;
+      }
+
+      if (type == "labLecture") {
+        type = "lab lecture";
+      }
+
+      var subcourseIcons = {
+        workshop: "comments",
+        lab: "flask",
+        recitation: "book",
+        "lab lecture": "cubes"
+      };
+
+      var subcourseIcon = (~
+        %i(class={"subcourses-icon fa fa-"+subcourseIcons[type]})
+      ~);
+
+      if (self.state.subcoursesOpened[type]) {
+        var subcourses = Object.keys(sectionsByAbc).sort().map(function (abc) {
+          var sections = sectionsByAbc[abc];
+          var subs = (~
+            %CourseResultSubcourses(course={self.props.course} sections={sections} key={abc})
+          ~);
+          if (abc) {
+            return (~
+              .(key={abc})
+                %h4
+                  {abc}
+                  {type+"s"}
+                {subs}
+            ~);
+          }
+          return subs;
+        });
+
+        return (~
+          .
+            %p.subcourse-show-hide
+              %strong
+                {subcourseIcon}
+
+                {type.charAt(0).toUpperCase() + type.toLowerCase().slice(1)}
+                sections:
+
+              {" "}
+
+              %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
+                (hide)
+            
+            {subcourses}
+        ~);
+      }
+
+      return (~
+        .subcourse-show-hide
+          %a(href="#" onClick={self.toggleSubcourses.bind(self, type)})
+            %strong
+              {subcourseIcon}
+              Show
+              {numSections}
+              {type}
+              {numSections == 1 ? "section" : "sections"}
+      ~);
+    },
+
+    render: function() {
+      return (~
+        .subcourses
+          {this.subcourses("lab")}
+          {this.subcourses("recitation")}
+          {this.subcourses("workshop")}
+          {this.subcourses("labLecture")}
+      ~);  
+    }
+  });
+})();
+    

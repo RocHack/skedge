@@ -64,9 +64,8 @@
       ~);
 
       var numBookmarks = this.state.store.bookmarks.length;
-      if (numBookmarks == 0 || numBookmarks > 9) {
-        numBookmarks = null;
-      }
+      if (numBookmarks == 0) numBookmarks = null;
+      if (numBookmarks > 9) numBookmarks = (~ %i.fa.fa-archive ~);
 
       return (~
         %form(action=".")

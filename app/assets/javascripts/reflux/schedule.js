@@ -75,7 +75,7 @@
       });
     },
 
-    changeSchedule: function(yrTerm, rerender=false) {
+    changeSchedule: function(yrTerm, rerender) {
       this.load({schedule: this.state.schedules[yrTerm], pretempYrTerm: yrTerm}, rerender);
     },
 

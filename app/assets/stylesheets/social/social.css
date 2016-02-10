@@ -2,6 +2,13 @@
 
 /************************/
 
+.label.label-danger
+{
+  font-size: 12px;
+  vertical-align: top;
+  margin-left: -5px;
+}
+
 .badge.badge-notifications
 {
   background:red;
@@ -26,6 +33,25 @@
 {
   font-size: 50px;
   margin-right: 10px;
+}
+
+.social-callout-btn
+{
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.social-callout-icons
+{
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.social-callout-icons > i
+{
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 /************************/

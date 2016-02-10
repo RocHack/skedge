@@ -2,6 +2,7 @@
   var Button = ReactBootstrap.Button;
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Popover = ReactBootstrap.Popover;
 
   window.SearchBar = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store"),
@@ -56,11 +57,36 @@
           {this.props.requests.length}
       ~);
 
+      var callout = (~
+        .(hidden={true})
+          #social-callout
+            .social-callout-icons
+              %i.fa.fa-refresh
+              %i.fa.fa-calendar-check-o
+              %i.fa.fa-thumbs-o-up
+              %i.fa.fa-lock
+            %strong Connect Skedge with Facebook!
+            %p
+              – Sync your schedule across devices
+              %br
+              – See what your friends are taking
+            %a(href="/social")
+              %Button.social-callout-btn(bsStyle='primary') Try it or learn more!
+            %Button#social-callout-dismiss.social-callout-btn Dismiss
+      ~);
+
       var social = mobilecheck() ? null : (~
-        %a(href="social")
-          %Button.social-btn(bsStyle="link")
-            %i.fa.fa-globe
-            {badge}
+        .
+          {callout}
+          %a(href="social")
+            %Button.social-btn(bsStyle="link"
+                               data-container="body"
+                               data-toggle="popover"
+                               data-placement="bottom")
+              %i.fa.fa-globe
+              {badge}
+              .label.label-danger
+                New!
       ~);
 
       var numBookmarks = this.state.store.bookmarks.length;

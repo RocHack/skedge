@@ -1,6 +1,7 @@
 (function() {
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Popover = ReactBootstrap.Popover;
 
   var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -191,13 +192,16 @@
 
       var splashOptions = page ? null : (~
         .splash-options
-          .col-md-4.lead
+          .col-md-3.lead
             %a(href="#departments" onClick={this.select.bind(this, "departments")} name="splash-depts")
               departments
-          .col-md-4.lead
+          .col-md-3.lead
             %a#search-link(href="#search" onClick={this.select.bind(this, "search")})
               search
-          .col-md-4.lead
+          .col-md-3.lead
+            %a(href="/social")
+              social
+          .col-md-3.lead
             %a(href="#about" onClick={this.select.bind(this, "about")} name="splash-about")
               about
       ~);

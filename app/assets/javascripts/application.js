@@ -67,6 +67,17 @@ $(document).ready(function(){
       }
     });
   }
+
+  var html = $('#social-callout').html();
+  $('#social-callout').remove();
+
+  $('.social-btn').popover({container: 'body', html: true, content: html});
+  $('.social-btn').popover('show');
+
+  $('#social-callout-dismiss').click(function (e) {
+    $('.social-btn').popover('hide');
+    e.preventDefault();
+  });
 });
 
 ahoy.trackView();

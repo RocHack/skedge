@@ -170,9 +170,10 @@
         .social-container
 
           .social-head
-            .social-splash
-              %i.fa.fa-globe
-              skedge social
+            %a(href={"#0"} onClick={this.navState.bind(this, 0)})
+              .social-splash
+                %i.fa.fa-globe
+                skedge social
             {myself}
           
           {loading}

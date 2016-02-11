@@ -126,13 +126,17 @@ module ReactHelper
   end
 
   def reactify_social(user)
-    {
+    return nil if !user
+    a = {
       fb_id: user.fb_id,
       shareUsers: reactify_users(user.share_users),
       requests: reactify_requests(user.share_requests),
       requested: reactify_requests(user.sent_share_requests),
       privacy: user.public_sharing ? 0 : 1,
       likes: reactify_courses(user.liked_courses)
-    } if user
+    }
+    #don't get privately sharing, strictly public
+    a[:publicFriends] = reactify_users(sharing_users(params[:friends], user, false)) if params[:friends]
+    a
   end
 end

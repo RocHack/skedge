@@ -113,6 +113,13 @@
           self.getFriendsList();
         }
         else {
+          if (self.state.loggedIn)
+          {
+            //if was previously logged in, was a logout
+            //just refresh, since the button won't let you log back in
+            //bc fb is dumb
+            window.location.reload();
+          }
           self.state.loggedIn = false;
           self.state.ready = true;
           self.trigger(self.state);
@@ -151,9 +158,8 @@
     acceptRequest: function(req) {
       var self = this;
       $.post('social/share_accept', {sr_id:req.id, friends: this.state.friends}, function (data) {
-        var index = self.state.requests.indexOf(req);
         self.load({
-          requests: ReactUpdate(self.state.requests, {$splice: [[index, 1]]}),
+          requests: data.requests,
           publicFriends: data.publicFriends,
           shareUsers: data.shareUsers
         });

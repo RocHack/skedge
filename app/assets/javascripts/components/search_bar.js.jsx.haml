@@ -59,7 +59,7 @@
 
       var badge = (this.state.social.requests.length == 0) ? null : (~
         %span.badge.badge-notifications
-          {this.props.requests.length}
+          {this.state.social.requests.length}
       ~);
 
       var callout = (~

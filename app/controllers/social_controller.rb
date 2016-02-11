@@ -49,10 +49,9 @@ class SocialController < ApplicationController
     a.save
     b.save
 
-    render json:{shareUsers: reactify_users(current_user.share_users),
-                 publicFriends: reactify_users(sharing_users(params[:friends], current_user, false))}
-    
     request.destroy
+
+    render json:reactify_social(current_user)
   end
 
   def unshare
@@ -68,8 +67,7 @@ class SocialController < ApplicationController
     end
     user.save
 
-    render json:{shareUsers: reactify_users(user.share_users),
-                 publicFriends: reactify_users(sharing_users(params[:friends], user, false))}
+    render json:reactify_social(current_user) 
   end
 
   def change_privacy

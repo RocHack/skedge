@@ -11,12 +11,13 @@
 
 .sk-selector-label
 {
-  margin-left: 5px;
+  margin-left: 17px;
   margin-bottom: -5px;
 }
 
 #sk-selector
 {
+  margin-left: 5px;
   color: black;
   font-size: 18px;
   font-weight: 300;

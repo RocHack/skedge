@@ -5,15 +5,16 @@
 .label.label-danger.label-small
 {
   font-size: 13px;
-  vertical-align: top;
-  margin-left: -7px;
+  top: 30px;
+  right: -25px;
+  position: absolute;
 }
 
 .badge.badge-notifications
 {
   background:red;
   position:relative;
-  top: -10px;
+  top: -12px;
   left: -10px;
 }
 
@@ -40,13 +41,14 @@
   /*background-color: rgba(255, 255, 0, 0.14);*/
 }
 
-.social-callout-btn
+#social-callout-tryit
 {
   margin-top: 10px;
 }
 
 #social-callout-dismiss
 {
+  margin-top: 10px;
   float: right;
 }
 
@@ -69,22 +71,22 @@
 }
 
 .gps-ring {
-    border: 3px solid #999;
-    border-radius: 60px;
-    height: 36px;
-    width: 36px;
-    position: absolute;
-    left:-7px;
-    top:-41px;
-    -webkit-animation: pulsate 2s ease-out;
-    -webkit-animation-iteration-count: infinite; 
-    opacity: 0.0;
+  border: 3px solid #999;
+  border-radius: 60px;
+  height: 36px;
+  width: 36px;
+  position: absolute;
+  left:-7px;
+  top:-41px;
+  -webkit-animation: pulsate 2s ease-out;
+  -webkit-animation-iteration-count: infinite; 
+  opacity: 0.0;
 }
 
 @-webkit-keyframes pulsate {
-    0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
-    50% {opacity: 1.0;}
-    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+  0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
+  50% {opacity: 1.0;}
+  100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
 .searchbar-globe

@@ -2,11 +2,11 @@
 
 /************************/
 
-.label.label-danger
+.label.label-danger.label-small
 {
-  font-size: 12px;
+  font-size: 13px;
   vertical-align: top;
-  margin-left: -5px;
+  margin-left: -7px;
 }
 
 .badge.badge-notifications
@@ -35,10 +35,19 @@
   margin-right: 10px;
 }
 
+.social-callout-body
+{
+  /*background-color: rgba(255, 255, 0, 0.14);*/
+}
+
 .social-callout-btn
 {
   margin-top: 10px;
-  margin-right: 5px;
+}
+
+#social-callout-dismiss
+{
+  float: right;
 }
 
 .social-callout-icons
@@ -52,6 +61,36 @@
 {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.gps-container
+{
+  position: relative;
+}
+
+.gps-ring {
+    border: 3px solid #999;
+    border-radius: 60px;
+    height: 36px;
+    width: 36px;
+    position: absolute;
+    left:-7px;
+    top:-41px;
+    -webkit-animation: pulsate 2s ease-out;
+    -webkit-animation-iteration-count: infinite; 
+    opacity: 0.0;
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
+
+.searchbar-globe
+{
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 /************************/

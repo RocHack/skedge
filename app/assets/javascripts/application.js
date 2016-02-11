@@ -71,11 +71,11 @@ $(document).ready(function(){
   var html = $('#social-callout').html();
   $('#social-callout').remove();
 
-  $('.social-btn').popover({container: 'body', html: true, content: html});
-  $('.social-btn').popover('show');
+  $('.searchbar-globe').popover({container: 'body', html: true, content: html});
+  $('.searchbar-globe').popover('show');
 
   $('#social-callout-dismiss').click(function (e) {
-    $('.social-btn').popover('hide');
+    $('.searchbar-globe').popover('hide');
     e.preventDefault();
   });
 });

@@ -60,33 +60,36 @@
       var callout = (~
         .(hidden={true})
           #social-callout
-            .social-callout-icons
-              %i.fa.fa-refresh
-              %i.fa.fa-calendar-check-o
-              %i.fa.fa-thumbs-o-up
-              %i.fa.fa-lock
-            %strong Connect Skedge with Facebook!
-            %p
-              – Sync your schedule across devices
-              %br
-              – See what your friends are taking
-            %a(href="/social")
-              %Button.social-callout-btn(bsStyle='primary') Try it or learn more!
-            %Button#social-callout-dismiss.social-callout-btn Dismiss
+            .social-callout-body
+              .social-callout-icons
+                %i.fa.fa-refresh
+                %i.fa.fa-calendar-check-o
+                %i.fa.fa-thumbs-o-up
+                %i.fa.fa-lock
+              %strong Connect Skedge with Facebook!
+              %p
+                – Sync your schedule across devices
+                %br
+                – See what your friends are taking!
+              %a(href="/social")
+                %Button.social-callout-btn(bsStyle='primary') Try it or learn more!
+              %Button#social-callout-dismiss.social-callout-btn Dismiss
       ~);
 
       var social = mobilecheck() ? null : (~
         .
           {callout}
           %a(href="social")
-            %Button.social-btn(bsStyle="link"
-                               data-container="body"
-                               data-toggle="popover"
-                               data-placement="bottom")
-              %i.fa.fa-globe
+            %Button.social-btn(bsStyle="link")
+              %i.fa.fa-globe.searchbar-globe(data-container="body"
+                                             data-toggle="popover"
+                                             data-placement="bottom"
+                                             data-trigger="manual")
               {badge}
-              .label.label-danger
+              .label.label-danger.label-small
                 New!
+              .gps-container
+                .gps-ring
       ~);
 
       var numBookmarks = this.state.store.bookmarks.length;

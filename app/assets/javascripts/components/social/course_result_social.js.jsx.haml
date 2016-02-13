@@ -18,12 +18,7 @@
     onStoreChange: function(social) {
       var self = this;
 
-      var liked = social.likes.some(function(like) {
-        return like.id == self.props.course.id;
-      });
-
       if (!this.state.fbLoaded && social.friends.length > 0) {
-        console.log("doing social/courses");
         $.get('social/courses', {friends: social.friends, course_id:this.props.course.id}, function (data) {
           self.setState({
             friendsTakingCourse: data.taking,
@@ -31,6 +26,10 @@
           });
         });
       }
+
+      var liked = !social.loggedIn ? null : social.likes.some(function(like) {
+        return like.id == self.props.course.id;
+      });
 
       this.setState({liked: liked});
     },

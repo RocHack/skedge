@@ -147,17 +147,21 @@ class SocialController < ApplicationController
   def courses
     user = current_user
     friends = sharing_users(params[:friends], user) #also get privately sharing
-    course = Course.find(params[:course_id])
 
-    taking = friends.select do |friend|
-      schedule = friend.schedules.find_by(yr_term:course.yr_term)
-      schedule && schedule.sections.collect(&:course).include?(course)
+    taking = []
+    like = []
+
+    Course.find(params[:course_id]).all_offerings.each do |course|
+      taking += friends.select do |friend|
+        schedule = friend.schedules.find_by(yr_term:course.yr_term)
+        schedule && schedule.sections.collect(&:course).include?(course)
+      end
+
+      like += friends.select do |friend|
+        friend.liked_courses.include?(course)
+      end
     end
 
-    like = friends.select do |friend|
-      friend.liked_courses.include?(course)
-    end
-
-    render json:{taking:reactify_users(taking), like: reactify_users(like)}
+    render json:{taking:reactify_users(taking.uniq), like: reactify_users(like.uniq)}
   end
 end

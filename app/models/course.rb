@@ -71,6 +71,10 @@ class Course < ActiveRecord::Base
     clause
   end
 
+  def all_offerings
+    Course.where(number: number, department_id: department_id, title: title)
+  end
+
   def requires_code?
     in_restrictions = restrictions && 
                       (restrictions["[A]"] || restrictions =~ /Permission of instructor required|Instructor's permission required/i)

@@ -144,18 +144,9 @@
     overlayAndPlacement: function(section, showDescription) {
       var overlay, placement;
       if (showDescription) {
-        var unescapeHtml = function(unsafe) {
-          return unsafe
-              .replace(/&amp;/g, "&")
-              .replace(/&lt;/g, "<")
-              .replace(/&gt;/g, ">")
-              .replace(/&quot;/g, "\"")
-              .replace(/&#039;/g, "'");
-        }
 
         var title = section.course.dept + " " + section.course.num;
         var truncatedDesc = section.course.descriptionTruncated;
-        truncatedDesc.__html = unescapeHtml(truncatedDesc.__html);
 
         return (~
           %Popover(title={title})
@@ -175,7 +166,7 @@
                     {section.instructors}
 
               %p.popover-desc
-                %div(dangerouslySetInnerHTML={truncatedDesc})
+                %div {truncatedDesc}
         ~);
       }
       else {

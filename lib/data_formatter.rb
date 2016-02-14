@@ -5,38 +5,6 @@ module DataFormatter
       ["PHY 113", "PHY 114"]
     end
 
-    def self.linkify(short, c_num, txt) 
-      return nil if txt.nil? || !txt.present?
-
-      #matches any strings that are like "ABC 123", and replaces them with links
-      last_dept = short #default to course's dept (ie if just "291")
-      txt.gsub!(/\b([A-Za-z]{2,3})?(\s*)(\d{3}[A-Z]*)\b/) do |x|
-        dept = ($1 || "").strip
-        spaces = $2
-        num = $3.strip
-        
-        not_link = ""
-        link_text = x.to_s
-        if dept.empty? || %w[on any or of and the one two at as].index(dept.downcase)
-          not_link = dept+spaces
-          link_text = num
-          if num == "400" && c_num && (c_num[0] == "2" || c_num[0] == "4")
-            # most likely talking about the 'grad' level course
-            num = "4"+c_num[1..2]
-          end
-          link = last_dept+"+"+num
-        else
-          last_dept = dept
-          link = x.to_s.strip.gsub(" ","+")
-        end
-
-        not_link + "<a href='/?q=#{link}'>#{link_text}</a>"
-      end
-      txt.gsub(/\b\d{5}\b/) do |x|
-        "<a href='/?q=#{x}'>#{x}</a>"
-      end
-    end
-
     def self.clusters(clusters)
       clusters.split(",").map do |c|
         c.strip!
@@ -66,7 +34,7 @@ module DataFormatter
       comments.gsub!("'A'WORKSHOP", "'A' WORKSHOP")
       comments.gsub!("'B'WORKSHOP", "'B' WORKSHOP")
       comments.gsub!("\"WHEN", "\" WHEN")
-      linkify(dept, num, comments)
+      comments
     end
 
     def self.title(name, cn)

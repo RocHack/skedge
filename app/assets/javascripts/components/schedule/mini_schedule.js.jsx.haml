@@ -8,6 +8,13 @@
       };
     },
 
+    unshare: function() {
+      var name = SKSocialStore.state.friendNames[this.props.user.fb_id];
+      if (confirm("Are you sure you want to unshare schedules and likes with "+name+"?")) {
+        SKSocialAction.unshare(this.props.user.fb_id);
+      }
+    },
+
     overlay: function() {
       ahoy.track("$overlay", {
         show: !this.state.overlay, 
@@ -39,7 +46,7 @@
 
       if (this.props.sharing) {
         under.push( (~
-          %a.block-link(href="#" onClick={this.props.unshareFunc} key="button" name="stop-sharing")
+          %a.block-link(href="#" onClick={this.unshare} key="button" name="stop-sharing")
             %small.social-unshare
               %i.fa.fa-times
               Stop sharing schedules

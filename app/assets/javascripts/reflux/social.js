@@ -33,10 +33,6 @@
         privacy: null
       };
 
-      //for use in facebook_user component, so friendNames doesn't
-      //have to be passed all over the place
-      window.SKSocialStoreSingleton = this;
-
       return this.state;
     },
 

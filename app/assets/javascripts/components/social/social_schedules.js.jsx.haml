@@ -2,10 +2,6 @@
   var Button = ReactBootstrap.Button;
 
   window.SocialSchedules = React.createClass({
-    unshare: function(friend_id) {
-      SKSocialAction.unshare(friend_id);
-    },
-
     switchToNonSharing: function () {
       this.props.changeNavState("friends");
     },
@@ -34,7 +30,6 @@
                           user={user}
                           sharing={true}
                           public={user.privacy == 0}
-                          unshareFunc={self.unshare.bind(self, user.fb_id)}
                           userSchedule={self.props.userSchedule})
           ~);
         });

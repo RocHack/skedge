@@ -1,12 +1,69 @@
 (function() {
   window.CourseResultInfo = React.createClass({
+    link: function(link_text, link) {
+      if (!link) {
+        link = link_text;
+      }
+      var ret = "<a class='linkify-link'";
+      ret += " onmouseover=\"linkifyOver(this, '"+link+"')\"";
+      ret += " data-trigger='hover' data-html='true'";
+      ret += " data-content=\"<div id='linkify-hover-content'>Loading...</div>\"";
+      ret += " href=\"/?q="+link.replace(" ","+")+"\"";
+      ret += ">";
+      ret += link_text;
+      ret += "</a>";
+      return ret;
+    },
+
+    linkify: function(txt) {
+      if (txt == null || txt.trim().length == 0) {
+        return null;
+      }
+
+      var self = this;
+      var course = this.props.course;
+
+      //matches any strings that are like "ABC 123", and replaces them with links
+      last_dept = course.dept //default to course's dept (ie if just "291")
+      txt = txt.replace(/\b([A-Za-z]{2,3})?(\s*)(\d{3}[A-Z]*)\b/g, function (x, m1, m2, m3) {
+        dept = (m1 || "").trim();
+        spaces = m2;
+        num = m3.trim();
+
+        not_link = "";
+        link_text = x;
+        common_word = ["on", "any", "or", "of", "and", "the", "one", "two", "at", "as"].indexOf(dept.toLowerCase());
+        if (dept == "" || common_word != -1) {
+          not_link = dept+spaces;
+          link_text = num;
+          if (num == "400" && (course.num[0] == "2" || course.num[0] == "4")) {
+            // most likely talking about the 'grad' level course
+            num = "4"+course.num.substring(1,3);
+          }
+          link = last_dept+" "+num;
+        } else {
+          last_dept = dept;
+          link = x.trim();
+        }
+
+        return not_link + self.link(link_text, link);
+      });
+
+      txt = txt.replace(/\b\d{5}\b/, function (x) {
+        return self.link(x);
+      });
+
+      return txt;
+    },
+
     courseDetail: function (course, detail) {
       var value = course[detail.toLowerCase()];
-      if (value && value.__html && value.__html.length > 0) {
+      if (value && value.length > 0) {
+        var html = {__html: this.linkify(value)};
         return (~
           .info
             %strong {detail}:
-            %span(dangerouslySetInnerHTML={value} name={detail.toLowerCase()})
+            %span(name={detail.toLowerCase()} dangerouslySetInnerHTML={html})
         ~);
       }
     },
@@ -17,6 +74,8 @@
       var deptLink = "/?q="+course.dept;
       var mac = (navigator.userAgent.indexOf('Mac OS X') != -1);
       var cnumClass = mac ? "bold-mac" : "bold-pc";
+
+      var descHtml = {__html: this.linkify(course.description)};
 
       return (~
         .
@@ -36,7 +95,7 @@
             {this.courseDetail(course, "Crosslisted")}
             {this.courseDetail(course, "Clusters")}
           %p.desc
-            %span(dangerouslySetInnerHTML={course.description})
+            %span(name="description" dangerouslySetInnerHTML={descHtml})
       ~);
     }
   });

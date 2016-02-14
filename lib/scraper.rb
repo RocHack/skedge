@@ -63,12 +63,11 @@ class Scraper
     c = Course.find_or_initialize_by(c_fields)
     c.title = DataFormatter::Course.title(course['title'], course['cn'])
     c.credits = DataFormatter::Course.credits(course['credits'])
-    encodedDesc = DataFormatter::Course.encode(course['description'])
-    c.description = DataFormatter::Course.linkify(dept, num, encodedDesc) || c.description
+    c.description = DataFormatter::Course.encode(course['description']) || c.description
     c.restrictions = DataFormatter::Course.restrictions(course['restrictions']) || c.restrictions
-    c.prereqs = DataFormatter::Course.linkify(dept, num, course['prerequisites']) || c.prereqs
+    c.prereqs = course['prerequisites'] || c.prereqs
     c.comments = DataFormatter::Course.comments(dept, num, course['classinfo']) || c.comments
-    c.crosslisted = DataFormatter::Course.linkify(dept, nil, course['crosslisted']) || c.crosslisted
+    c.crosslisted = course['crosslisted'] || c.crosslisted
     c.term = DataFormatter::Course.term(course['term'].split[0]) || c.term
     c.year = course['term'].split[1].to_i
     c.yr_term = course['yr_term'].to_i

@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   post 'change_last_schedule', to: 'schedules#change_last_schedule'
   post 'create_ticket', to: 'tickets#create'
   
+  ##
   # Social
-
+  #
   get 'social', to: 'social#index'
 
   post 'social/register_user', to: 'social#register_user'
@@ -23,7 +24,13 @@ Rails.application.routes.draw do
   get 'social/get_public_sharing_friends', to: 'social#get_public_sharing_friends'
   get 'social/courses', to: 'social#courses'
 
+  ##
   # Schedules
-
+  #
   get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9a-z]+/ }
+
+  ##
+  # "API"
+  #
+  get 'api/course', to: 'api#course'
 end

@@ -47,7 +47,38 @@ toggleMobileSchedule = function(event) {
   }
 };
 
+linkifyOver = function(elem, q){
+  if (!q) {
+    q = elem.innerText;
+  }
+
+  $.get("api/course", {q: q}, function (response) {
+    if (response) {
+      var contentTag = $('#linkify-hover-content');
+      var titleTag = contentTag.parent().parent().find('.popover-title');
+      var arrowTag = contentTag.parent().parent().find('.arrow');
+
+      var trunc = response.descriptionTruncated.substring(0, 175);
+      if (trunc.length == 175) trunc += "...";
+
+      var content = "<p><strong>"+response.title+"</strong><br />";
+      content += "<small style='font-style: italic'>(Available "+response.term+" "+response.year+")</small></p>";
+      content += "<p>"+trunc+"</p>";
+
+      var title = "<div style='float: right'>"+response.credits+" credits</div>";
+      title += "<div>"+response.dept + " " + response.num+"</div>";
+
+      arrowTag.css({top:'17px'});
+      arrowTag.addClass('gray-arrow');
+      titleTag.css({display:'block', marginLeft:'-1px'});
+      titleTag.html(title);
+      contentTag.html(content);
+    }
+  });
+};
+
 $(document).ready(function(){
+  $('.linkify-link').popover();
   if (!mobilecheck()) {
     $(document).scroll(function() {
       var top = $(document).scrollTop();

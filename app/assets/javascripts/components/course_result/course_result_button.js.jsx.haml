@@ -48,8 +48,8 @@
     },
 
     crosslisted: function(course1, course2) {
-      return (course1.crosslisted.__html &&
-              course1.crosslisted.__html.indexOf(course2.dept + " " + course2.num) >= 0);
+      return (course1.crosslisted &&
+              course1.crosslisted.indexOf(course2.dept + " " + course2.num) >= 0);
     },
 
     button: function(course, section, readd) {

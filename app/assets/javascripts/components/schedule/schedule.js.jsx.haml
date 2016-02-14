@@ -258,9 +258,11 @@
               .s-block-type {type}
             ~);
 
+            var trackName = self.props.mini ? "block-mini" : "block";
+
             return (~
               %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
-                %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
+                %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name={trackName})
                   .(className={className})
                     .s-block-p
                       {timeField}
@@ -308,7 +310,7 @@
 
       return (~
         .sk(className={this.props.mini ? "mini-schedule" : ""})
-          %a.no-link(href={linkFull} target="_blank")
+          %a.no-link(href={linkFull} target="_blank" name="full-mini")
             %table.table
               %thead
                 %tr
@@ -316,7 +318,7 @@
               
           %div(className={self.props.big ? "skedge-big" : "skedge-side"} style={miniStyle})
             {courses}
-            %a.no-link(href={linkFull} target="_blank")
+            %a.no-link(href={linkFull} target="_blank" name="full-mini")
               %table.table.table-condensed.courses
                 %tbody
                   {hours}

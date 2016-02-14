@@ -7,7 +7,7 @@
     },
 
     switchToNonSharing: function () {
-      this.props.changeNavState(2);
+      this.props.changeNavState("friends");
     },
 
     render: function() {
@@ -58,7 +58,7 @@
             %p
               No friends are sharing their schedules.
             %p
-              %a(href="#2" onClick={this.switchToNonSharing})
+              %a(href="#friends" onClick={this.switchToNonSharing})
                 You might need to send a request to some of your friends to share,
               %br
               or share your schedule on Facebook and spread the word about Skedge!

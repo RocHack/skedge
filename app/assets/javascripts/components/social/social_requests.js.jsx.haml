@@ -2,6 +2,7 @@
   var Button = ReactBootstrap.Button;
   window.SocialRequests = React.createClass({
     acceptRequest: function(req) {
+      ahoy.track("$accept-request", {currentPrivacy:SKSocialStore.state.privacy});
       SKSocialAction.acceptRequest(req);
     },
 

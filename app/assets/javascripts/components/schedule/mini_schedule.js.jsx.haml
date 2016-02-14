@@ -39,7 +39,7 @@
 
       if (this.props.sharing) {
         under.push( (~
-          %a.block-link(href="#" onClick={this.props.unshareFunc} key="button")
+          %a.block-link(href="#" onClick={this.props.unshareFunc} key="button" name="stop-sharing")
             %small.social-unshare
               %i.fa.fa-times
               Stop sharing schedules
@@ -63,7 +63,7 @@
         }
         else {
           toggle = !schedule ? null : (~
-            %a.block-link.mini-yrterm(href={"/"+schedule.rid} key="yrterm")
+            %a.block-link.mini-yrterm(href={"/"+schedule.rid} key="yrterm" name="mini-yrterm")
               {schedule.term + " " + schedule.year}
           ~);
         }
@@ -76,7 +76,7 @@
         ~);
       }
 
-      var compare = !this.state.showingSchedule || !schedule ? null : (~
+      var compare = !this.state.showingSchedule || !schedule || !this.props.userSchedule ? null : (~
         %Button.mini-compare.mini-btn(onClick={this.overlay} key="compare") Compare schedules
       ~);
 
@@ -90,7 +90,7 @@
         var list = this.props.user.likes.map(function(course,i) {
           return (~
             %li(key={course.id+""+i})
-              %a(href={"/?q="+course.dept+course.num})
+              %a(href={"/?q="+course.dept+course.num} name="like-mini")
                 {course.dept}
                 {course.num}
           ~);

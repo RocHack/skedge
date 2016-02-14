@@ -29,7 +29,7 @@
 
       return (~
         .facebook-user(style={style})
-          %a(href={"http://facebook.com/"+this.props.id})
+          %a(href={"http://facebook.com/"+this.props.id} name="fb-user")
             %img.fbimg(src={imgURL})
             %span(style={nameStyle})
               {name}

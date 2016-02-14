@@ -6,7 +6,8 @@
       SKSocialAction.acceptRequest(req);
     },
 
-    sendRequest: function(friend) {
+    sendRequest: function(friend, isPublic) {
+      ahoy.track("$send-request", {currentPrivacy:SKSocialStore.state.privacy, friendIsPublic: isPublic});
       SKSocialAction.sendRequest(friend);
     },
 
@@ -40,7 +41,7 @@
         }
         else {
           request = (~
-            %Button.mini-btn(onClick={self.sendRequest.bind(self, friend)} key="request")
+            %Button.mini-btn(onClick={self.sendRequest.bind(self, friend, isPublic)} key="request")
               Request to share schedules
           ~);
         }

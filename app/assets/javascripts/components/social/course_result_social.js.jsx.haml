@@ -36,7 +36,10 @@
 
     like: function (event) {
       event.preventDefault();
-      this.setState({liked: !this.state.liked});
+
+      var newLike = !this.state.liked;
+      this.setState({liked: newLike});
+      ahoy.track("$like", {like: newLike, courseId: this.props.course.id});
 
       $.post("social/like", {id: this.props.course.id}, function (data) {
       });

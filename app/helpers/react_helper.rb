@@ -32,7 +32,7 @@ module ReactHelper
         recitation: reactify_sections(c.recitations, c).group_by {|x| x[:abcSection]},
         workshop: reactify_sections(c.workshops, c).group_by {|x| x[:abcSection]}
       }
-    }
+    } if c
   end
 
   def reactify_courses(courses)

@@ -83,6 +83,10 @@ p.lead
   margin-left: 4px;
 }
 
+.popover.right > .arrow.gray-arrow:after {
+  border-right-color: #f7f7f7;
+}
+
 /* SECTION */
 
 .section-box

@@ -1,6 +1,4 @@
 (function() {
-  var Tooltip, OverlayTrigger, Popover;
-
   window.Schedule = React.createClass({
     getInitialState: function() {
       return {
@@ -10,6 +8,85 @@
 
     toggleOverlayUserSchedule: function() {
       this.setState({comparingSchedule: !this.state.comparingSchedule});
+    },
+
+    getLayout: function (props, state) {
+      if (!props.schedule) {
+        return {
+          daysOfWeek: ["M", "T", "W", "R", "F"],
+          hoursRange: [8, 9, 10, 11, 12, 13, 14, 15, 16],
+          min: 8,
+          max: 16
+        };
+      }
+      else if (!state.comparingSchedule) {
+        return this.getScheduleLayout(props.schedule.sections, props.temporaryAdds, props.temporaryGhosts);
+      }
+      else {
+        return this.getScheduleLayout(props.schedule.sections.concat(props.userSchedule.sections));
+      }
+    },
+
+    getScheduleLayout: function (sections, temporaryAdds, temporaryGhosts) {
+      var daysOfWeek = ["M", "T", "W", "R", "F"];
+
+      var min = 2500;
+      var max = -1;
+
+      var hasSat = false;
+      var hasSun = false;
+
+      if (temporaryAdds) {
+        sections = sections.concat(temporaryAdds);
+      }
+      if (temporaryGhosts)  {
+        sections = sections.concat(temporaryGhosts);
+      }
+      sections.forEach(function(section) {
+        var start = (section.startTime-30)/100;
+        var end = (section.endTime+30)/100;
+        if (start < min) {
+          min = start;
+        }
+        if (end > max) {
+          max = end;
+        }
+        if (section.days.indexOf('S') > -1) {
+          hasSat = true;
+        }
+        if (section.days.indexOf('U') > -1) {
+          hasSun = true;
+        }
+      });
+      
+      var diff = max-min;
+      var min_hrs = 7;
+      if (diff < min_hrs) {
+        min -= (min_hrs-diff)/2;
+        max += (min_hrs-diff)/2;
+      }
+
+      min = Math.floor(min);
+      max = Math.ceil(max);
+
+      hoursRange = [];
+      for (var i = min; i <= max; i++) {
+        hoursRange.push(i);
+      }
+
+      if (hasSat) {
+        daysOfWeek.push("S");
+      }
+      if (hasSun) {
+        daysOfWeek = ["U"].concat(daysOfWeek);
+      }
+
+      return {
+        daysOfWeek: daysOfWeek,
+        hoursRange: hoursRange,
+        min: min,
+        max: max
+      };
     },
 
     color: function(idx) {
@@ -34,7 +111,7 @@
     },
 
     renderSVG: function () {
-      var layout = ScheduleStyle.getLayout(this.props, this.state);
+      var layout = this.getLayout(this.props, this.state);
 
       var self = this;
 
@@ -141,53 +218,8 @@
         </svg>);
     },
 
-    overlayAndPlacement: function(section, showDescription) {
-      var overlay, placement;
-      if (showDescription) {
-
-        var title = section.course.dept + " " + section.course.num;
-        var truncatedDesc = section.course.descriptionTruncated;
-
-        return (~
-          %Popover(title={title})
-            .p-container
-              .popover-course-title
-                {section.course.title}
-
-              %p
-                .popover-field
-                  %strong Credits:
-                  %span.popover-value
-                    {section.course.credits}
-              
-                .popover-field
-                  %strong Instructors:
-                  %span.popover-value
-                    {section.instructors}
-
-              %p.popover-desc
-                %div {truncatedDesc}
-        ~);
-      }
-      else {
-        return (~
-          %Tooltip
-            %strong.tooltip-title {section.course.title}
-            %br
-            {section.place}
-            %br
-            {section.prettyTime}
-        ~);
-      }
-    },
-
     renderHTML: function() {
-      //Don't want these in SVG since we're server-side loading the react SVG
-      Tooltip = ReactBootstrap.Tooltip;
-      OverlayTrigger = ReactBootstrap.OverlayTrigger;
-      Popover = ReactBootstrap.Popover;
-
-      var layout = ScheduleStyle.getLayout(this.props, this.state);
+      var layout = this.getLayout(this.props, this.state);
 
       var courses;
       var self = this;
@@ -205,71 +237,41 @@
         courses = sections.map(function(section, i) {
           return section.days.split("").map(function (day) {
             var us, them, conflicts;
+            var comparingData = {};
+
             if (self.state.comparingSchedule) {
               us = (i >= self.props.schedule.sections.length);
               them = (i < self.props.schedule.sections.length);
               if (them) {
-                conflicts = window.SKScheduleStore.sectionConflict(section, self.props.userSchedule.sections, day);
+                conflicts = SKScheduleStore.sectionConflict(section, self.props.userSchedule.sections, day);
               } else {
-                conflicts = window.SKScheduleStore.sectionConflict(section, self.props.schedule.sections, day);
+                conflicts = SKScheduleStore.sectionConflict(section, self.props.schedule.sections, day);
               }
+              comparingData = {us: us, them: them, conflicts: conflicts};
             }
 
-            var dayIdx = layout.daysOfWeek.indexOf(day.toUpperCase());
-            var color = self.color(i);
-            var style = ScheduleStyle.getBlockStyle(layout, section, day, dayIdx, color, us, them, conflicts);
+            var temp = 0;
 
             if (self.props.temporaryAdds) {
               var sectionMatch = function (temp) { return (temp.crn == section.crn); };
               if (self.props.temporaryAdds.some(sectionMatch)) {
-                style.opacity = 0.5;
+                temp = 1;
               }
               else if (self.props.temporaryDeletes.some(sectionMatch)) {
-                style.opacity = 0.2;
+                temp = -1;
               }
             }
-
-            if (self.props.mini) {
-              if (self.state.comparingSchedule && (conflicts == null || conflicts.length > 0)) {
-                style.fontSize = "10px";
-              }
-              else {
-                style.fontSize = "13px";
-              }
-            }
-
-            var href = "/?q="+section.course.dept+"+"+section.course.num+"+"+section.course.term.toLowerCase()+"+"+section.course.year;
-
-            var overlay = self.overlayAndPlacement(section, bigNotMobile);
-            var placement = bigNotMobile ? (dayIdx <= 1 ? 'right' : 'left') : 'top';
-
-            var type = type2name(section.sectionType, true, true);
-            if (section.abcSection) {
-              type += " "+section.abcSection;
-            }
-
-            var className = (bigNotMobile ? "s-big" : "s-side") + (self.props.mini ? " s-mini" : "");
-
-            var timeField = !bigNotMobile ? null : (~
-              .s-block-time {style.time}
-            ~);
-
-            var typeField = !bigNotMobile && !type ? null : (~
-              .s-block-type {type}
-            ~);
-
-            var trackName = self.props.mini ? "block-mini" : "block";
 
             return (~
-              %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
-                %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name={trackName})
-                  .(className={className})
-                    .s-block-p
-                      {timeField}
-                      .s-block-dept {section.course.dept}
-                      .s-block-cnum {section.course.num}
-                      {typeField}
-                      .s-block-title {section.course.title}
+              %ScheduleBlock(schedule={self.props.schedule}
+                             section={section}
+                             day={day}
+                             layout={layout}
+                             color={self.color(i)}
+                             comparingData={comparingData}
+                             temp={temp}
+                             bigNotMobile={bigNotMobile}
+                             mini={self.props.mini})
             ~);
           });
         });
@@ -329,139 +331,3 @@
     }
   });
 })();
-
-
-var ScheduleStyle = {
-  getBlockStyle: function (layout, section, day, dayIdx, color, us, them, conflicts) {
-    var width = 100.0/layout.daysOfWeek.length - 1/4;
-    var hour = 100/(layout.max-layout.min + 1);
-
-    var height = section.duration * hour;
-    var left = dayIdx*width;
-    var top = hour * (section.startTimeHours - layout.min);
-    var fontColor = "#FFFFFF";
-    var borderWidth = "0px";
-
-    var time = section.prettyTime;
-    var fontSize = "1em";
-
-    if (section.sectionType != MAIN) {
-      if (height < 9) {
-        fontSize = "0.9em";
-      }
-    }
-    
-    if (them && (conflicts == null || conflicts.length > 0)) {
-      width = width/2 - 1/4;
-      time = "";
-    }
-
-    if (us) {
-      borderWidth = "1px";
-      fontColor = "#191919";
-      color = "#FFFFFF";
-
-      if (conflicts == null || conflicts.length > 0) {
-        width = width/2 - 1/4;
-        left += width + 1/2;
-        time = "";
-        if (conflicts == null) {
-          color = "#FBF8D8";
-        }
-      }
-    }
-
-    return {
-      borderWidth: borderWidth,
-      color: fontColor,
-      width: width+"%",
-      left: left+"%",
-      top: top+"%",
-      height: height+"%",
-      backgroundColor: color,
-      marginLeft: dayIdx/2+"%",
-      marginRight: dayIdx/2+"%",
-      fontSize: fontSize,
-      time: time
-    };
-  },
-
-  getLayout: function (props, state) {
-    if (!props.schedule) {
-      return {
-        daysOfWeek: ["M", "T", "W", "R", "F"],
-        hoursRange: [8, 9, 10, 11, 12, 13, 14, 15, 16],
-        min: 8,
-        max: 16
-      };
-    }
-    else if (!state.comparingSchedule) {
-      return this.getScheduleLayout(props.schedule.sections, props.temporaryAdds, props.temporaryGhosts);
-    }
-    else {
-      return this.getScheduleLayout(props.schedule.sections.concat(props.userSchedule.sections));
-    }
-  },
-
-  getScheduleLayout: function (sections, temporaryAdds, temporaryGhosts) {
-    var daysOfWeek = ["M", "T", "W", "R", "F"];
-
-    var min = 2500;
-    var max = -1;
-
-    var hasSat = false;
-    var hasSun = false;
-
-    if (temporaryAdds) {
-      sections = sections.concat(temporaryAdds);
-    }
-    if (temporaryGhosts)  {
-      sections = sections.concat(temporaryGhosts);
-    }
-    sections.forEach(function(section) {
-      var start = (section.startTime-30)/100;
-      var end = (section.endTime+30)/100;
-      if (start < min) {
-        min = start;
-      }
-      if (end > max) {
-        max = end;
-      }
-      if (section.days.indexOf('S') > -1) {
-        hasSat = true;
-      }
-      if (section.days.indexOf('U') > -1) {
-        hasSun = true;
-      }
-    });
-    
-    var diff = max-min;
-    var min_hrs = 7;
-    if (diff < min_hrs) {
-      min -= (min_hrs-diff)/2;
-      max += (min_hrs-diff)/2;
-    }
-
-    min = Math.floor(min);
-    max = Math.ceil(max);
-
-    hoursRange = [];
-    for (var i = min; i <= max; i++) {
-      hoursRange.push(i);
-    }
-
-    if (hasSat) {
-      daysOfWeek.push("S");
-    }
-    if (hasSun) {
-      daysOfWeek = ["U"].concat(daysOfWeek);
-    }
-
-    return {
-      daysOfWeek: daysOfWeek,
-      hoursRange: hoursRange,
-      min: min,
-      max: max
-    };
-  }
-};

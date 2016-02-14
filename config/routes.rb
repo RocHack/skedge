@@ -10,6 +10,5 @@ Rails.application.routes.draw do
   get '/:rid' => 'schedules#show', :constraints => { :rid => /[0-9a-z]+/ }
 
   # API
-
   get 'api/course', to: 'api#course'
 end

@@ -61,7 +61,7 @@
       var myselfStyle = showMyself ? null : {display:"none"};
       var myself = (~
         .fb-myself(style={myselfStyle})
-          %FacebookUser(id={social.fb_id} linesUnderneath={[logout]})
+          %FacebookUser(id={social.fb_id} linesUnderneath={[logout]} context="myself")
       ~);
 
       // NOW, for content

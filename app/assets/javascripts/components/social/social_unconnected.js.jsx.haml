@@ -61,7 +61,7 @@
 
         return (~
           .(key={friend.id+i})
-            %FacebookUser(id={friend.id} size=45 height=80 width={width} linesUnderneath={[request, publicText]})
+            %FacebookUser(id={friend.id} size=45 height=80 width={width} linesUnderneath={[request, publicText]} context="send-request")
         ~);
       });
 

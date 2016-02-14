@@ -30,7 +30,7 @@
 
         return (~
           .share-request-box(key={req.id})
-            %FacebookUser(id={req.from} size=45 height=100 width=500 linesUnderneath={[accept]})
+            %FacebookUser(id={req.from} size=45 height=100 width=500 linesUnderneath={[accept]} context="accept-request")
         ~);
       });
 

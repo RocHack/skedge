@@ -16,7 +16,7 @@
       var list = this.props.coursesLiked.map(function(course) {
         return (~
           %li(key={course.id})
-            %a(href={"/?q="+course.dept+course.num})
+            %a(href={"/?q="+course.dept+course.num} name="self-likes")
               {course.dept}
               {course.num}
         ~);

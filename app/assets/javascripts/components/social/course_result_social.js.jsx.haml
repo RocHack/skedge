@@ -45,7 +45,7 @@
       });
     },
 
-    listFriends: function (friends) {
+    listFriends: function (friends, context) {
       if (friends.length == 0) {
         return (~
           .results-social-none
@@ -68,14 +68,14 @@
         }
         return (~
           .results-social-user(key={friend.fb_id+idx})
-            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]})
+            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]} context={context})
         ~)
       });
     },
 
     render: function () {
-      var friendsTakingList = this.listFriends(this.state.friendsTakingCourse);
-      var friendsLikeList = this.listFriends(this.state.friendsLikeCourse);
+      var friendsTakingList = this.listFriends(this.state.friendsTakingCourse, "taking");
+      var friendsLikeList = this.listFriends(this.state.friendsLikeCourse, "like");
 
       var ftc = (~
         .results-social-box
@@ -99,7 +99,7 @@
       if (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length > 0) {
         friends = (~
           .results-social
-            %a.results-social-header.no-link(href="/social")
+            %a.results-social-header.no-link(href="/social" name="course-social-splash")
               %i.fa.fa-globe.results-social-globe
               skedge social
             .row

@@ -21,6 +21,7 @@
     },
 
     clickSocial: function (dismiss) {
+      ahoy.track("$click",{name:"social-globe", badge:this.state.social.requests.length});
       document.cookie = "social_popup=true;"
       document.location = "/social";
     },

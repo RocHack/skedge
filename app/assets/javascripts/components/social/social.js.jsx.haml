@@ -6,10 +6,15 @@
              Reflux.connect(SKSocialStore, "social")],
 
     getInitialState: function () {
-      var nav = parseInt(window.location.hash.substring(1)) || 0;
+      var nav = window.location.hash.substring(1);
+      if (nav != "feed" &&
+          nav != "requests" &&
+          nav != "friends" &&
+          nav != "settings" &&
+          nav != "trends") nav = "feed";
       SKSocialAction.load(this.props.socialState);
       return {
-        nav: Math.min(Math.max(nav, 0), 4)
+        nav: nav
       };
     },
 
@@ -154,23 +159,31 @@
           Schedules &amp; Likes
       ~);
 
+      var content = {
+        feed: schedules,
+        requests: requests,
+        friends: others,
+        settings: settings,
+        trends: trends
+      }[this.state.nav];
+
       var contents = (!social.loggedIn || !social.ready) ? null : (~
         .
           %ul.nav.nav-tabs
-            {this.renderNavTab(0, schedulesTab, "margin-tab")}
-            {this.renderNavTab(1, requestsTab)}
-            {this.renderNavTab(2, unconnectedTab)}
-            {this.renderNavTab(3, "Settings")}
+            {this.renderNavTab("feed", schedulesTab, "margin-tab")}
+            {this.renderNavTab("requests", requestsTab)}
+            {this.renderNavTab("friends", unconnectedTab)}
+            {this.renderNavTab("settings", "Settings")}
 
           .social-contents
-            {[schedules, requests, others, settings, trends][this.state.nav]}
+            {content}
       ~);
 
       return (~
         .social-container
 
           .social-head
-            %a(href={"#0"} onClick={this.navState.bind(this, 0)})
+            %a(href="#feed" onClick={this.navState.bind(this, "feed")})
               .social-splash
                 %i.fa.fa-globe
                 skedge social

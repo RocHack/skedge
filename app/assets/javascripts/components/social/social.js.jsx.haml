@@ -80,7 +80,7 @@
 
       var hasNoFriends = (social.loggedIn && totalCount == 0);
       var noOneSharing = (social.shareUsers.length + social.publicFriends.length == 0);
-      var showShare = social.loggedIn && social.ready && this.state.nav == 0 && (hasNoFriends || noOneSharing);
+      var showShare = social.loggedIn && social.ready && this.state.nav == "feed" && (hasNoFriends || noOneSharing);
       var scheduleURL = "http://skedgeur.com/";
       if (this.state.store.schedule) {
         scheduleURL += this.state.store.schedule.rid;

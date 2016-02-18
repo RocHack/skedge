@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102073028) do
+ActiveRecord::Schema.define(version: 20160218031417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(version: 20151102073028) do
     t.string "name"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "likes", ["course_id", "user_id"], name: "index_likes_on_course_id_and_user_id", using: :btree
+
   create_table "schedules", force: :cascade do |t|
     t.string  "rid"
     t.integer "yr_term"
@@ -105,6 +112,13 @@ ActiveRecord::Schema.define(version: 20151102073028) do
 
   add_index "sections", ["course_id", "section_type", "crn"], name: "index_sections_on_course_id_and_section_type_and_crn", using: :btree
 
+  create_table "share_requests", force: :cascade do |t|
+    t.integer "user_a_id"
+    t.integer "user_b_id"
+  end
+
+  add_index "share_requests", ["user_a_id", "user_b_id"], name: "index_share_requests_on_user_a_id_and_user_b_id", unique: true, using: :btree
+
   create_table "tickets", force: :cascade do |t|
     t.integer "feedback_type"
     t.string  "email"
@@ -112,9 +126,19 @@ ActiveRecord::Schema.define(version: 20151102073028) do
     t.text    "comments"
   end
 
+  create_table "user_shares", id: false, force: :cascade do |t|
+    t.integer "user_a_id"
+    t.integer "user_b_id"
+  end
+
+  add_index "user_shares", ["user_a_id", "user_b_id"], name: "index_user_shares_on_user_a_id_and_user_b_id", unique: true, using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string  "secret"
     t.integer "last_schedule_id"
+    t.string  "fb_id"
+    t.boolean "public_sharing",   default: false
+    t.integer "friend_count"
   end
 
   create_table "visits", id: :uuid, force: :cascade do |t|

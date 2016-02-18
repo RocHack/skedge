@@ -1,0 +1,200 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.Social = React.createClass({
+    mixins: [Reflux.connect(SKScheduleStore, "store"),
+             Reflux.connect(SKSocialStore, "social")],
+
+    getInitialState: function () {
+      var nav = window.location.hash.substring(1);
+      if (nav != "feed" &&
+          nav != "requests" &&
+          nav != "friends" &&
+          nav != "settings" &&
+          nav != "trends") nav = "feed";
+      SKSocialAction.load(this.props.socialState);
+      return {
+        nav: nav
+      };
+    },
+
+    navState: function (nav) {
+      this.setState({nav: nav});
+    },
+
+    renderNavTab: function (idx, contents, extraClasses="") {
+      var className = (this.state.nav == idx ? "active" : "");
+      className += " "+extraClasses;
+      return (~
+        %li(className={className})
+          %a(href={"#"+idx} onClick={this.navState.bind(this, idx)})
+            {contents}  
+      ~);
+    },
+
+    render: function() {
+      if (!this.props.visible) {
+        return null;
+      }
+
+      var social = this.state.social;
+      var self = this;
+
+      // needs to be present when the FB API call is made to work, so we can't just add it in later
+      // once it's needed, need to have it but hide it
+      var loginButton = (~
+        %SocialLogin(hide={(!social.ready || social.loggedIn)})
+      ~);
+
+      // again, same thing
+      var logout = (~
+        .fb-login-button.logout(data-max-rows="1"
+                         data-size="medium"
+                         data-show-faces="false"
+                         data-onlogin="afterLogIn();"
+                         scope="user_friends"
+                         data-auto-logout-link="true"
+                         key="logout")
+      ~);
+
+      var showMyself = (social.loggedIn && social.friendNames[social.fb_id]);
+      var myselfStyle = showMyself ? null : {display:"none"};
+      var myself = (~
+        .fb-myself(style={myselfStyle})
+          %FacebookUser(id={social.fb_id} linesUnderneath={[logout]} context="myself")
+      ~);
+
+      // NOW, for content
+      var others = null;
+      var requests = null;
+      var schedules = null;
+      var settings = null;
+      var trends = null;
+
+      var loading = null;
+
+      var totalCount = (social.shareUsers.length +
+                        social.publicFriends.length +
+                        social.requests.length +
+                        social.otherFriends.length);
+
+      var hasNoFriends = (social.loggedIn && totalCount == 0);
+      var noOneSharing = (social.shareUsers.length + social.publicFriends.length == 0);
+      var showShare = social.loggedIn && social.ready && this.state.nav == "feed" && (hasNoFriends || noOneSharing);
+      var scheduleURL = "http://skedgeur.com/";
+      if (this.state.store.schedule) {
+        scheduleURL += this.state.store.schedule.rid;
+      }
+      var shareStyle = showShare ? null : {display:"none"};
+      var shareButton = (~
+        .social-none(style={shareStyle})
+          %p
+            .fb-share-button(data-href={scheduleURL} data-layout="button")
+      ~);
+
+      if (social.ready)
+      {
+        schedules = (~
+          %SocialSchedules(shareUsers={social.shareUsers}
+                           publicFriends={social.publicFriends}
+                           userSchedule={this.state.store.schedule}
+                           noFriends={hasNoFriends}
+                           changeNavState={this.navState})
+        ~);
+
+        requests = (~
+          %SocialRequests(requests={social.requests}
+                          friendNames={social.friendNames})
+        ~);
+
+        others = (~
+          %SocialUnconnected(otherFriends={social.otherFriends}
+                             publicFriends={social.publicFriends}
+                             requested={social.requested})
+        ~);
+
+        settings = (~
+          %SocialSettings(coursesLiked={social.likes}
+                          numPrivate={social.shareUsers.length}
+                          numPublic={social.friends.length}
+                          privacy={social.privacy})
+        ~);
+
+        trends = (~
+          %SocialTrends
+        ~);
+      }
+      else
+      {
+        loading = (~
+          .social-loading
+            %i.fa.fa-spinner.fa-spin
+            Loading...
+        ~);
+      }
+
+      var numRequests = social.requests ? (social.requests.length == 0 ? null : social.requests.length) : null;
+      var requestsTab = (~
+        .
+          Share requests
+          %span.badge.nav-badge
+            {numRequests}
+      ~);
+
+      var numUnconnected = (social.requested) ? 
+                            social.otherFriends.length - social.requested.length : 0;
+      if (social.publicFriends && social.privacy == 1) {
+        numUnconnected -= social.publicFriends.length;
+      }
+      numUnconnected = (numUnconnected > 0) ? numUnconnected : null;
+      var unconnectedTab = (~
+        .
+          Non-sharing friends
+          %span.badge.nav-badge
+            {numUnconnected}
+      ~);
+
+      var schedulesTab = (~
+        .social-tab-schedules
+          Schedules &amp; Likes
+      ~);
+
+      var content = {
+        feed: schedules,
+        requests: requests,
+        friends: others,
+        settings: settings,
+        trends: trends
+      }[this.state.nav];
+
+      var contents = (!social.loggedIn || !social.ready) ? null : (~
+        .
+          %ul.nav.nav-tabs
+            {this.renderNavTab("feed", schedulesTab, "margin-tab")}
+            {this.renderNavTab("requests", requestsTab)}
+            {this.renderNavTab("friends", unconnectedTab)}
+            {this.renderNavTab("settings", "Settings")}
+
+          .social-contents
+            {content}
+      ~);
+
+      return (~
+        .social-container
+
+          .social-head
+            %a(href="#feed" onClick={this.navState.bind(this, "feed")})
+              .social-splash
+                %i.fa.fa-globe
+                skedge social
+            {myself}
+          
+          {loading}
+          {loginButton}
+
+          {contents}
+          {shareButton}
+      ~);
+    }
+  })
+})();

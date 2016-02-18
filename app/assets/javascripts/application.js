@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 //= require jquery
 //= require jquery_ujs
 
@@ -34,7 +35,8 @@ mobilecheck = function() {
   return check;
 };
 
-toggleMobileSchedule = function(){
+toggleMobileSchedule = function(event) {
+  event.preventDefault();
   if (document.cookie.indexOf("s_id") > -1) {
     $('.sk-fixed').toggle();
     $('.page-content').toggle();
@@ -92,9 +94,27 @@ $(document).ready(function(){
   if (document.getElementById('schedule-btn')) {
     document.getElementById('schedule-btn').addEventListener("click", function (event) {
       if (document.activeElement.id != "search-bar") {
-        event.preventDefault();
-        toggleMobileSchedule();
+        toggleMobileSchedule(event);
       }
+    });
+  }
+
+  if (document.cookie.indexOf("social_popup") == -1) {
+    var html = $('#social-callout').html();
+    $('#social-callout').remove();
+
+    $('.searchbar-globe').popover({container: 'body', html: true, content: html});
+    $('.searchbar-globe').popover('show');
+
+    $('#social-callout-dismiss').click(function (e) {
+      document.cookie = "social_popup=true;";
+      $('.searchbar-globe').popover('hide');
+      e.preventDefault();
+    });
+
+    $('#social-callout-tryit').click(function (e) {
+      document.cookie = "social_popup=true;";
+      document.location = "/social";
     });
   }
 });

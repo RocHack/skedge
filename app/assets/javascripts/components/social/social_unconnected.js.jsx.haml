@@ -1,0 +1,74 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.SocialUnconnected = React.createClass({
+    acceptRequest: function(req) {
+      SKSocialAction.acceptRequest(req);
+    },
+
+    sendRequest: function(friend, isPublic) {
+      ahoy.track("$send-request", {currentPrivacy:SKSocialStore.state.privacy, friendIsPublic: isPublic});
+      SKSocialAction.sendRequest(friend);
+    },
+
+    render: function() {
+      var self = this;
+
+      if (this.props.otherFriends.length == 0) {
+        return (~
+          .social-none
+            %p
+              All of your friends are already sharing their schedules with you.
+        ~);
+      }
+
+      var users = this.props.otherFriends.map(function(friend, i) {
+        var alreadyRequested = self.props.requested.some(function (req) {
+          return (req.to == friend.id);
+        });
+
+        var isPublic = self.props.publicFriends.some(function (fr) {
+          return (fr.fb_id == friend.id);
+        });
+
+        var request;
+        if (alreadyRequested) {
+          request = (~
+            .social-request-sent.mini-btn(key="sent")
+              %i.fa.fa-envelope
+              Request sent
+          ~);
+        }
+        else {
+          request = (~
+            %Button.mini-btn(onClick={self.sendRequest.bind(self, friend, isPublic)} key="request")
+              Request to share schedules
+          ~);
+        }
+
+        var publicText;
+        if (isPublic) {
+          publicText = (~
+            .unconnected-public-text(key="publictext")
+              %small
+                (Already sharing with all their friends, but you can
+                %br
+                send a request to share your schedule with them)
+          ~);
+        }
+
+        var width = isPublic ? 550 : 400;
+
+        return (~
+          .(key={friend.id+i})
+            %FacebookUser(id={friend.id} size=45 height=80 width={width} linesUnderneath={[request, publicText]} context="send-request")
+        ~);
+      });
+
+      return (~
+        .
+          {users}
+      ~);
+    }
+  })
+})();

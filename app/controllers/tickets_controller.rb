@@ -4,7 +4,8 @@ class TicketsController < ApplicationController
       "bug" => Ticket::FeedbackType::Bug,
       "data" => Ticket::FeedbackType::DataError,
       "question" => Ticket::FeedbackType::Question,
-      "suggestion" => Ticket::FeedbackType::Suggestion
+      "suggestion" => Ticket::FeedbackType::Suggestion,
+      "social" => Ticket::FeedbackType::Social
     }
 
     p = ticket_params

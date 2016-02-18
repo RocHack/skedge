@@ -1,0 +1,127 @@
+(function() {
+  window.CourseResultSocial = React.createClass({
+    mixins: [Reflux.ListenerMixin],
+
+    getInitialState: function() {
+      return {
+        friendsTakingCourse: [],
+        friendsLikeCourse: [],
+        liked: null,
+        fbLoaded: false
+      };
+    },
+
+    componentDidMount: function() {
+      this.listenTo(SKSocialStore, this.onStoreChange);
+    },
+
+    onStoreChange: function(social) {
+      var self = this;
+
+      if (!this.state.fbLoaded && social.friends.length > 0) {
+        $.get('social/courses', {friends: social.friends, course_id:this.props.course.id}, function (data) {
+          self.setState({
+            friendsTakingCourse: data.taking,
+            friendsLikeCourse: data.like
+          });
+        });
+      }
+
+      var liked = !social.loggedIn ? null : social.likes.some(function(like) {
+        return like.id == self.props.course.id;
+      });
+
+      this.setState({liked: liked});
+    },
+
+    like: function (event) {
+      event.preventDefault();
+
+      var newLike = !this.state.liked;
+      this.setState({liked: newLike});
+      ahoy.track("$like", {like: newLike, courseId: this.props.course.id});
+
+      $.post("social/like", {id: this.props.course.id}, function (data) {
+      });
+    },
+
+    listFriends: function (friends, context) {
+      if (friends.length == 0) {
+        return (~
+          .results-social-none
+            None so far!
+        ~);
+      }
+
+      var self = this;
+      return friends.map(function (friend, idx) {
+        var yearTerm;
+        for (i = 0; i < friend.schedules.length; i++) {
+          var schedule = friend.schedules[i];
+          if (schedule.yrTerm == self.props.course.yrTerm) {
+            yearTerm = (~
+              %a.block-link(href={"/"+schedule.rid} key="yrterm")
+                {schedule.term}
+                {schedule.year}
+            ~);
+          }
+        }
+        return (~
+          .results-social-user(key={friend.fb_id+idx})
+            %FacebookUser(id={friend.fb_id} linesUnderneath={[yearTerm]} context={context})
+        ~)
+      });
+    },
+
+    render: function () {
+      var friendsTakingList = this.listFriends(this.state.friendsTakingCourse, "taking");
+      var friendsLikeList = this.listFriends(this.state.friendsLikeCourse, "like");
+
+      var ftc = (~
+        .results-social-box
+          .results-social-box-header
+            %i.fa.fa-check-square-o.results-social-icon
+            Friends taking/taken this course:
+          .
+            {friendsTakingList}
+      ~);
+
+      var likes = (~
+        .results-social-box
+          .results-social-box-header
+            %i.fa.fa-thumbs-o-up.results-social-icon
+            Friends that like this course:
+          .
+            {friendsLikeList}
+      ~);
+
+      var friends;
+      if (this.state.friendsTakingCourse.length + this.state.friendsLikeCourse.length > 0) {
+        friends = (~
+          .results-social
+            %a.results-social-header.no-link(href="/social" name="course-social-splash")
+              %i.fa.fa-globe.results-social-globe
+              skedge social
+            .row
+              .col-md-6
+                {ftc}
+              .col-md-6
+                {likes}
+        ~);
+      }
+
+      var likeVerb = this.state.liked ? "Unlike" : "Like";
+      var likeLink = this.state.liked == null ? null : (~
+        %a.results-social-like(href="#" onClick={this.like})
+          %i.fa.fa-thumbs-o-up.results-social-icon-like
+          {likeVerb} this course
+      ~);
+
+      return (~
+        .
+          {likeLink}
+          {friends}
+      ~);
+    }
+  });
+})();

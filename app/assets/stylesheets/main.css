@@ -29,6 +29,11 @@ a.no-link
   padding-left: 15px;
 }
 
+.mobile
+{
+  display: none;
+}
+
 #search-bar
 {
   padding-left: 45px;
@@ -143,7 +148,7 @@ h1.logo
   margin-bottom: 10px;
   margin-top: 3px;
   letter-spacing: -2px;
-  font-weight: 400;
+  font-weight: 100;
   color: #5C5C5C;
   font-family: 'Pontano Sans', sans-serif;
 }
@@ -161,9 +166,21 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
   color: black;
 }
 
+
+.social-btn:focus, .social-btn:active 
+{
+  outline: none !important;
+  border: none !important;
+}
+
 /* MOBILE */
 
 @media (max-width: 768px) {
+  .mobile
+  {
+    display: block;
+  }
+
   .search-bkmk
   {
     right: 100px;

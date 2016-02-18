@@ -2,7 +2,7 @@
   var Button = ReactBootstrap.Button;
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
-
+  
   window.SearchBar = React.createClass({
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
@@ -13,13 +13,13 @@
     },
 
     logoClick: function () {
-      if (!this.props.query) {
-        document.getElementById('splash-logo').click();
+      if (splash = document.getElementById('splash-logo')) {
+        splash.click();
       }
     },
 
     render: function() {
-      var logoHref = this.props.query ? "/" : "#";
+      var logoHref = document.getElementById('splash-logo') ? "#" : "/";
       
       var searchHelpOverlay = (~
         %Tooltip
@@ -64,14 +64,16 @@
                 %h1.logo
                   skedge
 
-            .input-group.has-feedback
+            %SearchBarSocial
+
+            .input-group
               %input.form-control.input-lg#search-bar(name="q"
                                                       type="search"
                                                       placeholder={searchPlaceholder}
                                                       defaultValue={this.props.query}
                                                       onFocus={this.seeSearchTips})
 
-              %i.fa.fa-search.form-control-feedback
+              %i.fa.fa-search.form-control-feedback.mobile
 
               %a(href="/?q=bookmarks")
                 %OverlayTrigger(overlay={bookmarksOverlay} placement="bottom")

@@ -103,6 +103,16 @@
         }
       }
 
+      if (this.props.mini) {
+        if ((comparingData.us || comparingData.them) &&
+            (comparingData.conflicts == null || comparingData.conflicts.length > 0)) {
+          fontSize = "10px";
+        }
+        else {
+          fontSize = "13px";
+        }
+      }
+
       var style = {
         borderWidth: borderWidth,
         color: fontColor,
@@ -127,6 +137,9 @@
         type += " "+section.abcSection;
       }
 
+      var className = (bigNotMobile ? "s-big" : "s-side") + (this.props.mini ? " s-mini" : "");
+      var trackName = this.props.mini ? "block-mini" : "block";
+
       var timeField = !bigNotMobile ? null : (~
         .s-block-time {style.time}
       ~);
@@ -137,8 +150,8 @@
 
       return (~
         %OverlayTrigger(key={"block"+section.id+day} overlay={overlay} placement={placement})
-          %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name="block")
-            %div(className={bigNotMobile ? "s-big" : "s-side"})
+          %a.s-block(href={href} style={style} id={"section-box-"+section.crn+"-"+day} name={trackName})
+            .(className={className})
               .s-block-p
                 {timeField}
                 .s-block-dept {section.course.dept}

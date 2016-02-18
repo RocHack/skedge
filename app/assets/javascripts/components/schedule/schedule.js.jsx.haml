@@ -270,7 +270,8 @@
                              color={self.color(i)}
                              comparingData={comparingData}
                              temp={temp}
-                             bigNotMobile={bigNotMobile})
+                             bigNotMobile={bigNotMobile}
+                             mini={self.props.mini})
             ~);
           });
         });
@@ -292,39 +293,40 @@
         ~);
       });
 
-      var credits;
-      var numSections;
-      if (self.props.schedule && !bigNotMobile)
+      var sideInfo;
+      if (self.props.schedule && !bigNotMobile && !self.props.mini)
       {
-        credits = (~
-          .side-credits
-            %strong {self.props.schedule.totalCredits}
-            {" credits"}
-        ~);
-
-        numSections = (~
-          .side-sections
-            %strong {self.props.schedule.sections.length}
-            {" sections"}
+        sideInfo = (~
+          .side-info
+            .side-sections
+              %strong {self.props.schedule.sections.length}
+              {" sections"}
+            .side-credits
+              %strong {self.props.schedule.totalCredits}
+              {" credits"}
         ~);
       }
 
-      return (~
-        .sk
-          %table.table
-            %thead
-              %tr
-                {days}
-              
-          %div(className={self.props.big ? "skedge-big" : "skedge-side"})
-            {courses}
-            %table.table.table-condensed.courses
-              %tbody
-                {hours}
+      var miniStyle = this.props.mini ? {height: "300px", minHeight: "300px"} : null;
+      var linkFull = this.props.mini && this.props.schedule ? "/"+this.props.schedule.rid : null;
 
-          .side-info
-            {numSections}
-            {credits}
+      return (~
+        .sk(className={this.props.mini ? "mini-schedule" : ""})
+          %a.no-link(href={linkFull} target="_blank" name="full-mini")
+            %table.table
+              %thead
+                %tr
+                  {days}
+              
+          %div(className={self.props.big ? "skedge-big" : "skedge-side"} style={miniStyle})
+            {courses}
+            %a.no-link(href={linkFull} target="_blank" name="full-mini")
+              %table.table.table-condensed.courses
+                %tbody
+                  {hours}
+
+          
+          {sideInfo}
       ~);
     }
   });

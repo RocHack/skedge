@@ -1,0 +1,43 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  window.SocialRequests = React.createClass({
+    acceptRequest: function(req) {
+      ahoy.track("$accept-request", {currentPrivacy:SKSocialStore.state.privacy});
+      SKSocialAction.acceptRequest(req);
+    },
+
+    render: function() {
+      var self = this;
+
+      if (this.props.requests.length == 0) {
+        return (~
+          .social-none
+            No share requests at the moment.
+        ~);
+      }
+
+      var requests = this.props.requests.map(function (req, i) {
+        var accept = (~
+          .mini-btn(key="accept")
+            %Button(onClick={self.acceptRequest.bind(self, req)})
+              Accept share request
+            .accept-info
+              Accepting this request will allow
+              {self.props.friendNames[req.from]}
+              to see your schedule and the classes you’ve liked, and you’ll be able to see theirs.
+              You can stop sharing at any time.
+        ~);
+
+        return (~
+          .share-request-box(key={req.id})
+            %FacebookUser(id={req.from} size=45 height=100 width=500 linesUnderneath={[accept]} context="accept-request")
+        ~);
+      });
+
+      return (~
+        .
+          {requests}
+      ~);
+    }
+  })
+})();

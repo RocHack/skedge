@@ -1,0 +1,53 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.SocialSettings = React.createClass({
+    changePrivacy: function (option) {
+      SKSocialAction.changePrivacy(option);
+
+      $('#saved').attr('hidden', false);
+      $('#saved').show();
+      $('#saved').delay(750).fadeOut(500);
+    },
+
+    render: function() {
+      var self = this;
+
+      var list = this.props.coursesLiked.map(function(course) {
+        return (~
+          %li(key={course.id})
+            %a(href={"/?q="+course.dept+course.num} name="self-likes")
+              {course.dept}
+              {course.num}
+        ~);
+      });
+
+      var liked = (list.length == 0) ? null : (~
+        .
+          .social-settings-header Courses I’ve liked:
+          %ul.class-list
+            {list}
+      ~);
+
+      var privacy = this.props.privacy;
+
+      return (~
+        .
+          .social-settings-header Privacy settings:
+          .radio
+            %label
+              %input(type="radio" name="privacy" checked={privacy == 0} onChange={this.changePrivacy.bind(this, 0)})
+                Share my schedule and likes with all my friends
+                ({this.props.numPublic} friend{this.props.numPublic == 1 ? "" : "s"})
+          .radio
+            %label
+              %input(type="radio" name="privacy" checked={privacy == 1} onChange={this.changePrivacy.bind(this, 1)})
+                Share my schedule and likes only with friends I approve
+                ({this.props.numPrivate} friend{this.props.numPrivate == 1 ? "" : "s"})
+          #saved(hidden={true}) Saved.
+
+          {liked}
+      ~);
+    }
+  })
+})();

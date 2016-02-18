@@ -102,4 +102,42 @@ module ReactHelper
     end if schedules
     hash
   end
+
+  def reactify_requests(requests)
+    requests.map do |request|
+      {
+        id: request.id,
+        to: request.user_b.fb_id,
+        from: request.user_a.fb_id
+      }
+    end if requests
+  end
+
+  def reactify_users(users)
+    users.map do |user|
+      {
+        id: user.id,
+        fb_id: user.fb_id,
+        schedules: reactify_schedules(user.schedules).values,
+        likes: reactify_courses(user.liked_courses),
+        privacy: user.public_sharing ? 0 : 1
+      }
+    end if users
+  end
+
+  def reactify_social(user)
+    return nil if !user
+    a = {
+      fb_id: user.fb_id,
+      shareUsers: reactify_users(user.share_users),
+      requests: reactify_requests(user.share_requests),
+      requested: reactify_requests(user.sent_share_requests),
+      privacy: user.public_sharing ? 0 : 1,
+      likes: reactify_courses(user.liked_courses),
+      friendCount: user.friend_count
+    }
+    #don't get privately sharing, strictly public
+    a[:publicFriends] = reactify_users(sharing_users(params[:friends], user, false)) if params[:friends]
+    a
+  end
 end

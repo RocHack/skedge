@@ -67,7 +67,7 @@
       var self = this;
       $.post("bookmark", {course_id:course.id}, function (response) {
         //success
-        self.loadUser(response.userSecret);
+        self.loadUser(response);
       }).fail(function (response) {
         //failure
         //undo everything in data!
@@ -211,11 +211,21 @@
       this.courseAjax(ajaxBody);
     },
 
-    loadUser: function(userSecret) {
+    loadUser: function(user) {
       //store the secret in a cookie
       var d = new Date();
       d.setTime(d.getTime() + (4*365*24*60*60*1000));
-      document.cookie = "s_id=x&"+userSecret+"; expires="+d.toUTCString()+"; domain=.skedgeur.com";
+      var domain = isDevReact() ? "" : "; domain=.skedgeur.com";
+      document.cookie = "s_id=x&"+user.userSecret+"; expires="+d.toUTCString()+domain;
+
+      //update schedule
+      if (user.schedules) {
+        var defaultSchedule = (this.state && this.state.pretempYrTerm) || user.defaultSchedule;
+        this.load({
+          schedules: user.schedules,
+          schedule: user.schedules[defaultSchedule]},
+          true);
+      }
     },
 
     courseAjax: function(data) {
@@ -224,13 +234,7 @@
         function (response)
         {
           //success
-          self.loadUser(response.userSecret);
-
-          //update schedule
-          self.load({
-            schedules: response.schedules,
-            schedule: response.schedules[self.state.pretempYrTerm]},
-            true);
+          self.loadUser(response);
         }
         ).fail(function (response)
         {
@@ -238,7 +242,7 @@
           //undo everything in data!
           alert("failure :(");
         }
-        );
+      );
     }
   });
 
@@ -279,3 +283,16 @@
     return [];
   };
 })();
+
+function isDevReact() {
+  try {
+    React.createClass({});
+  } catch(e) {
+    if (e.message.indexOf('render') >= 0) {
+      return true;  // A nice, specific error message
+    } else {
+      return false;  // A generic error message
+    }
+  }
+  return false;  // should never happen, but play it safe.
+};

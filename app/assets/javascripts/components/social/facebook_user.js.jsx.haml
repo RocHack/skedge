@@ -1,0 +1,40 @@
+(function() {
+  window.FacebookUser = React.createClass({
+    render: function () {
+      var size = this.props.size ? this.props.size : 50;
+      var imgURL = !this.props.id ? null :
+                   "http://graph.facebook.com/v2.5/"+this.props.id+"/picture?type=square&width="+size+"&height="+size;
+      var name = SKSocialStore.state.friendNames[this.props.id];
+      var style = {minHeight:parseInt(size)+10, minWidth:parseInt(size)+100};
+      if (this.props.width) {
+        style.width = this.props.width;
+      }
+      if (this.props.maxWidth) {
+        style.maxWidth = this.props.maxWidth;
+      }
+      if (this.props.height) {
+        style.height = this.props.height;
+      }
+
+      var nameStyle = {};
+
+      if (this.props.nameWidth) {
+        nameStyle.maxWidth = this.props.nameWidth;
+        nameStyle.display = "block";
+      }
+
+      if (this.props.nameSize) {
+        nameStyle.fontSize = this.props.nameSize+"px";
+      }
+
+      return (~
+        .facebook-user(style={style})
+          %a(href={"http://facebook.com/"+this.props.id} name={"fb-user-"+this.props.context})
+            %img.fbimg(src={imgURL})
+            %span(style={nameStyle})
+              {name}
+          {this.props.linesUnderneath}
+      ~);
+    }
+  })
+})();

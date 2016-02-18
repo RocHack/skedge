@@ -1,0 +1,70 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+
+  window.SocialSchedules = React.createClass({
+    switchToNonSharing: function () {
+      this.props.changeNavState("friends");
+    },
+
+    render: function() {
+      if (this.props.noFriends) {
+        return (~
+          .social-none
+            %p
+              You have no friends using Skedge!
+            %p
+              Share your schedule and spread the word!
+        ~);
+      }
+
+      var self = this;
+
+      var shares = null;
+      var publics = null;
+
+      if (this.props.shareUsers.length > 0) {
+        var array = this.props.shareUsers;
+        shares = array.map(function (user, i) {
+          return (~
+            %MiniSchedule(key={user.fb_id+i}
+                          user={user}
+                          sharing={true}
+                          public={user.privacy == 0}
+                          userSchedule={self.props.userSchedule})
+          ~);
+        });
+      }
+
+      if (this.props.publicFriends.length > 0) {
+        publics = this.props.publicFriends.map(function (user) {
+          return (~ 
+            %MiniSchedule(key={user.fb_id}
+                          user={user}
+                          sharing={false}
+                          public={true}
+                          userSchedule={self.props.userSchedule})
+          ~);
+        });
+      }
+
+      if (!shares && !publics) {
+        return (~
+          .social-none
+            %p
+              No friends are sharing their schedules.
+            %p
+              %a(href="#friends" onClick={this.switchToNonSharing})
+                You might need to send a request to some of your friends to share,
+              %br
+              or share your schedule on Facebook and spread the word about Skedge!
+        ~);
+      }
+
+      return (~
+        .
+          {shares}
+          {publics}
+      ~);
+    }
+  })
+})();

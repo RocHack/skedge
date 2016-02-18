@@ -31,7 +31,7 @@ class Course < ActiveRecord::Base
   belongs_to :department
 
   validates :number, uniqueness: { scope: [:department, :yr_term, :title] }
-  validates_presence_of :title, :yr_term, :number, :term, :year
+  validates :title, :yr_term, :number, :term, :year, presence: true
 
   def self.has_subsections(name, t)
     has_many name, -> {
@@ -69,6 +69,10 @@ class Course < ActiveRecord::Base
     end
     
     clause
+  end
+
+  def all_offerings
+    Course.where(number: number, department_id: department_id, title: title)
   end
 
   def requires_code?

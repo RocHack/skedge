@@ -1,0 +1,90 @@
+(function() {
+  var Button = ReactBootstrap.Button;
+  var Tooltip = ReactBootstrap.Tooltip;
+  var OverlayTrigger = ReactBootstrap.OverlayTrigger;
+  var Popover = ReactBootstrap.Popover;
+
+  window.SearchBarSocial = React.createClass({
+    mixins: [Reflux.connect(SKSocialStore, "social")],
+
+    clickSocial: function (dismiss) {
+      var newFriends = this.state.social.friends.length - this.state.social.friendCount;
+      ahoy.track("$click",{
+        name: "social-globe", 
+        badge: this.state.social.requests.length, 
+        newFriends: newFriends
+      });
+      document.cookie = "social_popup=true;"
+      document.location = "/social";
+    },
+
+    render: function() {
+      if (mobilecheck()) {
+        return null;
+      }
+
+      var badge = (this.state.social.requests.length == 0) ? null : (~
+        %span.badge.badge-notifications
+          {this.state.social.requests.length}
+      ~);
+
+      var callout = (~
+        .(hidden={true})
+          #social-callout
+            .social-callout-body
+              .social-callout-icons
+                %i.fa.fa-refresh
+                %i.fa.fa-calendar-check-o
+                %i.fa.fa-thumbs-o-up
+                %i.fa.fa-lock
+              %strong Connect Skedge with Facebook!
+              %p
+                – Sync your schedule across devices
+                %br
+                – See what your friends are taking!
+              %Button#social-callout-tryit(bsStyle='primary')
+                Try it or learn more!
+              %Button#social-callout-dismiss
+                Dismiss
+      ~);
+
+      var subtlerCalloutStuff = true || !this.state.social.ready || this.state.social.loggedIn ? null : (~
+        %span
+          .gps-container
+            .gps-ring
+          .label.label-danger.label-small.label-new
+            New!
+      ~);
+
+      var newFriends = this.state.social.friends.length - this.state.social.friendCount;
+      if (newFriends > 9) {
+        newFriends = "9+";
+      }
+
+      var newFriendsLabel = newFriends <= 0 || (window.location.pathname == "/social") ? null : (~
+        %a(href="#" onClick={this.clickSocial})
+          .triangle1
+          .triangle2
+          .label.label-success.label-small.label-friends
+            {newFriends} new friend{newFriends == 1 ? "" : "s"}
+      ~);
+
+      var style = newFriendsLabel ? {marginLeft: newFriends == "9+" ? "25px" : "20px"} : null;
+
+      return (~
+        .
+          {callout}
+          %Button.social-btn(bsStyle="link" onClick={this.clickSocial})
+            %i.fa.fa-globe.searchbar-globe(data-container="body"
+                                           data-toggle="popover"
+                                           data-placement="bottom"
+                                           data-trigger="manual"
+                                           style={style})
+            {badge}
+            
+            {subtlerCalloutStuff}
+          {newFriendsLabel}
+      ~);
+    }
+  });
+})();

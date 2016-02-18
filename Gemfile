@@ -28,11 +28,12 @@ gem 'react-rails', '1.3.1'
 gem 'react-bootstrap-rails'
 gem 'jquery-rails'
 
+gem "font-awesome-rails", '4.4.0'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-reflux', '~> 0.2.7'
   gem 'rails-assets-classnames', '~> 2.1.1'
-  gem 'rails-assets-font-awesome', '~> 4.3.0'
 end
 
 gem 'hamljsx'

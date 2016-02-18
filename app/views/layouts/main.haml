@@ -5,11 +5,14 @@
     .sk-fixed
       =react_component 'SideSchedule', yrTermMappings: reactify_yr_term_mappings(current_user.try(:schedules)),
                                        schedules: reactify_schedules(current_user.try(:schedules)),
-                                       defaultSchedule:current_user.try(:last_schedule).try(:yr_term),
-                                       bookmarks: current_user.try(:bookmarked_courses)
+                                       defaultSchedule: current_user.try(:last_schedule).try(:yr_term),
+                                       bookmarks: reactify_courses(current_user.try(:bookmarked_courses))
 
     .col-sm-8.mobile-wider
       .page-content
+        =react_component 'Social',
+                          visible: @social_visible,
+                          socialState: reactify_social(current_user)
         =yield
 
 

@@ -2,7 +2,7 @@ class Enrollment < ActiveRecord::Base
   belongs_to :schedule
   belongs_to :section
 
-  validates_presence_of :schedule_id, :section_id
+  validates :schedule_id, :section_id, presence: true
 end
 
 # == Schema Information

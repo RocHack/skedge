@@ -2,13 +2,47 @@
 
 /************************/
 
-.label.label-danger.label-small
+.label-new
 {
   font-size: 13px;
   top: 30px;
   right: -25px;
   position: absolute;
 }
+
+.label-friends
+{
+  font-size: 11px;
+  font-weight: 500;
+  top: 67px;
+  right: -20px;
+  position: absolute;
+}
+
+.triangle1 {
+  position: absolute;
+  top: 61px;
+  right: 18px;
+
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+}
+
+.triangle2 {
+  position: absolute;
+  top: 62px;
+  right: 19px;
+
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #5cb85c;
+}
+
 
 .badge.badge-notifications
 {
@@ -91,8 +125,16 @@
 
 .searchbar-globe
 {
-  padding-bottom: 10px;
-  padding-top: 10px;
+  text-align: center;
+  margin-left: 10px;
+  margin-right: -10px;
+}
+
+.social-btn
+{
+  float: right;
+  height: 50px;
+  font-size: 25px;
 }
 
 /************************/

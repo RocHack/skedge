@@ -166,14 +166,6 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
   color: black;
 }
 
-.social-btn
-{
-  float: right;
-  height: 50px;
-  font-size: 25px;
-  padding: 0px 6px;
-  margin-left: 10px;
-}
 
 .social-btn:focus, .social-btn:active 
 {

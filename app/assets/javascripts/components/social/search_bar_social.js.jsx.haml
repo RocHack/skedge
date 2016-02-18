@@ -4,7 +4,7 @@
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
   var Popover = ReactBootstrap.Popover;
 
-  window.SearchBarBadge = React.createClass({
+  window.SearchBarSocial = React.createClass({
     mixins: [Reflux.connect(SKSocialStore, "social")],
 
     clickSocial: function (dismiss) {
@@ -43,13 +43,23 @@
                 Dismiss
       ~);
 
-      var subtlerCalloutStuff = !this.state.social.ready || this.state.social.loggedIn ? null : (~
+      var subtlerCalloutStuff = true || !this.state.social.ready || this.state.social.loggedIn ? null : (~
         %span
           .gps-container
             .gps-ring
-          .label.label-danger.label-small
+          .label.label-danger.label-small.label-new
             New!
       ~);
+
+      var newFriendsLabel = this.state.social.newFriends == 0 ? null : (~
+        %span
+          .triangle1
+          .triangle2
+          .label.label-success.label-small.label-friends
+            {this.state.social.newFriends} new friends
+      ~);
+
+      var style = newFriendsLabel ? {marginLeft: this.state.social.newFriends == "9+" ? "25px" : "20px"} : null;
 
       return (~
         .
@@ -58,9 +68,12 @@
             %i.fa.fa-globe.searchbar-globe(data-container="body"
                                            data-toggle="popover"
                                            data-placement="bottom"
-                                           data-trigger="manual")
+                                           data-trigger="manual"
+                                           style={style})
             {badge}
+            
             {subtlerCalloutStuff}
+          {newFriendsLabel}
       ~);
     }
   });

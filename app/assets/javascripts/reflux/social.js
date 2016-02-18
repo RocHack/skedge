@@ -30,7 +30,9 @@
         otherFriends: [],
 
         likes: [],
-        privacy: null
+        privacy: null,
+        
+        newFriends: 0
       };
 
       return this.state;

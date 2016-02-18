@@ -2,11 +2,9 @@
   var Button = ReactBootstrap.Button;
   var Tooltip = ReactBootstrap.Tooltip;
   var OverlayTrigger = ReactBootstrap.OverlayTrigger;
-  var Popover = ReactBootstrap.Popover;
-
+  
   window.SearchBar = React.createClass({
-    mixins: [Reflux.connect(SKScheduleStore, "store"),
-             Reflux.connect(SKSocialStore, "social")],
+    mixins: [Reflux.connect(SKScheduleStore, "store")],
 
     seeSearchTips: function () {
       if (link = document.getElementById('search-link')) {
@@ -18,12 +16,6 @@
       if (splash = document.getElementById('splash-logo')) {
         splash.click();
       }
-    },
-
-    clickSocial: function (dismiss) {
-      ahoy.track("$click",{name:"social-globe", badge:this.state.social.requests.length});
-      document.cookie = "social_popup=true;"
-      document.location = "/social";
     },
 
     render: function() {
@@ -58,51 +50,6 @@
         ~);
       }
 
-      var badge = (this.state.social.requests.length == 0) ? null : (~
-        %span.badge.badge-notifications
-          {this.state.social.requests.length}
-      ~);
-
-      var callout = (~
-        .(hidden={true})
-          #social-callout
-            .social-callout-body
-              .social-callout-icons
-                %i.fa.fa-refresh
-                %i.fa.fa-calendar-check-o
-                %i.fa.fa-thumbs-o-up
-                %i.fa.fa-lock
-              %strong Connect Skedge with Facebook!
-              %p
-                – Sync your schedule across devices
-                %br
-                – See what your friends are taking!
-              %Button#social-callout-tryit(bsStyle='primary')
-                Try it or learn more!
-              %Button#social-callout-dismiss
-                Dismiss
-      ~);
-
-      var subtlerCalloutStuff = !this.state.social.ready || this.state.social.loggedIn ? null : (~
-        %span
-          .gps-container
-            .gps-ring
-          .label.label-danger.label-small
-            New!
-      ~);
-
-      var social = mobilecheck() ? null : (~
-        .
-          {callout}
-          %Button.social-btn(bsStyle="link" onClick={this.clickSocial})
-            %i.fa.fa-globe.searchbar-globe(data-container="body"
-                                           data-toggle="popover"
-                                           data-placement="bottom"
-                                           data-trigger="manual")
-            {badge}
-            {subtlerCalloutStuff}
-      ~);
-
       var numBookmarks = this.state.store.bookmarks.length;
       if (numBookmarks == 0) numBookmarks = null;
       if (numBookmarks > 9) numBookmarks = (~ %i.fa.fa-archive ~);
@@ -117,7 +64,7 @@
                 %h1.logo
                   skedge
 
-            {social}
+            %SearchBarBadge
 
             .input-group
               %input.form-control.input-lg#search-bar(name="q"

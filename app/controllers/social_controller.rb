@@ -104,9 +104,9 @@ class SocialController < ApplicationController
     if !user
       if current_user
         if !current_user.fb_id
-          current_user.fb_id = fb_id
-          current_user.save
           user = current_user
+          user.fb_id = fb_id
+          user.save
           ahoy.track("$old-user-fb", {id:user.id})
         end
       else

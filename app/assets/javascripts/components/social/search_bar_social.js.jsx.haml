@@ -28,7 +28,7 @@
           {this.state.social.requests.length}
       ~);
 
-      var callout = (~
+      var callout = true ? null : (~
         .(hidden={true})
           #social-callout
             .social-callout-body
@@ -48,12 +48,13 @@
                 Dismiss
       ~);
 
-      var subtlerCalloutStuff = true || !this.state.social.ready || this.state.social.loggedIn ? null : (~
+      var subtlerCalloutStuff = !this.state.social.ready || this.state.social.loggedIn ? null : (~
         %span
-          .gps-container
-            .gps-ring
-          .label.label-danger.label-small.label-new
-            New!
+          %a(href="#" href="/social" name="social-globe-new")
+            .gps-container
+              .gps-ring
+            .label.label-danger.label-small.label-new
+              New!
       ~);
 
       var newFriends = this.state.social.friends.length - this.state.social.friendCount;
@@ -80,9 +81,8 @@
                                            data-placement="bottom"
                                            data-trigger="manual"
                                            style={style})
-            {badge}
-            
-            {subtlerCalloutStuff}
+          {badge}
+          {subtlerCalloutStuff}
           {newFriendsLabel}
       ~);
     }

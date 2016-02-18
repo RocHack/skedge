@@ -43,7 +43,6 @@
   border-bottom: 5px solid #5cb85c;
 }
 
-
 .badge.badge-notifications
 {
   background: red;
@@ -51,6 +50,45 @@
   top: 37px;
   right: 0px;
 }
+
+.gps-container
+{
+  position: absolute;
+  top: 38px;
+  right: 6px;
+}
+
+.gps-ring {
+  border: 3px solid #999;
+  border-radius: 60px;
+  height: 36px;
+  width: 36px;
+  -webkit-animation: pulsate 2s ease-out;
+  -webkit-animation-iteration-count: infinite; 
+  opacity: 0.0;
+}
+
+@-webkit-keyframes pulsate {
+  0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
+  50% {opacity: 1.0;}
+  100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
+
+.searchbar-globe
+{
+  text-align: center;
+  margin-left: 10px;
+  margin-right: -10px;
+}
+
+.social-btn
+{
+  float: right;
+  height: 50px;
+  font-size: 25px;
+}
+
+/************************/
 
 .social-splash
 {
@@ -72,7 +110,6 @@
 
 .social-callout-body
 {
-  /*background-color: rgba(255, 255, 0, 0.14);*/
 }
 
 #social-callout-tryit
@@ -99,43 +136,6 @@
   margin-right: 20px;
 }
 
-.gps-container
-{
-  position: relative;
-}
-
-.gps-ring {
-  border: 3px solid #999;
-  border-radius: 60px;
-  height: 36px;
-  width: 36px;
-  position: absolute;
-  left:-7px;
-  top:-41px;
-  -webkit-animation: pulsate 2s ease-out;
-  -webkit-animation-iteration-count: infinite; 
-  opacity: 0.0;
-}
-
-@-webkit-keyframes pulsate {
-  0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
-  50% {opacity: 1.0;}
-  100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
-}
-
-.searchbar-globe
-{
-  text-align: center;
-  margin-left: 10px;
-  margin-right: -10px;
-}
-
-.social-btn
-{
-  float: right;
-  height: 50px;
-  font-size: 25px;
-}
 
 /************************/
 

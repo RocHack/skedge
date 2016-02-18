@@ -141,6 +141,13 @@ class SocialController < ApplicationController
   def get_public_sharing_friends
     user = current_user
     friends = sharing_users(params[:friends], user, false) #don't get privately sharing
+
+    # Also update # of friends if requested
+    if params[:updateFriendCount] == "true"
+      user.friend_count = params[:friends].count
+      user.save
+    end
+
     render json:{friends:reactify_users(friends)}
   end
 

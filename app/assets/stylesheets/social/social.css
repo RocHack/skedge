@@ -46,10 +46,10 @@
 
 .badge.badge-notifications
 {
-  background:red;
-  position:relative;
-  top: -12px;
-  left: -10px;
+  background: red;
+  position: absolute;
+  top: 37px;
+  right: 0px;
 }
 
 .social-splash

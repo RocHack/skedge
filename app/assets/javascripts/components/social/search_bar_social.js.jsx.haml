@@ -8,7 +8,12 @@
     mixins: [Reflux.connect(SKSocialStore, "social")],
 
     clickSocial: function (dismiss) {
-      ahoy.track("$click",{name:"social-globe", badge:this.state.social.requests.length});
+      var newFriends = this.state.social.friends.length - this.state.social.friendCount;
+      ahoy.track("$click",{
+        name: "social-globe", 
+        badge: this.state.social.requests.length, 
+        newFriends: newFriends
+      });
       document.cookie = "social_popup=true;"
       document.location = "/social";
     },
@@ -51,15 +56,20 @@
             New!
       ~);
 
-      var newFriendsLabel = this.state.social.newFriends == 0 ? null : (~
-        %span
+      var newFriends = this.state.social.friends.length - this.state.social.friendCount;
+      if (newFriends > 9) {
+        newFriends = "9+";
+      }
+
+      var newFriendsLabel = newFriends <= 0 || (window.location.pathname == "/social") ? null : (~
+        %a(href="#" onClick={this.clickSocial})
           .triangle1
           .triangle2
           .label.label-success.label-small.label-friends
-            {this.state.social.newFriends} new friends
+            {newFriends} new friend{newFriends == 1 ? "" : "s"}
       ~);
 
-      var style = newFriendsLabel ? {marginLeft: this.state.social.newFriends == "9+" ? "25px" : "20px"} : null;
+      var style = newFriendsLabel ? {marginLeft: newFriends == "9+" ? "25px" : "20px"} : null;
 
       return (~
         .

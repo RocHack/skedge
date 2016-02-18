@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126080427) do
+ActiveRecord::Schema.define(version: 20160218031417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20160126080427) do
     t.integer "last_schedule_id"
     t.string  "fb_id"
     t.boolean "public_sharing",   default: false
+    t.integer "friend_count"
   end
 
   create_table "visits", id: :uuid, force: :cascade do |t|

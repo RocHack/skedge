@@ -31,8 +31,8 @@
 
         likes: [],
         privacy: null,
-        
-        newFriends: 0
+
+        friendCount: 0
       };
 
       return this.state;
@@ -145,8 +145,11 @@
 
             self.load({friends: response.data, ready: true});
 
-            $.get('social/get_public_sharing_friends', {friends: response.data}, function (resp) {
-              self.load({publicFriends: resp.friends});
+            $.get('social/get_public_sharing_friends', {
+                friends: response.data,
+                updateFriendCount: (window.location.pathname == "/social")
+              }, function (resp) {
+                self.load({publicFriends: resp.friends});
             })
           }
         }

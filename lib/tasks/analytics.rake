@@ -100,7 +100,7 @@ namespace :analytics do
     #       - mark whether each add for a class was browsed or searched
     #       - then per person, see % of classes browsed or searched
 
-    data = []
+    clicks2add = {}
     nav_names = ["crosslist", "instructor", "prereqs"]
     num_types_of_search_dt = {}
 
@@ -111,6 +111,7 @@ namespace :analytics do
         order by time;
       SQL
 
+      clicks2add[u.id] = []
       num_types_of_search_dt[u.id] = []
 
       navs = 0
@@ -131,7 +132,7 @@ namespace :analytics do
         end
 
         if result["name"] == "$click" && properties["add"]
-          data[navs] = data[navs].to_i + 1
+          clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
           navs = 0
         end
 
@@ -145,8 +146,9 @@ namespace :analytics do
       end
     end
 
-    print("per_person", ".", "clicks2add", data) do |x, idx|
-      [idx, x || 0]
+    print("per_person", ".", "clicks2add", clicks2add) do |x, idx|
+      user, values = x
+      [user, *values]
     end
 
     print("per_person", ".", "search_types", num_types_of_search_dt) do |x, idx|

@@ -102,13 +102,11 @@ class SocialController < ApplicationController
     user = User.find_by(fb_id:fb_id)
 
     if !user
-      if current_user
-        if !current_user.fb_id
-          user = current_user
-          user.fb_id = fb_id
-          user.save
-          ahoy.track("$old-user-fb", {id:user.id})
-        end
+      if current_user && !current_user.fb_id
+        user = current_user
+        user.fb_id = fb_id
+        user.save
+        ahoy.track("$old-user-fb", {id:user.id})
       else
         user = User.create(fb_id:fb_id)
         ahoy.track("$new-user", {id:user.id, fb:true})
@@ -130,7 +128,7 @@ class SocialController < ApplicationController
     friends.map do |i, friend|
       u = User.find_by(fb_id: friend["id"])
       private_sharing = user.share_users.include?(u)
-      if ((u.public_sharing && (include_private || !private_sharing)) || #mutex
+      if ((u && u.public_sharing && (include_private || !private_sharing)) || #mutex
           (include_private && private_sharing))
         u
       else

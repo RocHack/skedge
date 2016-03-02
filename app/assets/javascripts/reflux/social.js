@@ -113,6 +113,7 @@
         else {
           if (self.state.loggedIn)
           {
+            alert("Just FYI, logging out won't unlink your Skedge account with Facebook. To do this, you have to remove the app from Facebook itself.");
             //if was previously logged in, was a logout
             //just refresh, since the button won't let you log back in
             //bc fb is dumb

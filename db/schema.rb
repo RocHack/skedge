@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20160218031417) do
     t.string  "secret"
     t.integer "last_schedule_id"
     t.string  "fb_id"
-    t.boolean "public_sharing",   default: false
+    t.boolean "public_sharing",   default: true
     t.integer "friend_count"
   end
 

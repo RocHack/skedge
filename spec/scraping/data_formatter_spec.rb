@@ -1,25 +1,12 @@
 require 'spec_helper'
 
 describe "DataFormatter" do
-  def test_linkify(dept="CSC", num=nil, text, linkified)
-    expect(DataFormatter::Course.linkify(dept, num, text)).to eq(linkified)
-  end
-
   def test_title(cn="CSC 101", text, fixed)
     expect(DataFormatter::Course.title(text, cn)).to eq(fixed)
   end
 
-  it "should linkify" do
-    test_linkify "You need a 121 to graduate.", "You need a <a href='/?q=CSC+121'>121</a> to graduate."
-    test_linkify "You need CSC 121 to graduate.", "You need <a href='/?q=CSC+121'>CSC 121</a> to graduate."
-    test_linkify "You need CSC 121A to graduate.", "You need <a href='/?q=CSC+121A'>CSC 121A</a> to graduate."
-    test_linkify "You need CSC121 to graduate.", "You need <a href='/?q=CSC121'>CSC121</a> to graduate."
-    test_linkify "You need CSC121,122 to graduate.", "You need <a href='/?q=CSC121'>CSC121</a>,<a href='/?q=CSC+122'>122</a> to graduate."
-    test_linkify "You need CSC121/122 to graduate.", "You need <a href='/?q=CSC121'>CSC121</a>/<a href='/?q=CSC+122'>122</a> to graduate."
-    test_linkify "You need 12345 to graduate.", "You need <a href='/?q=12345'>12345</a> to graduate."
-    test_linkify "You need 123 to graduate.", "You need <a href='/?q=CSC+123'>123</a> to graduate."
-    test_linkify "CSC", "121", "You probably want CSC 399, 400 for this", "You probably want <a href='/?q=CSC+399'>CSC 399</a>, <a href='/?q=CSC+400'>400</a> for this"
-    test_linkify "CSC", "221", "The 400 level of this class...", "The <a href='/?q=CSC+421'>400</a> level of this class..."
+  def test_instructor(instructors, fixed)
+    expect(DataFormatter::Section.instructors(instructors)).to eq(fixed)
   end
 
   it "should unstick comments" do
@@ -40,5 +27,15 @@ describe "DataFormatter" do
     test_title "FRENCH IN FILM: AFRICA, CARIBBEAN, QUÉBEC", "French in Film: Africa, Caribbean, Québec"
     test_title "BEGINNING BALLET II/ADV BEGINNING BALLET", "Beginning Ballet II/Adv Beginning Ballet"
     test_title "HELLO OF/FOR SMTH", "Hello of/for Smth"
+  end
+
+  it "should fix instructor names" do
+    test_instructor "JONES A", "Jones A"
+    test_instructor "JONES A; GORP B", "Jones A; Gorp B"
+    test_instructor "MCDONALDS", "McDonalds"
+    test_instructor "STJACQUES", "St Jacques"
+    test_instructor "STANLEY", "Stanley"
+    test_instructor "D'ANGELO", "D'Angelo"
+    test_instructor "ONE-TWO R", "One-Two R"
   end
 end

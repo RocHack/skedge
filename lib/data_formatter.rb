@@ -119,13 +119,19 @@ module DataFormatter
     def self.instructors(instructors)
       return nil if instructors.nil?
       instructors.split(';').map do |name|
-        name.strip.downcase.gsub(/mc (.*)/, 'mc\1').gsub(/(^|\s+|'|-)(mc)?[A-Za-z]/) do |w|
-          w.upcase!
-          if w.start_with? "MC"
-            w[1] = "c"
-          end
-          w
+        name.strip!
+        split = name.split(/(?<=-|'| )/)
+        if name =~ /^MC/
+          split = name.split(/(?<=^MC)/)
+        elsif name =~ /^ST[^AEIOU]/
+          split = name.split(/(?<=^ST)/)
+          split[0] << " "
         end
+        split.map do |x|
+          x.downcase!
+          x[0] = x[0].upcase
+          x
+        end.join('')
       end.join('; ')
     end
   end

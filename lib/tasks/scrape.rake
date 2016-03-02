@@ -22,7 +22,7 @@ task :scrape => [:environment] do
   depts = Department.all
   depts = ENV['depts'].split(",").map { |d| Department.find_by_short(d) } if ENV['depts']
   depts = Department.where(school:ENV['school']) if ENV['school']
-  yrterm = (ENV['yrterm'] || 20162).to_i
+  yrterm = (ENV['yrterm'] || 20171).to_i
 
   puts "#{Time.now.to_s}"
   puts "Term: #{yrterm}"

@@ -45,13 +45,14 @@ module QueryingConcern
       text = text.clone
       
       if not defined? Struct::Query
-        Struct.new('Query', :attrs, :joins, :orders, :limit, :error)
+        Struct.new('Query', :attrs, :joins, :orders, :limit, :error, :new)
       end
 
       query = Struct::Query.new
       query.attrs = attrs = Hash.new
       query.joins = joins = []
       query.orders = orders = []
+      query.new = false
 
       if !text || text.strip.empty?
         query.error = "empty"
@@ -63,6 +64,14 @@ module QueryingConcern
       #
       text.gsub!(/"\s*(.*?)\s*"/) do |x|
         attrs[:description] = "%#{sanitize_similar_to_match($1)}%"
+        nil
+      end
+
+      ##
+      # "New" course search
+      #
+      text.gsub!(/\bnew\b/) do |x|
+        query.new = true
         nil
       end
 
@@ -220,6 +229,8 @@ module QueryingConcern
              query.orders.find {|x| x["max_start"] })
 
         query.error = "how can one be both early and late?"
+      elsif (query.new and attrs[:year])
+        query.error = "cannot specify 'new' and a year - the current and previous year will always be compared"  
       end
 
       attrs[:credits] ||= { :> => '0' }

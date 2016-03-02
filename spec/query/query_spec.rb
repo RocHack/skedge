@@ -27,6 +27,18 @@ describe "Querying" do
 
   singleton_class.send(:alias_method, :it_can_search_on, :it)
 
+  it_can_search_on "new courses" do
+    query = Course.text_to_query("csc")
+    expect(query.new).to eq(false)
+    expect(query.attrs).to eq({:department_id => @csc.id, :credits => {:> => "0"}})
+
+    query = Course.text_to_query("new csc")
+    expect(query.new).to eq(true)
+    expect(query.attrs).to eq({:department_id => @csc.id, :credits => {:> => "0"}})
+
+    assert_query_error "new csc 2016"
+  end
+
   it_can_search_on "dept, number" do
     assert_query "CSC",
                  {department_id:@csc.id}

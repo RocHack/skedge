@@ -45,24 +45,40 @@ class Course < ActiveRecord::Base
   has_subsections(:lab_lectures, Section::Type::LabLecture)
   has_subsections(:workshops, Section::Type::Workshop)
 
+  def self.query_to_clause(query)
+    pg_where(query.attrs).
+      joins(query.joins).
+      order(:year => :desc,
+            :term => :asc,
+            :department_id => :asc).
+      order(query.orders).
+      order(:number => :asc).
+      includes([:course_sections,
+                :labs,
+                :recitations,
+                :lab_lectures,
+                :workshops,
+                :department]).
+      limit(query.limit || 150)
+  end
+
   def self.sk_query(search_string)
     query = text_to_query(search_string)
     raise QueryingException, query.error if query.error
     
-    clause = Course.pg_where(query.attrs).
-                    joins(query.joins).
-                    order(:year => :desc,
-                          :term => :asc,
-                          :department_id => :asc).
-                    order(query.orders).
-                    order(:number => :asc).
-                    includes([:course_sections,
-                              :labs,
-                              :recitations,
-                              :lab_lectures,
-                              :workshops,
-                              :department]).
-                    limit(query.limit || 150)
+    if query.new
+      query.attrs[:year] = 2016
+      query.attrs[:term] = Term::Fall
+    end
+
+    clause = Course.query_to_clause(query)
+
+    if query.new
+      query.attrs[:year] = 2015
+      last = Course.query_to_clause(query)
+
+      clause = clause.where.not(number: last.collect(&:number) )
+    end
 
     if (query.orders == ["RANDOM()"])
       clause = clause.reorder(query.orders)

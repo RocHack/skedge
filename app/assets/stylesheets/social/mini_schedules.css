@@ -67,3 +67,29 @@
   display: table; /* works, dont ask why */
   margin-left: 10px;
 }
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+.friend-box
+{
+  display: inline-block;
+  vertical-align: top;
+  
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+
+  min-height: 450px;
+}
+
+.mini-schedule
+{
+  width: 75%;
+  margin-left: 10px;
+}
+
+}

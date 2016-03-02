@@ -302,4 +302,9 @@ a.logo:link, a.logo:visited, a.logo:hover, a.logo:active
     margin-top: 10px;
     margin-right: 65px; /* schedule button width */
   }
+
+  .search-group, .head-fixed
+  {
+    width: 100vw;
+  }
 }

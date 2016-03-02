@@ -247,3 +247,48 @@ li.margin-tab
 {
   margin-right: 10px;
 }
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .fb-myself
+  {
+    display: block;
+    margin-left: 10px;
+    padding-top: 5px;
+    margin-bottom: 30px;
+  }
+
+  .social-tab-schedules {
+     padding-left: 0px; 
+     padding-right: 0px; 
+  }
+
+  li.active {
+    font-weight: 900;
+  }
+
+  .nav-tabs > li {
+    float: none;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    border: 1px solid #fff;
+  }
+
+  .nav-tabs {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+  }
+
+  .social-splash
+  {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    display: block;
+    line-height: 0.7em;
+  }
+}

@@ -85,3 +85,16 @@
   font-size: 18px;
   margin-left: 50px;
 }
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .login-button-container
+  {
+    margin-bottom: 50px;
+    margin-left: 10px;
+    text-align: center;
+  }
+
+}

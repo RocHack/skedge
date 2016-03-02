@@ -17,6 +17,7 @@ class Department < ActiveRecord::Base
     # Some special cases
     short = "MTH" if short == "MATH"
     short = "CSC" if short == "CS"
+    short = "PHY" if short == "PHYSICS"
     Department.find_by(short: short)
   end
 end

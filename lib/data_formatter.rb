@@ -35,6 +35,8 @@ module DataFormatter
       comments.gsub!("'A'WORKSHOP", "'A' WORKSHOP")
       comments.gsub!("'B'WORKSHOP", "'B' WORKSHOP")
       comments.gsub!("\"WHEN", "\" WHEN")
+      comments.gsub!("HAVECOURSE", "HAVE COURSE")
+      comments.gsub!("INCHM", "IN CHM")
       comments
     end
 
@@ -43,6 +45,7 @@ module DataFormatter
       exact = %w(UG HIV AIDS DSP GPU HCI VLSI VLS CMOS EAPP ESOL ABC US USA NY MRI FMRI BME CHM ECE LIN CSC LGBTQ CAD ASL iPhone iReligion NMR)
       seps = %w(: ’ ')
       prev = nil
+      name.gsub!(/(\b.*)&(.*\b)/,'\1 & \2')
       split = name.split(/\s*(?<=:| )\s*/) #use lookbehind as to not eat up the separator
       name = split.map.with_index do |s, i|
         prev = s.gsub(/(\p{Word}|’|')+/) do |w|

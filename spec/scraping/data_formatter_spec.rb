@@ -27,6 +27,8 @@ describe "DataFormatter" do
     test_title "FRENCH IN FILM: AFRICA, CARIBBEAN, QUÉBEC", "French in Film: Africa, Caribbean, Québec"
     test_title "BEGINNING BALLET II/ADV BEGINNING BALLET", "Beginning Ballet II/Adv Beginning Ballet"
     test_title "HELLO OF/FOR SMTH", "Hello of/for Smth"
+    test_title "HELLO&SMTH", "Hello & Smth"
+    test_title "A HELLO&SMTH B", "A Hello & Smth B"
   end
 
   it "should fix instructor names" do

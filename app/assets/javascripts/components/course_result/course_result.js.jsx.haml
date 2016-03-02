@@ -23,7 +23,7 @@
           Object.keys(course.subcourses["lab"]).length == 0) {
         //it in itself is a lab, so use lab buttons
         sectionRows = (~
-          %CourseResultSubcourses(sections={course.sections})
+          %CourseResultSubcourses(course={course} sections={course.sections})
         ~);
       }
       else {

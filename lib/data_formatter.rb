@@ -24,6 +24,7 @@ module DataFormatter
       comments.gsub!("LABLECTURE", "LAB LECTURE")
       comments.gsub!("THELAB", "THE LAB")
       comments.gsub!("ALSOREGISTER", "ALSO REGISTER")
+      comments.gsub!("LECTUREWHEN", "LECTURE WHEN")
       comments.gsub!("WHENREGISTERING", "WHEN REGISTERING")
       comments.gsub!("REGISTERINGFOR", "REGISTERING FOR")
       comments.gsub!("MAINSECTION", "MAIN SECTION")
@@ -122,9 +123,9 @@ module DataFormatter
         name.strip!
         split = name.split(/(?<=-|'| )/)
         if name =~ /^MC/
-          split = name.split(/(?<=^MC)/)
+          split = name.split(/(?<=^MC|-|'| )/)
         elsif name =~ /^ST[^AEIOU]/
-          split = name.split(/(?<=^ST)/)
+          split = name.split(/(?<=^ST|-|'| )/)
           split[0] << " "
         end
         split.map do |x|

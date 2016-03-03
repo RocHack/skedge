@@ -14,7 +14,11 @@
         badge: this.state.social.requests.length, 
         newFriends: newFriends
       });
-      document.cookie = "social_popup=true;"
+      
+      var d = new Date();
+      d.setTime(d.getTime() + (4*365*24*60*60*1000));
+      var domain = isDevReact() ? "" : "; domain=.skedgeur.com";
+      document.cookie = "social_popup=true; expires="+d.toUTCString()+domain;
       document.location = "/social";
     },
 

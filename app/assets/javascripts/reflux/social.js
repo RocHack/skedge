@@ -123,6 +123,25 @@
           self.state.ready = true;
           self.trigger(self.state);
 
+          if (document.cookie.indexOf("social_popup") == -1) {
+            var html = $('#social-callout').html();
+            $('#social-callout').remove();
+
+            $('.searchbar-globe').popover({container: 'body', html: true, content: html});
+            $('.searchbar-globe').popover('show');
+
+            $('#social-callout-dismiss').click(function (e) {
+              document.cookie = "social_popup=true;";
+              $('.searchbar-globe').popover('hide');
+              e.preventDefault();
+            });
+
+            $('#social-callout-tryit').click(function (e) {
+              document.cookie = "social_popup=true;";
+              document.location = "/social";
+            });
+          }
+
           if (response.status == 'not_authorized') {
           //The person is logged into Facebook, but has not logged into your app.
           }

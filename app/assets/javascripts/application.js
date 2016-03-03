@@ -98,25 +98,6 @@ $(document).ready(function(){
       }
     });
   }
-
-  if (document.cookie.indexOf("social_popup") == -1) {
-    var html = $('#social-callout').html();
-    $('#social-callout').remove();
-
-    $('.searchbar-globe').popover({container: 'body', html: true, content: html});
-    $('.searchbar-globe').popover('show');
-
-    $('#social-callout-dismiss').click(function (e) {
-      document.cookie = "social_popup=true;";
-      $('.searchbar-globe').popover('hide');
-      e.preventDefault();
-    });
-
-    $('#social-callout-tryit').click(function (e) {
-      document.cookie = "social_popup=true;";
-      document.location = "/social";
-    });
-  }
 });
 
 ahoy.trackView();

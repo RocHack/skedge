@@ -30,20 +30,31 @@
       }
       else {
         results = this.props.courseGroups.map(function(courses) {
-          var groupName = courses[0].term + " " + courses[0].year;
-          var group = courses.map(function (course) {
-            var bookmarked = self.state.store.bookmarks.some(function(bk) {
-              return bk.id == course.id;
+          var group;
+          var groupName;
+          if ($.isArray(courses)) {
+            groupName = courses[0].term + " " + courses[0].year;
+            group = courses.map(function (course) {
+              var bookmarked = self.state.store.bookmarks.some(function(bk) {
+                return bk.id == course.id;
+              });
+              
+              return (~
+                %CourseResult(course={course}
+                              key={"course-"+course.id}
+                              friends={self.state.social.friends}
+                              socialLoggedIn={self.state.social.loggedIn})
+                              bookmarked={bookmarked})
+              ~);
             });
-            
-            return (~
-              %CourseResult(course={course}
-                            key={"course-"+course.id}
-                            friends={self.state.social.friends}
-                            socialLoggedIn={self.state.social.loggedIn})
-                            bookmarked={bookmarked})
+          }
+          else {
+            groupName = courses.groupName;
+            group = (~
+              %p.lead.no-results-term
+                {courses.text}
             ~);
-          });
+          }
           return (~
             .results-group(key={"group-"+groupName})
               %h2.results-group-header

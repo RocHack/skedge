@@ -42,8 +42,9 @@ module ReactHelper
   end
 
   def reactify_course_groups(course_groups)
-    course_groups.map do |k, group|
-      reactify_courses(group)
+    course_groups.keys.sort.reverse.map do |k|
+      group = course_groups[k]
+      group.is_a?(Array) ? reactify_courses(group) : group
     end if course_groups
   end
 

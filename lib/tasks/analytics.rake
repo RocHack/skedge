@@ -39,7 +39,11 @@ def print(outer, inner, file, collection)
 end
 
 def print_basic(folder, file, name, property=nil, value=nil)
-  and_clause = property ? "AND properties->'#{property}' = '#{value.inspect}'" : nil
+  value = [value] if not value.is_a? Array
+  or_clauses = value.map do |val|
+    "properties->'#{property}' = '#{val.inspect}'"
+  end.join(" OR ")
+  and_clause = property ? "AND (#{or_clauses})" : nil
   sql = <<-SQL
   SELECT date_trunc('day', time) AS "day", count(*)
   FROM ahoy_events
@@ -87,7 +91,7 @@ namespace :analytics do
 
     print_basic("export", "gcal", "$click", "name", "export-ics")
     print_basic("export", "ics", "$click", "name", "export-gcal")
-    print_basic("export", "image", "$click", "name", "export-image")
+    print_basic("export", "image", "$click", "name", ["export-image-jpg", "export-image-png"])
 
     print_basic(".", "subcourses", "$click", "hide", false)
   end

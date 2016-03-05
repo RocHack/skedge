@@ -170,6 +170,12 @@
     },
 
     render: function() {
+      var aboveLogo = this.state.page ? null : (~
+        .splash-space.splash-transition(key='space')
+      ~);
+
+      var belowLogo;
+
       var page;
       if (this.state.page == "about") {
         page = this.renderAbout();
@@ -179,38 +185,58 @@
         page = this.renderSearch();
       }
 
-      var space = page ? null : (~
-        #splash-space(key='space')
-      ~);
+      if (page) {
+        if (this.state.page == "search") {
+          aboveLogo = (~
+            .splash-search.row(key="search")
+              .splash-content
+                {page}
+          ~);
+        }
+        else {
+          belowLogo = (~
+            .row
+              .splash-content
+                {page}
+          ~);
+        }
+      }
 
       if (!mobilecheck()) {
-        space = (~
-          %ReactCSSTransitionGroup(transitionName="space" transitionEnterTimeout={300} transitionLeaveTimeout={300})
-            {space}
+        aboveLogo = (~
+          %ReactCSSTransitionGroup(transitionName="transition" transitionEnterTimeout={300} transitionLeaveTimeout={300})
+            {aboveLogo}
         ~);
       }
 
-      var splashOptions = page ? null : (~
-        .splash-options
-          .col-md-3.lead
-            %a(href="#departments" onClick={this.select.bind(this, "departments")} name="splash-depts")
-              departments
-          .col-md-3.lead
-            %a#search-link(href="#search" onClick={this.select.bind(this, "search")})
-              search
-          .col-md-3.lead
-            %a(href="/social" name="splash-social")
-              social
-          .col-md-3.lead
-            %a(href="#about" onClick={this.select.bind(this, "about")} name="splash-about")
-              about
-      ~);
+      if (!this.state.page) {
+        belowLogo = (~
+          .row
+            .splash-options
+              .col-md-3.lead
+                %a(href="#departments" onClick={this.select.bind(this, "departments")} name="splash-depts")
+                  departments
+              .col-md-3.lead
+                %a#search-link(href="#search" onClick={this.select.bind(this, "search")})
+                  search
+              .col-md-3.lead
+                %a(href="/social" name="splash-social")
+                  social
+              .col-md-3.lead
+                %a(href="#about" onClick={this.select.bind(this, "about")} name="splash-about")
+                  about
+        ~);
+    }
 
       var subHeader = !mobilecheck() ? "a scheduling system for the u of r" : (<span>a scheduling system<br/>for the u of r</span>);
 
       return (~
         .col-md-12
-          {space}
+          .splash-container
+            {aboveLogo}
+
+          .splash-hr(hidden={this.state.page != "search"})
+            %hr.half
 
           #splash
             %a#splash-logo.enormous(href="#" onClick={this.select.bind(this, null)} )
@@ -218,16 +244,11 @@
             .sub
               {subHeader}
 
-          .splash-hr
-          %hr.half
+          .splash-hr(hidden={this.state.page == "search"})
+            %hr.half
 
           .splash-container
-            .row
-              {splashOptions}
-
-            .row
-              .splash-content(key="anim-content")
-                {page}
+            {belowLogo}
       ~);
     }
   });

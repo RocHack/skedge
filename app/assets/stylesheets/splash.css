@@ -6,15 +6,17 @@
 .splash-content
 {
   font-size: 16px;
-  margin: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
   margin-top: 40px;
+  margin-bottom: 0px;
   text-align: left;
   font-weight: 300;
 }
 
 .splash-hr
 {
-  padding-bottom: 40px;
+  margin-top: 40px;
 }
 
 hr.half
@@ -54,6 +56,11 @@ ul.search-options
   margin-bottom: 20px;
 }
 
+.depts-page:last-child
+{
+  margin-bottom: 50px;
+}
+
 /* INFO */
 
 .bracket-link
@@ -70,8 +77,7 @@ ul.search-options
   text-align: right;
 }
 
-
-#splash-space
+.splash-space
 {
   height: 75px;
 }
@@ -182,23 +188,46 @@ a.enormous:link, a.enormous:visited, a.enormous:hover, a.enormous:active
 
 /*  Animations    */
 
-#splash-space.space-enter {
+.splash-space.transition-enter {
   height: 0px;
 }
 
-#splash-space.space-enter.space-enter-active {
+.splash-space.transition-enter.transition-enter-active {
   height: 75px;
   transition: height 300ms;
 }
 
-#splash-space.space-leave {
+.splash-space.transition-leave {
   height: 75px;
-
 }
 
-#splash-space.space-leave.space-leave-active {
+.splash-space.transition-leave.transition-leave-active {
   height: 0px;
   transition: height 300ms;
+}
+
+/**/
+
+.splash-search.transition-enter {
+  height: 0px;
+  opacity: 0;
+}
+
+.splash-search.transition-enter.transition-enter-active {
+  height: 285px;
+  opacity: 1;
+  transition: height 300ms, opacity 300ms;
+}
+
+.splash-search.transition-leave {
+  height: 285px;
+  opacity: 1;
+}
+
+.splash-search.transition-leave.transition-leave-active {
+  height: 0px;
+  opacity: 0;
+  transition: height 300ms, opacity 300ms;
 }
 
 /**/

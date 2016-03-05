@@ -230,6 +230,25 @@ a.enormous:link, a.enormous:visited, a.enormous:hover, a.enormous:active
   transition: height 300ms, opacity 300ms;
 }
 
+
+.bottom-stuff.options-enter {
+  opacity: 0;
+}
+
+.bottom-stuff.options-enter.options-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.bottom-stuff.options-leave {
+  opacity: 1;
+}
+
+.bottom-stuff.options-leave.options-leave-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
 /**/
 
 .fade-enter {

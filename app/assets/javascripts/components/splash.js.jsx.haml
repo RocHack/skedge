@@ -209,7 +209,7 @@
         ~);
       }
 
-      if (!this.state.page) {
+      if (!this.state.page || this.state.page == "search") {
         belowLogo = (~
           .row
             .splash-options
@@ -226,10 +226,18 @@
                 %a(href="#about" onClick={this.select.bind(this, "about")} name="splash-about")
                   about
         ~);
-    }
+      }
 
       var subHeader = !mobilecheck() ? "a scheduling system for the u of r" : (<span>a scheduling system<br/>for the u of r</span>);
 
+      var bottomStuff = this.state.page == "search" ? null : (~
+        .bottom-stuff(key="bottom")
+          .splash-hr
+            %hr.half
+
+          .splash-container
+            {belowLogo}
+      ~)
       return (~
         .col-md-12
           .splash-container
@@ -244,11 +252,8 @@
             .sub
               {subHeader}
 
-          .splash-hr(hidden={this.state.page == "search"})
-            %hr.half
-
-          .splash-container
-            {belowLogo}
+          %ReactCSSTransitionGroup(transitionName="options" transitionEnterTimeout={500} transitionLeaveTimeout={500})
+            {bottomStuff}
       ~);
     }
   });

@@ -7,19 +7,19 @@
     mixins: [Reflux.connect(SKScheduleStore, "store")],
 
     seeSearchTips: function () {
-      if (link = document.getElementById('search-link')) {
-        link.click();
+      if (window.selectSplashPage) {
+        window.selectSplashPage("search");
       }
     },
 
     logoClick: function () {
-      if (splash = document.getElementById('splash-logo')) {
-        splash.click();
+      if (window.selectSplashPage) {
+        window.selectSplashPage(null);
       }
     },
 
     render: function() {
-      var logoHref = document.getElementById('splash-logo') ? "#" : "/";
+      var logoHref = window.location.pathname == "/" ? "#" : "/";
       
       var searchHelpOverlay = (~
         %Tooltip

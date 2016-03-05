@@ -260,6 +260,21 @@ describe "Querying" do
 
     assert_query "csc spring",
                  {department_id:@csc.id, term:Course::Term::Spring}
+
+    assert_query "csc summer",
+                 {department_id:@csc.id, term:Course::Term::Summer}
+
+    assert_query "summer 2016",
+                 {year:2016, term:Course::Term::Summer}
+
+    assert_query "summer",
+                 {year:2016, term:Course::Term::Summer}
+
+    assert_query "winter 2016",
+                 {year:2016, term:Course::Term::Winter}
+
+    assert_query "winter",
+                 {year:2016, term:Course::Term::Winter}
   end
 
   it_can_search_on 'credits' do

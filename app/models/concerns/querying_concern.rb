@@ -210,14 +210,17 @@ module QueryingConcern
         attrs[:title] = title_match(text)
       end
 
+      not_summer_winter = (attrs[:term] != Course::Term::Summer and
+                           attrs[:term] != Course::Term::Winter)
+
       # Check valid search
       if query.orders != ["RANDOM()"] &&
         ((attrs.size == 0) or
          (attrs.size == 1 and
-           ((attrs[:term] or attrs[:year] or attrs[:credits]) or
+           (((attrs[:term] and not_summer_winter) or attrs[:year] or attrs[:credits]) or
            (attrs[:number] and attrs[:number].length <= 3))) or #plus the '%'
          (attrs.size == 2 and
-           (attrs[:year] and attrs[:term])))
+           (attrs[:year] and attrs[:term] and not_summer_winter)))
          query.error = "scope too big"
       elsif ((attrs.size == 1 or (attrs.size == 2 && attrs[:year])) and
           text.present? and
@@ -231,6 +234,11 @@ module QueryingConcern
         query.error = "how can one be both early and late?"
       elsif (query.new and attrs[:year])
         query.error = "cannot specify 'new' and a year - the current and previous year will always be compared"  
+      end
+
+      # If just searching "summer" or "winter", at least limit it to this year
+      if (attrs.size == 1 && !not_summer_winter)
+        attrs[:year] = Time.now.year
       end
 
       attrs[:credits] ||= { :> => '0' }

@@ -70,7 +70,7 @@ module QueryingConcern
       ##
       # "New" course search
       #
-      text.gsub!(/\bnew\b/) do |x|
+      text.gsub!(/\bnew\b/i) do |x|
         query.new = true
         nil
       end

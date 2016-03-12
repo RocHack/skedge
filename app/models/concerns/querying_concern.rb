@@ -150,7 +150,7 @@ module QueryingConcern
       ##
       # Instructors
       #
-      text.gsub!(/\b((courses?\s*)?taught\s*by|professor|prof|instructed|instructor)\s*(\w+)\b/) do |x|
+      text.gsub!(/\b((courses?\s*)?taught\s*by|professor|prof|instructed|instructor)\s*(\w+)\b/i) do |x|
         attrs[:sections] ||= {}
         attrs[:sections][:instructors] = "%#{$3.upcase}%"
         joins << :sections

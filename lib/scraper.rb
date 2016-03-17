@@ -149,7 +149,6 @@ class Scraper
                 puts "SECTION = #{nonmain.inspect}"
                 puts "CFIELDS = #{c_fields}"
                 puts "MULTIPLE OR NO POSSIBLE COURSES: #{possible_courses.inspect}"
-                raise
               end
             end
           end

@@ -55,7 +55,7 @@ module DataFormatter
             w
           elsif w =~ /^[A-D]$/ && i == split.size-1 #last one
             w
-          elsif little.include?(w.downcase) && prev && !prev.match(/(:|-|–)$/)
+          elsif little.include?(w.downcase) && prev && !prev.match(/(:|-|–|\?)$/)
             w.downcase
           else
             w.to_s.mb_chars.capitalize.to_s #in case there are multibyte chars like É

@@ -29,6 +29,7 @@ describe "DataFormatter" do
     test_title "HELLO OF/FOR SMTH", "Hello of/for Smth"
     test_title "HELLO&SMTH", "Hello & Smth"
     test_title "A HELLO&SMTH B", "A Hello & Smth B"
+    test_title "REST IN PEACE? THE ROLES OF GHOSTS", "Rest in Peace? The Roles of Ghosts"
   end
 
   it "should fix instructor names" do

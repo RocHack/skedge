@@ -19,7 +19,7 @@
     },
 
     render: function() {
-      var logoHref = window.location.pathname == "/" ? "#" : "/";
+      var logoHref = window.location.search == "" ? "#" : "/";
       
       var searchHelpOverlay = (~
         %Tooltip

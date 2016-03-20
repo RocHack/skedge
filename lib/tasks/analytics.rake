@@ -91,7 +91,7 @@ namespace :analytics do
 
     print_basic("export", "gcal", "$click", "name", "export-ics")
     print_basic("export", "ics", "$click", "name", "export-gcal")
-    print_basic("export", "image", "$click", "name", ["export-image-jpg", "export-image-png"])
+    print_basic("export", "image", "$click", "name", ["export-image", "export-image-jpg", "export-image-png"])
 
     print_basic(".", "subcourses", "$click", "hide", false)
   end

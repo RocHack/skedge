@@ -37,9 +37,13 @@
       //find latest schedule to display
       for (i = 0; i < this.props.user.schedules.length; i++) {
         var sch = this.props.user.schedules[i];
-        if (!schedule || sch.yrTerm > schedule.yrTerm) {
+        if ((!schedule || sch.yrTerm > schedule.yrTerm) && sch.sections.length > 0) {
           schedule = sch;
         }
+      }
+
+      if (!schedule) {
+        return null;
       }
 
       var under = [];

@@ -18,6 +18,10 @@
       };
     },
 
+    componentWillMount: function() {
+      SKSocialAction.initializeSocial();
+    },
+
     navState: function (nav) {
       this.setState({nav: nav});
     },

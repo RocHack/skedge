@@ -2,6 +2,7 @@
   var ReactUpdate = React.addons.update;
 
   window.SKSocialAction = Reflux.createActions([
+    'initializeSocial',
     'load',
 
     'acceptRequest',
@@ -56,7 +57,7 @@
       }
     },
 
-    init: function () {
+    initializeSocial: function () {
       // So it can be accessed by the SDK
       window.afterLogIn = this.checkLoginState;
       var self = this;

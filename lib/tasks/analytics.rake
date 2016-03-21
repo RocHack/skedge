@@ -115,9 +115,6 @@ namespace :analytics do
         order by time;
       SQL
 
-      clicks2add[u.id] = []
-      num_types_of_search_dt[u.id] = []
-
       navs = 0
       current_visit = nil
 
@@ -131,12 +128,13 @@ namespace :analytics do
 
         # compute number of navigations between adds
         if result["name"] == "$submit" ||
-           result["name"] == "$click" && nav_names.include?(properties["name"])
+           (result["name"] == "$click" && nav_names.include?(properties["name"]))
           navs += 1
         end
 
         if result["name"] == "$click" && properties["add"]
-          clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
+          clicks2add[u.id] ||= []
+          clicks2add[u.id][navs] = clicks2add[navs].to_i + 1
           navs = 0
         end
 
@@ -145,6 +143,7 @@ namespace :analytics do
           types = count_search_types_in_query(properties["q"])
           types.delete :department_id
           types.delete :number
+          num_types_of_search_dt[u.id] ||= []
           num_types_of_search_dt[u.id] << types.length
         end
       end

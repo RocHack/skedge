@@ -16,7 +16,10 @@
       if (section.instructors != "TBA") {
         instructors = section.instructors.split("; ").map(function (instructor, idx) {
           var delimiter = idx == 0 ? "" : ", ";
-          var lastName = instructor.split(" ")[0];
+          // cut out first name if it's there
+          // hack for the St. but there's no other prof with 3 space-separated names
+          // will be fixed once instructors have their own proper model
+          var lastName = instructor.replace(/^St /,"").replace(/ .$/,"");
           var url = "/?q=taught+by+"+lastName.toLowerCase();
           return (~
             %span(key={section.crn+"-ins"+idx})

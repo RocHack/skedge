@@ -166,6 +166,7 @@ namespace :analytics do
       where name = '$submit';
     SQL
 
+    empty_queries = []
     empty = 0
     total = 0
 
@@ -177,6 +178,7 @@ namespace :analytics do
       begin
         q = Course.sk_query(properties["q"])
         if (q.empty?)
+          empty_queries << [properties["q"]]
           empty += 1
         end
         total += 1
@@ -187,7 +189,9 @@ namespace :analytics do
     end
 
     # percentage of searches that come up empty
-    print("search", ".", "empty", {empty:empty, total:total})
+    print("search", ".", "empty", {empty:empty, nonempty:total - empty})
+
+    print("search", ".", "empty_queries", empty_queries)
 
     # percentage of search types
     print("search", ".", "types", types)

@@ -181,11 +181,12 @@ namespace :analytics do
             clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
 
             if navs == 0 && subsection_ratio
-              section = Section.find_by(crn: properties["crn"])
-              if section.section_type != Section::Type::Course
-                zero_nav_subsections += 1
-              else
-                zero_nav_mainsections += 1
+              if section = Section.find_by(crn: properties["crn"])
+                if section.section_type != Section::Type::Course
+                  zero_nav_subsections += 1
+                else
+                  zero_nav_mainsections += 1
+                end
               end
             end
 

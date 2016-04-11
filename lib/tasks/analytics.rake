@@ -158,7 +158,18 @@ namespace :analytics do
             navs += 1
           end
 
-          if result["name"] == "$click" && properties["add"] && !failed_search_condition
+          if result["name"] == "$click" && properties["name"] == "block"
+            navs = 0
+            block = true
+          else
+            block = false
+          end
+
+          if result["name"] == "$click" && 
+             properties["add"] && 
+             !failed_search_condition &&
+             !block
+
             clicks2add[u.id] ||= []
             clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
 
@@ -172,7 +183,13 @@ namespace :analytics do
             navs = 0
           end
 
-          failed_search_condition = false if include_bookmarks
+          if result["name"] == "$click" && properties["name"] == "instructor"
+            if include_bookmarks
+              failed_search_condition = false
+            else
+              failed_search_condition = true
+            end
+          end
 
           if result["name"] == "$submit"
             if !search_condition || search_condition.call(properties["q"])

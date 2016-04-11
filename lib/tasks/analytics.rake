@@ -115,19 +115,21 @@ namespace :analytics do
 
       results = ActiveRecord::Base.connection.execute(query)
 
-      # first event will always be an add, since there's no user ID before that.
-      # prepend the events that occurred before the initial add
-      first_add = results[0]
-      first_event_query = <<-SQL
-        select * from ahoy_events
-        where visit_id = '#{first_add['visit_id']}' 
-        and (name = '$submit' or name = '$click')
-        and time < '#{first_add['time']}'
-        order by time asc;
-      SQL
+      first_add = results.to_a[0]
+      if first_add
+        # first event will always be an add, since there's no user ID before that.
+        # prepend the events that occurred before the initial add
+        first_event_query = <<-SQL
+          select * from ahoy_events
+          where visit_id = '#{first_add['visit_id']}' 
+          and (name = '$submit' or name = '$click')
+          and time < '#{first_add['time']}'
+          order by time asc;
+        SQL
 
-      first_events = ActiveRecord::Base.connection.execute(first_event_query)
-      results = first_events.to_a + results.to_a
+        first_events = ActiveRecord::Base.connection.execute(first_event_query)
+        results = first_events.to_a + results.to_a
+      end
 
       navs = 0
       current_visit = nil

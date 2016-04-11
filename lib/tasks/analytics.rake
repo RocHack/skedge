@@ -238,10 +238,18 @@ namespace :analytics do
        q.attrs[:title]
     end
 
-    zero_nav_subsection_ratio = clicks_to_add(search_condition: direct_condition,
-                                              subsection_ratio: true)
+    d_zero_nav_subsection_ratio = clicks_to_add(search_condition: direct_condition,
+                                                subsection_ratio: true)
 
-    print("per_person", ".", "zero_nav_subsection_ratio", zero_nav_subsection_ratio)
+    b_zero_nav_subsection_ratio = clicks_to_add(include_bookmarks: true,
+                                                search_condition: -> (q) {
+                                                  !direct_condition.call(q)
+                                                 },
+                                                subsection_ratio: true)
+
+    print("per_person", ".", "direct_zero_nav_subsection_ratio", d_zero_nav_subsection_ratio)
+
+    print("per_person", ".", "browse_zero_nav_subsection_ratio", b_zero_nav_subsection_ratio)
   end
 
   task :per_person => [:environment] do

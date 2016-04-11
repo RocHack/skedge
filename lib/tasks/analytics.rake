@@ -101,14 +101,7 @@ namespace :analytics do
     print_basic(".", "subcourses", "$click", "hide", false)
   end
 
-  task :per_person => [:environment] do
-    # number of re-adds/conflicts = playing around with the schedule
-
-    # 1) A) avg number of seaches/clicks between adds
-    #    B) % browsing vs % direct search
-    #       - mark whether each add for a class was browsed or searched
-    #       - then per person, see % of classes browsed or searched
-
+  def clicks_to_add(types_of_search: false, include_bookmarks: false, search_condition: nil)
     clicks2add = {}
     nav_names = ["crosslist", "instructor", "prereqs"]
     num_types_of_search_dt = {}
@@ -116,45 +109,124 @@ namespace :analytics do
     User.all.each do |u|
       query = <<-SQL
         select * from ahoy_events
-        where user_id = '#{u.id}' and (name = '$submit' or name = '$click')
-        order by time;
+        where user_id = '#{u.id}' and (name = '$submit' or name = '$click' or name = '$bookmark')
+        order by time asc;
       SQL
+
+      results = ActiveRecord::Base.connection.execute(query)
+
+      # first event will always be an add, since there's no user ID before that.
+      # prepend the events that occurred before the initial add
+      first_add = results[0]
+      first_event_query = <<-SQL
+        select * from ahoy_events
+        where visit_id = '#{first_add['visit_id']}' 
+        and (name = '$submit' or name = '$click')
+        and time < '#{first_add['time']}'
+        order by time asc;
+      SQL
+
+      first_events = ActiveRecord::Base.connection.execute(first_event_query)
+      results = first_events.to_a + results.to_a
 
       navs = 0
       current_visit = nil
+      failed_search_condition = false
 
-      ActiveRecord::Base.connection.execute(query).each do |result|
-        if current_visit && result["visit_id"] != current_visit
-          navs = 0
-        end
-        current_visit = result["visit_id"]
-  
+      results.each do |result|
+        # compute diversity of search type over time per user
         properties = JSON.parse(result["properties"])
 
-        # compute number of navigations between adds
-        if result["name"] == "$submit" ||
-           (result["name"] == "$click" && nav_names.include?(properties["name"]))
-          navs += 1
-        end
+        if types_of_search
+          if result["name"] == "$submit"
+            types = count_search_types_in_query(properties["q"])
+            types.delete :department_id
+            types.delete :number
+            num_types_of_search_dt[u.id] ||= []
+            num_types_of_search_dt[u.id] << types.length
+          end
+        else
+          if current_visit && result["visit_id"] != current_visit
+            navs = 0
+          end
+          current_visit = result["visit_id"]
 
-        if result["name"] == "$click" && properties["add"]
-          clicks2add[u.id] ||= []
-          clicks2add[u.id][navs] = clicks2add[navs].to_i + 1
-          navs = 0
-        end
+          # compute number of navigations between adds
+          if result["name"] == "$click" && nav_names.include?(properties["name"])
+            navs += 1
+          end
 
-        # compute diversity of search type over time per user
-        if result["name"] == "$submit"
-          types = count_search_types_in_query(properties["q"])
-          types.delete :department_id
-          types.delete :number
-          num_types_of_search_dt[u.id] ||= []
-          num_types_of_search_dt[u.id] << types.length
+          if result["name"] == "$click" && properties["add"] && !failed_search_condition
+            clicks2add[u.id] ||= []
+            clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
+
+            navs = 0
+          end
+
+          if result["name"] == "$bookmark" && include_bookmarks
+            clicks2add[u.id] ||= []
+            clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
+            
+            navs = 0
+          end
+
+          failed_search_condition = false if include_bookmarks
+
+          if result["name"] == "$submit"
+            if !search_condition || search_condition.call(properties["q"])
+              navs += 1
+              failed_search_condition = false
+            else
+              # Reset
+              failed_search_condition = true
+              navs = 0
+            end
+          end
         end
       end
     end
 
+    if types_of_search
+      num_types_of_search_dt
+    else
+      clicks2add
+    end
+  end
+
+  task :per_person => [:environment] do
+    num_types_of_search_dt = clicks_to_add(types_of_search: true)
+
+    clicks2add = clicks_to_add
+    clicks2add_or_bkmk = clicks_to_add(include_bookmarks: true)
+
+    direct_condition = -> (query) do
+      q = Course.text_to_query(query)
+      (q.attrs[:department_id] && q.attrs[:number]) ||
+       q.attrs[:title]
+    end
+
+    direct_clicks2add = clicks_to_add(search_condition: direct_condition)
+    browse_clicks2add_or_bkmk = clicks_to_add(include_bookmarks: true,
+                                              search_condition: -> (q) {
+                                                !direct_condition.call(q)
+                                               })
+
     print("per_person", ".", "clicks2add", clicks2add) do |x, idx|
+      user, values = x
+      [user, *values]
+    end
+
+    print("per_person", ".", "clicks2add_or_bkmk", clicks2add_or_bkmk) do |x, idx|
+      user, values = x
+      [user, *values]
+    end
+
+    print("per_person", ".", "direct_clicks2add", direct_clicks2add) do |x, idx|
+      user, values = x
+      [user, *values]
+    end
+
+    print("per_person", ".", "browse_clicks2add_or_bkmk", browse_clicks2add_or_bkmk) do |x, idx|
       user, values = x
       [user, *values]
     end

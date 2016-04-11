@@ -101,10 +101,17 @@ namespace :analytics do
     print_basic(".", "subcourses", "$click", "hide", false)
   end
 
-  def clicks_to_add(types_of_search: false, include_bookmarks: false, search_condition: nil)
+  def clicks_to_add(types_of_search: false, 
+                    include_bookmarks: false,
+                    search_condition: nil,
+                    subsection_ratio: false)
+
     clicks2add = {}
     nav_names = ["crosslist", "instructor", "prereqs"]
     num_types_of_search_dt = {}
+
+    zero_nav_subsections = 0
+    zero_nav_mainsections = 0
 
     User.all.each do |u|
       query = <<-SQL
@@ -173,6 +180,15 @@ namespace :analytics do
             clicks2add[u.id] ||= []
             clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
 
+            if navs == 0 && subsection_ratio
+              section = Section.find_by(crn: properties["crn"])
+              if section.section_type != Section::Type::Course
+                zero_nav_subsections += 1
+              else
+                zero_nav_mainsections += 1
+              end
+            end
+
             navs = 0
           end
 
@@ -207,9 +223,24 @@ namespace :analytics do
 
     if types_of_search
       num_types_of_search_dt
+    elsif subsection_ratio
+      {subsections: zero_nav_subsections, mainsections: zero_nav_mainsections}
     else
       clicks2add
     end
+  end
+
+  task :zero_nav_subsections => [:environment] do
+    direct_condition = -> (query) do
+      q = Course.text_to_query(query)
+      (q.attrs[:department_id] && q.attrs[:number]) ||
+       q.attrs[:title]
+    end
+
+    zero_nav_subsection_ratio = clicks_to_add(search_condition: direct_condition,
+                                              subsection_ratio: true)
+
+    print("per_person", ".", "zero_nav_subsection_ratio", zero_nav_subsection_ratio)
   end
 
   task :per_person => [:environment] do

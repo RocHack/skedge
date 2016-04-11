@@ -42,7 +42,7 @@ module DataFormatter
 
     def self.title(name, cn)
       little = %w(a at an and of or the to the in but as is for with vs. into by on from)
-      exact = %w(UG HIV AIDS DSP GPU HCI VLSI VLS CMOS EAPP ESOL ABC US USA NY MRI FMRI BME CHM ECE LIN CSC LGBTQ CAD ASL iPhone iReligion NMR)
+      exact = %w(UG HIV AIDS DSP GPU HCI VLSI VLS CMOS EAPP ESOL ABC US USA NY MRI FMRI BME CHM ECE LIN CSC LGBTQ CAD ASL iPhone iReligion NMR WRT)
       seps = %w(: ’ ')
       prev = nil
       name.gsub!(/(\b.*)&(.*\b)/,'\1 & \2')

@@ -77,6 +77,11 @@ def count_search_types_in_query(types=Hash.new(0), query)
 end
 
 namespace :analytics do
+  task :social => [:environment] do
+    print_basic("social", "integrations-old", "$old-user-fb")
+    print_basic("social", "integrations-new", "$new-user", "fb", true)
+  end
+
   task :basic => [:environment] do
     print_basic(".", "submit", "$submit") # search
 
@@ -198,4 +203,8 @@ namespace :analytics do
   end
 end
 
-task :analytics => ["analytics:basic", "analytics:per_person", "analytics:search"]
+task :analytics => ["analytics:basic",
+                    "analytics:per_person",
+                    "analytics:search",
+                    "analytics:social"]
+

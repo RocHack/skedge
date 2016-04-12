@@ -162,7 +162,7 @@ module QueryingConcern
       #
       2.times do
         %w[early late fall spring summer winter small].each do |term|
-          text.gsub!(/^\s*#{term}\b|\b#{term}\s*$/) do |x|
+          text.gsub!(/^\s*#{term}\b|\b#{term}\s*$/i) do |x|
             if term == "early"
               query.orders << "min_start ASC nulls last"
             elsif term == "late"
@@ -171,7 +171,7 @@ module QueryingConcern
               query.orders << "min_enroll ASC nulls last"
             else
               attrs[:term] ||= []
-              attrs[:term] << Course::FormatTerm.map(&:downcase).index(term)
+              attrs[:term] << Course::FormatTerm.map(&:downcase).index(term.downcase)
             end
             nil
           end

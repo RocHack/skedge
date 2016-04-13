@@ -105,14 +105,14 @@ namespace :analytics do
   def clicks_to_add(types_of_search: false, 
                     include_bookmarks: false,
                     search_condition: nil,
-                    subsection_ratio: false)
+                    subsection_ratio_for_n_navs: nil)
 
     clicks2add = {}
     nav_names = ["crosslist", "instructor", "prereqs"]
     num_types_of_search_dt = {}
 
-    zero_nav_subsections = 0
-    zero_nav_mainsections = 0
+    n_nav_subsections = 0
+    n_nav_mainsections = 0
 
     User.all.each do |u|
       query = <<-SQL
@@ -181,12 +181,12 @@ namespace :analytics do
             clicks2add[u.id] ||= []
             clicks2add[u.id][navs] = clicks2add[u.id][navs].to_i + 1
 
-            if navs == 0 && subsection_ratio
+            if navs == subsection_ratio_for_n_navs
               if section = Section.find_by(crn: properties["crn"])
                 if section.section_type != Section::Type::Course
-                  zero_nav_subsections += 1
+                  n_nav_subsections += 1
                 else
-                  zero_nav_mainsections += 1
+                  n_nav_mainsections += 1
                 end
               end
             end
@@ -225,32 +225,34 @@ namespace :analytics do
 
     if types_of_search
       num_types_of_search_dt
-    elsif subsection_ratio
-      {subsections: zero_nav_subsections, mainsections: zero_nav_mainsections}
+    elsif subsection_ratio_for_n_navs
+      {subsections: n_nav_subsections, mainsections: n_nav_mainsections}
     else
       clicks2add
     end
   end
 
-  task :zero_nav_subsections => [:environment] do
+  task :n_nav_subsections => [:environment] do
     direct_condition = -> (query) do
       q = Course.text_to_query(query)
       (q.attrs[:department_id] && q.attrs[:number]) ||
        q.attrs[:title]
     end
 
-    d_zero_nav_subsection_ratio = clicks_to_add(search_condition: direct_condition,
-                                                subsection_ratio: true)
+    3.times do |n|
+      d_nav_subsection_ratio = clicks_to_add(search_condition: direct_condition,
+                                             subsection_ratio_for_n_navs: n)
 
-    b_zero_nav_subsection_ratio = clicks_to_add(include_bookmarks: true,
-                                                search_condition: -> (q) {
-                                                  !direct_condition.call(q)
-                                                 },
-                                                subsection_ratio: true)
+      b_nav_subsection_ratio = clicks_to_add(include_bookmarks: true,
+                                             search_condition: -> (q) {
+                                               !direct_condition.call(q)
+                                              },
+                                             subsection_ratio_for_n_navs: n)
 
-    print("per_person", ".", "direct_zero_nav_subsection_ratio", d_zero_nav_subsection_ratio)
+      print("per_person", ".", "direct_#{n}_nav_subsection_ratio", d_nav_subsection_ratio)
 
-    print("per_person", ".", "browse_zero_nav_subsection_ratio", b_zero_nav_subsection_ratio)
+      print("per_person", ".", "browse_#{n}_nav_subsection_ratio", b_nav_subsection_ratio)
+    end
   end
 
   task :per_person => [:environment] do

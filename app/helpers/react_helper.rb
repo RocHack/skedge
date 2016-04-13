@@ -35,9 +35,9 @@ module ReactHelper
     } if c
   end
 
-  def reactify_courses(courses)
+  def reactify_courses(courses, include_sections=true)
     courses.map do |course|
-      reactify_course(course)
+      reactify_course(course, include_sections)
     end if courses
   end
 

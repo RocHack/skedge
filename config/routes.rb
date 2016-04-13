@@ -33,4 +33,6 @@ Rails.application.routes.draw do
   # "API"
   #
   get 'api/course', to: 'api#course'
+  get 'api/courses', to: 'api#courses'
+  get 'api/departments', to: 'api#departments'
 end

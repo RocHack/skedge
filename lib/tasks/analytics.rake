@@ -83,6 +83,7 @@ namespace :analytics do
   end
 
   task :basic => [:environment] do
+    print_basic(".", "old_search", "Search") # old search
     print_basic(".", "submit", "$submit") # search
 
     print_basic("scheduling", "add", "$click", "add", true)

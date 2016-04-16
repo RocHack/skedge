@@ -50,7 +50,7 @@ Cucumber tests will require the local server to be running.
   - Configure your server with Ansible:
   
     ```
-    $ ansible-playbook -i inventory-prod.ini playbook.yml
+    $ ansible-playbook -i inventory-prod.ini web-playbook.yml
     ```
     This installs Ruby, Postgres, Nginx, and may take some time on the first run.
   - Then go back & deploy skedge to it:
@@ -59,3 +59,4 @@ Cucumber tests will require the local server to be running.
     $ cd ..
     $ cap production deploy
     ```
+

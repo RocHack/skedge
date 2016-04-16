@@ -1,6 +1,5 @@
 ---
 - hosts: webserver
-  remote_user: root
   roles:
     - common
     - { role: kamaln7.swapfile, swapfile_size: 1GB, swapfile_swappiness: 10 }

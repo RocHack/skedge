@@ -9,7 +9,7 @@
     authorized_key: user=root key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
   - name: Set {{user}} as sudoer
-    lineinfile: dest=/etc/sudoers line="{{user}} ALL=(ALL) NOPASSWD ":" ALL"
+    lineinfile: dest=/etc/sudoers line="{{user}} ALL=(ALL) NOPASSWD:ALL"
 
   - name: Remove ubuntu's user
     user: name=ubuntu state=absent remove=yes

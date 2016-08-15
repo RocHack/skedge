@@ -1,5 +1,9 @@
 ## Skedge :mouse:
 
+### Thesis
+
+[See the thesis on this project here!](https://github.com/dingbat/skedge-thesis)
+
 ### Developing
 
 - Install Postgres 9.5 (on mac, Postgres.app is great for this)

@@ -11,6 +11,8 @@ gem 'jbuilder'
 
 gem 'pg', '~> 0.18.2'
 
+gem 'puma'
+
 ##
 # Deployment
 #

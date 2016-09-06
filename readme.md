@@ -12,6 +12,18 @@
   ```
   $ bundle install
   ```
+
+  - Note: If you get any problems with `v8`, `the-ruby-racer`, or `nokogiri` try:
+    (https://github.com/cowboyd/therubyracer/issues/403)
+    ```
+    xcode-select --install
+    brew unlink v8
+    brew install v8-315
+    brew link --force v8-315
+    gem install libv8 -v '3.16.14.13' -- --with-system-v8
+    gem install therubyracer -v '0.12.2' -- --with-system-v8
+    ```
+
 - Set up the database:
 
   ```

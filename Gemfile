@@ -77,5 +77,5 @@ gem 'binding_of_caller'
 ##
 # Tracking
 #
-gem 'ahoy_matey'
+gem 'ahoy_matey', '1.4.1'
 
